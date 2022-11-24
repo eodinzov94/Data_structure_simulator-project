@@ -2,11 +2,13 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
+const iconsColor: string = "text-lime-500";
+
 interface DropDownItem {
   name: string;
   description: string;
   href: string;
-  icon: JSX.Element;
+  icon: React.ElementType;
 }
 
 interface NavBarElementDropDownProps {
@@ -25,15 +27,15 @@ const NavBarElementDropDown = (props: NavBarElementDropDownProps) => {
         <>
           <Popover.Button
             className={classNames(
-              open ? "text-gray-900" : "text-gray-500",
-              "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              open ? iconsColor : "text-gray-500",
+              `group inline-flex items-center rounded-md bg-white text-base font-medium hover:${iconsColor} focus:outline-none focus:ring-3 focus:${iconsColor} focus:ring-offset-2`
             )}
           >
             <span>{props.title}</span>
             <ChevronDownIcon
               className={classNames(
-                open ? "text-gray-600" : "text-gray-400",
-                "ml-2 h-5 w-5 group-hover:text-gray-500"
+                open ? iconsColor : "text-gray-400",
+                `ml-2 h-5 w-5 group-hover:${iconsColor}`
               )}
               aria-hidden="true"
             />
@@ -58,7 +60,7 @@ const NavBarElementDropDown = (props: NavBarElementDropDownProps) => {
                       className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
                     >
                       <item.icon
-                        className="h-6 w-6 flex-shrink-0 text-indigo-600"
+                        className={`h-6 w-6 flex-shrink-0 ${iconsColor}`}
                         aria-hidden="true"
                       />
                       <div className="ml-4">
@@ -83,20 +85,3 @@ const NavBarElementDropDown = (props: NavBarElementDropDownProps) => {
 
 export default NavBarElementDropDown;
 
-//2 button in the buttom of the dropdwon
-//   <div className="space-y-6 bg-gray-50 px-5 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
-//                     {callsToAction.map((item) => (
-//                       <div key={item.name} className="flow-root">
-//                         <a
-//                           href={item.href}
-//                           className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100"
-//                         >
-//                           <item.icon
-//                             className="h-6 w-6 flex-shrink-0 text-gray-400"
-//                             aria-hidden="true"
-//                           />
-//                           <span className="ml-3">{item.name}</span>
-//                         </a>
-//                       </div>
-//                     ))}
-//                   </div>
