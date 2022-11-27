@@ -1,33 +1,33 @@
-
-import {Popover,Transition} from "@headlessui/react";
-import  {XMarkIcon} from "@heroicons/react/24/outline";
+import { Popover, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { solutions,resources } from "../HeaderData";
+import { solutions, resources } from "../HeaderData";
+import { faviconLime500 } from "../../../../utils/logos";
 
 // handle it later
 const NavBarElemetsMobile = () => {
-    return(
-        <Transition
-        as={Fragment}
-        enter="duration-200 ease-out"
-        enterFrom="opacity-0 scale-95"
-        enterTo="opacity-100 scale-100"
-        leave="duration-100 ease-in"
-        leaveFrom="opacity-100 scale-100"
-        leaveTo="opacity-0 scale-95"
-      >
-              <Popover.Panel
+  return (
+    <Transition
+      as={Fragment}
+      enter="duration-200 ease-out"
+      enterFrom="opacity-0 scale-95"
+      enterTo="opacity-100 scale-100"
+      leave="duration-100 ease-in"
+      leaveFrom="opacity-100 scale-100"
+      leaveTo="opacity-0 scale-95"
+    >
+      <Popover.Panel
         focus
-        className="absolute inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden"
+        className="absolute z-50 inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden"
       >
         <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div className="px-5 pt-5 pb-6">
             <div className="flex items-center justify-between">
               <div>
                 <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt="Your Company"
+                  className="h-16 w-auto"
+                  src={faviconLime500}
+                  alt="Vzou"
                 />
               </div>
               <div className="-mr-2">
@@ -99,8 +99,8 @@ const NavBarElemetsMobile = () => {
           </div>
         </div>
       </Popover.Panel>
-      </Transition>
-    );
-}
+    </Transition>
+  );
+};
 
 export default NavBarElemetsMobile;

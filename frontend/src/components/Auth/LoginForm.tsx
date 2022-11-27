@@ -1,5 +1,5 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { mainColor, mainHoverColor } from "../../styles/tColors";
+// import { mainColor as mc, mainHoverColor as mhc } from "../../styles/tColors" ;
 
 const LoginForm = () => {
   return (
@@ -16,7 +16,7 @@ const LoginForm = () => {
               type="email"
               autoComplete="email"
               required
-              className={`relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
+              className='relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm'
               placeholder="Email address"
             />
           </div>
@@ -30,7 +30,7 @@ const LoginForm = () => {
               type="password"
               autoComplete="current-password"
               required
-              className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
+              className='relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm'
               placeholder="Password"
             />
           </div>
@@ -40,7 +40,7 @@ const LoginForm = () => {
           <div className="text-sm">
             <a
               href="#"
-              className={`font-medium text-${mainColor} hover:text-${mainHoverColor}`}
+              className='font-medium text-lime-500 hover:text-lime-600'
             >
               Forgot your password?
             </a>
@@ -54,7 +54,7 @@ const LoginForm = () => {
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <LockClosedIcon
-                className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}
+                className="transition duration-300 ease-in-out h-5 w-5 text-lime-600 group-hover:text-lime-500"
                 aria-hidden="true"
               />
             </span>
