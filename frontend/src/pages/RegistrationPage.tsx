@@ -1,10 +1,10 @@
-import LoginForm from "../components/Auth/LoginForm";
+import RegistrationForm from "../components/Auth/RegistrationForm";
 import { mainColor, mainHoverColor } from "../styles/tColors";
-import { RoutePaths } from "../Routes/routesData";
-import logoImg from '../assets/vzou-favicon-color.png';
 import { Link } from "react-router-dom";
+import logoImg from '../assets/vzou-favicon-color.png';
+import { RoutePaths } from "../Routes/routesData";
 
-const LoginPage = () => {
+const RegistrationPage = () => {
   return (
     <>
       {/*
@@ -26,18 +26,18 @@ const LoginPage = () => {
                 alt="Vzou"
               />
               <h2 className="mt-2 text-center text-3xl font-bold tracking-tight text-gray-900">
-                Sign in to your account
+                Create new account
               </h2>
               <p className="mt-2 text-center text-sm ">
                 Or{" "}
                 <Link
-                  to={RoutePaths.Register}
+                  to={RoutePaths.LOGIN}
                   className={`font-medium text-${mainColor} hover:text-${mainHoverColor}`}
                 >
-                  Sign up now!
+                  Sign in now!
                 </Link>
               </p>
-              <LoginForm />
+              <RegistrationForm />
             </div>
           </div>
         </div>
@@ -46,4 +46,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegistrationPage;

@@ -12,7 +12,7 @@ const NavBarElementsRight = () => {
         Sign in
       </Link>
       <Link
-        to={''}
+        to={RoutePaths.Register}
         className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600"
       >
         Sign up
