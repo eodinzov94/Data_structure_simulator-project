@@ -40,7 +40,7 @@ const LoginForm = () => {
           <div className="text-sm">
             <a
               href="#"
-              className={`font-medium text-${mainHoverColor} hover:text-gray-900`}
+              className={`font-medium text-${mainColor} hover:text-${mainHoverColor}`}
             >
               Forgot your password?
             </a>

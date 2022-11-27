@@ -1,6 +1,8 @@
 import LoginForm from "../components/Auth/LoginForm";
 import { mainColor, mainHoverColor } from "../styles/tColors";
 
+import logoImg from '../assets/vzou-favicon-color.png';
+
 const LoginPage = () => {
   return (
     <>
@@ -18,14 +20,14 @@ const LoginPage = () => {
           <div className="w-full max-w-md space-y-8 ">
             <div>
               <img
-                className="mx-auto h-12 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=500"
-                alt="Your Company"
+                className="mx-auto h-16 w-auto"
+                src={logoImg}
+                alt="Vzou"
               />
-              <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+              <h2 className="mt-2 text-center text-3xl font-bold tracking-tight text-gray-900">
                 Sign in to your account
               </h2>
-              <p className="mt-2 text-center text-sm text-gray-600">
+              <p className="mt-2 text-center text-sm ">
                 Or{" "}
                 <a
                   href="#"
