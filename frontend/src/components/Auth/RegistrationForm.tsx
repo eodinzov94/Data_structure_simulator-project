@@ -1,7 +1,8 @@
-import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
 import { mainColor, mainHoverColor } from "../../styles/tColors";
 import RadioButton from "../helpers/RadioButton";
 import { UserIcon } from "@heroicons/react/24/solid";
+import FormButton from "./FormButton";
 
 const RegistrationForm = () => {
   return (
@@ -49,7 +50,7 @@ const RegistrationForm = () => {
             id="Age"
             name="Age"
             type="number"
-            min={1} 
+            min={1}
             max={120}
             required
             className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
@@ -118,22 +119,16 @@ const RegistrationForm = () => {
           </div>,
         ]}
       />
-
-
-      <div>
-        <button
-          type="submit"
-          className="group relative flex w-full justify-center rounded-md border border-transparent bg-lime-500 py-2 px-4 text-sm font-medium text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2"
-        >
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-            <LockClosedIcon
-              className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}
-              aria-hidden="true"
-            />
-          </span>
-          Sign up
-        </button>
-      </div>
+      <FormButton
+        type={"submit"}
+        title={"Sign up"}
+        icon={
+          <ClipboardDocumentListIcon
+            className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}
+            aria-hidden="true"
+          />
+        }
+      />
     </form>
   );
 };
