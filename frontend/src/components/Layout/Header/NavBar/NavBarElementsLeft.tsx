@@ -1,15 +1,18 @@
+import logoImg from "../../../../assets/vzou-logo-trans.png";
+import { Link } from "react-router-dom";
 const NavBarElementsLeft = () => {
   return (
     <div className="flex justify-start lg:w-0 lg:flex-1">
-      <a href="#">
-        <span className="sr-only">Your Company</span>
+      <span className="sr-only">Your Company</span>
+      <Link to={""}>
         <img
-          className="h-8 w-auto sm:h-10"
-          src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=500"
+          className="h-12 w-auto sm:h-10"
+          // src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=500"
+          src={logoImg}
           alt=""
         />
-      </a>
-      <a className="text-2xl">VisualSCE</a>
+      </Link>
+      {/* <a className="text-2xl">VisualSCE</a> */}
     </div>
   );
 };
