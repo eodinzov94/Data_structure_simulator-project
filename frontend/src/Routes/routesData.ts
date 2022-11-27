@@ -1,4 +1,5 @@
 import React from "react";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
@@ -11,14 +12,16 @@ export interface RouteItem{
 export enum RoutePaths{
     LOGIN = '/login',
     REGISTER = "/register",
-    HOME = "/"
+    HOME = "/",
+    FORGOT_PASSWORD ='/forgotPassword'
 }
 
 //route for non-logged in users
 export const publicRoutes: RouteItem[] = [
     {path:RoutePaths.LOGIN, element:LoginPage},
     {path:RoutePaths.REGISTER, element:RegistrationPage},
-    {path:RoutePaths.HOME, element:HomePage}
+    {path:RoutePaths.HOME, element:HomePage},
+    {path:RoutePaths.FORGOT_PASSWORD, element:ForgotPasswordPage}
 
 ]
 

@@ -1,5 +1,6 @@
-import logoImg from "../../../../assets/vzou-logo-trans.png";
+import { logoLime500 } from "../../../../utils/logos";
 import { Link } from "react-router-dom";
+
 const NavBarElementsLeft = () => {
   return (
     <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -8,7 +9,7 @@ const NavBarElementsLeft = () => {
         <img
           className="h-12 w-auto sm:h-10"
           // src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=500"
-          src={logoImg}
+          src={logoLime500}
           alt=""
         />
       </Link>
