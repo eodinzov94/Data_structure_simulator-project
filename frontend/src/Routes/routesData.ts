@@ -10,15 +10,15 @@ export interface RouteItem{
 
 export enum RoutePaths{
     LOGIN = '/login',
-    Register = "/register",
-    Home = "/"
+    REGISTER = "/register",
+    HOME = "/"
 }
 
 //route for non-logged in users
 export const publicRoutes: RouteItem[] = [
     {path:RoutePaths.LOGIN, element:LoginPage},
-    {path:RoutePaths.Register, element:RegistrationPage},
-    {path:RoutePaths.Home, element:HomePage}
+    {path:RoutePaths.REGISTER, element:RegistrationPage},
+    {path:RoutePaths.HOME, element:HomePage}
 
 ]
 
