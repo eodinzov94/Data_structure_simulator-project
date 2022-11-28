@@ -3,7 +3,7 @@ import { mainColor, mainHoverColor } from "../styles/tColors";
 import { RoutePaths } from "../Routes/routesData";
 import { Link } from "react-router-dom";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
-import { loginImgLime500, faviconLime500 } from "../utils/logos";
+import { loginImgLime500 } from "../utils/logos";
 import AuthCard from "../components/Auth/AuthCard";
 import GoogleButton from "../components/Auth/GoogleButton";
 

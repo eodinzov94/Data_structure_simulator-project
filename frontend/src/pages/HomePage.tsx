@@ -1,7 +1,10 @@
+import HomeGallery from "../components/Home/HomeGallery";
 
 
 const HomePage = () =>{
-    return (<h1>HOME PAGE</h1>);
+    return (<>
+    <HomeGallery/>
+    </>);
 }
 
 export default HomePage;
