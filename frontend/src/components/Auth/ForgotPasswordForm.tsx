@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckEmail } from "./AuthFunctions";
 import { RoutePaths } from "../../Routes/routesData";
-import ErrorMsg from "../helpers/ErrorMsg";
+import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 
 const ForgotPasswordForm = () => {
@@ -19,7 +19,7 @@ const ForgotPasswordForm = () => {
     setError(false);
     //get email and password values
     const email = enteredEmail.current?.value || "";
-    console.log( email);
+    console.log(email);
 
     //check values
     var flag = false;
@@ -82,7 +82,6 @@ const ForgotPasswordForm = () => {
         }
       />
     </form>
-    
   );
 };
 
