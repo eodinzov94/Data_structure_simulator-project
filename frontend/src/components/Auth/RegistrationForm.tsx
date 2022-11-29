@@ -1,6 +1,6 @@
 import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
 import { mainColor, mainHoverColor } from "../../styles/tColors";
-import RadioButton from "../helpers/RadioButton";
+import RadioButton from "../UI/RadioButton";
 import { UserIcon } from "@heroicons/react/24/solid";
 import FormButton from "./FormButton";
 

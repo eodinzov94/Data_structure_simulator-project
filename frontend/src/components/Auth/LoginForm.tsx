@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { CheckEmail, CheckPassword } from "./AuthFunctions";
 import { RoutePaths } from "../../Routes/routesData";
-import ErrorMsg from "../helpers/ErrorMsg";
+import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 // import { mainColor, mainHoverColor } from "../../styles/tColors";
 
@@ -124,7 +124,6 @@ const LoginForm = () => {
         }
       />
     </form>
-    
   );
 };
 
