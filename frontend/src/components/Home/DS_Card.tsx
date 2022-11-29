@@ -1,5 +1,4 @@
 
-import classNames from "classnames";
 import { Link } from "react-router-dom";
 
 interface Props{
@@ -12,7 +11,7 @@ interface Props{
 
 const DS_Card = ({ title, image, url }:Props) => {
   return (
-    <div className={classNames(["bg-white hover:bg-lime-200 shadow-xl hover:shadow-none cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center", "transition-all duration-500 ease-in-out"])}>
+    <div className="bg-white hover:bg-lime-200 shadow-xl hover:shadow-none cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out">
       <div className="relative mt-2 mx-2">
         <div className="h-56 rounded-2xl overflow-hidden">
             <Link to={url}>
