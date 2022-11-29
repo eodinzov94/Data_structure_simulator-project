@@ -8,29 +8,25 @@ import FormButton from "./FormButton";
 
 const ForgotPasswordForm = () => {
   const enteredEmail = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
 
   let history = useHistory();
 
-  const SubmitLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const SubmitEmail = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsValidEmail(true);
-    setError(false);
-    //get email and password values
+    
+    //get email value
     const email = enteredEmail.current?.value || "";
-    console.log(email);
 
-    //check values
-    var flag = false;
+    //check email
+    const errors = [];
     if (!CheckEmail(email)) {
-      setIsValidEmail(false);
-      flag = true;
-      //errorMsg = "Invalid email";
+      errors.push("Invalid email");
     }
+
     //Display the error to the user and return
-    if (flag) {
-      setError(true);
+    setErrorMsgs(errors);
+    if (errors.length!==0) {
       return;
     }
 
@@ -43,7 +39,7 @@ const ForgotPasswordForm = () => {
       className="mt-8 space-y-6"
       action={"#"}
       method="POST"
-      onSubmit={SubmitLogin}
+      onSubmit={SubmitEmail}
     >
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
@@ -64,11 +60,9 @@ const ForgotPasswordForm = () => {
         </div>
       </div>
 
-      {error && (
+      {errorMsgs.length!==0 && (
         <ErrorMsg
-          ErrorMessages={[
-            { isValid: isValidEmail, msg: "Invalid email", key: 1 },
-          ]}
+          ErrorMessages={errorMsgs}
         />
       )}
       <FormButton

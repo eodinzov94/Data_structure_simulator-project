@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-//one choice on the radio button:
+
 interface OptionProps {
   index: number;
   selectedIndex?: number; // in order to know if this option selected.
