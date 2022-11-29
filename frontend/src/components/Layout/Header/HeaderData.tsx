@@ -62,29 +62,26 @@ export const callsToAction = [
 ];
 export const resources = [
   {
-    name: "Help Center",
-    description:
-      "Get all of your questions answered in our forums or contact support.",
+    name: "Algo 1",
+    description:"description1",
     href: "#",
     icon: LifebuoyIcon,
   },
   {
-    name: "Guides",
-    description:
-      "Learn how to maximize our platform to get the most out of it.",
+    name: "Algo 2",
+    description:"description2",
     href: "#",
     icon: BookmarkSquareIcon,
   },
   {
-    name: "Events",
-    description:
-      "See what meet-ups and other events we might be planning near you.",
+    name: "Algo 3",
+    description:"description3",
     href: "#",
     icon: CalendarIcon,
   },
   {
-    name: "Security",
-    description: "Understand how we take your privacy seriously.",
+    name: "Algo 4",
+    description:"description4",
     href: "#",
     icon: ShieldCheckIcon,
   },
