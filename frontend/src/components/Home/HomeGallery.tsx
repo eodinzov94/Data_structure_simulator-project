@@ -13,6 +13,7 @@ const HomeGallery = () => {
               title={element.title}
               image={element.image}
               url = {element.url}
+              description = {element.description}
             />
           ))}
         </div>
