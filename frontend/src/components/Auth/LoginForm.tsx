@@ -6,8 +6,13 @@ import { RoutePaths } from "../../Routes/routesData";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 // import { mainColor, mainHoverColor } from "../../styles/tColors";
+import { selectAuthentication } from "../../store/reducers/auth-reducer";
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { login } from "../../store/reducers/auth-reducer";
 
 const LoginForm = () => {
+  const slice = useAppSelector(selectAuthentication);
+  const dispatch = useAppDispatch();
   const enteredEmail = useRef<HTMLInputElement>(null);
   const enteredPassword = useRef<HTMLInputElement>(null);
   const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
@@ -37,8 +42,7 @@ const LoginForm = () => {
     if (errors.length) {
       return;
     }
-
-    //Send request to the server!!!!!!!!!!!!!!!!!!!!
+    dispatch(login({password,email}));
     history.replace(RoutePaths.HOME);
   };
 
@@ -49,6 +53,7 @@ const LoginForm = () => {
       method="POST"
       onSubmit={SubmitLogin}
     >
+      {slice.isLogin && <p>you are login</p> }
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
         <div>
