@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Dispatch } from "react";
 import {RootState} from "../store";
 
 interface UserData{
@@ -13,24 +12,32 @@ interface UserData{
 interface AuthState{
     user:UserData | null,
     isLogin:boolean,
-    token:string
+    token:string | null
 }
 
-const initialState:AuthState = {user:null,isLogin:false,token:""};
+interface LoginPayload{
+    email:string
+    password:string
+}
+
+//need to change the isLogin to false.
+const initialState:AuthState = {user:null,isLogin:true,token:null};
 
 const authSlice = createSlice({
     name:'auth' ,
     initialState,
     reducers:{
-        login(state, action:PayloadAction<any>){
+        login(state, action:PayloadAction<LoginPayload>){
             console.log(action.payload.password,action.payload.email);
             state.isLogin = true;
+            
         },
         logout(state){
             state={...initialState};
         }
     }
 });
+
 
 
 export default authSlice.reducer;

@@ -2,7 +2,7 @@ import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckEmail } from "./AuthFunctions";
-import { RoutePaths } from "../../Routes/routesData";
+import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 
@@ -31,7 +31,7 @@ const ForgotPasswordForm = () => {
     }
 
     //Send request to the server!!!!!!!!!!!!!!!!!!!!
-    history.replace(RoutePaths.LOGIN);
+   history.replace(RoutePaths.LOGIN);
   };
 
   return (
