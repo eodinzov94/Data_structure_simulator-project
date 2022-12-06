@@ -2,7 +2,7 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { CheckEmail, CheckPassword } from "./AuthFunctions";
-import { RoutePaths } from "../../Routes/routesData";
+import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 // import { mainColor, mainHoverColor } from "../../styles/tColors";
@@ -53,7 +53,6 @@ const LoginForm = () => {
       method="POST"
       onSubmit={SubmitLogin}
     >
-      {slice.isLogin && <p>you are login</p> }
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
         <div>

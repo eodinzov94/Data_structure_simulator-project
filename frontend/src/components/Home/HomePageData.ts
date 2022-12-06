@@ -1,47 +1,47 @@
-const HomePageData= [
-    {
-      title: "Sorts",
-      image: "https://bit.ly/3BQdTqk",
-      url: "/login",
-      description:"click to see all the sort options"
+import { RoutePaths } from "../../Routes/RoutePaths";
 
-    },
-    {
-        title: "Stack",
-        image: "https://bit.ly/3BQdTqk",
-        url: "/login",
-        description:""
-      },
-      {
-        title: "Queue",
-        image: "https://bit.ly/3BQdTqk",
-        url: "/login",
-      },
-      {
-        title: "Trees",
-        image: "https://bit.ly/3BQdTqk",
-        url: "/login",
-        description:"click to see all the trees options"
-      },
-      {
-        title: "Linked List",
-        image: "https://bit.ly/3CQKSwb",
-        url: "/login",
-  
-      },
-      {
-        title: "Hash table",
-        image: "https://bit.ly/3BQdTqk",
-        url: "/login",
-      },
-      {
-        title: "Heap",
-        image: "https://bit.ly/3BQdTqk",
-        url: "/login",
-      },
-  ];
+const HomePageData = [
+  {
+    title: "Sorts",
+    image: "https://bit.ly/3BQdTqk",
+    url: "/login",
+    description: "click to see all the sort options",
+  },
+  {
+    title: "Stack",
+    image: "https://bit.ly/3BQdTqk",
+    url: RoutePaths.STACK,
+    description: "",
+  },
+  {
+    title: "Queue",
+    image: "https://bit.ly/3BQdTqk",
+    url: "/login",
+  },
+  {
+    title: "Trees",
+    image: "https://bit.ly/3BQdTqk",
+    url: "/login",
+    description: "click to see all the trees options",
+  },
+  {
+    title: "Linked List",
+    image: "https://bit.ly/3CQKSwb",
+    url: "/login",
+  },
+  {
+    title: "Hash table",
+    image: "https://bit.ly/3BQdTqk",
+    url: "/login",
+  },
+  {
+    title: "Heap",
+    image: "https://bit.ly/3BQdTqk",
+    url: "/login",
+  },
+];
 
-  export default HomePageData;
+export default HomePageData;
 
 //   {
 //     title: "Stack",

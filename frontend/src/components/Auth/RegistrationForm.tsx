@@ -6,7 +6,7 @@ import FormButton from "./FormButton";
 import { useState } from "react";
 import ErrorMsg from "../UI/ErrorMsg";
 import { useHistory } from "react-router-dom";
-import { RoutePaths } from "../../Routes/routesData";
+import { RoutePaths } from "../../Routes/RoutePaths";
 import {
   CheckConfirmPassword,
   CheckEmail,

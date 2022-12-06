@@ -1,6 +1,6 @@
 import LoginForm from "../components/Auth/LoginForm";
 import { mainColor, mainHoverColor } from "../styles/tColors";
-import { RoutePaths } from "../Routes/routesData";
+import { RoutePaths } from "../Routes/RoutePaths";
 import { Link } from "react-router-dom";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import { loginImgLime500 } from "../utils/logos";
