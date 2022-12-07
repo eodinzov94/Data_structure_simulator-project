@@ -23,12 +23,17 @@ export default function Stack(props: Props) {
               props.items.length > 0
                 ? {
                     scale: 1,
-                    x:0,
+                    x: 0,
                     opacity: 1,
+                    transition: {
+                      type: "spring",
+                      stiffness: 15,
+                    },
                   }
                 : {}
             }
             transition={{
+              delay: 1.5,
               type: "spring",
               stiffness: 20,
             }}
@@ -40,7 +45,7 @@ export default function Stack(props: Props) {
             />
             <svg className={styles.headText} height="32">
               <text x="0" y="15" fill="black">
-                Head
+                Top
               </text>
             </svg>
           </motion.div>
@@ -64,6 +69,7 @@ export default function Stack(props: Props) {
                 x: 200,
                 opacity: 0.2,
                 transition: {
+                  delay: 1,
                   duration: 1.5,
                 },
               }}
