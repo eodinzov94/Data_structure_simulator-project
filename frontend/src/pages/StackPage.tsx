@@ -12,6 +12,7 @@ const StackPage = () => {
 
   const popFromStack = () => {
     if (data.length > 0) {
+      setIsPop(false);
       const new_data = [...data];
       new_data.splice(0, 1); //remove first - index=0
       setData(new_data);
@@ -34,6 +35,7 @@ const StackPage = () => {
       <div className="container mx-auto max-w-7xl px-0 md: py-20">
         <div className="flex flex-nowrap">
           <StackPanelControl
+            isPopEnabled={isPop}
             popHandler={popFromStack}
             pushToStack={pushToStack}
           />

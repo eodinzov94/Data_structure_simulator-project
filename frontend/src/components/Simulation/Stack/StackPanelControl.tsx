@@ -3,6 +3,7 @@ import { useState } from "react";
 interface Props{
     popHandler:()=>void;
     pushToStack:(value:string)=>void;
+    isPopEnabled:boolean;         //to prevent colision between pop animation
 }
 
 const StackPanelControl = (props:Props) => {
@@ -35,7 +36,7 @@ const StackPanelControl = (props:Props) => {
           </button>
         </li>
         <li>
-          <button onClick={props.popHandler} className="m-3 w-9/12 inline-block px-10 py-2.5 bg-lime-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out">
+          <button onClick={props.popHandler} disabled={props.isPopEnabled} className="m-3 w-9/12 inline-block px-10 py-2.5 bg-lime-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out">
             Pop
           </button>
         </li>
