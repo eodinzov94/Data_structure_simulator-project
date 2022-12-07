@@ -19,7 +19,7 @@ const StackPanelControl = (props:Props) => {
     
 
     return (
-    <div className="w-60 h-full shadow-md bg-white px-2 absolute">
+    <div className="basis-3/12">
       <ul className="relative">
         <li>
           <input
