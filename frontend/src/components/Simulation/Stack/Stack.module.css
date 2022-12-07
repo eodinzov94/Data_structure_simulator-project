@@ -13,7 +13,7 @@
 .s_ul {
   /* display: flex; */
   width: 200px;
-  height: 600px;
+  height: 200px;
   list-style: none;
   flex-direction: column;
   gap: 20px;
@@ -51,22 +51,14 @@
 }
 
 
-.controls {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  padding-bottom: 50px;
-  align-items: center;
-}
-
-
 .headArrow {
-  margin-left: -5rem;
-  margin-bottom: -16.5rem;
+  width:3rem;
+  margin-right:1rem;
+
 }
 
 .headText {
-  margin-left: -5.5rem;
-  margin-bottom: -18.2rem;
+  width:3rem;
+  margin-left: -2rem;
   font: bold 20px sans-serif;
 }
