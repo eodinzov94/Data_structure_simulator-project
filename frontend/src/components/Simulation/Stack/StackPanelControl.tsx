@@ -15,12 +15,9 @@ const StackPanelControl = (props:Props) => {
             setEnteredValue("");
         }
     }
-
-    
-
     return (
-    <div className="w-60 h-full shadow-md bg-white px-2 absolute">
-      <ul className="relative">
+    <div className="basis-2/12">
+      <ul className="">
         <li>
           <input
             id="value"
