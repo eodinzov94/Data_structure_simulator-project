@@ -51,12 +51,12 @@
 }
 
 
-.headArrow {
+.topArrow {
   width:3rem;
   margin-right:1rem;
 }
 
-.headText {
+.topText {
   width:3rem;
   margin-left: -2rem;
   font: bold 20px sans-serif;
