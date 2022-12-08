@@ -4,18 +4,22 @@ import StackPanelControl from "../components/Simulation/Stack/StackPanelControl"
 import { StackItem } from "../components/Simulation/Stack/Stack";
 import { AnimatePresence, motion } from "framer-motion";
 
-//need to creat a componnent for stack & queue that get name and function for 2 buttons, and display 2 button and input number box
+//The stack page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
 
 const StackPage = () => {
-  const [data, setData] = useState<StackItem[]>([]);
+  const [data, setData] = useState<StackItem[]>([]); //data of the stack
   const [isPop, setIsPop] = useState<boolean>(false);
 
   const popFromStack = () => {
     if (data.length > 0) {
+      //if the stack is not empty
+      //copy data and remove first element
       const new_data = [...data];
-      new_data.splice(0, 1); //remove first - index=0
-      setData(new_data);
-      setIsPop(true);
+      new_data.splice(0, 1);
+      setData(new_data); //update data
+
+      setIsPop(true); 
+      
       setTimeout(() => {
         setIsPop(false);
       }, 2500);
@@ -23,6 +27,7 @@ const StackPage = () => {
   };
 
   const pushToStack = (value: string) => {
+    //add new elment at the start
     const key = data.length;
     const new_data = [{ value, key }, ...data];
     setData(new_data);
@@ -30,14 +35,18 @@ const StackPage = () => {
 
   return (
     <>
-      <h1>STACK PAGE</h1>
       <div className="container mx-auto max-w-7xl px-0 md: py-20">
         <div className="flex flex-nowrap">
+          {/*left section */}
           <StackPanelControl
             popHandler={popFromStack}
             pushToStack={pushToStack}
           />
+
+          {/*middle section */}
           <Stack items={data} />
+
+          {/*rigth section */}
           <div className="basis-4/12">
             <ul>
               <motion.li
@@ -79,6 +88,3 @@ const StackPage = () => {
 };
 
 export default StackPage;
-function useEffect(arg0: () => () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
-}
