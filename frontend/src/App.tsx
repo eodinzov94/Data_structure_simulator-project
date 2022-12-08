@@ -3,11 +3,10 @@ import Header from './components/Layout/Header/Header';
 import AppRouter from './Routes/AppRouter';
 import {Provider} from "react-redux";
 import store from './store/store';
-
 function App() {
   return (
     <Provider store={store}>
-    <div className="App">
+    <div className="App">   
       <Header/>
       <AppRouter/>
     </div>
