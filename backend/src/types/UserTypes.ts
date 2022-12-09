@@ -19,5 +19,5 @@ export interface IUserLogin {
 }
 export interface IUser extends IUserRegister{
   id:number
-  lastSeen:Date
+  lastSeen: Date
 }
