@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response} from "express";
-import * as jwt from 'jsonwebtoken'
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 
 const CheckRoleMW = (role:string) => {
     return function (req:Request<any>, res:Response, next:NextFunction) {
@@ -8,7 +9,7 @@ const CheckRoleMW = (role:string) => {
             if (!token) {
                 return res.status(401).json({message: "Unauthorized"})
             }
-            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string )
+            const decoded = verify(token, process.env.JWT_SECRET_KEY as string )
             // @ts-ignore
             if (decoded.role !== role) {
                 return res.status(403).json({message: "Access Denied"})

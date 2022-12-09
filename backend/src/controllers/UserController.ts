@@ -2,7 +2,7 @@ import ApiError from "../error/ApiError.js";
 import bcrypt from 'bcrypt'
 import User from "../models/User.js";
 import {IUser, IUserLogin, IUserRegister} from "../types/UserTypes.js";
-import {NextFunction, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import {TypedRequestBody} from "../types/RequestType.js";
 import validator from "validator";
 import pkg from 'jsonwebtoken';
@@ -65,7 +65,10 @@ class UserController {
         const token = generateJwt(user)
         return res.json({token})
     }
-
+    async auth(req:Request, res:Response, next:NextFunction) {
+        // @ts-ignore
+        return res.json({user:req.user})
+    }
 
 }
 

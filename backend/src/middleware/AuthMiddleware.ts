@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from "express";
-import * as jwt from 'jsonwebtoken'
-
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 
 const AuthMW = (req:Request, res:Response, next:NextFunction) => {
     try {
@@ -8,12 +8,13 @@ const AuthMW = (req:Request, res:Response, next:NextFunction) => {
         if (!token) {
             return res.status(401).json({message: "Unauthorized"})
         }
-        const decoded = jwt.verify(token, process.env.SECRET_KEY as string)
+        const decoded = verify(token, process.env.JWT_SECRET_KEY as string)
         // @ts-ignore
         req.user = decoded
         next()
     } catch (e) {
-        res.status(401).json({message: "Unauthorized"})
+        console.log(e);
+        res.status(401).json({message: "Unauthorized ERR"})
     }
 };
 export default AuthMW
