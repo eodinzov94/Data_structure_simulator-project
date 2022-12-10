@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Stack from "../components/Simulation/Stack/Stack";
-import StackPanelControl from "../components/Simulation/Stack/StackPanelControl";
 import { StackItem } from "../components/Simulation/Stack/Stack";
 import { AnimatePresence, motion } from "framer-motion";
+import StackPanelControl from "../components/Simulation/Stack/StackPanelControl";
 
 //The stack page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
 
@@ -14,6 +14,7 @@ const StackPage = () => {
     if (data.length > 0) {
       //if the stack is not empty
       //copy data and remove first element
+      setIsPop(false);
       const new_data = [...data];
       new_data.splice(0, 1);
       setData(new_data); //update data
@@ -22,7 +23,7 @@ const StackPage = () => {
       
       setTimeout(() => {
         setIsPop(false);
-      }, 2500);
+      }, 2000);
     }
   };
 
@@ -39,6 +40,7 @@ const StackPage = () => {
         <div className="flex flex-nowrap">
           {/*left section */}
           <StackPanelControl
+            isPopEnabled={isPop}
             popHandler={popFromStack}
             pushToStack={pushToStack}
           />
@@ -59,7 +61,8 @@ const StackPage = () => {
                     : {}
                 }
                 transition={{
-                  duration: 2.5,
+                  // duration: 2.5,
+                  duration: 2,
                 }}
               >
                 {"if (!stack.isEmpty()):"}
@@ -74,7 +77,10 @@ const StackPage = () => {
                     : {}
                 }
                 transition={{
-                  duration: 2.5,
+                  // duration: 2.5,
+                  delay:0.5,
+                  duration: 0.5
+
                 }}
               >
                 {"    return arr[size-1];"}

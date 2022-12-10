@@ -1,34 +1,40 @@
 import { RoutePaths } from "../../Routes/RoutePaths";
+import stackGif from '../../assets/Gallery/stackGif.gif'
+import stackPhoto from '../../assets/Gallery/stackPhoto.png'
+import queueGif from '../../assets/Gallery/queueGif.gif'
+import queuePhoto from '../../assets/Gallery/queuePhoto.png'
+import treeGif from '../../assets/Gallery/treeGif.gif'
+import treePhoto from '../../assets/Gallery/treePhoto.png'
 
 const HomePageData = [
   {
     title: "Sorts",
     image: "https://bit.ly/3BQdTqk",
+    gif:'',
     url: "/login",
     description: "click to see all the sort options",
   },
   {
     title: "Stack",
-    image: "https://bit.ly/3BQdTqk",
+    gif:stackGif,
+    image: stackPhoto,
     url: RoutePaths.STACK,
     description: "",
   },
   {
     title: "Queue",
-    image: "https://bit.ly/3BQdTqk",
+    gif:queueGif,
+    image: queuePhoto,
     url: "/login",
   },
   {
     title: "Trees",
-    image: "https://bit.ly/3BQdTqk",
+    gif: treeGif,
+    image: treePhoto,
     url: "/login",
     description: "click to see all the trees options",
   },
-  {
-    title: "Linked List",
-    image: "https://bit.ly/3CQKSwb",
-    url: "/login",
-  },
+  
   {
     title: "Hash table",
     image: "https://bit.ly/3BQdTqk",
