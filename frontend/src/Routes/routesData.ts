@@ -5,6 +5,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import StackPage from "../pages/StackPage";
+import GeneralReports from "../pages/GeneralReports";
 
 
 export interface RouteItem {
@@ -26,4 +27,7 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
 ];
 
-export const adminRoutes: RouteItem[] = [];
+export const adminRoutes: RouteItem[] = [
+  { path: RoutePaths.GENERAL_REPORTS, element: GeneralReports },
+
+];

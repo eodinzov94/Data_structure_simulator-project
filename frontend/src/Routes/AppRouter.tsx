@@ -18,6 +18,13 @@ const AppRouter = () => {
           {<route.element />}
         </Route>
       ))}
+
+{/* NEED TO ADD IS ADMIN CHECK! */}
+  {adminRoutes.map((route) => (
+        <Route path={route.path} exact key={route.path}>
+          {<route.element />}
+        </Route>
+      ))}
     </Switch>
   );
 };
