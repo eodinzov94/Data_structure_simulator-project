@@ -19,7 +19,7 @@ const StackPage = () => {
       setIsPop(true);
       setTimeout(() => {
         setIsPop(false);
-      }, 2500);
+      }, 2000);
     }
   };
 
@@ -52,7 +52,8 @@ const StackPage = () => {
                     : {}
                 }
                 transition={{
-                  duration: 2.5,
+                  // duration: 2.5,
+                  duration: 2,
                 }}
               >
                 {"if (!stack.isEmpty()):"}
@@ -67,7 +68,10 @@ const StackPage = () => {
                     : {}
                 }
                 transition={{
-                  duration: 2.5,
+                  // duration: 2.5,
+                  delay:0.5,
+                  duration: 0.5
+
                 }}
               >
                 {"    return arr[size-1];"}
