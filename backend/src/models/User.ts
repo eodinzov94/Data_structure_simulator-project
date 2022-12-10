@@ -9,10 +9,12 @@ class User extends Model<UserAttributes, IUserRegister> implements UserAttribute
   public firstName!: string
   public lastName!: string
   public gender!: string
-  public age!: number
+  public age!: Date
   public role!: string
   public lastSeen!: Date
   public password!: string
+  public isEnabled2FA!: boolean
+  public isEmailConfirmed!: boolean
 
   // timestamps!
   public readonly createdAt!: Date
@@ -26,8 +28,10 @@ User.init({
   lastName: { type: DataTypes.STRING, allowNull: false },
   password: { type: DataTypes.STRING, allowNull: false },
   gender: { type: DataTypes.STRING, allowNull: false },
-  age: { type: DataTypes.INTEGER, allowNull: false },
-  lastSeen: { type: DataTypes.DATE, defaultValue: Date.now() },
+  age: { type: DataTypes.DATE, allowNull: false },
+  isEnabled2FA: { type: DataTypes.BOOLEAN, defaultValue: false },
+  isEmailConfirmed: { type: DataTypes.BOOLEAN, defaultValue: false },
+  lastSeen: { type: DataTypes.DATE, allowNull: false  },
   role: { type: DataTypes.STRING, defaultValue: 'Student' },
 }, {
   timestamps: true,
@@ -35,3 +39,45 @@ User.init({
 })
 
 export default User
+
+/*
+email TYPE - ACTIVATE/2FA/PWCHANGE/PWRESET      CODE      VALID_DATE
+
+email  TYPE - SUBJECT       SUBTYPE        ACTION    DATE    COUNT
+
+
+
+
+--ACTIVE USERS
+SELECT COUNT(*) FROM USERS
+WHERE LASTSEEN >= SYSDATE -14 AND ROLE = STUDENT
+
+--Total USERS
+SELECT COUNT(*) FROM USERS
+WHERE ROLE = STUDENT
+
+SELECT COUNT(GENDER),AVG(AGE) FROM USERS
+WHERE  ROLE = STUDENT
+GROUP BY GENDER
+
+
+SELECT COUNT(*) , SUBJECT
+WHERE  ROLE = STUDENT
+GROUP BY SUBJECT
+
+
+SELECT COUNT(*) , SUBJECT,SUBTYPE
+WHERE  ROLE = STUDENT
+GROUP BY SUBTYPE
+
+
+SELECT COUNT(*) , SUBJECT,SUBTYPE,ACTION
+WHERE  ROLE = STUDENT
+GROUP BY ACTION
+
+
+SELECT MAX(ACTION_DATE)
+WHERE  USERID = ID
+
+
+*/

@@ -6,14 +6,16 @@ import express from 'express'
 import cors from 'cors'
 import { sequelize } from './db.js'
 import UserRouter from './routes/UserRoutes.js'
+import LecturerRouter from './routes/LecturerRoutes.js'
 import ErrorHandlingMiddleware from './middleware/ErrorHandlingMiddleware.js'
+
 
 const app = express()
 const PORT = 3001
 app.use(cors())
 app.use(express.json())
 app.use('/api/user', UserRouter)
-
+app.use('/api/lecturer',LecturerRouter)
 
 //Error Handler - Last middleware
 app.use(ErrorHandlingMiddleware)

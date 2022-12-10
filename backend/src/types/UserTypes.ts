@@ -1,8 +1,8 @@
 
 export interface UserAttributes extends IUser{
   password:string
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date
+  updatedAt?: Date
 }
 export interface IUserRegister {
   email:string
@@ -10,8 +10,9 @@ export interface IUserRegister {
   firstName:string
   lastName:string
   gender:string
-  age:number
-  role:string|undefined
+  age:Date
+  role?:string
+  lastSeen: Date
 }
 export interface IUserLogin {
   email:string
@@ -19,5 +20,6 @@ export interface IUserLogin {
 }
 export interface IUser extends IUserRegister{
   id:number
-  lastSeen: Date
+  isEmailConfirmed: boolean
+  isEnabled2FA:boolean
 }
