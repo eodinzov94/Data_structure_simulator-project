@@ -1,6 +1,6 @@
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
-
+import {ChartProps,getData,getLabels} from "./interface";
 /*
 Props: title, array of objects, each object is {key:"category",value:amount}
 for example:   
@@ -15,28 +15,23 @@ the component will convert the items to:
 and display the chart
 */
 
-interface DoughnutItem {
-  key: string;
-  value: number;
-}
 
-interface DoughnutProps {
-  items: DoughnutItem[];
-  title: string;
-}
 
-const DoughnutChart = (props: DoughnutProps) => {
-  const labels = props.items.map((e: DoughnutItem) => {
-    return e.key;
-  });
-  const data = props.items.map((e: DoughnutItem) => {
-    return e.value;
-  });
+const DoughnutChart = (props: ChartProps) => {
+  const labels = getLabels(props.items);
+  const data = getData(props.items);
 
   return (
-    <div style={{ width: "400px" }}>
-      <h1>{props.title}</h1>
-      <Doughnut data={{ labels, datasets: [{ data }] }} />
+    <div style={{width:"400px"}}>
+      <Doughnut data={{ labels, datasets: [{ data }] }}
+      options={{
+        plugins: {
+            title: {
+                display: true,
+                text: props.title
+            }
+        }}}
+      />
     </div>
   );
 };

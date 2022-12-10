@@ -1,5 +1,6 @@
 import "chart.js/auto";
-import { Line } from "react-chartjs-2";
+import {Line } from "react-chartjs-2";
+import {ChartProps,getData,getLabels} from "./interface";
 
 /*
 Props: label(title), array of objects, each object is {key:"category",value:amount}
@@ -24,24 +25,10 @@ const data = {
   ],
 };
 
-interface LineItem {
-  key: string;
-  value: number;
-}
-
-interface LineProps {
-  items: LineItem[];
-  label: string;
-}
-
-const LineChrat= (props: LineProps)=> {
-  data.datasets[0].label = props.label;
-  data.labels = props.items.map((e: LineItem) => {
-    return e.key;
-  });
-  data.datasets[0].data = props.items.map((e: LineItem) => {
-    return e.value;
-  });
+const LineChrat= (props: ChartProps)=> {
+  data.datasets[0].label = props.title;
+  data.labels = getLabels(props.items);
+  data.datasets[0].data = getData(props.items);
 
   return (
     <div>
