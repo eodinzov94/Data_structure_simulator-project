@@ -3,6 +3,8 @@ import DoughnutChart from "../components/Charts/Doughnut";
 import BarChart from "../components/Charts/BarChart";
 import DropDown from "../components/UI/DropDown";
 import { ChartProps } from "../components/Charts/interface";
+import MediumCard from "../components/UI/MediumCard";
+import FloatUpContainer from "../components/UI/FloatUpContainer";
 
 enum choices {
   GENDER = "Gender",
@@ -15,7 +17,7 @@ const initialChartData: ChartProps = {
 };
 
 const GeneralReports = () => {
-  const [graphChoosen, setGraphChoosen] = useState("choose data to display");
+  const [graphChoosen, setGraphChoosen] = useState("Choose report");
   const [genderData, setGenderData] = useState<ChartProps>(initialChartData);
   const [authData, setAuthData] = useState<ChartProps>(initialChartData);
 
@@ -35,33 +37,31 @@ const GeneralReports = () => {
     //users auth data
     setAuthData({
       items: [
-        { key: "registered users", value: 40 },
-        { key: "logged in (last two weeks)", value: 60 },
+        { key: "Registered users", value: 60 },
+        { key: "Logged in (last two weeks)", value: 20 },
       ],
-      title: "information",
+      title: "Information",
     });
 
     //age data
   }, []);
 
   return (
-    <div className="max-w-screen-xl	flex min-h-full items-center justify-center py-10 px-2 sm:px-4 lg:px-8">
-      <div className="max-w-screen-xl	 max-w-xl w-full p-10 bg-white border border-gray-200 rounded-lg shadow-lg">
-        <div className="container mx-auto w-full max-w-xl space-y-8  place-content-center">
-          <DropDown
-            title={graphChoosen}
-            items={Object.values(choices)}
-            onClick={setGraphChoosen}
-          />
-          {graphChoosen === choices.GENDER && (
-            <DoughnutChart items={genderData.items} title={genderData.title} />
-          )}
-          {graphChoosen === choices.USERS_AUTH && (
-            <BarChart items={authData.items} title={authData.title} />
-          )}
-        </div>
-      </div>
-    </div>
+    <FloatUpContainer>
+      <MediumCard>
+        <DropDown
+          title={graphChoosen}
+          items={Object.values(choices)}
+          onClick={setGraphChoosen}
+        />
+        {graphChoosen === choices.GENDER && (
+          <DoughnutChart items={genderData.items} title={genderData.title} />
+        )}
+        {graphChoosen === choices.USERS_AUTH && (
+          <BarChart items={authData.items} title={authData.title} />
+        )}
+      </MediumCard>
+    </FloatUpContainer>
   );
 };
 

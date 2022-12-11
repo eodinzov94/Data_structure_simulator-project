@@ -7,9 +7,10 @@ const bar = {
     labels: [] as string[],
     datasets: [
       {
-        backgroundColor: "rgba(131, 205, 21, 0.2)",
-        borderColor: "rgba(131, 205, 21, 0.8)",
-        borderWidth: 1,
+        label:'Registerd',
+        backgroundColor:["rgba(163, 230, 53, 0.3)","rgba(125, 212, 252, 0.3)"],
+        borderColor: ["rgba(163, 230, 53, 0.8)","rgba(125, 212, 252, 0.8)"],
+        borderWidth: 2,
         data: [] as number[],
       },
     ],
