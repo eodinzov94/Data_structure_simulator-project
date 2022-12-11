@@ -1,5 +1,5 @@
 export interface TWOFA_Attributes{
-  userID:number
+  email:string
   code:string
   type:string
   ValidDate: Date

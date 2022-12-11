@@ -8,6 +8,8 @@ import validator from 'validator'
 import pkg from 'jsonwebtoken'
 import { ActivityBody } from '../types/UserActivityTypes.js'
 import UserActivity from '../models/UserActivity.js'
+
+
 const { sign } = pkg
 
 const generateJwt = (user: IUser) => {
@@ -20,8 +22,8 @@ const generateJwt = (user: IUser) => {
       gender: user.gender,
       age: user.age,
       role: user.role,
-      isEmailConfirmed:user.isEmailConfirmed,
-      isEnabled2FA:user.isEnabled2FA
+      isEmailConfirmed: user.isEmailConfirmed,
+      isEnabled2FA: user.isEnabled2FA,
     },
     process.env.JWT_SECRET_KEY as string,
     { expiresIn: '48h' },
@@ -30,8 +32,10 @@ const generateJwt = (user: IUser) => {
 
 
 class UserController {
+
+
   async registration(req: TypedRequestBody<IUserRegister>, res: Response, next: NextFunction) {
-    const { email, age, gender, lastName, firstName, password,role } = req.body
+    const { email, age, gender, lastName, firstName, password, role } = req.body
     if (!validator.default.isEmail(email)) {
       return next(ApiError.badRequest('Incorrect email'))
     }
@@ -42,16 +46,17 @@ class UserController {
     if (candidate) {
       return next(ApiError.badRequest('User with current email already exists'))
     }
-    if(role && req?.user?.role !== 'Lecturer'){
+    if (role && req?.user?.role !== 'Lecturer') {
       return next(ApiError.forbidden('Access Denied'))
     }
     const hashPassword = await bcrypt.hash(password, 5)
     try {
       const user = await User.create(
-        { email, age, gender,
+        {
+          email, age, gender,
           lastName, firstName, role,
           password: hashPassword,
-          lastSeen:new Date()
+          lastSeen: new Date(),
         })
       const token = generateJwt(user)
       return res.json({ token })
@@ -78,27 +83,30 @@ class UserController {
   async auth(req: RequestWithUser, res: Response, next: NextFunction) {
     return res.json({ user: req.user })
   }
- async personalActivities (req: RequestWithUser, res: Response, next: NextFunction) {
-    const {id} = req.user!
-    const allUserActivities = await UserActivity.findAll({where:{userID:id}})
-   return res.json({ allUserActivities })
- }
+
+  async personalActivities(req: RequestWithUser, res: Response, next: NextFunction) {
+    const { id } = req.user!
+    const allUserActivities = await UserActivity.findAll({ where: { userID: id } })
+    return res.json({ allUserActivities })
+  }
+
   async registerActivity(req: TypedRequestBody<ActivityBody>, res: Response, next: NextFunction) {
-    const {subject,algorithm,action} = req.body
-    const {id} = req.user!
-    try{
+    const { subject, algorithm, action } = req.body
+    const { id } = req.user!
+    try {
       await UserActivity.create({
-        userID:id,
+        userID: id,
         action,
         algorithm,
-        subject
+        subject,
       })
-      await User.update({lastSeen:new Date()},{ where: { id } })
+      await User.update({ lastSeen: new Date() }, { where: { id } })
+    } catch (e: any) {
+      if(e?.errors && e.errors.length && e.errors[0].message)
+        return res.json(ApiError.badRequest(e?.errors[0]?.message))
+      return res.json(ApiError.badRequest('Input error'))
     }
-    catch (e: any) {
-      return res.json(ApiError.badRequest(e?.errors[0]?.message || 'Input error'))
-    }
-    return res.json({ result: "Success" })
+    return res.json({ result: 'Success' })
   }
 }
 
