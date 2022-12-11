@@ -46,12 +46,12 @@ const DS_Card = ({ title, image, url, description, gif }: Props) => {
           </Link>
         </div>
       </div>
-      <div className="pt-10 pb-6 w-full px-4;">
+      <div className="pt-8 pb-6 w-full px-4;">
         <h1 className="font-medium leading-none text-base tracking-wider text-black">
           {title}
         </h1>
         {description && (
-          <p className="text-gray-700 text-base mb-4">{description}</p>
+          <h1 className="text-gray-700 text-base ">{description}</h1>
         )}
       </div>
     </div>

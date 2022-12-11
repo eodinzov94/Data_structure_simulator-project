@@ -5,6 +5,10 @@ import queueGif from '../../assets/Gallery/queueGif.gif'
 import queuePhoto from '../../assets/Gallery/queuePhoto.png'
 import treeGif from '../../assets/Gallery/treeGif.gif'
 import treePhoto from '../../assets/Gallery/treePhoto.png'
+import heapGif from '../../assets/Gallery/heapGif.gif'
+import heapPhoto from '../../assets/Gallery/heapPhoto.png'
+import hashGif from '../../assets/Gallery/hashGif.gif'
+import hashPhoto from '../../assets/Gallery/hashPhoto.png'
 
 const HomePageData = [
   {
@@ -19,7 +23,6 @@ const HomePageData = [
     gif:stackGif,
     image: stackPhoto,
     url: RoutePaths.STACK,
-    description: "",
   },
   {
     title: "Queue",
@@ -37,12 +40,14 @@ const HomePageData = [
   
   {
     title: "Hash table",
-    image: "https://bit.ly/3BQdTqk",
+    gif: hashGif,
+    image: hashPhoto,
     url: "/login",
   },
   {
     title: "Heap",
-    image: "https://bit.ly/3BQdTqk",
+    gif:heapGif,
+    image: heapPhoto,
     url: "/login",
   },
 ];
