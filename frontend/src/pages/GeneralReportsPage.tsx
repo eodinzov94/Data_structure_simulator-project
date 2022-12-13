@@ -16,7 +16,7 @@ const initialChartData: ChartProps = {
   title: "",
 };
 
-const GeneralReports = () => {
+const GeneralReportsPage = () => {
   const [graphChoosen, setGraphChoosen] = useState("Choose report");
   const [genderData, setGenderData] = useState<ChartProps>(initialChartData);
   const [authData, setAuthData] = useState<ChartProps>(initialChartData);
@@ -65,4 +65,4 @@ const GeneralReports = () => {
   );
 };
 
-export default GeneralReports;
+export default GeneralReportsPage;
