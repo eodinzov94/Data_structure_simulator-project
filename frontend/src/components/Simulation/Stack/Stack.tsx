@@ -16,7 +16,7 @@ interface Props {
 
 export default function Stack(props: Props) {
   return (
-    <div className={`flex basis-6/12 w-full px-20 ml-56 ${styles.example}`}>
+    <div className={`flex basis-8/12 w-full px-20 ml-56 ${styles.example}`}>
 
       {/* Top & Aroow animation */}
         <AnimatePresence mode={"sync"}>

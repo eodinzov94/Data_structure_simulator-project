@@ -4,16 +4,10 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const iconsColor: string = "text-lime-500";
 
-interface DropDownItem {
-  name: string;
-
-}
-
 interface DropDownProps {
   title: string;
   items: string[];
-  onClick: (name:string)=> void;
-
+  onClick: (name: string) => void;
 }
 
 function classNames(...classes: string[]) {
@@ -21,11 +15,6 @@ function classNames(...classes: string[]) {
 }
 
 const DropDown = (props: DropDownProps) => {
-
-
-
-
-
   return (
     <Popover className="relative">
       {({ open }) => (
@@ -44,7 +33,6 @@ const DropDown = (props: DropDownProps) => {
               )}
               aria-hidden="true"
             />
-
           </Popover.Button>
 
           <Transition
@@ -60,7 +48,10 @@ const DropDown = (props: DropDownProps) => {
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                   {props.items.map((item) => (
-                    <button onClick={()=>{props.onClick(item)}}
+                    <Popover.Button
+                      onClick={() => {
+                        props.onClick(item);
+                      }}
                       key={item}
                       className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
                     >
@@ -68,9 +59,8 @@ const DropDown = (props: DropDownProps) => {
                         <p className="text-base font-medium text-gray-900">
                           {item}
                         </p>
-
                       </div>
-                    </button>
+                    </Popover.Button>
                   ))}
                 </div>
               </div>
@@ -83,4 +73,3 @@ const DropDown = (props: DropDownProps) => {
 };
 
 export default DropDown;
-

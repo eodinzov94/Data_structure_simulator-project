@@ -5,7 +5,8 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import StackPage from "../pages/StackPage";
-import GeneralReports from "../pages/GeneralReports";
+import GeneralReportsPage from "../pages/GeneralReportsPage";
+import ReportsPage from "../pages/ReportsPage";
 
 
 export interface RouteItem {
@@ -28,6 +29,8 @@ export const userRoutes: RouteItem[] = [
 ];
 
 export const adminRoutes: RouteItem[] = [
-  { path: RoutePaths.GENERAL_REPORTS, element: GeneralReports },
+  { path: RoutePaths.REPORTS, element: ReportsPage },
+  { path: RoutePaths.GENERAL_REPORTS, element: GeneralReportsPage },
+
 
 ];
