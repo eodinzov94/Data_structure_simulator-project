@@ -1,4 +1,6 @@
 import { useState } from "react";
+import MediumCard from "../../UI/MediumCard";
+import SimulationInputGroup from "../../UI/SimulationInputGroup";
 
 interface Props {
   //Functions are implemented on the stack page
@@ -20,44 +22,30 @@ const StackPanelControl = (props: Props) => {
   };
 
   return (
-    <div className="basis-2/12">
-      <ul className="">
-        {/*input text box for value to push */}
-        <li>
-          <input
-            id="value"
-            name="value"
-            type="text"
-            className={`relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm`}
-            placeholder="Enter value to push"
-            maxLength={10}
-            value={enteredValue}
-            onChange={(e) => setEnteredValue(e.currentTarget.value)} //update the state value to be set as the input
-          />
-        </li>
-
-        {/*PUSH button */}
-        <li>
-          <button
-            onClick={pushHandler}
-            className="m-1 inline-block px-5 py-2.5 bg-lime-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out"
-          >
-            Push
-          </button>
-        </li>
+    <MediumCard isSmaller={true}>
+      {/*input text box for value to push */}
+      <div className="grid grid-cols-2 justify-items-center
+      ">
+        <SimulationInputGroup
+          name={"value"}
+          value={enteredValue}
+          maxVal={10}
+          placeholder={"Enter value to push"}
+          btnText={"Push"}
+          onChange={setEnteredValue}
+          btnOnClick={pushHandler}
+        />
 
         {/*POP button */}
-        <li>
-          <button
-            onClick={props.popHandler}
-            disabled={props.isPopEnabled}
-            className="m-3 w-9/12 inline-block px-10 py-2.5 bg-lime-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out"
-          >
-            Pop
-          </button>
-        </li>
-      </ul>
-    </div>
+        <button
+          onClick={props.popHandler}
+          disabled={props.isPopEnabled}
+          className=" inline-block px-8 py-2.5 bg-lime-500 text-white font-medium text-md leading-tight  rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out"
+        >
+          Pop
+        </button>
+      </div>
+    </MediumCard>
   );
 };
 

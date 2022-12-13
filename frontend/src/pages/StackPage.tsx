@@ -19,8 +19,8 @@ const StackPage = () => {
       new_data.splice(0, 1);
       setData(new_data); //update data
 
-      setIsPop(true); 
-      
+      setIsPop(true);
+
       setTimeout(() => {
         setIsPop(false);
       }, 2000);
@@ -36,20 +36,21 @@ const StackPage = () => {
 
   return (
     <>
-      <div className="container mx-auto max-w-7xl px-0 md: py-20">
-        <div className="flex flex-nowrap">
-          {/*left section */}
-          <StackPanelControl
-            isPopEnabled={isPop}
-            popHandler={popFromStack}
-            pushToStack={pushToStack}
-          />
+      {/*top section */}
+      <StackPanelControl
+        isPopEnabled={isPop}
+        popHandler={popFromStack}
+        pushToStack={pushToStack}
+      />
 
+      <div className="container mx-auto max-w-7xl px-0 md: py-10">
+        <div className="flex flex-nowrap">
           {/*middle section */}
           <Stack items={data} />
 
           {/*rigth section */}
           <div className="basis-4/12">
+            Pseudo code:
             <ul>
               <motion.li
                 initial={{ backgroundColor: "rgba(0,0,0,0)" }}
@@ -78,9 +79,8 @@ const StackPage = () => {
                 }
                 transition={{
                   // duration: 2.5,
-                  delay:0.5,
-                  duration: 0.5
-
+                  delay: 0.5,
+                  duration: 0.5,
                 }}
               >
                 {"    return arr[size-1];"}
