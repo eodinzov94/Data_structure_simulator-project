@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
-import { StackItem } from "../components/Simulation/Stack/Stack";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Queue from "../components/Simulation/Queue/Queue";
-import ControlsPanel from "../components/Simulation/ControlsPanels/SqControlsPanel";
+import ControlsPanel, {
+  Item,
+} from "../components/Simulation/ControlsPanels/SqControlsPanel";
 
-//The stack page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
+const MAX_ELEMENTS = 10;
+
+//The Queue page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
 export interface Position {
   curr: number;
   prev: number;
 }
 
 const QueuePage = () => {
-  const [data, setData] = useState<StackItem[]>([]); //data of the stack
+  const [data, setData] = useState<Item[]>([]); //data of the stack
   const [isPop, setIsPop] = useState<boolean>(false);
   const [keyValue, setKeyValue] = useState<number>(0);
   const [headPosition, setHeadPosition] = useState<Position>({
@@ -41,15 +44,29 @@ const QueuePage = () => {
   };
 
   const Enqueue = (value: string) => {
-    //add new elment at the start
-    const new_data = [...data, { value, key: keyValue }];
-    setKeyValue((prevState) => {
-      return prevState + 1;
-    });
-    setHeadPosition((prevState) => {
+    if (data.length == MAX_ELEMENTS) {
+      window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
+    } else {
+      //add new elment at the start
+      const new_data = [...data, { value, key: keyValue }];
+      setKeyValue((prevState) => {
+        return prevState + 1;
+      });
+      setHeadPosition((prevState) => {
         return { curr: prevState.curr - 35, prev: prevState.curr };
       });
-    setData(new_data);
+      setData(new_data);
+    }
+  };
+
+  const setRandomInput = (newData: Item[]) => {
+    setData(newData);
+    setKeyValue(newData.length);
+
+    //fix positions
+    setHeadPosition((prevState) => {
+      return { curr: -35 * newData.length, prev: prevState.curr };
+    });
   };
 
   return (
@@ -58,18 +75,17 @@ const QueuePage = () => {
       <ControlsPanel
         removeHandler={Dequeue}
         addHandler={Enqueue}
+        setRandomInput={setRandomInput}
         isRemovedEnabled={isPop}
         addBtnText={"Enqueue"}
         removeBtnText={"Dequeue"}
+        maxLengthOfValue={4}
       />
 
       <div className="container mx-auto max-w-7xl px-0 md: py-0">
         <div className="flex flex-nowrap">
           {/*middle section */}
-          <Queue
-            headPosition={headPosition}
-            items={data}
-          />
+          <Queue headPosition={headPosition} items={data} />
 
           {/*rigth section */}
           <div className="basis-3/12">

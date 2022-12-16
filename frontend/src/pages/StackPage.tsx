@@ -1,13 +1,16 @@
 import { useState } from "react";
 import Stack from "../components/Simulation/Stack/Stack";
-import { StackItem } from "../components/Simulation/Stack/Stack";
 import { AnimatePresence, motion } from "framer-motion";
-import SqControlsPanel from "../components/Simulation/ControlsPanels/SqControlsPanel";
+import SqControlsPanel, {
+  Item,
+} from "../components/Simulation/ControlsPanels/SqControlsPanel";
+
+const MAX_ELEMENTS = 10;
 
 //The stack page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
 
 const StackPage = () => {
-  const [data, setData] = useState<StackItem[]>([]); //data of the stack
+  const [data, setData] = useState<Item[]>([]); //data of the stack
   const [isPop, setIsPop] = useState<boolean>(false);
 
   const popFromStack = () => {
@@ -28,22 +31,32 @@ const StackPage = () => {
   };
 
   const pushToStack = (value: string) => {
-    //add new elment at the start
-    const key = data.length;
-    const new_data = [{ value, key }, ...data];
-    setData(new_data);
+    if (data.length === MAX_ELEMENTS) {
+      window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
+    } else {
+      //add new elment at the start
+      const key = data.length;
+      const new_data = [{ value, key }, ...data];
+      setData(new_data);
+    }
+  };
+
+  const setRandomInput = (newData: Item[]) => {
+    setData(newData);
   };
 
   return (
     <>
       {/*top section */}
- 
+
       <SqControlsPanel
         removeHandler={popFromStack}
         addHandler={pushToStack}
+        setRandomInput={setRandomInput}
         isRemovedEnabled={isPop}
         addBtnText={"Push"}
         removeBtnText={"Pop"}
+        maxLengthOfValue={8}
       />
 
       <div className="container mx-auto max-w-7xl px-0 md: py-10">

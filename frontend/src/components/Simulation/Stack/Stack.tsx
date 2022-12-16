@@ -1,16 +1,12 @@
 import styles from "./Stack.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import arrowSvg from "../../../assets/undraw_arrow.svg";
+import { Item } from "../ControlsPanels/SqControlsPanel";
 
 //Animation of Stack
 
-export interface StackItem {
-  value: string;
-  key: number;
-}
-
 interface Props {
-  items: StackItem[]; //data of stack
+  items: Item[]; //data of stack
   children?: JSX.Element | JSX.Element[];
 }
 
@@ -61,7 +57,7 @@ export default function Stack(props: Props) {
       <ul className={styles.s_ul}>
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the stack data to motion.il /*/}
-          {props.items.map((elem: StackItem) => (
+          {props.items.map((elem: Item) => (
             <motion.li
               className={styles.s_li}
               initial={{ scale: 0.8, y: -50, opacity: 0.5 }}
