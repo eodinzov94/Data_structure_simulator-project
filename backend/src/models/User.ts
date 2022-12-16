@@ -9,7 +9,7 @@ class User extends Model<UserAttributes, IUserRegister> implements UserAttribute
   public firstName!: string
   public lastName!: string
   public gender!: string
-  public age!: Date
+  public age!: number
   public role!: string
   public lastSeen!: Date
   public password!: string
@@ -28,7 +28,7 @@ User.init({
   lastName: { type: DataTypes.STRING, allowNull: false },
   password: { type: DataTypes.STRING, allowNull: false },
   gender: { type: DataTypes.STRING, allowNull: false },
-  age: { type: DataTypes.DATE, allowNull: false },
+  age: { type: DataTypes.NUMBER, allowNull: false },
   isEnabled2FA: { type: DataTypes.BOOLEAN, defaultValue: false },
   isEmailConfirmed: { type: DataTypes.BOOLEAN, defaultValue: false },
   lastSeen: { type: DataTypes.DATE, allowNull: false  },

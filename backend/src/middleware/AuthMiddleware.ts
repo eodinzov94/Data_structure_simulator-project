@@ -16,7 +16,7 @@ const AuthMW = (req: RequestWithUser, res: Response, next: NextFunction) => {
     next()
   } catch (e) {
     console.log(e)
-    res.status(401).json({ message: 'Unauthorized ERR' })
+    res.status(401).json({ message: 'Unauthorized' })
   }
 }
 export default AuthMW

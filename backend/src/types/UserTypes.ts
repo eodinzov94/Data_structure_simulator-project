@@ -1,4 +1,3 @@
-
 export interface UserAttributes extends IUser{
   password:string
   createdAt?: Date
@@ -10,10 +9,17 @@ export interface IUserRegister {
   firstName:string
   lastName:string
   gender:string
-  age:Date
+  age:number
   role?:string
   lastSeen: Date
 }
+ export interface IUserUpdate{
+   firstName?:string
+   lastName?:string
+   gender?:string
+   age?:number
+ }
+
 export interface IUserLogin {
   email:string
   password:string
