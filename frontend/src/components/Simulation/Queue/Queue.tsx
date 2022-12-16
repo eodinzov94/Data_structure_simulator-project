@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
 import styles from "./Queue.module.css";
 import { AnimatePresence, motion, MotionValue } from "framer-motion";
 import arrowSvg from "../../../assets/undraw_arrow.svg";
 import { Position } from "../../../pages/QueuePage";
-//Animation of Stack
+import { Item } from "../ControlsPanels/SqControlsPanel";
 
-export interface StackItem {
-  value: string;
-  key: number;
-}
+
+
 
 interface Props {
-  items: StackItem[]; //data of stack
+  items: Item[]; //data of stack
   children?: JSX.Element | JSX.Element[];
   headPosition: Position;
 }
@@ -51,7 +48,7 @@ const Queue = (props: Props) => {
       <ul className={styles.s_ul}>
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the stack data to motion.il /*/}
-          {props.items.map((elem: StackItem) => (
+          {props.items.map((elem: Item) => (
             <motion.li
               className={styles.s_li}
               initial={{ scale: 0.8, x: 50, opacity: 0.5 }}

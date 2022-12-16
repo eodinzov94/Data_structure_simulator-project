@@ -5,10 +5,12 @@ import DropDown from "../components/UI/DropDown";
 import { ChartProps } from "../components/Charts/interface";
 import MediumCard from "../components/UI/MediumCard";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
+import LineChrat from "../components/Charts/Line";
 
 enum choices {
-  GENDER = "Gender",
+  USERS_GENDER = "Gender",
   USERS_AUTH = "Login & Registeration",
+  USERS_AGE = "Age",
 }
 
 const initialChartData: ChartProps = {
@@ -20,6 +22,7 @@ const GeneralReportsPage = () => {
   const [graphChoosen, setGraphChoosen] = useState("Choose report");
   const [genderData, setGenderData] = useState<ChartProps>(initialChartData);
   const [authData, setAuthData] = useState<ChartProps>(initialChartData);
+  const [ageData, setAgeData] = useState<ChartProps>(initialChartData);
 
   useEffect(() => {
     /******************LOAD DATA FROM SERVER!!!!*****************/
@@ -44,6 +47,19 @@ const GeneralReportsPage = () => {
     });
 
     //age data
+    setAgeData({
+      items: [
+        { key: "24", value: 45 },
+        { key: "28", value: 60 },
+        { key: "30", value: 35 },
+        { key: "35", value: 15 }
+
+      ],
+      title: "Information about the age",
+    });
+
+
+
   }, []);
 
   return (
@@ -54,11 +70,14 @@ const GeneralReportsPage = () => {
           items={Object.values(choices)}
           onClick={setGraphChoosen}
         />
-        {graphChoosen === choices.GENDER && (
+        {graphChoosen === choices.USERS_GENDER && (
           <DoughnutChart items={genderData.items} title={genderData.title} />
         )}
         {graphChoosen === choices.USERS_AUTH && (
           <BarChart items={authData.items} title={authData.title} />
+        )}
+        {graphChoosen === choices.USERS_AGE && (
+          <LineChrat items={ageData.items} title={ageData.title} />
         )}
       </MediumCard>
     </FloatUpContainer>

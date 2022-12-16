@@ -2,26 +2,46 @@ import { useState } from "react";
 import MediumCard from "../../UI/MediumCard";
 import SimulationInputGroup from "../../UI/SimulationInputGroup";
 
+export interface Item {
+  value: string;
+  key: number;
+}
+
 interface Props {
-  //Functions are implemented on the stack page
-  removeHandler: () => void; //remove from stack
-  addHandler: (value: string) => void; //function that gets the value and add to the the stack
+  //Functions are implemented on the stack/queue page
+  removeHandler: () => void; //remove from data
+  addHandler: (value: string) => void; //function that gets the value and add to the the data
+  setRandomInput?:(newData:Item[])=>void;
+
   isRemovedEnabled: boolean; //to prevent colision between pop animation
+  
   addBtnText: string;
   removeBtnText: string;
+  maxLengthOfValue:number;
 }
 
 const SqControlsPanel = (props: Props) => {
-  const [enteredValue, setEnteredValue] = useState<string>(""); //state for the value thatneed to be push
+  const [enteredValue, setEnteredValue] = useState<string>(""); //state for the value that need to be push
 
   const inputValueHandler = () => {
     const value = enteredValue; //get the input value
-    if (value.length) {
+    if (value.length > 0 && value.length<=props.maxLengthOfValue) {
       //checking that the value is not an empty string
       props.addHandler(value); //call the push function
       setEnteredValue(""); //reset the value
     }
+    else{
+      window.alert(`The length of the value must be at least 1 and less than ${props.maxLengthOfValue+1}`)
+    }
+
   };
+
+
+  const randomButtonHandler= ()=>{
+    const newData = [...Array(7)].map(() => (Math.floor(Math.random()*10000).toString() )).map((e,index)=>{return {key:index,value:e}}).reverse();
+    if (props.setRandomInput)
+      props.setRandomInput(newData);
+  }
 
   return (
     <MediumCard isSmaller={true}>
@@ -29,10 +49,9 @@ const SqControlsPanel = (props: Props) => {
         className="grid grid-cols-3 justify-items-center
         "
       >
-        {/*POP button */}
+        {/*Random input button */}
         <button
-          onClick={props.removeHandler}
-          disabled={props.isRemovedEnabled}
+          onClick={randomButtonHandler}
           className=" inline-block px-4 py-2.5 bg-lime-500 text-white font-medium text-md leading-tight  rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out"
         >
           Random
@@ -41,7 +60,7 @@ const SqControlsPanel = (props: Props) => {
         <SimulationInputGroup
           name={"value"}
           value={enteredValue}
-          maxVal={10}
+          maxVal={props.maxLengthOfValue}
           placeholder={"Enter value"}
           btnText={props.addBtnText}
           onChange={setEnteredValue}
