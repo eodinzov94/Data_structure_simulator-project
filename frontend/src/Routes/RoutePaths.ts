@@ -1,11 +1,18 @@
 export enum RoutePaths{
+    HOME = "/",
+
+    //Auth
     LOGIN = '/login',
     REGISTER = "/register",
-    HOME = "/",
     FORGOT_PASSWORD ='/forgotPassword',
-    STACK = "/stack",
+
+    //reports
     REPORTS = "/reports",
-    GENERAL_REPORTS = "/reports/general"
+    GENERAL_REPORTS = "/reports/general",
+    
+    //Animations
+    STACK = "/stack",
+    QUEUE = "/queue",
 
 }
 

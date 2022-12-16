@@ -7,14 +7,13 @@ import RegistrationPage from "../pages/RegistrationPage";
 import StackPage from "../pages/StackPage";
 import GeneralReportsPage from "../pages/GeneralReportsPage";
 import ReportsPage from "../pages/ReportsPage";
+import QueuePage from "../pages/QueuePage";
 
 
 export interface RouteItem {
   path: string;
   element: React.ComponentType;
 }
-
-
 
 //route for non-logged in users
 export const publicRoutes: RouteItem[] = [
@@ -26,11 +25,12 @@ export const publicRoutes: RouteItem[] = [
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
+  { path: RoutePaths.QUEUE, element: QueuePage },
+
 ];
 
 export const adminRoutes: RouteItem[] = [
   { path: RoutePaths.REPORTS, element: ReportsPage },
   { path: RoutePaths.GENERAL_REPORTS, element: GeneralReportsPage },
-
 
 ];

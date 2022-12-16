@@ -1,16 +1,27 @@
-import { useState } from "react";
-import Stack from "../components/Simulation/Stack/Stack";
+import { useEffect, useState } from "react";
 import { StackItem } from "../components/Simulation/Stack/Stack";
 import { AnimatePresence, motion } from "framer-motion";
-import SqControlsPanel from "../components/Simulation/ControlsPanels/SqControlsPanel";
+import Queue from "../components/Simulation/Queue/Queue";
+import ControlsPanel from "../components/Simulation/ControlsPanels/SqControlsPanel";
 
 //The stack page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
+export interface Position {
+  curr: number;
+  prev: number;
+}
 
-const StackPage = () => {
+const QueuePage = () => {
   const [data, setData] = useState<StackItem[]>([]); //data of the stack
   const [isPop, setIsPop] = useState<boolean>(false);
+  const [keyValue, setKeyValue] = useState<number>(0);
+  const [headPosition, setHeadPosition] = useState<Position>({
+    curr: 0,
+    prev: 35,
+  });
+  //   const [xPosition, setXPosition] = useState(35);
+  //   const [xPrevPosition, setXPrevPosition] = useState(70);
 
-  const popFromStack = () => {
+  const Dequeue = () => {
     if (data.length > 0) {
       //if the stack is not empty
       //copy data and remove first element
@@ -18,7 +29,9 @@ const StackPage = () => {
       const new_data = [...data];
       new_data.splice(0, 1);
       setData(new_data); //update data
-
+      setHeadPosition((prevState) => {
+        return { curr: prevState.curr + 35, prev: prevState.curr };
+      });
       setIsPop(true);
 
       setTimeout(() => {
@@ -27,32 +40,39 @@ const StackPage = () => {
     }
   };
 
-  const pushToStack = (value: string) => {
+  const Enqueue = (value: string) => {
     //add new elment at the start
-    const key = data.length;
-    const new_data = [{ value, key }, ...data];
+    const new_data = [...data, { value, key: keyValue }];
+    setKeyValue((prevState) => {
+      return prevState + 1;
+    });
+    setHeadPosition((prevState) => {
+        return { curr: prevState.curr - 35, prev: prevState.curr };
+      });
     setData(new_data);
   };
 
   return (
     <>
       {/*top section */}
- 
-      <SqControlsPanel
-        removeHandler={popFromStack}
-        addHandler={pushToStack}
+      <ControlsPanel
+        removeHandler={Dequeue}
+        addHandler={Enqueue}
         isRemovedEnabled={isPop}
-        addBtnText={"Push"}
-        removeBtnText={"Pop"}
+        addBtnText={"Enqueue"}
+        removeBtnText={"Dequeue"}
       />
 
-      <div className="container mx-auto max-w-7xl px-0 md: py-10">
+      <div className="container mx-auto max-w-7xl px-0 md: py-0">
         <div className="flex flex-nowrap">
           {/*middle section */}
-          <Stack items={data} />
+          <Queue
+            headPosition={headPosition}
+            items={data}
+          />
 
           {/*rigth section */}
-          <div className="basis-4/12">
+          <div className="basis-3/12">
             Pseudo code:
             <ul>
               <motion.li
@@ -96,4 +116,4 @@ const StackPage = () => {
   );
 };
 
-export default StackPage;
+export default QueuePage;
