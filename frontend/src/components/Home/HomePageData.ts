@@ -12,13 +12,6 @@ import hashPhoto from '../../assets/Gallery/hashPhoto.png'
 
 const HomePageData = [
   {
-    title: "Sorts",
-    image: "https://bit.ly/3BQdTqk",
-    gif:'',
-    url: "/login",
-    description: "click to see all the sort options",
-  },
-  {
     title: "Stack",
     gif:stackGif,
     image: stackPhoto,
@@ -28,7 +21,14 @@ const HomePageData = [
     title: "Queue",
     gif:queueGif,
     image: queuePhoto,
+    url: "/queue",
+  },
+  {
+    title: "Sorts",
+    image: "https://bit.ly/3BQdTqk",
+    gif:'',
     url: "/login",
+    description: "click to see all the sort options",
   },
   {
     title: "Trees",
@@ -37,17 +37,16 @@ const HomePageData = [
     url: "/login",
     description: "click to see all the trees options",
   },
-  
-  {
-    title: "Hash table",
-    gif: hashGif,
-    image: hashPhoto,
-    url: "/login",
-  },
   {
     title: "Heap",
     gif:heapGif,
     image: heapPhoto,
+    url: "/login",
+  },
+  {
+    title: "Hash table",
+    gif: hashGif,
+    image: hashPhoto,
     url: "/login",
   },
 ];
