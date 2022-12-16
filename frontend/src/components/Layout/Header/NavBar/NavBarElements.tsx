@@ -1,7 +1,7 @@
 import { Popover } from "@headlessui/react";
 import {
   resources,
-  solutions,
+  //solutions,
   // recentPosts,
   // callsToAction,
 } from "../HeaderData";

@@ -1,4 +1,4 @@
-import DS_Card from "./DS_Card";
+import DsCard from "./DsCard";
 import HomePageData from "./HomePageData";
 
 
@@ -8,7 +8,7 @@ const HomeGallery = () => {
       <section className="container mx-auto px-0 md:px- py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 justify-items-center gap-12">
           {HomePageData.map((element, index) => (
-            <DS_Card
+            <DsCard
               key={index}
               title={element.title}
               image={element.image}

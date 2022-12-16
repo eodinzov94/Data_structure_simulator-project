@@ -10,7 +10,7 @@ interface Props {
   description?: string;
 }
 
-const DS_Card = ({ title, image, url, description, gif }: Props) => {
+const DsCard = ({ title, image, url, description, gif }: Props) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
@@ -58,4 +58,4 @@ const DS_Card = ({ title, image, url, description, gif }: Props) => {
   );
 };
 
-export default DS_Card;
+export default DsCard;

@@ -51,12 +51,27 @@
 
 
 .topArrow {
-  width:3rem;
-  /* margin-right:1rem; */
+  width:2.5rem;
+  margin-left: 1.5rem;
+  transform: rotate(45deg);
+  /* margin-bottom:-3rem; */
+}
+
+.bottomArrow {
+  width:2.5rem;
+  transform: rotate(-135deg);
+  /* margin-bottom:-3rem; */
 }
 
 .topText {
   width:3rem;
   /* margin-left: -2rem; */
+  font: bold 20px sans-serif;
+}
+
+.bottomText {
+  width:3rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
   font: bold 20px sans-serif;
 }
