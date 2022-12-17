@@ -21,7 +21,7 @@ class StatisticsController {
     return res.json({usersCount})
   }
   async usersDetails(req: Request, res: Response, next: NextFunction) {
-     const allUsers = await User.findAll({attributes: ['email','gender', 'age','firstName','lastName','lastSeen']})
+     const allUsers = await User.findAll({attributes: ['email','gender', 'birthYear','firstName','lastName','lastSeen']})
      return res.json({allUsers})
   }
 }

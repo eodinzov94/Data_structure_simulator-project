@@ -9,7 +9,7 @@ export interface IUserRegister {
   firstName:string
   lastName:string
   gender:string
-  age:number
+  birthYear:number
   role?:string
   lastSeen: Date
 }
@@ -17,7 +17,7 @@ export interface IUserRegister {
    firstName?:string
    lastName?:string
    gender?:string
-   age?:number
+   birthYear?:number
  }
 
 export interface IUserLogin {

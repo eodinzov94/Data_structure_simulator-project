@@ -4,13 +4,11 @@ import User from '../models/User.js'
 import { IUser, IUserLogin, IUserRegister, IUserUpdate } from '../types/UserTypes.js'
 import { NextFunction, Response } from 'express'
 import { RequestWithUser, TypedRequestBody } from '../types/RequestType.js'
-import validator from 'validator'
 import pkg from 'jsonwebtoken'
 import { ActivityBody } from '../types/UserActivityTypes.js'
 import UserActivity from '../models/UserActivity.js'
 import { ServiceSendCode } from './TwoFactorAuthController.js'
 import { CODE_TYPES, TWOFA_VERIFY_BODY } from '../types/TWOFA_Types.js'
-
 
 const { sign } = pkg
 
@@ -22,7 +20,7 @@ const generateJwt = (user: IUser) => {
       firstName: user.firstName,
       lastName: user.lastName,
       gender: user.gender,
-      age: user.age,
+      birthYear: user.birthYear,
       role: user.role,
       isEmailConfirmed: user.isEmailConfirmed,
       isEnabled2FA: user.isEnabled2FA,
@@ -32,15 +30,11 @@ const generateJwt = (user: IUser) => {
   )
 }
 
-
 class UserController {
 
 
   async registration(req: TypedRequestBody<IUserRegister>, res: Response, next: NextFunction) {
-    const { email, age, gender, lastName, firstName, password, role } = req.body
-    if (!validator.default.isEmail(email)) {
-      return next(ApiError.badRequest('Incorrect email'))
-    }
+    const { email, birthYear, gender, lastName, firstName, password, role } = req.body
     if (!password || password.length < 8) {
       return next(ApiError.badRequest('Password should be at least 8 char length'))
     }
@@ -55,7 +49,7 @@ class UserController {
     try {
       const user = await User.create(
         {
-          email, age, gender,
+          email, birthYear: birthYear, gender,
           lastName, firstName, role,
           password: hashPassword,
           lastSeen: new Date(),
@@ -63,53 +57,53 @@ class UserController {
       const token = generateJwt(user)
       return res.json({ token })
     } catch (e: any) {
-      console.log(e)
-      const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Input error'
-      return res.json(ApiError.badRequest(message))
+      return res.json(ApiError.badRequest('Input error'))
     }
 
   }
 
   async login(req: TypedRequestBody<IUserLogin>, res: Response, next: NextFunction) {
-    try{
-    const { email, password } = req.body
-    const user = await User.findOne({ where: { email } })
-    if (!user) {
-      return next(ApiError.internal('Incorrect email or password'))
-    }
-    const comparePassword = bcrypt.compareSync(password, user.password)
-    if (!comparePassword) {
-      return next(ApiError.internal('Incorrect email or password'))
-    }
-    if(!user.isEnabled2FA){
-      const token = generateJwt(user)
-      return res.json({ token,status:'OK' })
-    }
+    try {
+      const { email, password } = req.body
+      const user = await User.findOne({ where: { email } })
+      if (!user) {
+        return next(ApiError.forbidden('Incorrect email or password'))
+      }
+      const comparePassword = bcrypt.compareSync(password, user.password)
+      if (!comparePassword) {
+        return next(ApiError.forbidden('Incorrect email or password'))
+      }
+      if (!user.isEnabled2FA) {
+        const token = generateJwt(user)
+        return res.json({ token, status: 'OK' })
+      }
       await ServiceSendCode(CODE_TYPES.TWO_FA, user.email)
-      return res.json({ status:'Redirect-2FA' })
-    }catch (e:any) {
+      return res.json({ status: 'Redirect-2FA' })
+    } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
       return res.json(ApiError.badRequest(message))
     }
 
   }
+
   async login2FA(req: TypedRequestBody<TWOFA_VERIFY_BODY>, res: Response, next: NextFunction) {
-    try{
-      const {email} = req.body
+    try {
+      const { email } = req.body
       const user = await User.findOne({ where: { email } })
       if (!user) {
         return next(ApiError.internal('User does not exists'))
       }
       const token = generateJwt(user)
-      return res.json({ token,status:'OK' })
-    }catch (e:any) {
+      return res.json({ token, status: 'OK' })
+    } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
       return res.json(ApiError.badRequest(message))
     }
 
   }
+
   async auth(req: RequestWithUser, res: Response, next: NextFunction) {//TODO:last seen updated
     return res.json({ user: req.user })
   }
@@ -140,7 +134,7 @@ class UserController {
   }
 
   async updateUser(req: TypedRequestBody<IUserUpdate>, res: Response, next: NextFunction) {
-    const { firstName, lastName, gender, age } = req.body
+    const { firstName, lastName, gender, birthYear } = req.body
     const fieldsToUpdate: IUserUpdate = {}
     if (firstName) {
       fieldsToUpdate.firstName = firstName
@@ -151,8 +145,8 @@ class UserController {
     if (gender) {
       fieldsToUpdate.gender = gender
     }
-    if (age) {
-      fieldsToUpdate.age = age
+    if (birthYear) {
+      fieldsToUpdate.birthYear = birthYear
     }
 
     try {

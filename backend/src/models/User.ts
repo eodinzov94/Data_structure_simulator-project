@@ -9,7 +9,7 @@ class User extends Model<UserAttributes, IUserRegister> implements UserAttribute
   public firstName!: string
   public lastName!: string
   public gender!: string
-  public age!: number
+  public birthYear!: number
   public role!: string
   public lastSeen!: Date
   public password!: string
@@ -23,12 +23,12 @@ class User extends Model<UserAttributes, IUserRegister> implements UserAttribute
 
 User.init({
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  email: { type: DataTypes.STRING, unique: true, allowNull: false },
+  email: { type: DataTypes.STRING, unique: true, allowNull: false,validate:{isEmail:true} },
   firstName: { type: DataTypes.STRING, allowNull: false },
   lastName: { type: DataTypes.STRING, allowNull: false },
   password: { type: DataTypes.STRING, allowNull: false },
   gender: { type: DataTypes.STRING, allowNull: false },
-  age: { type: DataTypes.NUMBER, allowNull: false },
+  birthYear: { type: DataTypes.INTEGER, allowNull: false , validate:{min:new Date().getFullYear()-120,max:new Date().getFullYear()-16}},
   isEnabled2FA: { type: DataTypes.BOOLEAN, defaultValue: false },
   isEmailConfirmed: { type: DataTypes.BOOLEAN, defaultValue: false },
   lastSeen: { type: DataTypes.DATE, allowNull: false  },
@@ -39,45 +39,3 @@ User.init({
 })
 
 export default User
-
-/*
-email TYPE - ACTIVATE/2FA/PWCHANGE/PWRESET      CODE      VALID_DATE
-
-email  TYPE - SUBJECT       SUBTYPE        ACTION    DATE    COUNT
-
-
-
-
---ACTIVE USERS
-SELECT COUNT(*) FROM USERS
-WHERE LASTSEEN >= SYSDATE -14 AND ROLE = STUDENT
-
---Total USERS
-SELECT COUNT(*) FROM USERS
-WHERE ROLE = STUDENT
-
-SELECT COUNT(GENDER),AVG(AGE) FROM USERS
-WHERE  ROLE = STUDENT
-GROUP BY GENDER
-
-
-SELECT COUNT(*) , SUBJECT
-WHERE  ROLE = STUDENT
-GROUP BY SUBJECT
-
-
-SELECT COUNT(*) , SUBJECT,SUBTYPE
-WHERE  ROLE = STUDENT
-GROUP BY SUBTYPE
-
-
-SELECT COUNT(*) , SUBJECT,SUBTYPE,ACTION
-WHERE  ROLE = STUDENT
-GROUP BY ACTION
-
-
-SELECT MAX(ACTION_DATE)
-WHERE  USERID = ID
-
-
-*/
