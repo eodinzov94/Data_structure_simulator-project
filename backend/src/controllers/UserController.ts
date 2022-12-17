@@ -57,7 +57,7 @@ class UserController {
       const token = generateJwt(user)
       return res.json({ token })
     } catch (e: any) {
-      return res.json(ApiError.badRequest('Input error'))
+      return next(ApiError.badRequest('Input error'))
     }
 
   }
@@ -82,7 +82,7 @@ class UserController {
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
-      return res.json(ApiError.badRequest(message))
+      return next(ApiError.badRequest(message))
     }
 
   }
@@ -99,7 +99,7 @@ class UserController {
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
-      return res.json(ApiError.badRequest(message))
+      return next(ApiError.badRequest(message))
     }
 
   }
@@ -127,8 +127,8 @@ class UserController {
       await User.update({ lastSeen: new Date() }, { where: { id } })
     } catch (e: any) {
       if (e?.errors && e.errors.length && e.errors[0].message)
-        return res.json(ApiError.badRequest(e?.errors[0]?.message))
-      return res.json(ApiError.badRequest('Input error'))
+        return next(ApiError.badRequest(e?.errors[0]?.message))
+      return next(ApiError.badRequest('Input error'))
     }
     return res.json({ result: 'Success' })
   }
@@ -148,13 +148,16 @@ class UserController {
     if (birthYear) {
       fieldsToUpdate.birthYear = birthYear
     }
-
+    const fields = Object.keys(fieldsToUpdate)
+    if(fields.length === 0){
+      return next(ApiError.badRequest('No fields to update'))
+    }
     try {
       await User.update({ ...fieldsToUpdate }, { where: { email: req.user?.email } })
       return res.json({ status: 'User updated successfully' })
     } catch (e: any) {
       const message = e?.errors.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Input error'
-      return res.json(ApiError.badRequest(message))
+      return next(ApiError.badRequest(message))
     }
 
   }

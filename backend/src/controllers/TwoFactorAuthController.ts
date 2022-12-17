@@ -46,7 +46,7 @@ class TwoFactorAuthController {
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Input error'
-      return res.json(ApiError.badRequest(message))
+      return next(ApiError.badRequest(message))
     }
   }
 
@@ -75,7 +75,7 @@ class TwoFactorAuthController {
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Input error'
-      return res.json(ApiError.badRequest(message))
+      return next(ApiError.badRequest(message))
     }
   }
 
