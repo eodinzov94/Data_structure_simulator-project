@@ -9,7 +9,8 @@ export enum RoutePaths{
     //reports
     REPORTS = "/reports",
     GENERAL_REPORTS = "/reports/general",
-    
+    ALGORITHMS_REPORTS = "/reports/algorithms",
+
     //Animations
     STACK = "/stack",
     QUEUE = "/queue",

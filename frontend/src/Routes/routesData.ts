@@ -8,7 +8,7 @@ import StackPage from "../pages/StackPage";
 import GeneralReportsPage from "../pages/GeneralReportsPage";
 import ReportsPage from "../pages/ReportsPage";
 import QueuePage from "../pages/QueuePage";
-
+import AlgorithmsReportPage from "../pages/AlgorithmsReportsPage";
 
 export interface RouteItem {
   path: string;
@@ -26,11 +26,10 @@ export const publicRoutes: RouteItem[] = [
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
-
 ];
 
 export const adminRoutes: RouteItem[] = [
   { path: RoutePaths.REPORTS, element: ReportsPage },
   { path: RoutePaths.GENERAL_REPORTS, element: GeneralReportsPage },
-
+  { path: RoutePaths.ALGORITHMS_REPORTS, element: AlgorithmsReportPage },
 ];

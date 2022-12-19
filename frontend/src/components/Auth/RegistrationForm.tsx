@@ -17,7 +17,7 @@ import {
 const initialState = {
   firstName: "",
   lastName: "",
-  age: 0,
+  BirthYear: 0,
   email: "",
   password: "",
   ConfirmPassword: "",
@@ -128,21 +128,21 @@ const RegistrationForm = () => {
           />
         </div>
 
-        {/* Age */}
+        {/* Birth Year */}
         <div>
-          <label htmlFor="Age" className="sr-only">
-            Age
+          <label htmlFor="BirthYear" className="sr-only">
+          Birth Year
           </label>
           <input
             onChange={onChangeHandler}
-            id="Age"
-            name="age"
+            id="BirthYear"
+            name="BirthYear"
             type="number"
-            min={1}
-            max={120}
+            max={new Date().getFullYear()-16}
+            min={new Date().getFullYear()-120}
             required
             className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-            placeholder="Age"
+            placeholder="Birth year"
           />
         </div>
 
