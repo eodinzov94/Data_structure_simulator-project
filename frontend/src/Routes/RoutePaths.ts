@@ -5,6 +5,7 @@ export enum RoutePaths{
     LOGIN = '/login',
     REGISTER = "/register",
     FORGOT_PASSWORD ='/forgotPassword',
+    REGISTER_LECTURER="/register-lecturer",
 
     //reports
     REPORTS = "/reports",
@@ -14,6 +15,9 @@ export enum RoutePaths{
     //Animations
     STACK = "/stack",
     QUEUE = "/queue",
+
+    //feedbacks
+    ADD_FEEDBACK = "/add-feedback"
 
 }
 

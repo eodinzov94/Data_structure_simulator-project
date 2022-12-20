@@ -1,4 +1,4 @@
-import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import { EnvelopeIcon } from '@heroicons/react/24/solid'
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckEmail } from "./AuthFunctions";
@@ -75,7 +75,7 @@ const ForgotPasswordForm = (props:ContentProps) => {
         type={"submit"}
         title={"Send code"}
         icon={
-          <ArrowPathIcon
+          <EnvelopeIcon
             className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}
             aria-hidden="true"
           />

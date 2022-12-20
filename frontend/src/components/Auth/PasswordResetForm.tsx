@@ -1,8 +1,7 @@
 import ErrorMsg from "../UI/ErrorMsg";
 import { useState, useRef } from "react";
 import FormButton from "./FormButton";
-import { ArrowPathIcon } from "@heroicons/react/20/solid";
-import { ContentProps } from "../../pages/ForgotPasswordPage";
+import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
 import { CheckPassword, CheckConfirmPassword } from "./AuthFunctions";
 
 interface Props{
@@ -50,9 +49,6 @@ const PasswordResetForm = (props:Props)=>{
         <input type="hidden" name="remember" defaultValue="true" />
         <div className="-space-y-px rounded-md shadow-sm">
           <div>
-            <label htmlFor="email-address" className="sr-only">
-              Email address
-            </label>
             <input
               id="passord1"
               name="passord1"
@@ -81,9 +77,9 @@ const PasswordResetForm = (props:Props)=>{
         )}
         <FormButton
           type={"submit"}
-          title={"Send code"}
+          title={"Change Password"}
           icon={
-            <ArrowPathIcon
+            <ClipboardDocumentListIcon
               className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}
               aria-hidden="true"
             />
@@ -91,6 +87,9 @@ const PasswordResetForm = (props:Props)=>{
         />
       </form>
     );
+
+
+
 }
 
 export default PasswordResetForm;
