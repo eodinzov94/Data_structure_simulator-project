@@ -9,6 +9,8 @@ import heapGif from '../../assets/Gallery/heapGif.gif'
 import heapPhoto from '../../assets/Gallery/heapPhoto.png'
 import hashGif from '../../assets/Gallery/hashGif.gif'
 import hashPhoto from '../../assets/Gallery/hashPhoto.png'
+import sortsGif from '../../assets/Gallery/sortsGif.gif'
+import sortsPhoto from '../../assets/Gallery/sortsPhoto.png'
 
 const HomePageData = [
   {
@@ -25,8 +27,8 @@ const HomePageData = [
   },
   {
     title: "Sorts",
-    image: "https://bit.ly/3BQdTqk",
-    gif:'',
+    image: sortsPhoto,
+    gif:sortsGif,
     url: "/login",
     description: "click to see all the sort options",
   },
