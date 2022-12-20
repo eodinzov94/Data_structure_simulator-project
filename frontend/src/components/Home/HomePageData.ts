@@ -1,55 +1,102 @@
 import { RoutePaths } from "../../Routes/RoutePaths";
-import stackGif from '../../assets/Gallery/stackGif.gif'
-import stackPhoto from '../../assets/Gallery/stackPhoto.png'
-import queueGif from '../../assets/Gallery/queueGif.gif'
-import queuePhoto from '../../assets/Gallery/queuePhoto.png'
-import treeGif from '../../assets/Gallery/treeGif.gif'
-import treePhoto from '../../assets/Gallery/treePhoto.png'
-import heapGif from '../../assets/Gallery/heapGif.gif'
-import heapPhoto from '../../assets/Gallery/heapPhoto.png'
-import hashGif from '../../assets/Gallery/hashGif.gif'
-import hashPhoto from '../../assets/Gallery/hashPhoto.png'
-import sortsGif from '../../assets/Gallery/sortsGif.gif'
-import sortsPhoto from '../../assets/Gallery/sortsPhoto.png'
+import stackGif from "../../assets/Gallery/stackGif.gif";
+import stackPhoto from "../../assets/Gallery/stackPhoto.png";
+import queueGif from "../../assets/Gallery/queueGif.gif";
+import queuePhoto from "../../assets/Gallery/queuePhoto.png";
+import treeGif from "../../assets/Gallery/treeGif.gif";
+import treePhoto from "../../assets/Gallery/treePhoto.png";
+import heapGif from "../../assets/Gallery/heapGif.gif";
+import heapPhoto from "../../assets/Gallery/heapPhoto.png";
+import hashGif from "../../assets/Gallery/hashGif.gif";
+import hashPhoto from "../../assets/Gallery/hashPhoto.png";
+import sortsGif from "../../assets/Gallery/sortsGif.gif";
+import sortsPhoto from "../../assets/Gallery/sortsPhoto.png";
+
+const sortTypes = [
+  {
+    name: "Radix Sort",
+    url: "/radixtsort",
+  },
+  {
+    name: "Quick Sort",
+    url: "/quicksort",
+  },
+  {
+    name: "Merge Sort",
+    url: "/mergesort",
+  },
+  {
+    name: "Bucket Sort",
+    url: "/bucketsort",
+  },
+  {
+    name: "Insertion Sort",
+    url: "/insertionsort",
+  },
+  {
+    name: "Counting Sort",
+    url: "/countingsort",
+  },
+];
+
+const treeType = [
+  {
+    name: "Regular Tree",
+    url: "tree",
+  },
+  {
+    name: "Binary Search Tree",
+    url: "bst",
+  },
+  {
+    name: "Avl Tree",
+    url: "avltree",
+  },
+];
 
 const HomePageData = [
   {
     title: "Stack",
-    gif:stackGif,
+    gif: stackGif,
     image: stackPhoto,
     url: RoutePaths.STACK,
   },
   {
     title: "Queue",
-    gif:queueGif,
+    gif: queueGif,
     image: queuePhoto,
     url: "/queue",
-  },
-  {
-    title: "Sorts",
-    image: sortsPhoto,
-    gif:sortsGif,
-    url: "/login",
-    description: "click to see all the sort options",
-  },
-  {
-    title: "Trees",
-    gif: treeGif,
-    image: treePhoto,
-    url: "/login",
-    description: "click to see all the trees options",
-  },
-  {
-    title: "Heap",
-    gif:heapGif,
-    image: heapPhoto,
-    url: "/login",
   },
   {
     title: "Hash table",
     gif: hashGif,
     image: hashPhoto,
     url: "/login",
+  },
+
+  {
+    title: "Trees",
+    gif: treeGif,
+    image: treePhoto,
+    url: "",
+    description: "Click to see all the trees options",
+    expended: true,
+    expendedList:treeType
+  },
+  {
+    title: "Heap",
+    gif: heapGif,
+    image: heapPhoto,
+    url: "/login",
+  },
+  {
+    title: "Sorts",
+    image: sortsPhoto,
+    gif: sortsGif,
+    url: "",
+    description: "Click to see all the sort options",
+    expended: true,
+    expendedList: sortTypes,
   },
 ];
 
