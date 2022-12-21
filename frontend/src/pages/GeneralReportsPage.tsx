@@ -85,7 +85,6 @@ const GeneralReportsPage = () => {
   return (
     <FloatUpContainer>
       <MediumCard>
-        <ExportExcel fileName="general-reports" csvData={getDataToExport()} />
         <DropDown
           title={graphChoosen}
           items={Object.values(choices)}
@@ -100,6 +99,8 @@ const GeneralReportsPage = () => {
         {graphChoosen === choices.USERS_AGE && (
           <LineChrat items={ageData.items} title={ageData.title} />
         )}
+        <ExportExcel fileName="general-reports" csvData={getDataToExport()} />
+
       </MediumCard>
     </FloatUpContainer>
   );

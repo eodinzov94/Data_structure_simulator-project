@@ -6,7 +6,7 @@ import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 import { ContentProps } from "../../pages/ForgotPasswordPage";
-const ForgotPasswordForm = (props:ContentProps) => {
+const EmailForVarification = (props:ContentProps) => {
   const enteredEmail = useRef<HTMLInputElement>(null);
   const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
 
@@ -85,4 +85,4 @@ const ForgotPasswordForm = (props:ContentProps) => {
   );
 };
 
-export default ForgotPasswordForm;
+export default EmailForVarification;
