@@ -1,6 +1,5 @@
 import { mainColor, mainHoverColor } from "../styles/tColors";
-import FloatUpContainer from "../components/UI/FloatUpContainer";
-import { faviconLime500, forgotPasswordLime500 } from "../utils/logos";
+import {  forgotPasswordLime500 } from "../utils/logos";
 import ForgotPasswordForm from "../components/Auth/ForgotPasswordForm";
 import AuthWrapper from "../components/Auth/AuthWrapper";
 import { useState } from "react";

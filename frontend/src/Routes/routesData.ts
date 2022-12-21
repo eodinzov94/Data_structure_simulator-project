@@ -11,6 +11,7 @@ import QueuePage from "../pages/QueuePage";
 import AlgorithmsReportPage from "../pages/AlgorithmsReportsPage";
 import RegisterLecturerPage from "../pages/RegisterLecturerPage";
 import AddFeedbackPage from "../components/Auth/AddFeedBackPage";
+import FeedbacksPage from "../pages/FeedbacksPage";
 
 export interface RouteItem {
   path: string;
@@ -37,5 +38,6 @@ export const lecturerRoutes: RouteItem[] = [
   { path: RoutePaths.GENERAL_REPORTS, element: GeneralReportsPage },
   { path: RoutePaths.ALGORITHMS_REPORTS, element: AlgorithmsReportPage },
   { path: RoutePaths.REGISTER_LECTURER, element: RegisterLecturerPage },
+  { path: RoutePaths.ALL_FEEDBACKS, element: FeedbacksPage },
 
 ];
