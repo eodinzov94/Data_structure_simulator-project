@@ -1,7 +1,5 @@
 import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
 import { mainColor, mainHoverColor } from "../../styles/tColors";
-import RadioButton from "../UI/RadioButton";
-import { UserIcon } from "@heroicons/react/24/solid";
 import FormButton from "./FormButton";
 import { useState } from "react";
 import ErrorMsg from "../UI/ErrorMsg";
@@ -17,24 +15,16 @@ import {
 const initialState = {
   firstName: "",
   lastName: "",
-  BirthYear: 0,
   email: "",
   password: "",
   ConfirmPassword: "",
-  gender: "Male",
 };
-const GENDER = ["Male", "Female"];
 
-const RegistrationForm = () => {
+const RegisterLecturerForm = () => {
   const [dataEntered, setDataEntered] = useState(initialState);
   const [errorMsgs, setErrorMsg] = useState<string[]>([]);
   let history = useHistory();
 
-  const onChangeGender = (index: number) => {
-    setDataEntered((prevstate) => {
-      return { ...prevstate, gender: GENDER[index] };
-    });
-  };
   const onChangeHandler = (event: any) => {
     setDataEntered((prevstate) => {
       return { ...prevstate, [event.target.name]: event.target.value };
@@ -127,23 +117,6 @@ const RegistrationForm = () => {
           />
         </div>
 
-        {/* Birth Year */}
-        <div>
-          <label htmlFor="BirthYear" className="sr-only">
-          Birth Year
-          </label>
-          <input
-            onChange={onChangeHandler}
-            id="BirthYear"
-            name="BirthYear"
-            type="number"
-            max={new Date().getFullYear()-16}
-            min={new Date().getFullYear()-120}
-            required
-            className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-            placeholder="Birth year"
-          />
-        </div>
 
         {/* email */}
         <div>
@@ -196,26 +169,12 @@ const RegistrationForm = () => {
         </div>
       </div>
 
-      <RadioButton
-        labelText="Gender"
-        onChange={onChangeGender}
-        options={[
-          <div className="flex flex-1 justify-around">
-            <span>{GENDER[0]}</span>
-            <UserIcon className="w-4" />
-          </div>,
-          <div className="flex  flex-1 justify-around">
-            <span>{GENDER[1]}</span>
-            <UserIcon className="w-4" />
-          </div>,
-        ]}
-      />
 
       {errorMsgs.length !== 0 && <ErrorMsg ErrorMessages={errorMsgs} />}
 
       <FormButton
         type={"submit"}
-        title={"Sign up"}
+        title={"Register"}
         icon={
           <ClipboardDocumentListIcon
             className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}
@@ -227,4 +186,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default RegisterLecturerForm;

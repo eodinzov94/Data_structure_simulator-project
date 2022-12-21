@@ -1,12 +1,12 @@
-import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import { EnvelopeIcon } from '@heroicons/react/24/solid'
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckEmail } from "./AuthFunctions";
 import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
-
-const ForgotPasswordForm = () => {
+import { ContentProps } from "../../pages/ForgotPasswordPage";
+const ForgotPasswordForm = (props:ContentProps) => {
   const enteredEmail = useRef<HTMLInputElement>(null);
   const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
 
@@ -30,8 +30,14 @@ const ForgotPasswordForm = () => {
       return;
     }
 
-    //Send request to the server!!!!!!!!!!!!!!!!!!!!
-   history.replace(RoutePaths.LOGIN);
+    //Send request to the server!!!!
+    
+
+    //if error display the error
+
+    //if the email was sent, change the page to input code page
+    props.onConfirm() 
+
   };
 
   return (
@@ -67,9 +73,9 @@ const ForgotPasswordForm = () => {
       )}
       <FormButton
         type={"submit"}
-        title={"Reset Password"}
+        title={"Send code"}
         icon={
-          <ArrowPathIcon
+          <EnvelopeIcon
             className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}
             aria-hidden="true"
           />

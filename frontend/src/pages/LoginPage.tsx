@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import { loginImgLime500 } from "../utils/logos";
 import AuthCard from "../components/Auth/AuthCard";
-import GoogleButton from "../components/Auth/GoogleButton";
 
 const LoginPage = () => {
   const FPstr: string = `font-medium text-${mainColor} hover:text-${mainHoverColor}`;
@@ -20,11 +19,7 @@ const LoginPage = () => {
             </Link>
           </p>
           <LoginForm />
-          <p className="mt-2 text-center text-sm ">
-            ________________________________________
-          </p>
           <br />
-          <GoogleButton />
         </AuthCard>
       </FloatUpContainer>
 
