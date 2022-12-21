@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Queue from "../components/Simulation/Queue/Queue";
 import ControlsPanel, {
   Item,
@@ -21,6 +21,8 @@ const QueuePage = () => {
     curr: 0,
     prev: 35,
   });
+  const [tailPosition, setTailPosition] = useState<number>(-35);
+
   //   const [xPosition, setXPosition] = useState(35);
   //   const [xPrevPosition, setXPrevPosition] = useState(70);
 
@@ -35,6 +37,9 @@ const QueuePage = () => {
       setHeadPosition((prevState) => {
         return { curr: prevState.curr + 35, prev: prevState.curr };
       });
+      setTailPosition((prevState) => {
+        return prevState-35;
+      });
       setIsPop(true);
 
       setTimeout(() => {
@@ -44,7 +49,7 @@ const QueuePage = () => {
   };
 
   const Enqueue = (value: string) => {
-    if (data.length == MAX_ELEMENTS) {
+    if (data.length === MAX_ELEMENTS) {
       window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
     } else {
       //add new elment at the start
@@ -54,6 +59,9 @@ const QueuePage = () => {
       });
       setHeadPosition((prevState) => {
         return { curr: prevState.curr - 35, prev: prevState.curr };
+      });
+      setTailPosition((prevState) => {
+        return prevState+35;
       });
       setData(new_data);
     }
@@ -85,7 +93,7 @@ const QueuePage = () => {
       <div className="container mx-auto max-w-7xl px-0 md: py-0">
         <div className="flex flex-nowrap">
           {/*middle section */}
-          <Queue headPosition={headPosition} items={data} />
+          <Queue headPosition={headPosition} tailPosition={tailPosition} items={data} />
 
           {/*rigth section */}
           <div className="basis-3/12">

@@ -1,48 +1,30 @@
 import styles from "./Queue.module.css";
-import { AnimatePresence, motion, MotionValue } from "framer-motion";
-import arrowSvg from "../../../assets/undraw_arrow.svg";
+import { AnimatePresence, motion } from "framer-motion";
 import { Position } from "../../../pages/QueuePage";
 import { Item } from "../ControlsPanels/SqControlsPanel";
-
-
-
+import QueuePointer from "./QueuePointer";
 
 interface Props {
   items: Item[]; //data of stack
   children?: JSX.Element | JSX.Element[];
   headPosition: Position;
+  tailPosition:number;
 }
 
 const Queue = (props: Props) => {
   return (
     <div className={`basis-9/12 ${styles.example}`}>
-      {/* Top & Aroow animation */}
-      <AnimatePresence mode={"sync"}>
-        <motion.div
-          layout
-          key={props.headPosition.prev}
-          className=" inline-block"
-          initial={{x:props.headPosition.prev,}}
-          animate={
-            //display only if there is a top elment
-            props.items.length > 0
-              ? {
-                    x:props.headPosition.curr,
-                  transition:{duration:1.5}
-                }
-              : {}
-          }
-          transition={{duration:1.5}}
-
-        >
-          <img src={arrowSvg} className={styles.topArrow} alt="My Happy SVG" />
-          <svg className={styles.topText} height="32">
-            <text x="0" y="15" fill="black">
-              Head
-            </text>
-          </svg>
-        </motion.div>
-      </AnimatePresence>
+      {/* Head & Aroow animation */}
+      {props.items.length > 0 && (
+        <QueuePointer
+          className="pb-2"
+          arrowStyle={styles.topArrow}
+          textStyle={styles.topText}
+          name={"Head"}
+          xPosition={props.headPosition.curr}
+          upsideDown={true}
+        />
+      )}
 
       {/*Data of stack animation*/}
       <ul className={styles.s_ul}>
@@ -76,6 +58,17 @@ const Queue = (props: Props) => {
           ))}
         </AnimatePresence>
       </ul>
+
+      {props.items.length > 0 && (
+        <QueuePointer
+          className="pt-4 ml-20"
+          arrowStyle={styles.bottomArrow}
+          textStyle={styles.bottomText}
+          name={"Tail"}
+          xPosition={props.tailPosition}
+          upsideDown={false}
+        />
+      )}
     </div>
   );
 };

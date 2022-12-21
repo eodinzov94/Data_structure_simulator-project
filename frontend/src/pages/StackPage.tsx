@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Stack from "../components/Simulation/Stack/Stack";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import SqControlsPanel, {
   Item,
 } from "../components/Simulation/ControlsPanels/SqControlsPanel";
