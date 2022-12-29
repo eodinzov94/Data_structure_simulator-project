@@ -33,17 +33,20 @@ const columns: TableColumn<DataRow>[] = [
 const DATA = [
   {
     id: 1,
-    subject: "Yovel",
+    subject: "perspiciatis",
+    content: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos q",
     date: "1988",
   },
   {
     id: 2,
-    subject: "Shmena",
+    subject: "explain",
+    content: "ut I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, di",
     date: "1984",
   },
   {
     id: 3,
-    subject: "Meod",
+    subject: "onsequences",
+    content: 'onsequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, whic',
     date: "1984",
   },
 ];
@@ -68,6 +71,8 @@ const FeedbacksPage = (): JSX.Element => {
     setIsSelected(false);
   };
 
+  const ExpandedComponent = ({ data }: any) => <p>{data.content}</p>;
+
   return (
     <FloatUpContainer>
       <MediumCard>
@@ -76,7 +81,10 @@ const FeedbacksPage = (): JSX.Element => {
           clearSelectedRows={toggledClearRows}
           title="Users feedbacks"
           columns={columns}
+          expandableRows
           data={data}
+          expandableRowsComponent={ExpandedComponent}
+          expandOnRowClicked
         />
         <AnimatePresence>
           {isSelected && (

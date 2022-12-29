@@ -16,7 +16,7 @@ const NavBarElements = () => {
       {/* <NavBarElementDropDown title={"Solutions"} items={solutions} />
       <NavBarElementLink title={"Docs"} link="#"></NavBarElementLink> */}
       <NavBarElementLink title={"Reports"} link={RoutePaths.REPORTS}></NavBarElementLink>
-      <NavBarElementLink title={"Feedback"} link="#"></NavBarElementLink>
+      <NavBarElementLink title={"Feedback"} link={RoutePaths.ALL_FEEDBACKS}></NavBarElementLink>
       <NavBarElementDropDown title={"More"} items={resources} />
     </Popover.Group>
   );
