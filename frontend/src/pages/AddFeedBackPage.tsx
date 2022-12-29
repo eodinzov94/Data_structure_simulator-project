@@ -1,11 +1,11 @@
-import MediumCard from "../UI/MediumCard";
+import MediumCard from "../components/UI/MediumCard";
 import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
-import { mainColor, mainHoverColor } from "../../styles/tColors";
-import FormButton from "./FormButton";
-import ErrorMsg from "../UI/ErrorMsg";
+import { mainColor, mainHoverColor } from "../styles/tColors";
+import FormButton from "../components/Auth/FormButton";
+import ErrorMsg from "../components/UI/ErrorMsg";
 import { useState } from "react";
-import { MailboxLime500 } from "../../utils/logos";
-import FloatUpContainer from "../UI/FloatUpContainer";
+import { MailboxLime500 } from "../utils/logos";
+import FloatUpContainer from "../components/UI/FloatUpContainer";
 import { useRef } from "react";
 
 const AddFeedbackPage = () => {
@@ -25,7 +25,10 @@ const AddFeedbackPage = () => {
   };
 
   return (
+    <FloatUpContainer>
+
     <MediumCard>
+
       <form
         className="mt-8 space-y-6"
         action="#"
@@ -59,12 +62,12 @@ const AddFeedbackPage = () => {
           }
         />
       </form>
-      <FloatUpContainer>
         <div className="flex items-center justify-center py- px-2 sm:px-4 lg:px-8 ">
           <img className="h-64" src={MailboxLime500} alt="Vzou" />
         </div>
-      </FloatUpContainer>
     </MediumCard>
+    </FloatUpContainer>
+
   );
 };
 

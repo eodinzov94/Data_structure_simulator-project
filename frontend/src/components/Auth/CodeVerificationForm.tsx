@@ -10,8 +10,13 @@ const CodeVerificationForm = (props:ContentProps) => {
 
   const SubmitCode = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    //send the code to the server 
+
+    //if the respone is ok:
     props.onConfirm();
   };
+
 
   return (
     <form
