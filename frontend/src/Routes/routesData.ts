@@ -25,7 +25,7 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.REGISTER, element: RegistrationPage },
   { path: RoutePaths.HOME, element: HomePage },
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
-  // jest for testing { path: "/2fa", element: TwoFactorAuthPage },
+  // just for testing { path: "/2fa", element: TwoFactorAuthPage },
 ];
 
 export const userRoutes: RouteItem[] = [
