@@ -10,8 +10,9 @@ import ReportsPage from "../pages/ReportsPage";
 import QueuePage from "../pages/QueuePage";
 import AlgorithmsReportPage from "../pages/AlgorithmsReportsPage";
 import RegisterLecturerPage from "../pages/RegisterLecturerPage";
-import AddFeedbackPage from "../components/Auth/AddFeedBackPage";
 import FeedbacksPage from "../pages/FeedbacksPage";
+import AddFeedbackPage from "../pages/AddFeedBackPage";
+import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
 
 export interface RouteItem {
   path: string;
@@ -24,13 +25,13 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.REGISTER, element: RegistrationPage },
   { path: RoutePaths.HOME, element: HomePage },
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
+  // jest for testing { path: "/2fa", element: TwoFactorAuthPage },
 ];
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
   { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage },
-
 ];
 
 export const lecturerRoutes: RouteItem[] = [
