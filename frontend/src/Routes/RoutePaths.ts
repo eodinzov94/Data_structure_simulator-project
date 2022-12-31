@@ -17,7 +17,8 @@ export enum RoutePaths{
     QUEUE = "/queue",
 
     //feedbacks
-    ADD_FEEDBACK = "/add-feedback"
+    ADD_FEEDBACK = "/add-feedback",
+    ALL_FEEDBACKS = '/all-feedbacks'
 
 }
 

@@ -100,7 +100,6 @@ const GeneralReportsPage = () => {
           <LineChrat items={ageData.items} title={ageData.title} />
         )}
         <ExportExcel fileName="general-reports" csvData={getDataToExport()} />
-
       </MediumCard>
     </FloatUpContainer>
   );

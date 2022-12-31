@@ -65,7 +65,7 @@ const StackPage = () => {
           <Stack items={data} />
 
           {/*rigth section */}
-          <div className="basis-4/12">
+           <div className="basis-4/12">
             Pseudo code:
             <ul>
               <motion.li
@@ -102,7 +102,7 @@ const StackPage = () => {
                 {"    return arr[size-1];"}
               </motion.li>
             </ul>
-          </div>
+          </div> 
         </div>
       </div>
     </>

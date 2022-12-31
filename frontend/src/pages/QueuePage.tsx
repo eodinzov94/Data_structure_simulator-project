@@ -75,6 +75,11 @@ const QueuePage = () => {
     setHeadPosition((prevState) => {
       return { curr: -35 * newData.length, prev: prevState.curr };
     });
+
+    //fix positions
+    setTailPosition((prevState) => {
+      return  -35 + 35 * newData.length;
+    });
   };
 
   return (
@@ -96,7 +101,7 @@ const QueuePage = () => {
           <Queue headPosition={headPosition} tailPosition={tailPosition} items={data} />
 
           {/*rigth section */}
-          <div className="basis-3/12">
+          {/* <div className="basis-3/12">
             Pseudo code:
             <ul>
               <motion.li
@@ -133,7 +138,7 @@ const QueuePage = () => {
                 {"    return arr[size-1];"}
               </motion.li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
