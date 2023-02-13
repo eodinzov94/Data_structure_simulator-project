@@ -1,0 +1,166 @@
+import ApiError from '../error/ApiError.js'
+import bcrypt from 'bcrypt'
+import User from '../models/User.js'
+import { IUser, IUserLogin, IUserRegister, IUserUpdate } from '../types/UserTypes.js'
+import { NextFunction, Response } from 'express'
+import { RequestWithUser, TypedRequestBody } from '../types/RequestType.js'
+import pkg from 'jsonwebtoken'
+import { ActivityBody } from '../types/UserActivityTypes.js'
+import UserActivity from '../models/UserActivity.js'
+import { ServiceSendCode } from './TwoFactorAuthController.js'
+import { CODE_TYPES, TWOFA_VERIFY_BODY } from '../types/TWOFA_Types.js'
+
+const { sign } = pkg
+
+const generateJwt = (user: IUser) => {
+  return sign(
+    {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      gender: user.gender,
+      birthYear: user.birthYear,
+      role: user.role,
+      isEmailConfirmed: user.isEmailConfirmed,
+      isEnabled2FA: user.isEnabled2FA,
+    },
+    process.env.JWT_SECRET_KEY as string,
+    { expiresIn: '48h' },
+  )
+}
+
+class UserController {
+
+
+  async registration(req: TypedRequestBody<IUserRegister>, res: Response, next: NextFunction) {
+    const { email, birthYear, gender, lastName, firstName, password, role } = req.body
+    if (!password || password.length < 8) {
+      return next(ApiError.badRequest('Password should be at least 8 char length'))
+    }
+    const candidate = await User.findOne({ where: { email } })
+    if (candidate) {
+      return next(ApiError.badRequest('User with current email already exists'))
+    }
+    if (role && req?.user?.role !== 'Lecturer') {
+      return next(ApiError.forbidden('Access Denied'))
+    }
+    const hashPassword = await bcrypt.hash(password, 5)
+    try {
+      const user = await User.create(
+        {
+          email, birthYear: birthYear, gender,
+          lastName, firstName, role,
+          password: hashPassword,
+          lastSeen: new Date(),
+        })
+      const token = generateJwt(user)
+      return res.json({ token })
+    } catch (e: any) {
+      return next(ApiError.badRequest('Input error'))
+    }
+
+  }
+
+  async login(req: TypedRequestBody<IUserLogin>, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body
+      const user = await User.findOne({ where: { email } })
+      if (!user) {
+        return next(ApiError.forbidden('Incorrect email or password'))
+      }
+      const comparePassword = bcrypt.compareSync(password, user.password)
+      if (!comparePassword) {
+        return next(ApiError.forbidden('Incorrect email or password'))
+      }
+      if (!user.isEnabled2FA) {
+        const token = generateJwt(user)
+        return res.json({ token, status: 'OK' })
+      }
+      await ServiceSendCode(CODE_TYPES.TWO_FA, user.email)
+      return res.json({ status: 'Redirect-2FA' })
+    } catch (e: any) {
+      console.log(e)
+      const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
+      return next(ApiError.badRequest(message))
+    }
+
+  }
+
+  async login2FA(req: TypedRequestBody<TWOFA_VERIFY_BODY>, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body
+      const user = await User.findOne({ where: { email } })
+      if (!user) {
+        return next(ApiError.internal('User does not exists'))
+      }
+      const token = generateJwt(user)
+      return res.json({ token, status: 'OK' })
+    } catch (e: any) {
+      console.log(e)
+      const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
+      return next(ApiError.badRequest(message))
+    }
+
+  }
+
+  async auth(req: RequestWithUser, res: Response, next: NextFunction) {//TODO:last seen updated
+    return res.json({ user: req.user })
+  }
+
+  async personalActivities(req: RequestWithUser, res: Response, next: NextFunction) {
+    const { id } = req.user!
+    const allUserActivities = await UserActivity.findAll({ where: { userID: id } })
+    return res.json({ allUserActivities })
+  }
+
+  async registerActivity(req: TypedRequestBody<ActivityBody>, res: Response, next: NextFunction) {
+    const { subject, algorithm, action } = req.body
+    const { id } = req.user!
+    try {
+      await UserActivity.create({
+        userID: id,
+        action,
+        algorithm,
+        subject,
+      })
+      await User.update({ lastSeen: new Date() }, { where: { id } })
+    } catch (e: any) {
+      if (e?.errors && e.errors.length && e.errors[0].message)
+        return next(ApiError.badRequest(e?.errors[0]?.message))
+      return next(ApiError.badRequest('Input error'))
+    }
+    return res.json({ result: 'Success' })
+  }
+
+  async updateUser(req: TypedRequestBody<IUserUpdate>, res: Response, next: NextFunction) {
+    const { firstName, lastName, gender, birthYear } = req.body
+    const fieldsToUpdate: IUserUpdate = {}
+    if (firstName) {
+      fieldsToUpdate.firstName = firstName
+    }
+    if (lastName) {
+      fieldsToUpdate.lastName = lastName
+    }
+    if (gender) {
+      fieldsToUpdate.gender = gender
+    }
+    if (birthYear) {
+      fieldsToUpdate.birthYear = birthYear
+    }
+    const fields = Object.keys(fieldsToUpdate)
+    if(fields.length === 0){
+      return next(ApiError.badRequest('No fields to update'))
+    }
+    try {
+      await User.update({ ...fieldsToUpdate }, { where: { email: req.user?.email } })
+      return res.json({ status: 'User updated successfully' })
+    } catch (e: any) {
+      const message = e?.errors.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Input error'
+      return next(ApiError.badRequest(message))
+    }
+
+  }
+}
+
+export default new UserController()

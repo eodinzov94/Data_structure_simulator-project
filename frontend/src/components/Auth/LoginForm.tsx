@@ -2,50 +2,47 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { CheckEmail, CheckPassword } from "./AuthFunctions";
-import { RoutePaths } from "../../Routes/routesData";
+import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
 // import { mainColor, mainHoverColor } from "../../styles/tColors";
+import { selectAuthentication } from "../../store/reducers/auth-reducer";
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { login } from "../../store/reducers/auth-reducer";
 
 const LoginForm = () => {
+  const slice = useAppSelector(selectAuthentication);
+  const dispatch = useAppDispatch();
   const enteredEmail = useRef<HTMLInputElement>(null);
   const enteredPassword = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [isVaildPassword, setIsPassword] = useState(true);
+  const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
 
   let history = useHistory();
 
   const SubmitLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsPassword(true);
-    setIsValidEmail(true);
-    setError(false);
+    setErrorMsgs([]);
     //get email and password values
     const password = enteredPassword.current?.value || "";
     const email = enteredEmail.current?.value || "";
-    console.log(password, email);
 
+    const errors= []
     //check values
     var flag = false;
     if (!CheckEmail(email)) {
-      setIsValidEmail(false);
-      flag = true;
-      //errorMsg = "Invalid email";
+      errors.push("Invalid email");
     }
+
     if (!CheckPassword(password)) {
-      setIsPassword(false);
-      flag = true;
-      //errorMsg +="Invalid password, must contain:[a-z],[A-Z],[0-9] and special chracter";
+      errors.push("Invalid password, must contain:[a-z],[A-Z],[0-9] and special chracter");
     }
 
     //Display the error to the user and return
-    if (flag) {
-      setError(true);
+    setErrorMsgs(errors);
+    if (errors.length) {
       return;
     }
-
-    //Send request to the server!!!!!!!!!!!!!!!!!!!!
+    dispatch(login({password,email}));
     history.replace(RoutePaths.HOME);
   };
 
@@ -90,16 +87,9 @@ const LoginForm = () => {
         </div>
       </div>
 
-      {error && (
+      {errorMsgs.length!==0 && (
         <ErrorMsg
-          ErrorMessages={[
-            { isValid: isValidEmail, msg: "Invalid email", key: 1 },
-            {
-              isValid: isVaildPassword,
-              msg: `Invalid password, must contain:[a-z],[A-Z],[0-9] and special chracter`,
-              key: 2,
-            },
-          ]}
+          ErrorMessages={errorMsgs}
         />
       )}
 

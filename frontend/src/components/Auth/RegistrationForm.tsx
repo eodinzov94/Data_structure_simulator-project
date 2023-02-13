@@ -3,10 +3,94 @@ import { mainColor, mainHoverColor } from "../../styles/tColors";
 import RadioButton from "../UI/RadioButton";
 import { UserIcon } from "@heroicons/react/24/solid";
 import FormButton from "./FormButton";
+import { useState } from "react";
+import ErrorMsg from "../UI/ErrorMsg";
+import { useHistory } from "react-router-dom";
+import { RoutePaths } from "../../Routes/RoutePaths";
+import {
+  CheckConfirmPassword,
+  CheckEmail,
+  CheckName,
+  CheckPassword,
+} from "./AuthFunctions";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  BirthYear: 0,
+  email: "",
+  password: "",
+  ConfirmPassword: "",
+  gender: "Male",
+};
+const GENDER = ["Male", "Female"];
 
 const RegistrationForm = () => {
+  const [dataEntered, setDataEntered] = useState(initialState);
+  const [errorMsgs, setErrorMsg] = useState<string[]>([]);
+  let history = useHistory();
+
+  const onChangeGender = (index: number) => {
+    setDataEntered((prevstate) => {
+      return { ...prevstate, gender: GENDER[index] };
+    });
+  };
+  const onChangeHandler = (event: any) => {
+    setDataEntered((prevstate) => {
+      return { ...prevstate, [event.target.name]: event.target.value };
+    });
+  };
+
+  const checkData = () => {
+    const errorStack = [];
+    //check passwords
+    if (!CheckPassword(dataEntered.password)) {
+      errorStack.push(
+        "Invalid password, must contain:[a-z],[A-Z],[0-9] and special chracter"
+      );
+    } else if (
+      !CheckConfirmPassword(dataEntered.password, dataEntered.ConfirmPassword)
+    ) {
+      errorStack.push("The passwords must match");
+    }
+
+    //check names
+    if (!CheckName(dataEntered.firstName) || !CheckName(dataEntered.lastName)) {
+      errorStack.push("Invalid name, must contain:[a-z],[A-Z]");
+    }
+
+    //check email
+    if (!CheckEmail(dataEntered.email)) {
+      errorStack.push("Invalid email");
+    }
+    return errorStack;
+  };
+
+  const onSubmitHanler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    //check entered data
+    const errors = checkData();
+    setErrorMsg(errors);
+    if (errors.length) {
+      return;
+    }
+
+    //Send request to the server!!!!!!!!!!!!!!!!!!!!
+
+
+    history.replace(RoutePaths.LOGIN); //redirect the user to the login page
+
+
+  };
+
   return (
-    <form className="mt-8 space-y-6" action="#" method="POST">
+    <form
+      className="mt-8 space-y-6"
+      action="#"
+      method="POST"
+      onSubmit={onSubmitHanler}
+    >
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
         {/* first name */}
@@ -15,8 +99,9 @@ const RegistrationForm = () => {
             First Name
           </label>
           <input
+            onChange={onChangeHandler}
             id="First-Name"
-            name="First-Name"
+            name="firstName"
             type="text"
             autoComplete="first-name"
             required
@@ -31,8 +116,9 @@ const RegistrationForm = () => {
             Last Name
           </label>
           <input
+            onChange={onChangeHandler}
             id="Last-Name"
-            name="Last-Name"
+            name="lastName"
             type="text"
             autoComplete="family-name"
             required
@@ -41,20 +127,21 @@ const RegistrationForm = () => {
           />
         </div>
 
-        {/* Age */}
+        {/* Birth Year */}
         <div>
-          <label htmlFor="Age" className="sr-only">
-            Age
+          <label htmlFor="BirthYear" className="sr-only">
+          Birth Year
           </label>
           <input
-            id="Age"
-            name="Age"
+            onChange={onChangeHandler}
+            id="BirthYear"
+            name="BirthYear"
             type="number"
-            min={1}
-            max={120}
+            max={new Date().getFullYear()-16}
+            min={new Date().getFullYear()-120}
             required
             className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-            placeholder="Age"
+            placeholder="Birth year"
           />
         </div>
 
@@ -64,6 +151,7 @@ const RegistrationForm = () => {
             Email address
           </label>
           <input
+            onChange={onChangeHandler}
             id="email-address"
             name="email"
             type="email"
@@ -80,6 +168,7 @@ const RegistrationForm = () => {
             Password
           </label>
           <input
+            onChange={onChangeHandler}
             id="password"
             name="password"
             type="password"
@@ -96,6 +185,7 @@ const RegistrationForm = () => {
             Confirm password
           </label>
           <input
+            onChange={onChangeHandler}
             id="ConfirmPassword"
             name="ConfirmPassword"
             type="password"
@@ -108,17 +198,21 @@ const RegistrationForm = () => {
 
       <RadioButton
         labelText="Gender"
+        onChange={onChangeGender}
         options={[
           <div className="flex flex-1 justify-around">
-            <span>Male</span>
+            <span>{GENDER[0]}</span>
             <UserIcon className="w-4" />
           </div>,
           <div className="flex  flex-1 justify-around">
-            <span>Female</span>
+            <span>{GENDER[1]}</span>
             <UserIcon className="w-4" />
           </div>,
         ]}
       />
+
+      {errorMsgs.length !== 0 && <ErrorMsg ErrorMessages={errorMsgs} />}
+
       <FormButton
         type={"submit"}
         title={"Sign up"}

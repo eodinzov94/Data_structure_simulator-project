@@ -1,11 +1,8 @@
 import RegistrationForm from "../components/Auth/RegistrationForm";
 import { mainColor, mainHoverColor } from "../styles/tColors";
 import { Link } from "react-router-dom";
-import logoImg from "../assets/vzou-favicon-color.png";
-import { RoutePaths } from "../Routes/routesData";
-import FloatUpContainer from "../components/UI/FloatUpContainer";
+import { RoutePaths } from "../Routes/RoutePaths";
 import { registerImgLime500 } from "../utils/logos";
-import AuthCard from "../components/Auth/AuthCard";
 import AuthWrapper from "../components/Auth/AuthWrapper";
 
 const RegistrationPage = () => {

@@ -1,5 +1,5 @@
 // const btnColor:string = "text-lime-500";
-import { RoutePaths } from "../../../../Routes/routesData";
+import { RoutePaths } from '../../../../Routes/RoutePaths';
 import {Link} from 'react-router-dom';
 
 const NavBarElementsRight = () => {
