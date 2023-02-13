@@ -24,6 +24,7 @@ class StatisticsController {
      const allUsers = await User.findAll({attributes: ['email','gender', 'birthYear','firstName','lastName','lastSeen']})
      return res.json({allUsers})
   }
+  async
 }
 
 export default new StatisticsController()

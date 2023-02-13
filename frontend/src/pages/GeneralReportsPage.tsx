@@ -7,6 +7,7 @@ import MediumCard from "../components/UI/MediumCard";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import LineChrat from "../components/Charts/Line";
 import ExportExcel from "../components/Charts/ExportExcel";
+import { useGetGeneralReportsQuery} from "../store/reducers/report-reducer";
 
 enum choices {
   USERS_GENDER = "Gender",
@@ -25,23 +26,23 @@ interface ExportData {
 }
 
 const GeneralReportsPage = () => {
+  const {data} =  useGetGeneralReportsQuery('');
   const [graphChoosen, setGraphChoosen] = useState("Choose report");
   const [genderData, setGenderData] = useState<ChartProps>(initialChartData);
   const [authData, setAuthData] = useState<ChartProps>(initialChartData);
   const [ageData, setAgeData] = useState<ChartProps>(initialChartData);
-
+  console.log(data);
   useEffect(() => {
     /******************LOAD DATA FROM SERVER!!!!*****************/
 
     //gender data
-
-    setGenderData({
-      items: [
-        { key: "Female", value: 40 },
-        { key: "Male", value: 60 },
-      ],
-      title: "Users Gender",
-    });
+    // setGenderData({
+    //   items: [
+    //     { key: "Female", value: 40 },
+    //     { key: "Male", value: 60 },
+    //   ],
+    //   title: "Users Gender",
+    // });
 
     //users auth data
     setAuthData({
