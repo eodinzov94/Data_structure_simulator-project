@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const onHoverColor:string = "text-lime-500";
 
 interface NavBarElementLinkProps {
@@ -7,12 +9,12 @@ interface NavBarElementLinkProps {
 
 const NavBarElementLink = (props: NavBarElementLinkProps) => {
   return (
-    <a
-      href={props.link}
+    <Link
+      to={props.link}
       className={`text-base font-medium text-gray-500 hover:${onHoverColor}`}
     >
       {props.title}
-    </a>
+    </Link>
   );
 };
 

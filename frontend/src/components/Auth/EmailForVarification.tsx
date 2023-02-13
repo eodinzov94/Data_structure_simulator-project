@@ -1,41 +1,43 @@
-import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import { EnvelopeIcon } from '@heroicons/react/24/solid'
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CheckEmail } from "./AuthFunctions";
-import { RoutePaths } from "../../Routes/routesData";
+import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
-
-const ForgotPasswordForm = () => {
+import { ContentProps } from "../../pages/ForgotPasswordPage";
+const EmailForVarification = (props:ContentProps) => {
   const enteredEmail = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
 
   let history = useHistory();
 
-  const SubmitLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const SubmitEmail = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsValidEmail(true);
-    setError(false);
-    //get email and password values
+    
+    //get email value
     const email = enteredEmail.current?.value || "";
-    console.log(email);
 
-    //check values
-    var flag = false;
+    //check email
+    const errors = [];
     if (!CheckEmail(email)) {
-      setIsValidEmail(false);
-      flag = true;
-      //errorMsg = "Invalid email";
+      errors.push("Invalid email");
     }
+
     //Display the error to the user and return
-    if (flag) {
-      setError(true);
+    setErrorMsgs(errors);
+    if (errors.length!==0) {
       return;
     }
 
-    //Send request to the server!!!!!!!!!!!!!!!!!!!!
-    history.replace(RoutePaths.LOGIN);
+    //Send request to the server!!!!
+    
+
+    //if error display the error
+
+    //if the email was sent, change the page to input code page
+    props.onConfirm() 
+
   };
 
   return (
@@ -43,7 +45,7 @@ const ForgotPasswordForm = () => {
       className="mt-8 space-y-6"
       action={"#"}
       method="POST"
-      onSubmit={SubmitLogin}
+      onSubmit={SubmitEmail}
     >
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
@@ -64,18 +66,16 @@ const ForgotPasswordForm = () => {
         </div>
       </div>
 
-      {error && (
+      {errorMsgs.length!==0 && (
         <ErrorMsg
-          ErrorMessages={[
-            { isValid: isValidEmail, msg: "Invalid email", key: 1 },
-          ]}
+          ErrorMessages={errorMsgs}
         />
       )}
       <FormButton
         type={"submit"}
-        title={"Reset Password"}
+        title={"Send code"}
         icon={
-          <ArrowPathIcon
+          <EnvelopeIcon
             className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}
             aria-hidden="true"
           />
@@ -85,4 +85,4 @@ const ForgotPasswordForm = () => {
   );
 };
 
-export default ForgotPasswordForm;
+export default EmailForVarification;

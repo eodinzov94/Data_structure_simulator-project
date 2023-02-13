@@ -1,22 +1,24 @@
-// import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import Header from './components/Layout/Header/Header';
-import AppRouter from './Routes/AppRouter';
+import "./App.css";
+import Header from "./components/Layout/Header/Header";
+import AppRouter from "./Routes/AppRouter";
+import { Provider } from "react-redux";
+import store from "./store/store";
+
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <AppRouter/>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Header />
+        <AppRouter />
+      </div>
+    </Provider>
   );
 }
 
 export default App;
 
-
-      {/* <header className="App-header">
+/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -29,4 +31,4 @@ export default App;
         >
           Learn React
         </a>
-      </header> */}
+      </header> */
