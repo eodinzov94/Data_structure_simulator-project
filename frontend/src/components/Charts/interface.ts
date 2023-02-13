@@ -1,4 +1,4 @@
-interface ChartItem {
+export interface ChartItem {
     key: string;
     value: number;
   }
