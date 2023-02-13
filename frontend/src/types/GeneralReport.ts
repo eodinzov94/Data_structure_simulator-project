@@ -1,30 +1,16 @@
-
-/*export interface GeneralReport {
-    Data: ChartProps[]
-}*/
-
+import { ChartItem } from '../components/Charts/interface'
 
 export interface GeneralReport {
-    accountsData: AccountsData
+    accountsData: ChartItem[]
     usersData: UsersData
 }
 
-export interface AccountsData {
-    allRegisteredUsersCount: number
-    activeUsersCount: number
-}
-
 export interface UsersData {
-    usersGroupedByGender: UsersGroupedByGender[]
-    usersGroupedByAge: UsersGroupedByAge[]
+    usersGroupedByGender: ChartItem[]
+    usersGroupedByAge: ChartItem[]
 }
 
-export interface UsersGroupedByGender {
-    gender: string
-    count: string
-}
-
-export interface UsersGroupedByAge {
-    age: number
-    count: string
+export interface ExportData {
+    title: string;
+    amount: string;
 }

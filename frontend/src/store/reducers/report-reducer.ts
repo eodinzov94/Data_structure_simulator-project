@@ -9,6 +9,7 @@ export const reportApi = createApi({
     endpoints: (builder) => ({
         getAlgorithmReports: builder.query<AlgorithmReport, any>({
             query: () => `/lecturer/report/algo-report`,
+
         }),
         getGeneralReports: builder.query<GeneralReport, any>({
             query: () => `/lecturer/report/general-report`,

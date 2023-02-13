@@ -20,18 +20,23 @@ class StatisticsController {
         role: 'Student',
       },
     })
-    const usersGroupedByGender = await sequelize.query(`SELECT gender, count(*) as COUNT FROM public."Users" GROUP BY gender`, { type: QueryTypes.SELECT })
-    const usersGroupedByAge = await sequelize.query(
-      `SELECT DATE_PART('Year', NOW())-"birthYear" as Age, count(*) as COUNT 
+    const usersGroupedByGender = await sequelize.query<{gender:string,count:string}>(`SELECT gender, count(*) as COUNT FROM public."Users" GROUP BY gender`, { type: QueryTypes.SELECT })
+    const usersGroupedByAge = await sequelize.query<{age:number,count:string}>(
+      `SELECT DATE_PART('Year', NOW())-"birthYear" as Age, count(*) as count 
             FROM public."Users" 
             GROUP BY DATE_PART('Year', NOW())-"birthYear"
             ORDER BY DATE_PART('Year', NOW())-"birthYear"`, { type: QueryTypes.SELECT })
 
     return res.json({
-      accountsData: { allRegisteredUsersCount, activeUsersCount },
-      usersData: { usersGroupedByGender, usersGroupedByAge },
+      accountsData: [
+        {key:"Registered users",value:allRegisteredUsersCount},
+        {key:"Logged in (last two weeks)",value:activeUsersCount}
+      ],
+      usersData: { usersGroupedByGender:usersGroupedByGender.map(user => ({key:user.gender ,value:Number(user.count)})),
+        usersGroupedByAge:usersGroupedByAge.map(user => ({key:user.age.toString(),value:Number(user.count)})) },
     })
   }
 }
+
 
 export default new StatisticsController()
