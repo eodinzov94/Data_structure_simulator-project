@@ -1,7 +1,9 @@
 import styles from "./FloatUpContainer.module.css";
 
-const FloatUpContainer = (props: any) => {
-  return <div className={styles.form_card}>{props.children}</div>;
+type Props = { children: React.ReactNode };
+
+const FloatUpContainer: React.FC<Props> = ({ children }) => {
+  return <div className={styles.form_card}>{children}</div>;
 };
 
 export default FloatUpContainer;

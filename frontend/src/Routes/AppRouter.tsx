@@ -1,10 +1,26 @@
 import { Route, Switch } from "react-router-dom";
-import { publicRoutes, userRoutes, adminRoutes } from "./routesData";
+import { useAppSelector } from "../store/hooks";
+import { selectAuthentication } from "../store/reducers/auth-reducer";
+import { publicRoutes, userRoutes, lecturerRoutes } from "./routesData";
 
 const AppRouter = () => {
+  const authSlice = useAppSelector(selectAuthentication);
+  
   return (
     <Switch>
       {publicRoutes.map((route) => (
+        <Route path={route.path} exact key={route.path}>
+          {<route.element />}
+        </Route>
+      ))}
+      {authSlice.isLogin && userRoutes.map((route) => (
+        <Route path={route.path} exact key={route.path}>
+          {<route.element />}
+        </Route>
+      ))}
+
+{/* NEED TO ADD IS ADMIN CHECK! */}
+  {lecturerRoutes.map((route) => (
         <Route path={route.path} exact key={route.path}>
           {<route.element />}
         </Route>

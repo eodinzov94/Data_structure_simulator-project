@@ -1,11 +1,8 @@
-interface Element {
-  isValid: Boolean;
-  msg?: string;
-  key: Number;
-}
+/* The components get array of string, each element represent an error message.
+the component display each element in li tag */
 
 interface Props {
-  ErrorMessages: Element[];
+  ErrorMessages: string[];
 }
 
 const ErrorMsg = (props: Props) => {
@@ -17,8 +14,8 @@ const ErrorMsg = (props: Props) => {
       <strong className="font-bold">Error! </strong>
       <span className="block sm:inline">
         <>
-          {props.ErrorMessages.map((element) => 
-              !element.isValid && <li>{element.msg}</li>)}
+          {props.ErrorMessages.map((msg,index) => 
+             <li key={index}>{msg}</li>)}
         </>
       </span>
       <span className="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
