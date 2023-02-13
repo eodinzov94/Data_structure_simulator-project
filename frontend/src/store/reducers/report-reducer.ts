@@ -5,13 +5,13 @@ import {GeneralReport} from "../../types/GeneralReport";
 // Define a service using a base URL and expected endpoints
 export const reportApi = createApi({
     reducerPath: 'reportApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://185.159.109.254:3001/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api' }),
     endpoints: (builder) => ({
         getAlgorithmReports: builder.query<AlgorithmReport, any>({
-            query: () => `/Algorithms`,
+            query: () => `/lecturer/report/algo-report`,
         }),
         getGeneralReports: builder.query<GeneralReport, any>({
-            query: () => `/General`,
+            query: () => `/lecturer/report/general-report`,
         }),
     }),
 })

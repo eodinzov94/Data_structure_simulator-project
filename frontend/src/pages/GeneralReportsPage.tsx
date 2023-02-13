@@ -31,39 +31,34 @@ const GeneralReportsPage = () => {
   const [genderData, setGenderData] = useState<ChartProps>(initialChartData);
   const [authData, setAuthData] = useState<ChartProps>(initialChartData);
   const [ageData, setAgeData] = useState<ChartProps>(initialChartData);
-  console.log(data);
   useEffect(() => {
     /******************LOAD DATA FROM SERVER!!!!*****************/
 
+    if(!data){
+      return
+    }
     //gender data
-    // setGenderData({
-    //   items: [
-    //     { key: "Female", value: 40 },
-    //     { key: "Male", value: 60 },
-    //   ],
-    //   title: "Users Gender",
-    // });
-
+     setGenderData({
+      items:
+        data.usersData.usersGroupedByGender.map(user => ({key:user.gender,value:Number(user.count)}))
+       ,
+       title: "Users Gender",
+     });
     //users auth data
     setAuthData({
       items: [
-        { key: "Registered users", value: 60 },
-        { key: "Logged in (last two weeks)", value: 20 },
+        { key: "Registered users", value: data.accountsData.allRegisteredUsersCount },
+        { key: "Logged in (last two weeks)", value: data.accountsData.activeUsersCount },
       ],
       title: "Information",
     });
 
     //age data
     setAgeData({
-      items: [
-        { key: "24", value: 45 },
-        { key: "28", value: 60 },
-        { key: "30", value: 35 },
-        { key: "35", value: 15 },
-      ],
+      items: data.usersData.usersGroupedByAge.map(user => ({key:user.age.toString(),value:Number(user.count)})),
       title: "Information about the age",
     });
-  }, []);
+  }, [data]);
 
   const makeTable = (tableData: ChartProps) => {
     return tableData.items
@@ -79,8 +74,7 @@ const GeneralReportsPage = () => {
     const AgeRows: ExportData[] = [
       { title: "AGE INFORMATION", amount: "" },
     ].concat(makeTable(ageData));
-    const data = AuthRows.concat(GenderRows.concat(AgeRows));
-    return data;
+    return AuthRows.concat(GenderRows.concat(AgeRows));
   };
 
   return (

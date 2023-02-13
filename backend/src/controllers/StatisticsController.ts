@@ -2,29 +2,36 @@ import User from '../models/User.js'
 import { NextFunction, Request, Response } from 'express'
 import UserActivity from '../models/UserActivity.js'
 import moment from 'moment'
-import { Op } from 'sequelize'
+import { Op, QueryTypes } from 'sequelize'
+import { sequelize } from '../db.js'
 
 
 class StatisticsController {
   async getAllActivities(req: Request, res: Response, next: NextFunction) {
     const allData = await UserActivity.findAll()
-    return res.json({allData})
+    return res.json({ allData })
   }
 
-  async allUsers(req: Request, res: Response, next: NextFunction) {
-      const usersCount = await User.count({where:{role:'Student'}})
-      return res.json({usersCount})
+  async generalReport(req: Request, res: Response, next: NextFunction) {
+    const allRegisteredUsersCount = await User.count({ where: { role: 'Student' } })
+    const activeUsersCount = await User.count({
+      where: {
+        lastSeen: { [Op.gte]: moment().subtract(14, 'days').toDate() },
+        role: 'Student',
+      },
+    })
+    const usersGroupedByGender = await sequelize.query(`SELECT gender, count(*) as COUNT FROM public."Users" GROUP BY gender`, { type: QueryTypes.SELECT })
+    const usersGroupedByAge = await sequelize.query(
+      `SELECT DATE_PART('Year', NOW())-"birthYear" as Age, count(*) as COUNT 
+            FROM public."Users" 
+            GROUP BY DATE_PART('Year', NOW())-"birthYear"
+            ORDER BY DATE_PART('Year', NOW())-"birthYear"`, { type: QueryTypes.SELECT })
 
+    return res.json({
+      accountsData: { allRegisteredUsersCount, activeUsersCount },
+      usersData: { usersGroupedByGender, usersGroupedByAge },
+    })
   }
-  async activeUsers(req: Request, res: Response, next: NextFunction) {
-    const usersCount = await User.count({where:{ lastSeen:{[Op.gte]: moment().subtract(14, 'days').toDate() },role:'Student'  }})
-    return res.json({usersCount})
-  }
-  async usersDetails(req: Request, res: Response, next: NextFunction) {
-     const allUsers = await User.findAll({attributes: ['email','gender', 'birthYear','firstName','lastName','lastSeen']})
-     return res.json({allUsers})
-  }
-  async
 }
 
 export default new StatisticsController()
