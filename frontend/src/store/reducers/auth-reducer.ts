@@ -1,24 +1,8 @@
 import {createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {RootState} from "../store";
+import {AuthState, LoginPayload} from "../../types/Auth";
 
-interface UserData{
-    id:string,
-    firstName:string,
-    lastName:string,
-    email:string,
-    isAdmin:boolean
-}
 
-interface AuthState{
-    user:UserData | null,
-    isLogin:boolean,
-    token:string | null
-}
-
-interface LoginPayload{
-    email:string
-    password:string
-}
 
 //need to change the isLogin to false.
 const initialState:AuthState = {user:null,isLogin:true,token:null};

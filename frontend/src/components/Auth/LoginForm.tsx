@@ -5,12 +5,14 @@ import { CheckEmail, CheckPassword } from "./AuthFunctions";
 import { RoutePaths } from "../../Routes/RoutePaths";
 import ErrorMsg from "../UI/ErrorMsg";
 import FormButton from "./FormButton";
-// import { mainColor, mainHoverColor } from "../../styles/tColors";
 import { selectAuthentication } from "../../store/reducers/auth-reducer";
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { login } from "../../store/reducers/auth-reducer";
+import {useLoginMutation} from "../../store/reducers/auth-reducer-api";
+import {LoginPayload} from "../../types/Auth";
 
 const LoginForm = () => {
+  const [loginUser, {}] = useLoginMutation()
   const slice = useAppSelector(selectAuthentication);
   const dispatch = useAppDispatch();
   const enteredEmail = useRef<HTMLInputElement>(null);
@@ -42,7 +44,11 @@ const LoginForm = () => {
     if (errors.length) {
       return;
     }
-    dispatch(login({password,email}));
+    const handleLogin = async ()=>  {
+      await loginUser({password, email} as IUser)
+    }
+    handleLogin()
+    // dispatch(login({password,email}));
     history.replace(RoutePaths.HOME);
   };
 
