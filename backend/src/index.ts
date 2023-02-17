@@ -1,13 +1,12 @@
 import dotenv from 'dotenv'
-
-dotenv.config()
-
 import express from 'express'
 import cors from 'cors'
 import { sequelize } from './db.js'
 import UserRouter from './routes/UserRoutes.js'
 import LecturerRouter from './routes/LecturerRoutes.js'
 import ErrorHandlingMiddleware from './middleware/ErrorHandlingMiddleware.js'
+
+dotenv.config()
 
 
 const app = express()

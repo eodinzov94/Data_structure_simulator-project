@@ -1,32 +1,31 @@
-import { Route, Switch } from "react-router-dom";
-import { useAppSelector } from "../store/hooks";
-import { selectAuthentication } from "../store/reducers/auth-reducer";
-import { publicRoutes, userRoutes, lecturerRoutes } from "./routesData";
+import { Redirect, Route, Switch } from 'react-router-dom'
+import { useAppSelector } from '../store/hooks'
+import { selectAuthentication } from '../store/reducers/auth-reducer'
+import { lecturerRoutes, publicRoutes, userRoutes } from './routesData'
 
 const AppRouter = () => {
-  const authSlice = useAppSelector(selectAuthentication);
-  
+  const authSlice = useAppSelector(selectAuthentication)
   return (
     <Switch>
-      {publicRoutes.map((route) => (
+      {!authSlice.isLoggedIn && publicRoutes.map((route) => (
         <Route path={route.path} exact key={route.path}>
           {<route.element />}
         </Route>
       ))}
-      {authSlice.isLogin && userRoutes.map((route) => (
+      {authSlice.isLoggedIn && authSlice.user?.role !== 'Lecturer' && userRoutes.map((route) => (
         <Route path={route.path} exact key={route.path}>
           {<route.element />}
         </Route>
       ))}
 
-{/* NEED TO ADD IS ADMIN CHECK! */}
-  {lecturerRoutes.map((route) => (
+      {authSlice.isLoggedIn && authSlice.user?.role === 'Lecturer' && lecturerRoutes.map((route) => (
         <Route path={route.path} exact key={route.path}>
           {<route.element />}
         </Route>
       ))}
+      <Redirect to={'/'}/>
     </Switch>
-  );
-};
+  )
+}
 
-export default AppRouter;
+export default AppRouter

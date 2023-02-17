@@ -8,8 +8,8 @@ export interface IUser{
 
 export interface AuthState{
     user:IUser | null,
-    isLogin:boolean,
-    token:string | null
+    isLoggedIn:boolean,
+
 }
 
 export interface LoginPayload{

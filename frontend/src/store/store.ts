@@ -1,20 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit" 
 import authReducer from "./reducers/auth-reducer"
 import {reportApi} from "./reducers/report-reducer";
+import { authApi } from './reducers/auth-reducer-api'
 
 const store = configureStore({
     reducer:{
         //add reducers here
         auth: authReducer,
         [reportApi.reducerPath]: reportApi.reducer,
+        [authApi.reducerPath]: authApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(reportApi.middleware),
+        getDefaultMiddleware().concat([reportApi.middleware,authApi.middleware])
+
 });
 
 export default store;
-
-
 
 
 /*********TYPES:**********/
