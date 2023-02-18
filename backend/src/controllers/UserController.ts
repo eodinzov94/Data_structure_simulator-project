@@ -12,7 +12,7 @@ import { CODE_TYPES, TWOFA_VERIFY_BODY } from '../types/TWOFA_Types.js'
 
 const { sign } = pkg
 
-const generateJwt = (user: IUser) => {
+export const generateJwt = (user: IUser) => {
   return sign(
     {
       id: user.id,
@@ -53,9 +53,20 @@ class UserController {
           lastName, firstName, role,
           password: hashPassword,
           lastSeen: new Date(),
+          isEnabled2FA: role === 'Lecturer'
         })
       const token = generateJwt(user)
-      return res.json({ token })
+      return res.json({
+        token,
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role
+        },
+        status:"OK"
+      })
     } catch (e: any) {
       return next(ApiError.badRequest('Input error'))
     }
@@ -88,7 +99,7 @@ class UserController {
         })
       }
       await ServiceSendCode(CODE_TYPES.TWO_FA, user.email)
-      return res.json({ status: 'Redirect-2FA' })
+      return res.json({ status: 'Redirect-2FA',email: user.email})
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'

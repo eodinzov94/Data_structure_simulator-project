@@ -10,7 +10,7 @@ const CheckRoleMW = (role: string) => {
     try {
       const token = req.headers.authorization?.split(' ')[1] // Bearer
       if (!token) {
-        return res.status(401).json({ message: 'Unauthorized' })
+        return res.status(401).json({ message: 'Unauthorized no token' })
       }
       const decoded = verify(token, process.env.JWT_SECRET_KEY as string) as IUser
       if (decoded.role !== role) {

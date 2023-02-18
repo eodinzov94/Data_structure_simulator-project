@@ -12,6 +12,7 @@ import AlgorithmsReportPage from '../pages/AlgorithmsReportsPage'
 import RegisterLecturerPage from '../pages/RegisterLecturerPage'
 import FeedbacksPage from '../pages/FeedbacksPage'
 import AddFeedbackPage from '../pages/AddFeedBackPage'
+import TwoFactorAuthPage from '../pages/TwoFactorAuthPage'
 
 export interface RouteItem {
   path: string;
@@ -24,22 +25,21 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.LOGIN, element: LoginPage },
   { path: RoutePaths.REGISTER, element: RegistrationPage },
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
-  // just for testing { path: "/2fa", element: TwoFactorAuthPage },
+  { path: RoutePaths.TWO_FA, element: TwoFactorAuthPage },
 ];
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
-  { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage },
+  { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage }
 ];
 
 export const lecturerRoutes: RouteItem[] = [
-  ...userRoutes,
   { path: RoutePaths.REPORTS, element: ReportsPage },
+  { path: RoutePaths.REGISTER_LECTURER, element: RegisterLecturerPage },
   { path: RoutePaths.GENERAL_REPORTS, element: GeneralReportsPage },
   { path: RoutePaths.ALGORITHMS_REPORTS, element: AlgorithmsReportPage },
-  { path: RoutePaths.REGISTER_LECTURER, element: RegisterLecturerPage },
   { path: RoutePaths.ALL_FEEDBACKS, element: FeedbacksPage },
 
 ];

@@ -21,12 +21,14 @@ class StatisticsController {
       },
     })
     const usersGroupedByGender = await sequelize.query<{ gender: string, count: string }>
-    (`SELECT gender, count(*) as COUNT FROM public."Users" GROUP BY gender`, { type: QueryTypes.SELECT })
+    (`SELECT gender, count(*) as COUNT FROM public."Users" WHERE role = 'Student' GROUP BY gender `, { type: QueryTypes.SELECT })
     const usersGroupedByAge = await sequelize.query<{ age: number, count: string }>(
       `SELECT DATE_PART('Year', NOW())-"birthYear" as Age, count(*) as count 
             FROM public."Users" 
+            WHERE role = 'Student'
             GROUP BY DATE_PART('Year', NOW())-"birthYear"
-            ORDER BY DATE_PART('Year', NOW())-"birthYear"`, { type: QueryTypes.SELECT })
+            ORDER BY DATE_PART('Year', NOW())-"birthYear"
+            `, { type: QueryTypes.SELECT })
 
     return res.json({
       accountsData: [

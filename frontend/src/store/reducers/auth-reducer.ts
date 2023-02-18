@@ -3,7 +3,7 @@ import { RootState } from '../store'
 import { AuthState, IUser } from '../../types/Auth'
 
 
-const initialState:AuthState = {user:null,isLoggedIn:false};
+const initialState:AuthState = {user:null,isLoggedIn:false,emailFor2Factor:''};
 
 const authSlice = createSlice({
     name:'auth' ,
@@ -17,11 +17,15 @@ const authSlice = createSlice({
             state.user = action.payload
             state.isLoggedIn = true;
             return state
+        },
+        setEmailFor2Factor(state,action:PayloadAction<string>){
+            state.emailFor2Factor = action.payload
+            return state
         }
     }
 });
 
 
 export default authSlice.reducer;
-export const {logout,setUser} = authSlice.actions;
+export const {logout,setUser,setEmailFor2Factor} = authSlice.actions;
 export const selectAuthentication = (state: RootState) => state.auth; //use this const in useSelecter in the componnent to select this slice

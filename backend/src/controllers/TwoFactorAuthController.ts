@@ -6,6 +6,7 @@ import { CODE_TYPES, RESET_PW_2FA_BODY, SET_2FA_STATUS_BODY, TWOFA_VERIFY_BODY }
 import User from '../models/User.js'
 import bcrypt from 'bcrypt'
 import { mailer } from '../nodemailer/MailSender.js'
+import { generateJwt } from './UserController.js'
 
 
 export const TWO_FA_verifier = async (code: string, type: CODE_TYPES, email: string) => {
@@ -14,7 +15,7 @@ export const TWO_FA_verifier = async (code: string, type: CODE_TYPES, email: str
   }
   const match = await TWOFA.findOne({ where: { code, type: type.toString(), email } })
   if (!match) {
-    throw new ApiError(401, 'Code not found, 2FA required')
+    throw new ApiError(401, 'Code is incorrect')
   }
   const diffInMinutes = Math.floor(((Date.now() - match.updatedAt.valueOf()) / 1000) / 60)
   if (diffInMinutes > 5) {
@@ -54,7 +55,18 @@ class TwoFactorAuthController {
     try {
       const { code, type, email } = req.body
       await TWO_FA_verifier(code, type, email)
-      return res.json({ status: 'Code accepted' })
+      const user = await User.findOne({ where: { email } })
+      if(!user){
+        return res.status(500).json({ message:'Unknown error, user not found' })
+      }
+      const accessToken  = generateJwt(user)
+      return res.json({ status: 'OK',accessToken,user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role,
+        }, })
     } catch (e: any) {
       const message = e?.message || 'Unknown error'
       return res.status(401).json({ message })

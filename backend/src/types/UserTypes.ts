@@ -9,6 +9,7 @@ export interface IUserRegister {
   firstName:string
   lastName:string
   gender:string
+  isEnabled2FA:boolean
   birthYear:number
   role?:string
   lastSeen: Date

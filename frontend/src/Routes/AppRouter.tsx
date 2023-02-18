@@ -1,7 +1,8 @@
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { useAppSelector } from '../store/hooks'
 import { selectAuthentication } from '../store/reducers/auth-reducer'
 import { lecturerRoutes, publicRoutes, userRoutes } from './routesData'
+import HomePage from '../pages/HomePage'
 
 const AppRouter = () => {
   const authSlice = useAppSelector(selectAuthentication)
@@ -12,7 +13,7 @@ const AppRouter = () => {
           {<route.element />}
         </Route>
       ))}
-      {authSlice.isLoggedIn && authSlice.user?.role !== 'Lecturer' && userRoutes.map((route) => (
+      {authSlice.isLoggedIn && userRoutes.map((route) => (
         <Route path={route.path} exact key={route.path}>
           {<route.element />}
         </Route>
@@ -23,7 +24,7 @@ const AppRouter = () => {
           {<route.element />}
         </Route>
       ))}
-      <Redirect to={'/'}/>
+      <Route path='*' exact={true} component={HomePage} />
     </Switch>
   )
 }

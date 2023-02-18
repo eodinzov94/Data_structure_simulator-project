@@ -1,6 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-import { FormEvent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { FormEvent, useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { RoutePaths } from '../../Routes/RoutePaths'
 import ErrorMsg from '../UI/ErrorMsg'
 import FormButton from './FormButton'
@@ -9,21 +9,21 @@ import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
 
 
 const LoginForm = () => {
-  const [loginUser, { error }] = useLoginMutation()
+  const history = useHistory()
+  const [loginUser, { error,isLoading,isSuccess,data }] = useLoginMutation()
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const SubmitLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     await loginUser({ password: enteredPassword, email: enteredEmail })
-    /*if(data?.status === 'OK'){
-      localStorage.setItem("accessToken",data?.token || '')
-      await authMe(undefined)
-    }else if(data?.status === 'Redirect-2FA'){
-      //TODO:API LOGIN2FA
-    }*/
+
 
   }
-
+  useEffect(() => {
+      if(isSuccess &&  data?.status ==='Redirect-2FA'){
+        history.push(RoutePaths.TWO_FA)
+      }
+  }, [isLoading])
 
   return (
     <form
