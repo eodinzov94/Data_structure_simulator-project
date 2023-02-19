@@ -12,7 +12,7 @@ import { CODE_TYPES, TWOFA_VERIFY_BODY } from '../types/TWOFA_Types.js'
 
 const { sign } = pkg
 
-const generateJwt = (user: IUser) => {
+export const generateJwt = (user: IUser) => {
   return sign(
     {
       id: user.id,
@@ -53,9 +53,20 @@ class UserController {
           lastName, firstName, role,
           password: hashPassword,
           lastSeen: new Date(),
+          isEnabled2FA: role === 'Lecturer'
         })
       const token = generateJwt(user)
-      return res.json({ token })
+      return res.json({
+        token,
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role
+        },
+        status:"OK"
+      })
     } catch (e: any) {
       return next(ApiError.badRequest('Input error'))
     }
@@ -75,10 +86,20 @@ class UserController {
       }
       if (!user.isEnabled2FA) {
         const token = generateJwt(user)
-        return res.json({ token, status: 'OK' })
+
+        return res.json({
+          token, status: 'OK',
+          user: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
+          },
+        })
       }
       await ServiceSendCode(CODE_TYPES.TWO_FA, user.email)
-      return res.json({ status: 'Redirect-2FA' })
+      return res.json({ status: 'Redirect-2FA',email: user.email})
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
@@ -104,8 +125,26 @@ class UserController {
 
   }
 
-  async auth(req: RequestWithUser, res: Response, next: NextFunction) {//TODO:last seen updated
-    return res.json({ user: req.user })
+  async auth(req: RequestWithUser, res: Response, next: NextFunction) {
+    try {
+      const user = await User.findOne({ where: { id: req.user!.id } })
+      if (!user) {
+        return next(ApiError.internal('User does not exists'))
+      }
+      await User.update({ lastSeen: new Date() }, { where: { id: req.user!.id } })
+      return res.json(
+        {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role,
+        })
+    } catch (e: any) {
+      console.log(e)
+      const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Authentication error'
+      return next(ApiError.badRequest(message))
+    }
   }
 
   async personalActivities(req: RequestWithUser, res: Response, next: NextFunction) {
@@ -149,7 +188,7 @@ class UserController {
       fieldsToUpdate.birthYear = birthYear
     }
     const fields = Object.keys(fieldsToUpdate)
-    if(fields.length === 0){
+    if (fields.length === 0) {
       return next(ApiError.badRequest('No fields to update'))
     }
     try {

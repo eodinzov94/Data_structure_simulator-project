@@ -1,18 +1,21 @@
-import "./App.css";
-import Header from "./components/Layout/Header/Header";
-import AppRouter from "./Routes/AppRouter";
-import { Provider } from "react-redux";
-import store from "./store/store";
+import './App.css'
+import Header from './components/Layout/Header/Header'
+import AppRouter from './Routes/AppRouter'
+import { useAuthMeQuery } from './store/reducers/auth-reducer-api'
 
 
 function App() {
+  let skip= true
+  const token = localStorage.getItem('accessToken')
+  if(token){
+    skip = false
+  }
+  useAuthMeQuery(null,{skip})
   return (
-    <Provider store={store}>
       <div className="App">
         <Header />
         <AppRouter />
       </div>
-    </Provider>
   );
 }
 
