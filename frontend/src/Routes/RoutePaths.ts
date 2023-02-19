@@ -17,11 +17,11 @@ export enum RoutePaths{
     //Animations
     STACK = "/stack",
     QUEUE = "/queue",
+    QUICK_SORT = "/quicksort",
 
     //feedbacks
     ADD_FEEDBACK = "/add-feedback",
     ALL_FEEDBACKS = '/all-feedbacks'
-
 }
 
 export default RoutePaths;

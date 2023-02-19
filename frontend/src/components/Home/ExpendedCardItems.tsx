@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React from "react";
+import { Link } from "react-router-dom";
 import { ExpendedItem } from "./DsCard";
 
 const ExpendedCardItems = (props: { list: ExpendedItem[] | undefined }) => {
@@ -44,7 +44,7 @@ const ExpendedCardItems = (props: { list: ExpendedItem[] | undefined }) => {
               className="inline-block mt-1 w-48 py-1 bg-lime-500 text-white font-medium text-sm  shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out rounded-md"
               variants={itemVariant}
             >
-              <a href={elem.url}>{elem.name}</a>
+              <Link to={elem.url}>{elem.name}</Link>
             </motion.li>
           );
         })}
