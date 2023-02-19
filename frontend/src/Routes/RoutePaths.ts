@@ -6,6 +6,8 @@ export enum RoutePaths{
     REGISTER = "/register",
     FORGOT_PASSWORD ='/forgotPassword',
     REGISTER_LECTURER="/register-lecturer",
+    TWO_FA = '/2fa',
+
 
     //reports
     REPORTS = "/reports",

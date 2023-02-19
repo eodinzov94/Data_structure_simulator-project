@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DoughnutChart from "../components/Charts/Doughnut";
 import BarChart from "../components/Charts/BarChart";
 import DropDown from "../components/UI/DropDown";
-import { ChartProps } from "../components/Charts/interface";
 import MediumCard from "../components/UI/MediumCard";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import LineChrat from "../components/Charts/Line";
 import ExportExcel from "../components/Charts/ExportExcel";
+import { useGetGeneralReportsQuery} from "../store/reducers/report-reducer";
+import { makeTable } from '../utils/helper-functions'
+import { ExportData, GeneralReport } from '../types/GeneralReport'
 
 enum choices {
   USERS_GENDER = "Gender",
@@ -14,76 +16,28 @@ enum choices {
   USERS_AGE = "Age",
 }
 
-const initialChartData: ChartProps = {
-  items: [],
-  title: "",
-};
-
-interface ExportData {
-  title: string;
-  amount: string;
-}
 
 const GeneralReportsPage = () => {
+  const {data,isLoading,isError} =  useGetGeneralReportsQuery('');
   const [graphChoosen, setGraphChoosen] = useState("Choose report");
-  const [genderData, setGenderData] = useState<ChartProps>(initialChartData);
-  const [authData, setAuthData] = useState<ChartProps>(initialChartData);
-  const [ageData, setAgeData] = useState<ChartProps>(initialChartData);
-
-  useEffect(() => {
-    /******************LOAD DATA FROM SERVER!!!!*****************/
-
-    //gender data
-
-    setGenderData({
-      items: [
-        { key: "Female", value: 40 },
-        { key: "Male", value: 60 },
-      ],
-      title: "Users Gender",
-    });
-
-    //users auth data
-    setAuthData({
-      items: [
-        { key: "Registered users", value: 60 },
-        { key: "Logged in (last two weeks)", value: 20 },
-      ],
-      title: "Information",
-    });
-
-    //age data
-    setAgeData({
-      items: [
-        { key: "24", value: 45 },
-        { key: "28", value: 60 },
-        { key: "30", value: 35 },
-        { key: "35", value: 15 },
-      ],
-      title: "Information about the age",
-    });
-  }, []);
-
-  const makeTable = (tableData: ChartProps) => {
-    return tableData.items
-      .map((item) => {
-        return { title: item.key, amount: item.value.toString() };
-      })
-      .concat([{ title: " ", amount: " " }]);
-  };
-
-  const getDataToExport = () => {
-    const AuthRows: ExportData[] = makeTable(authData);
-    const GenderRows: ExportData[] = makeTable(genderData);
+  const getDataToExport = (data:GeneralReport ) => {
+    if(!data){
+      return []
+    }
+    const AuthRows: ExportData[] = makeTable({items:data.accountsData,title:""});
+    const GenderRows: ExportData[] = makeTable({items:data.usersData.usersGroupedByGender, title:"Users By Gender"});
     const AgeRows: ExportData[] = [
       { title: "AGE INFORMATION", amount: "" },
-    ].concat(makeTable(ageData));
-    const data = AuthRows.concat(GenderRows.concat(AgeRows));
-    return data;
+    ].concat(makeTable({items:data.usersData.usersGroupedByAge,title:"Users By Age"}));
+    return AuthRows.concat(GenderRows.concat(AgeRows));
   };
+
 
   return (
     <FloatUpContainer>
+      {isError && <div>Error fetching</div>}
+      {isLoading && <div>Loading ...</div>}
+      { !isLoading && data &&
       <MediumCard>
         <DropDown
           title={graphChoosen}
@@ -91,16 +45,15 @@ const GeneralReportsPage = () => {
           onClick={setGraphChoosen}
         />
         {graphChoosen === choices.USERS_GENDER && (
-          <DoughnutChart items={genderData.items} title={genderData.title} />
+          <DoughnutChart items={data.usersData.usersGroupedByGender} title={"Users Gender"} />
         )}
         {graphChoosen === choices.USERS_AUTH && (
-          <BarChart items={authData.items} title={authData.title} />
-        )}
+          <BarChart items={data.accountsData} title={"Information"} />)}
         {graphChoosen === choices.USERS_AGE && (
-          <LineChrat items={ageData.items} title={ageData.title} />
+          <LineChrat items={data.usersData.usersGroupedByAge} title={"Information about the age"} />
         )}
-        <ExportExcel fileName="general-reports" csvData={getDataToExport()} />
-      </MediumCard>
+        <ExportExcel fileName="general-reports" csvData={getDataToExport(data)} />
+      </MediumCard>}
     </FloatUpContainer>
   );
 };
