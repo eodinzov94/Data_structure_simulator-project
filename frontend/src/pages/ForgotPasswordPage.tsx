@@ -47,9 +47,9 @@ const ForgotPasswordPage = () => {
     } else if (currentStage === stage.INPUT_CODE) {
       return (
         <CodeVerificationForm
-          onConfirm={() => {
-            setCurrentStage(stage.INPUT_NEW_PASSWORD);
-          }}
+          // onConfirm={() => {
+          //   setCurrentStage(stage.INPUT_NEW_PASSWORD);
+          // }}
         />
       );
     } else if (currentStage === stage.INPUT_NEW_PASSWORD) {

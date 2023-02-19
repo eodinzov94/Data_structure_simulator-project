@@ -1,29 +1,26 @@
-import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
-import { mainColor, mainHoverColor } from "../../styles/tColors";
-import FormButton from "./FormButton";
-import { useState } from "react";
-import ErrorMsg from "../UI/ErrorMsg";
-import { useHistory } from "react-router-dom";
-import { RoutePaths } from "../../Routes/RoutePaths";
-import {
-  CheckConfirmPassword,
-  CheckEmail,
-  CheckName,
-  CheckPassword,
-} from "./AuthFunctions";
+import { ClipboardDocumentListIcon } from '@heroicons/react/20/solid'
+import { mainColor, mainHoverColor } from '../../styles/tColors'
+import FormButton from './FormButton'
+import { FormEvent, useState } from 'react'
+import ErrorMsg from '../UI/ErrorMsg'
+import { CheckConfirmPassword, CheckEmail, CheckName, CheckPassword } from './AuthFunctions'
+import { RegisterLecturerPayload } from '../../types/Auth'
+import { useRegisterLecturerMutation } from '../../store/reducers/auth-reducer-api'
+import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
 
 const initialState = {
   firstName: "",
   lastName: "",
   email: "",
   password: "",
-  ConfirmPassword: "",
+  confirmPassword: "",
+
 };
 
-const RegisterLecturerForm = () => {
-  const [dataEntered, setDataEntered] = useState(initialState);
+const RegistrationForm = () => {
+  const [registerUser, { error,isLoading,isSuccess }] = useRegisterLecturerMutation()
+  const [dataEntered, setDataEntered] = useState<RegisterLecturerPayload>(initialState);
   const [errorMsgs, setErrorMsg] = useState<string[]>([]);
-  let history = useHistory();
 
   const onChangeHandler = (event: any) => {
     setDataEntered((prevstate) => {
@@ -39,7 +36,7 @@ const RegisterLecturerForm = () => {
         "Invalid password, must contain:[a-z],[A-Z],[0-9] and special chracter"
       );
     } else if (
-      !CheckConfirmPassword(dataEntered.password, dataEntered.ConfirmPassword)
+      !CheckConfirmPassword(dataEntered.password, dataEntered.confirmPassword!)
     ) {
       errorStack.push("The passwords must match");
     }
@@ -56,7 +53,7 @@ const RegisterLecturerForm = () => {
     return errorStack;
   };
 
-  const onSubmitHanler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     //check entered data
@@ -66,10 +63,9 @@ const RegisterLecturerForm = () => {
       return;
     }
 
-    //Send request to the server!!!!!!!!!!!!!!!!!!!!
+    registerUser(dataEntered)
 
 
-    history.replace(RoutePaths.LOGIN); //redirect the user to the login page
 
 
   };
@@ -79,7 +75,7 @@ const RegisterLecturerForm = () => {
       className="mt-8 space-y-6"
       action="#"
       method="POST"
-      onSubmit={onSubmitHanler}
+      onSubmit={onSubmitHandler}
     >
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
@@ -117,7 +113,6 @@ const RegisterLecturerForm = () => {
           />
         </div>
 
-
         {/* email */}
         <div>
           <label htmlFor="email-address" className="sr-only">
@@ -154,13 +149,13 @@ const RegisterLecturerForm = () => {
 
         {/* Confirm Password */}
         <div>
-          <label htmlFor="ConfirmPassword" className="sr-only">
+          <label htmlFor="confirmPassword" className="sr-only">
             Confirm password
           </label>
           <input
             onChange={onChangeHandler}
-            id="ConfirmPassword"
-            name="ConfirmPassword"
+            id="confirmPassword"
+            name="confirmPassword"
             type="password"
             required
             className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
@@ -171,10 +166,16 @@ const RegisterLecturerForm = () => {
 
 
       {errorMsgs.length !== 0 && <ErrorMsg ErrorMessages={errorMsgs} />}
+      {isSuccess && <ErrorMsg ErrorMessages={['Lecturer account successfully created']} />}
+      {isErrorWithDataAndMessage(error) && (
+        <ErrorMsg
+          ErrorMessages={[error.data.message]}
+        />
+      )}
 
       <FormButton
         type={"submit"}
-        title={"Register"}
+        title={"Sign up"}
         icon={
           <ClipboardDocumentListIcon
             className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}
@@ -186,4 +187,4 @@ const RegisterLecturerForm = () => {
   );
 };
 
-export default RegisterLecturerForm;
+export default RegistrationForm;

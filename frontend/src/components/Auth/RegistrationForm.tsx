@@ -1,38 +1,33 @@
-import { ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
-import { mainColor, mainHoverColor } from "../../styles/tColors";
-import RadioButton from "../UI/RadioButton";
-import { UserIcon } from "@heroicons/react/24/solid";
-import FormButton from "./FormButton";
-import { useState } from "react";
-import ErrorMsg from "../UI/ErrorMsg";
-import { useHistory } from "react-router-dom";
-import { RoutePaths } from "../../Routes/RoutePaths";
-import {
-  CheckConfirmPassword,
-  CheckEmail,
-  CheckName,
-  CheckPassword,
-} from "./AuthFunctions";
+import { ClipboardDocumentListIcon } from '@heroicons/react/20/solid'
+import { mainColor, mainHoverColor } from '../../styles/tColors'
+import RadioButton from '../UI/RadioButton'
+import { UserIcon } from '@heroicons/react/24/solid'
+import FormButton from './FormButton'
+import { FormEvent, useState } from 'react'
+import ErrorMsg from '../UI/ErrorMsg'
+import { CheckConfirmPassword, CheckEmail, CheckName, CheckPassword } from './AuthFunctions'
+import { RegisterPayload } from '../../types/Auth'
+import { useRegisterMutation } from '../../store/reducers/auth-reducer-api'
+import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
 
 const initialState = {
   firstName: "",
   lastName: "",
-  BirthYear: 0,
+  birthYear: 1970,
   email: "",
   password: "",
-  ConfirmPassword: "",
-  gender: "Male",
+  confirmPassword: "",
+  gender: "Male" as "Male"|"Female",
 };
 const GENDER = ["Male", "Female"];
 
 const RegistrationForm = () => {
-  const [dataEntered, setDataEntered] = useState(initialState);
+  const [registerUser, { error,isLoading }] = useRegisterMutation()
+  const [dataEntered, setDataEntered] = useState<RegisterPayload>(initialState);
   const [errorMsgs, setErrorMsg] = useState<string[]>([]);
-  let history = useHistory();
-
   const onChangeGender = (index: number) => {
     setDataEntered((prevstate) => {
-      return { ...prevstate, gender: GENDER[index] };
+      return { ...prevstate, gender: GENDER[index] as "Male"|"Female"};
     });
   };
   const onChangeHandler = (event: any) => {
@@ -49,7 +44,7 @@ const RegistrationForm = () => {
         "Invalid password, must contain:[a-z],[A-Z],[0-9] and special chracter"
       );
     } else if (
-      !CheckConfirmPassword(dataEntered.password, dataEntered.ConfirmPassword)
+      !CheckConfirmPassword(dataEntered.password, dataEntered.confirmPassword!)
     ) {
       errorStack.push("The passwords must match");
     }
@@ -66,7 +61,7 @@ const RegistrationForm = () => {
     return errorStack;
   };
 
-  const onSubmitHanler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     //check entered data
@@ -76,10 +71,9 @@ const RegistrationForm = () => {
       return;
     }
 
-    //Send request to the server!!!!!!!!!!!!!!!!!!!!
+    registerUser(dataEntered)
 
 
-    history.replace(RoutePaths.LOGIN); //redirect the user to the login page
 
 
   };
@@ -89,7 +83,7 @@ const RegistrationForm = () => {
       className="mt-8 space-y-6"
       action="#"
       method="POST"
-      onSubmit={onSubmitHanler}
+      onSubmit={onSubmitHandler}
     >
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
@@ -129,13 +123,13 @@ const RegistrationForm = () => {
 
         {/* Birth Year */}
         <div>
-          <label htmlFor="BirthYear" className="sr-only">
+          <label htmlFor="birthYear" className="sr-only">
           Birth Year
           </label>
           <input
             onChange={onChangeHandler}
-            id="BirthYear"
-            name="BirthYear"
+            id="birthYear"
+            name="birthYear"
             type="number"
             max={new Date().getFullYear()-16}
             min={new Date().getFullYear()-120}
@@ -181,13 +175,13 @@ const RegistrationForm = () => {
 
         {/* Confirm Password */}
         <div>
-          <label htmlFor="ConfirmPassword" className="sr-only">
+          <label htmlFor="confirmPassword" className="sr-only">
             Confirm password
           </label>
           <input
             onChange={onChangeHandler}
-            id="ConfirmPassword"
-            name="ConfirmPassword"
+            id="confirmPassword"
+            name="confirmPassword"
             type="password"
             required
             className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
@@ -212,6 +206,11 @@ const RegistrationForm = () => {
       />
 
       {errorMsgs.length !== 0 && <ErrorMsg ErrorMessages={errorMsgs} />}
+      {isErrorWithDataAndMessage(error) && (
+        <ErrorMsg
+          ErrorMessages={[error.data.message]}
+        />
+      )}
 
       <FormButton
         type={"submit"}

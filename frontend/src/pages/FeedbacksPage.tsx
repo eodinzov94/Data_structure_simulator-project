@@ -60,7 +60,6 @@ const FeedbacksPage = (): JSX.Element => {
   const handleChange = ({ selectedRows }: any) => {
     selectedRows.length ? setIsSelected(true) : setIsSelected(false);
     const newData = selectedRows.map((elem: any) => elem.id);
-    console.log(newData);
     setSelectedData([...newData]);
   };
 

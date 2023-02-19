@@ -1,28 +1,24 @@
-import ErrorMsg from "../UI/ErrorMsg";
-import { useState, useRef } from "react";
-import FormButton from "./FormButton";
-import { ArrowPathIcon } from "@heroicons/react/20/solid";
-import { ContentProps } from "../../pages/ForgotPasswordPage";
+import ErrorMsg from '../UI/ErrorMsg'
+import { FormEvent, useState } from 'react'
+import FormButton from './FormButton'
+import { ArrowPathIcon } from '@heroicons/react/20/solid'
+import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
+import { useVerify2faMutation } from '../../store/reducers/auth-reducer-api'
+import { useAppSelector } from '../../store/hooks'
+import { CodeTypes } from '../../types/Auth'
 
-const CodeVerificationForm = (props:ContentProps) => {
-  const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
-  const enterdCode = useRef<HTMLInputElement>(null);
-
-  const SubmitCode = (event: React.FormEvent<HTMLFormElement>) => {
+const CodeVerificationForm = () => {
+  const [verifyUser,{error,isLoading}]=useVerify2faMutation()
+  const [enteredCode,setCode] = useState('')
+  const userEmail = useAppSelector(state => state.auth.emailFor2Factor)
+  const SubmitCode = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    //send the code to the server 
-
-    //if the respone is ok:
-    props.onConfirm();
+    verifyUser({email:userEmail,code:enteredCode,type:CodeTypes.TWO_FA})
   };
-
 
   return (
     <form
       className="mt-8 space-y-6"
-      action={"#"}
-      method="POST"
       onSubmit={SubmitCode}
     >
       <input type="hidden" name="remember" defaultValue="true" />
@@ -39,12 +35,17 @@ const CodeVerificationForm = (props:ContentProps) => {
             required
             className={`relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm`}
             placeholder="Enter code"
-            ref={enterdCode}
+            value={enteredCode}
+            onChange={(e)=>setCode(e.target.value)}
           />
         </div>
       </div>
 
-      {errorMsgs.length !== 0 && <ErrorMsg ErrorMessages={errorMsgs} />}
+      {isErrorWithDataAndMessage(error) && (
+        <ErrorMsg
+          ErrorMessages={[error.data.message]}
+        />
+      )}
       <FormButton
         type={"submit"}
         title={"Submit code"}
