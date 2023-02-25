@@ -1,10 +1,11 @@
-import { mainColor, mainHoverColor } from "../styles/tColors";
-import {forgotPasswordLime500 } from "../utils/logos";
-import EmailForVarification from "../components/Auth/EmailForVarification";
-import AuthWrapper from "../components/Auth/AuthWrapper";
-import { useState } from "react";
-import CodeVerificationForm from "../components/Auth/CodeVerificationForm";
-import PasswordResetForm from "../components/Auth/PasswordResetForm";
+import { mainColor, mainHoverColor } from '../styles/tColors'
+import { forgotPasswordLime500 } from '../utils/logos'
+import EmailFormVarification from '../components/Auth/EmailForVarification'
+import AuthWrapper from '../components/Auth/AuthWrapper'
+import { useState } from 'react'
+import CodeVerificationForm from '../components/Auth/CodeVerificationForm'
+import PasswordResetForm from '../components/Auth/PasswordResetForm'
+import { CodeTypes } from '../types/Auth'
 
 export interface ContentProps {
   onConfirm: () => void;
@@ -28,32 +29,34 @@ const ForgotPasswordPage = () => {
     2 = input new password
    */
   const [currentStage, setCurrentStage] = useState(stage.INPUT_EMAIL);
-
-  const changePassword = (password?: string) => {
-    //send request to the server
-    //if error
-    //if the password was change
-  };
-
+  const [currentCode, setCurrentCode] = useState('');
+  const [currentEmail, setCurrentEmail] = useState('');
   const getContent = () => {
     if (currentStage === stage.INPUT_EMAIL) {
       return (
-        <EmailForVarification
+        <EmailFormVarification
           onConfirm={() => {
             setCurrentStage(stage.INPUT_CODE);
           }}
+          setEmail={(email:string)=>setCurrentEmail(email)}
         />
       );
     } else if (currentStage === stage.INPUT_CODE) {
       return (
         <CodeVerificationForm
-          // onConfirm={() => {
-          //   setCurrentStage(stage.INPUT_NEW_PASSWORD);
-          // }}
+          type={CodeTypes.RESET_PW}
+          onConfirm={() => {
+            setCurrentStage(stage.INPUT_NEW_PASSWORD);
+          }}
+          setCode={(code:string)=>setCurrentCode(code)}
+          email={currentEmail}
         />
       );
     } else if (currentStage === stage.INPUT_NEW_PASSWORD) {
-      return <PasswordResetForm changePassword={changePassword} />;
+      return <PasswordResetForm
+        code={currentCode}
+        email={currentEmail}
+      />;
     }
   };
 

@@ -13,6 +13,7 @@ import RegisterLecturerPage from '../pages/RegisterLecturerPage'
 import FeedbacksPage from '../pages/FeedbacksPage'
 import AddFeedbackPage from '../pages/AddFeedBackPage'
 import TwoFactorAuthPage from '../pages/TwoFactorAuthPage'
+import EmailVerificationPage from '../pages/EmailVerificationPage'
 
 export interface RouteItem {
   path: string;
@@ -26,6 +27,8 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.REGISTER, element: RegistrationPage },
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
   { path: RoutePaths.TWO_FA, element: TwoFactorAuthPage },
+  { path: RoutePaths.VERIFY_EMAIL, element: EmailVerificationPage },
+
 ];
 
 export const userRoutes: RouteItem[] = [
