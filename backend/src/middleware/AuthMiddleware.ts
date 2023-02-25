@@ -1,8 +1,7 @@
 import { NextFunction, Response } from 'express'
-import pkg from 'jsonwebtoken'
 import { RequestWithUser } from '../types/RequestType.js'
 import { IUser } from '../types/UserTypes.js'
-
+import pkg from 'jsonwebtoken'
 const { verify } = pkg
 
 const AuthMW = (req: RequestWithUser, res: Response, next: NextFunction) => {
@@ -11,8 +10,7 @@ const AuthMW = (req: RequestWithUser, res: Response, next: NextFunction) => {
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' })
     }
-    const decoded = verify(token, process.env.JWT_SECRET_KEY as string) as IUser
-    req.user = decoded
+    req.user = verify(token, process.env.JWT_SECRET_KEY as string) as IUser
     next()
   } catch (e) {
     console.log(e)

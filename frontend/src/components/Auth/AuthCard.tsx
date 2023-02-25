@@ -1,9 +1,10 @@
-import { motion, useTime, useTransform } from "framer-motion";
-import { faviconLime500 } from "../../utils/logos";
+import { motion, useTime, useTransform } from 'framer-motion'
+import { faviconLime500 } from '../../utils/logos'
+import { ReactElement } from 'react'
 
 interface Props {
     title:string;
-    children?: JSX.Element | JSX.Element[];
+    children?: ReactElement | ReactElement[];
 }
 
 const AuthCard = (props: Props) => {
