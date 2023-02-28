@@ -23,7 +23,7 @@ const QuickSort = (props: Props) => {
               }}
               initial={{ scale: 0.8, x: 50, opacity: 0.5 }}
               animate={{
-                backgroundColor: elem.isSelected ? "#ffffff" : "#84cc16",
+                backgroundColor: elem.color,
                 y: elem.isSelected ? 40 : 0,
                 scale: 1,
                 x: 0,
