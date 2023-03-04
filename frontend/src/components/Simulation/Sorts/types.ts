@@ -1,7 +1,16 @@
+import { ActionKind } from "./helpers";
+
 export interface sortItem {
-    value: string;
+    value: number;
     key: number;
     isSelected: boolean;
     color: string;
   }
   
+
+export interface SortOperation{
+  action: ActionKind;
+  index1: number;
+  index2?: number;
+  pivot?:boolean;
+}

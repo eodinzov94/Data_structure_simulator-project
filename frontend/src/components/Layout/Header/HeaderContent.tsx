@@ -17,7 +17,7 @@ function HeaderContent() {
           <NavBarElementsRight />
         </div>
       </div>
-
+      
       <NavBarElemetsMobile />
     </Popover>
   );

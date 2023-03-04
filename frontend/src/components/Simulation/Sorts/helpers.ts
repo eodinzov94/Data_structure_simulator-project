@@ -1,8 +1,8 @@
-import { sortItem } from "../types";
+import { sortItem } from "./types";
 
 export enum ItemColor {
   BASE = "#84cc16",
-  MARKED = "#ffffff",
+  MARKED = "#ecfccb",
   PIVOT = "#FF6666",
   DONE = "#E0E0E0",
 }
@@ -13,7 +13,8 @@ export enum ActionKind {
   UNMARK = "UNMARK",
   SWAP = "SWAP",
   DONE = "DONE",
-  MARK_PIVOT = "MARK_PIVOT"
+  MARK_PIVOT = "MARK_PIVOT",
+  BASE = "BASE",
 }
 
 // An interface for our actions
@@ -33,20 +34,14 @@ export function quickSortReducer(state: State, action: Action) {
   switch (type) {
     case ActionKind.MARK: {
       const newData = [...state.data];
-      var index1 = payload[0],
-        index2 = payload[1];
-      newData[index1] = markElem(newData[index1]);
-      newData[index2] = markElem(newData[index2]);
+      for (var index of payload) {newData[index] = markElem(newData[index]);}
       return {
         data: newData,
       };
     }
     case ActionKind.UNMARK: {
       const newData = [...state.data];
-      var index1 = payload[0],
-        index2 = payload[1];
-      newData[index1] = unMarkElem(newData[index1]);
-      newData[index2] = unMarkElem(newData[index2]);
+      for (var index1 of payload) newData[index1] = unMarkElem(newData[index1]);
       return {
         data: newData,
       };
@@ -76,7 +71,13 @@ export function quickSortReducer(state: State, action: Action) {
         data: newData,
       };
     }
-
+    case ActionKind.BASE: {
+      const newData = [...state.data];
+      newData[payload[0]].color = ItemColor.BASE;
+      return {
+        data: newData,
+      };
+    }
     default:
       return state;
   }
@@ -86,7 +87,7 @@ function markElem(elem: sortItem) {
   let newElem: sortItem = {
     ...elem,
     isSelected: true,
-    color: elem.color == ItemColor.BASE ? ItemColor.MARKED : elem.color,
+    color: elem.color === ItemColor.BASE ? ItemColor.MARKED : elem.color,
   };
   return newElem;
 }
@@ -95,7 +96,7 @@ function unMarkElem(elem: sortItem) {
   let newElem: sortItem = {
     ...elem,
     isSelected: false,
-    color: elem.color == ItemColor.MARKED ? ItemColor.BASE : elem.color,
+    color: elem.color === ItemColor.MARKED ? ItemColor.BASE : elem.color,
   };
   return newElem;
 }

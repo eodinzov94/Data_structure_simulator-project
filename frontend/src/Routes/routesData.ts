@@ -13,7 +13,7 @@ import RegisterLecturerPage from '../pages/RegisterLecturerPage'
 import FeedbacksPage from '../pages/FeedbacksPage'
 import AddFeedbackPage from '../pages/AddFeedBackPage'
 import TwoFactorAuthPage from '../pages/TwoFactorAuthPage'
-import QuickSortPage  from '../pages/QuickSortPage'
+import QuickSortPage  from '../pages/sorts/QuickSortPage'
 
 export interface RouteItem {
   path: string;
