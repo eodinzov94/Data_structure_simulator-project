@@ -4,7 +4,7 @@ interface Props {
   name: string;
   value: string;
   placeholder?: string;
-  maxVal:number;
+  maxVal?:number;
   btnText?:string;
   btnOnClick?: () => void;
   onChange: (s: string) => void;

@@ -9,6 +9,7 @@ export enum ItemColor {
 
 // An enum with all the types of actions to use in our reducer
 export enum ActionKind {
+  SET_DATA = "SET_DATA",
   MARK = "MARK",
   UNMARK = "UNMARK",
   SWAP = "SWAP",
@@ -32,9 +33,24 @@ interface State {
 export function quickSortReducer(state: State, action: Action) {
   const { type, payload } = action;
   switch (type) {
+    case ActionKind.SET_DATA: {
+      const newData = payload.map((e, index) => {
+        return {
+          key: index,
+          value: e,
+          color: ItemColor.BASE,
+          isSelected: false,
+        };
+      });
+      return {
+        data: newData,
+      };
+    }
     case ActionKind.MARK: {
       const newData = [...state.data];
-      for (var index of payload) {newData[index] = markElem(newData[index]);}
+      for (var index of payload) {
+        newData[index] = markElem(newData[index]);
+      }
       return {
         data: newData,
       };
@@ -99,4 +115,22 @@ function unMarkElem(elem: sortItem) {
     color: elem.color === ItemColor.MARKED ? ItemColor.BASE : elem.color,
   };
   return newElem;
+}
+
+export function getRandomNumsArr(size: number) {
+  return [...Array(size)].map(() => Math.floor(Math.random() * 100));
+}
+
+export function getArrFromInput(maxSize: number, data: string) {
+  var list = data.split(",");
+  if (list.includes("")) return `Input must be numbers that sperated by comma`;
+  if (list.length > maxSize) return `Max array size is ${maxSize}`;
+  const newData: number[] = [];
+  for (var item of list) {
+    var num = Number(item);
+    if (Number.isNaN(num)) return `${item} is not a number`;
+    if (num > 9999) return `Max element length is 4 digits, ${item} is bigger`;
+    newData.push(num);
+  }
+  return newData;
 }
