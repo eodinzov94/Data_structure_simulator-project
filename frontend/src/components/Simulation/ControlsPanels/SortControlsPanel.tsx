@@ -1,8 +1,8 @@
 import { useState } from "react";
+import swal from "sweetalert";
 import MediumCard from "../../UI/MediumCard";
 import SimulationInputGroup from "../../UI/SimulationInputGroup";
 import { getArrFromInput } from "../Sorts/helpers";
-
 export interface Item {
   value: string;
   key: number;
@@ -26,7 +26,8 @@ export const SortControlsPanel = (props: Props) => {
 
   const inputValueHandler = () => {
     const result = getArrFromInput(props.maxElements, enteredValue);
-    if (typeof result === "string") window.alert(result);
+    
+    if (typeof result === "string") swal({icon:'error', text:result})
     else {
       props.inputHandler(result as number[]);
       setEnteredValue('')
