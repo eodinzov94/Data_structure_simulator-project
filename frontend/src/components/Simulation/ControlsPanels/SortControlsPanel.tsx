@@ -14,6 +14,9 @@ interface Props {
   inputHandler: (data: number[]) => void; //function that gets the value and add to the the data
   leftBtnHandler?: () => void;
 
+  abortTrueHandler?: () => void;
+  abortFalseHandler?: () => void;
+
   rightBtnText: string;
   inputBtnText: string;
   leftBtnText?: string;
@@ -30,6 +33,8 @@ export const SortControlsPanel = (props: Props) => {
     if (typeof result === "string") swal({icon:'error', text:result})
     else {
       props.inputHandler(result as number[]);
+      if(props.abortTrueHandler)
+        props.abortTrueHandler()
       setEnteredValue('')
     }
   };

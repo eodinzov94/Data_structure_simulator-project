@@ -13,4 +13,5 @@ export interface SortOperation{
   index1: number;
   index2?: number;
   pivot?:boolean;
+  line:number;
 }

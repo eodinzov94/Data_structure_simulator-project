@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import QuickSort from "../../components/Simulation/Sorts/QuickSort/QuickSort";
 import {
@@ -14,6 +14,8 @@ import {
 } from "../../components/Simulation/Sorts/helpers";
 import { quickSort } from "../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
 import { SortControlsPanel } from "../../components/Simulation/ControlsPanels/SortControlsPanel";
+import { is } from "immer/dist/internal";
+import { PseudoCode } from "../../components/Simulation/PseudoCode/PseudoCode";
 
 const MAX_ELEMENTS = 10;
 
@@ -25,16 +27,31 @@ export interface Position {
 
 const QuickSortPage = () => {
   const [state, dispatch] = useReducer(quickSortReducer, { data: [] });
+  const [line,setLine] = useState(-1)
+  let isAnimate: boolean = false;
+  const abortRef = useRef(false); //dive into it later
 
   const Sort = async () => {
+    setAbortFalse();
     const arr: SortOperation[] = quickSort([...state.data]);
+    isAnimate = true;
+    console.log(isAnimate);
     //change to iterate with i, and i will be save as state - will help with memento
     for (var val of arr) {
+      if (abortRef.current) {
+        break;
+      }
+      setLine(val.line)
       const payload: number[] =
         val.index2 !== undefined ? [val.index1, val.index2] : [val.index1];
-      dispatch({ type: val.action, payload: payload });
+
+      if (val.action!==ActionKind.BLANK)
+        dispatch({ type: val.action, payload: payload });
+
       await sleep(2000);
     }
+    console.log("--here---");
+
     // //memento checking
     // for (var i = arr.length - 1; i >= 0; i--) {
     //   const { action, index1, index2 } = arr[i];
@@ -72,13 +89,17 @@ const QuickSortPage = () => {
     // }
   };
 
-  const setInput = (data:number[]) => {
-    dispatch({type: ActionKind.SET_DATA, payload:data})
-  }
+  const setInput = (data: number[]) => {
+    dispatch({ type: ActionKind.SET_DATA, payload: data });
+  };
 
   const setRandomInput = () => {
-    setInput(getRandomNumsArr(MAX_ELEMENTS))
+    setAbortTrue();
+    setInput(getRandomNumsArr(MAX_ELEMENTS));
   };
+
+  const setAbortTrue = () => (abortRef.current = true);
+  const setAbortFalse = () => (abortRef.current = false);
 
   return (
     <>
@@ -87,7 +108,8 @@ const QuickSortPage = () => {
         rightBtnHandler={Sort}
         inputHandler={setInput}
         leftBtnHandler={setRandomInput}
-
+        abortTrueHandler={setAbortTrue}
+        abortFalseHandler={setAbortFalse}
         inputBtnText={"Set"}
         rightBtnText={"Sort"}
         leftBtnText={"Random"}
@@ -98,6 +120,7 @@ const QuickSortPage = () => {
         <div className="flex flex-nowrap">
           {/*middle section */}
           <QuickSort items={state.data} />
+          <PseudoCode line={line}/>
         </div>
       </div>
     </>
@@ -146,6 +169,3 @@ export default QuickSortPage;
               </motion.li>
             </ul>
           </div> */
-
-
-
