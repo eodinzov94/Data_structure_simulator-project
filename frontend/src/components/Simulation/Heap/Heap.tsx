@@ -105,9 +105,22 @@ const Heap = () => {
           value: 19,
           left: {
             value: 18
+            ,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
           },
           right: {
-            value: 20
+            value: 20,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
           }
         }
       }
@@ -115,7 +128,7 @@ const Heap = () => {
   }
 
   return (
-    <BinaryTree root={treeNode} level ={1}/>
+    <BinaryTree root={treeNode} level ={0}/>
   )
 
 

@@ -22,7 +22,7 @@ const BinaryTree: FC<BTProps> = ({ root, position ,level}) => {
     top = position.top
     left = position.left
   }
-  const gapX  = 350 / (2**(level - 1)+0.2)
+  const gapX  = 250 / (2**(level))
   leftNodeY = top + gapY
   rightNodeY = top + gapY
   leftNodeX =  left  - gapX
