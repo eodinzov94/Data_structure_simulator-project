@@ -1,0 +1,21 @@
+.branch{
+    position: absolute;
+    height: 2px;
+    background-color: black;
+    transform-origin: left center;
+}
+
+.node{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #84cc16;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: lightyellow;
+    z-index: 2;
+}
