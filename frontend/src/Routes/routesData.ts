@@ -13,6 +13,8 @@ import RegisterLecturerPage from '../pages/RegisterLecturerPage'
 import FeedbacksPage from '../pages/FeedbacksPage'
 import AddFeedbackPage from '../pages/AddFeedBackPage'
 import TwoFactorAuthPage from '../pages/TwoFactorAuthPage'
+
+import QuickSortPage  from '../pages/sorts/QuickSortPage'
 import EmailVerificationPage from '../pages/EmailVerificationPage'
 
 export interface RouteItem {
@@ -33,9 +35,11 @@ export const publicRoutes: RouteItem[] = [
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
+  { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage },
+  //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
-  { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage }
+  { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
 ];
 
 export const lecturerRoutes: RouteItem[] = [
