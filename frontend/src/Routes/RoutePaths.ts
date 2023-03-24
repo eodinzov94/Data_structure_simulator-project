@@ -7,7 +7,7 @@ export enum RoutePaths{
     FORGOT_PASSWORD ='/forgotPassword',
     REGISTER_LECTURER="/register-lecturer",
     TWO_FA = '/2fa',
-
+    VERIFY_EMAIL = '/verify-email/:token',
 
     //reports
     REPORTS = "/reports",

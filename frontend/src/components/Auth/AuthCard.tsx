@@ -1,8 +1,11 @@
-import { RotatesLogo } from "../UI/RotatesLogo";
+
+import { motion, useTime, useTransform } from 'framer-motion'
+import { faviconLime500 } from '../../utils/logos'
+import { ReactElement } from 'react'
 
 interface Props {
-  title: string;
-  children?: JSX.Element | JSX.Element[];
+    title:string;
+    children?: ReactElement | ReactElement[];
 }
 
 const AuthCard = (props: Props) => {
