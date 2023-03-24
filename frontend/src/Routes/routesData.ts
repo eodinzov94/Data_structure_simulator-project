@@ -16,6 +16,7 @@ import TwoFactorAuthPage from '../pages/TwoFactorAuthPage'
 
 import QuickSortPage  from '../pages/sorts/QuickSortPage'
 import EmailVerificationPage from '../pages/EmailVerificationPage'
+import Heap from "../components/Simulation/Heap/Heap";
 
 export interface RouteItem {
   path: string;
@@ -39,6 +40,7 @@ export const userRoutes: RouteItem[] = [
   //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
+  { path: RoutePaths.HEAP, element: Heap },
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
 ];
 
