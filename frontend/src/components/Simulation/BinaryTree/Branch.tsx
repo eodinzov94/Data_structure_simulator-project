@@ -28,7 +28,7 @@ const Branch: FC<BranchProps> = ({ pos,zoomPercentage}) => {
     transform: `rotate(${angle}deg)`,
     scale: zoomPercentage,
   }
-  return (<div className='branch' style={style} />)
+  return (<span className='branch' style={style} />)
 }
 
 export default Branch

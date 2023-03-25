@@ -14,10 +14,12 @@ interface BinaryTreeNodeProps {
   style: React.CSSProperties
 }
 
-const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ position, speed, zoomPercentage, value, style }) => {
+const BinaryTreeNode: FC<BinaryTreeNodeProps> = ( props) => {
+  const { position, zoomPercentage, speed, value, style } = props
   const { top, left } = position
   return (
-      <motion.li
+      <motion.span
+        layout
         className='node'
         style={{
           ...style,
@@ -25,18 +27,16 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ position, speed, zoomPercenta
           left: left,
           scale: zoomPercentage,
         }}
-        transition={{
-          layout: { duration: 0.5},
-        }}
-        initial={{ backgroundColor: 'white' ,opacity: 0}}
-        animate={{ backgroundColor: 'white' ,opacity: 1 ,}}
-        exit={{ backgroundColor: 'black',x:-20,y:-50, transition: {
-            duration: 1.5,
-          },opacity: 0.2}}
-        key={`${top},${left},${value}`}
+        initial={{ backgroundColor: 'black' ,opacity: 1 }}
+        animate={{ backgroundColor: 'white' ,opacity: 1 , transition: { duration: 0.5 }}}
+        // exit={{ backgroundColor: 'black',x:-20,y:-50, transition: {
+        //     duration: 1.5,
+        //   },opacity: 0.2}}
+        //key={`${top},${left},${value}`}
+        key={`${value}`}
       >
         {value}
-      </motion.li>
+      </motion.span>
       )
 }
 
