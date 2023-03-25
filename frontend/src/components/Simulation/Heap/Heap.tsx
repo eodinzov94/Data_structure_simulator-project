@@ -1,5 +1,7 @@
 import BinaryTree from '../BinaryTree/BinaryTree'
 import { TreeNode } from '../BinaryTree/BinaryTreeTypes'
+import { useEffect, useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 
 function calculateHeight(root: TreeNode| undefined):number {
   if (!root) {
@@ -150,9 +152,200 @@ const Heap = () => {
       }
     }
   }
-
+  const treeNode2 = {
+    value: 10,
+    left: {
+      value: 5,
+      left: {
+        value: 3,
+        left: {
+          value: 2,
+          left: {
+            value: 1
+          }
+        },
+        right: {
+          value: 4
+        }
+      },
+      right: {
+        value: 7,
+        left: {
+          value: 6
+        },
+        right: {
+          value: 9,
+          left: {
+            value: 8
+          }
+        }
+      }
+    },
+    right: {
+      value: 15,
+      left: {
+        value: 12,
+        left: {
+          value: 11
+        },
+        right: {
+          value: 14,
+          left: {
+            value: 13
+          }
+        }
+      },
+      right: {
+        value: 17,
+        left: {
+          value: 16,
+          left: {
+            value: 18
+            ,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          },
+          right: {
+            value: 20,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          }
+        },
+        right: {
+          value: 19,
+          left: {
+            value: 18
+            ,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          },
+          right: {
+            value: 20,
+            left: {
+              value: 17
+            },
+            right: {
+              value: 19
+            }
+          }
+        }
+      }
+    }
+  }
+  const treeNode3 = {
+    value: 10,
+    left: {
+      value: 5,
+      left: {
+        value: 3,
+        left: {
+          value: 2,
+          left: {
+            value: 1
+          }
+        },
+        right: {
+          value: 4
+        }
+      },
+      right: {
+        value: 7,
+        left: {
+          value: 6
+        },
+        right: {
+          value: 9,
+          left: {
+            value: 8
+          }
+        }
+      }
+    },
+    right: {
+      value: 15,
+      left: {
+        value: 12,
+        left: {
+          value: 11
+        },
+        right: {
+          value: 14,
+          left: {
+            value: 13
+          }
+        }
+      },
+      right: {
+        value: 17,
+        left: {
+          value: 16,
+          left: {
+            value: 18
+            ,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          },
+          right: {
+            value: 20,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          }
+        },
+        right: {
+          value: 19,
+          left: {
+            value: 18
+            ,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          },
+          right: {
+            value: 20
+          }
+        }
+      }
+    }
+  }
+  const [root, setRoot] = useState<TreeNode>(treeNode)
+  useEffect(()=>{
+    setTimeout(()=>{
+      setRoot(treeNode)
+    },1000)
+    setTimeout(()=>{
+      setRoot(treeNode2)
+    },3000)
+    setTimeout(()=>{
+      setRoot(treeNode3)
+    },5000)
+  },[])
   return (
-    <BinaryTree root={treeNode} level ={0} height={calculateHeight(treeNode)}/>
+    <AnimatePresence>
+    <BinaryTree root={root} level ={0} height={calculateHeight(root)}/>
+    </AnimatePresence>
   )
 
 

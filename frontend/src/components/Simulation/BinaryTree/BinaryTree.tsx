@@ -2,6 +2,7 @@ import { TreeNode } from './BinaryTreeTypes'
 import BinaryTreeNode from './BinaryTreeNode'
 import Branch from './Branch'
 import { FC, useEffect, useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 
 interface BTProps {
   root: TreeNode
@@ -29,7 +30,6 @@ const BinaryTree: FC<BTProps> = ({ root, position ,level,height}) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
   let top, left, leftNodeX, leftNodeY, rightNodeX, rightNodeY
   if (!position) {
      top =120;
@@ -38,7 +38,7 @@ const BinaryTree: FC<BTProps> = ({ root, position ,level,height}) => {
     top = position.top
     left = position.left
   }
-  const gapX  =  1200 / (height*(2**(level-0.5)))
+  const gapX  =  Math.min(viewportWidth,1100) / (height*(2**(level-0.5)))
   leftNodeY = top + gapY
   rightNodeY = top + gapY
   leftNodeX =  left  - gapX
