@@ -5,6 +5,21 @@
     transform-origin: left center;
 }
 
+/* For debugging */
+/*.node:hover::before {*/
+/*    content: attr(data-id);*/
+/*    display: block;*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, 10px);*/
+/*    background-color: #000;*/
+/*    color: #fff;*/
+/*    padding: 5px;*/
+/*    border-radius: 5px;*/
+/*    font-size: 14px;*/
+/*    z-index: 999;*/
+/*}*/
 .node{
     display: flex;
     position: absolute;
