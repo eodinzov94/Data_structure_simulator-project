@@ -1,7 +1,12 @@
 import BinaryTree from '../BinaryTree/BinaryTree'
 import { TreeNode } from '../BinaryTree/BinaryTreeTypes'
 
-
+function calculateHeight(root: TreeNode| undefined):number {
+  if (!root) {
+    return 0
+  }
+  return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1
+}
 const Heap = () => {
   const tree3: TreeNode = {
     value: 10,
@@ -99,7 +104,26 @@ const Heap = () => {
       right: {
         value: 17,
         left: {
-          value: 16
+          value: 16,
+          left: {
+            value: 18
+            ,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          },
+          right: {
+            value: 20,
+            left: {
+              value: 18
+            },
+            right: {
+              value: 20
+            }
+          }
         },
         right: {
           value: 19,
@@ -128,7 +152,7 @@ const Heap = () => {
   }
 
   return (
-    <BinaryTree root={treeNode} level ={0}/>
+    <BinaryTree root={treeNode} level ={0} height={calculateHeight(treeNode)}/>
   )
 
 
