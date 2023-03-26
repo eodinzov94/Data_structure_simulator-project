@@ -20,7 +20,7 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
       itemArr.push({ action: ActionType.HIGHLIGHT_LIGHT, item: right })
     }
     actionsArr.push(itemArr);
-    heapSnapshots.push(null)
+    heapSnapshots.push([...A])
     if (left < heapSize && A[left] > A[largest]) {
         largest = left;
     }
@@ -33,12 +33,14 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
             { action: right === largest? ActionType.HIGHLIGHT_LIGHT:ActionType.NONE, item: right },
             { action: ActionType.HIGHLIGHT_FULL, item: i }
         ]);
-        heapSnapshots.push(null);
-        [A[i], A[largest]] = [A[largest], A[i]];
+        heapSnapshots.push([...A]);
         actionsArr.push([
             { action: ActionType.SWAP, item: i,item2:largest},
         ]);
-        heapSnapshots.push([...A])
+        heapSnapshots.push([...A]);
+        [A[i], A[largest]] = [A[largest], A[i]];
+        heapSnapshots.push([...A]);
+        actionsArr.push([]);
         maxHeapify(A, largest, heapSize,actionsArr,heapSnapshots );
     }
 }

@@ -103,11 +103,8 @@ const BinaryTree: FC<BTProps> = (props) => {
     try{
       for(let action of actions){
         if(action.action === ActionType.SWAP){
-          console.log(binaryHeapToArray(root))
-          // @ts-ignore
-          const itemProps = {...tree[action.item].props};
-          // @ts-ignore
-          const item2Props = {...tree[action.item2!].props};
+          const itemProps: any = {...tree[action.item].props};
+          const item2Props: any = {...tree[action.item2!].props};
           itemProps.action = ActionType.SWAP;
           itemProps.nodeInteractionPosition = item2Props.position;
           item2Props.action = ActionType.SWAP;
@@ -115,8 +112,7 @@ const BinaryTree: FC<BTProps> = (props) => {
           tree[action.item] = {...tree[action.item], props: itemProps};
           tree[action.item2!] = {...tree[action.item2!], props: item2Props};
         } else {
-          // @ts-ignore
-          const itemProps = {...tree[action.item].props};
+          const itemProps: any = {...tree[action.item].props};
           itemProps.action = action.action;
           tree[action.item] = {...tree[action.item], props: itemProps};
         }

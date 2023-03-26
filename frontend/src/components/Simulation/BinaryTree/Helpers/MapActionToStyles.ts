@@ -23,7 +23,7 @@ export type Events = { action: ActionType, item: number,item2?:number }[];
 interface State {
     data: Events[];
 }
-export type HeapSnapshots = (number[]|null)[];
+export type HeapSnapshots = (number[])[];
 //Our reducer function that uses a switch statement to handle our actions
 export function addEvent(state: State, data: Events) {
     state.data.push(data);
