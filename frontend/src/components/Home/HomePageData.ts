@@ -87,7 +87,7 @@ const HomePageData = [
     title: "Heap",
     gif: heapGif,
     image: heapPhoto,
-    url: "/login",
+    url: "/heap",
   },
   {
     title: "Sorts",
