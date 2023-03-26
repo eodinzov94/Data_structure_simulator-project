@@ -6,25 +6,26 @@ export enum ItemColor {
 
 // An enum with all the types of actions to use in our reducer
 export enum ActionType {
-    HIGHLIGHT_FULL = "MARK",
-    HIGHLIGHT_LIGHT = "UNMARK",
+    HIGHLIGHT_FULL = "HIGHLIGHT_FULL",
+    HIGHLIGHT_LIGHT = "HIGHLIGHT_LIGHT",
     SWAP = "SWAP",
     DELETE = "DONE",
     ADD = "BASE",
+    NONE = "NONE"
 }
 
 
 // An interface for our actions
-type events = [{ action: ActionType, item: number }];
+export type Events = { action: ActionType, item: number,item2?:number }[];
 
 
 // An interface for our state
 interface State {
-    data: events[];
+    data: Events[];
 }
-
+export type HeapSnapshots = (number[]|null)[];
 //Our reducer function that uses a switch statement to handle our actions
-export function addEvent(state: State, data: events) {
+export function addEvent(state: State, data: Events) {
     state.data.push(data);
     return state;
 }
