@@ -9,7 +9,7 @@ interface Props {
     id: number
     action: ActionType;
     nodeInteractionIndex?: number;
-    speed?: number;
+    speed: number;
 }
 
 const ArrayItem = (props: Props) => {
@@ -22,8 +22,8 @@ const ArrayItem = (props: Props) => {
             className={styles.s_li}
             layout
             transition={{
-                layout: {duration: 1, ease: 'easeIn'},
-                duration: 1,
+                layout: {duration: 0.250*speed, ease: 'easeIn'},
+                duration: 0.250*speed,
             }}
             initial={initial}
             animate={animate}

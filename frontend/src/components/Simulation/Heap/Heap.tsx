@@ -1,6 +1,6 @@
 import BinaryTree from '../BinaryTree/BinaryTree'
 import { TreeNode } from '../BinaryTree/BinaryTreeTypes'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { arrayToBinaryTree } from '../BinaryTree/Helpers/Functions'
 import { sleep } from '../../../utils/animation-helpers'
 import { Events, HeapSnapshots } from '../BinaryTree/Helpers/MapActionToStyles'
@@ -14,13 +14,13 @@ function calculateHeight(root: TreeNode | undefined): number {
   return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1
 }
 const Heap = () => {
-  // const heapArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-  const heapArray= [1,2,3]
+  const heapArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 999]
+  //const heapArray= [1,2,3]
   const heapRoot = arrayToBinaryTree(heapArray)
   const [root, setRoot] = useState<TreeNode>(heapRoot)
   const [currentActions, setCurrentActions] = useState<Events>([])
   const [currentArr, setCurrentArr] = useState(heapArray)
-
+  const speed = useRef(1);
 
   const Animate = async () => {
     const actionsArr: Events[] = []
@@ -34,20 +34,25 @@ const Heap = () => {
       setCurrentActions(actionsArr[i])
       setRoot(arrayToBinaryTree(heapSnapshots[i]))
       setCurrentArr(heapSnapshots[i])
-      await sleep(2000)
+      await sleep(500*speed.current)
     }
   }
     return (
       <>
         <button onClick={Animate}>Start Animation</button>
         <div className="container mx-auto max-w-7xl px-0 py-0 mt-60">
-          <HeapArray items={currentArr} actions={currentActions}/>
+          <HeapArray items={currentArr} actions={currentActions} speed={speed}/>
         </div>
-        <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={1} zoomPercentage={1}
+        <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={speed}
                     actions={currentActions} />
-        {/*<button onClick={() => setCurrentArr(heapArray2)}>*/}
-        {/*    Click me 2!*/}
-        {/*</button>*/}
+        <br/>
+        <button className='' onClick={() => {speed.current = speed.current/2}}>
+            Faster Animation
+        </button>
+        <br/>
+        <button className='' onClick={() => {speed.current = speed.current*2}}>
+          Slower Animation
+        </button>
       </>
     )
   }

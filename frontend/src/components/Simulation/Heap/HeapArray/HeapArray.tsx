@@ -7,18 +7,19 @@ import React from "react";
 interface Props {
     items: number[]; //data of stack
     actions: Events;
+    speed:  React.MutableRefObject<number>;
 }
 
 
-function itemsToArray(items: number[]) {
+function itemsToArray(items: number[],speed:  React.MutableRefObject<number>) {
     return items.map((value, index) =>
-        <ArrayItem value={value} id={index} action={ActionType.NONE}/>
+        <ArrayItem value={value} id={index} action={ActionType.NONE} speed={speed.current}/>
     )
 }
 
 const HeapArray = (props: Props) => {
-        const {items, actions} = props;
-        const arr = itemsToArray(items);
+        const {items, actions,speed} = props;
+        const arr = itemsToArray(items, speed);
         if (actions) {
             try {
                 for (let action of actions) {

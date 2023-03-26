@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef } from 'react'
+import React, { FC, ReactElement } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import './BinaryTree.css'
 import { ActionType } from './Helpers/MapActionToStyles'
@@ -9,7 +9,6 @@ interface BinaryTreeNodeProps {
     top: number,
     left: number
   }
-  zoomPercentage: number
   speed: number
   id: number
   value: number
@@ -22,9 +21,10 @@ interface BinaryTreeNodeProps {
 }
 
 const BinaryTreeNode: FC<BinaryTreeNodeProps> = (props) => {
-  const { position, speed, zoomPercentage, id, value, children, nodeInteractionPosition, action } = props
+  const { position, speed, id, value, children, nodeInteractionPosition, action } = props
   const { top, left } = position
   const {initial,exit,animate,style} = getAnimationsAndStyles(action, nodeInteractionPosition,position)
+  console.log(speed)
   return (
     <>
       <AnimatePresence key={`${value}-${id}`}>
@@ -32,8 +32,8 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = (props) => {
           data-id={`${id},${top},${left}`}
           layout={'position'}
           transition={{
-            layout: { duration: speed, ease: 'easeIn' },
-            duration: speed,
+            layout: { duration: 0.250*speed, ease: 'easeIn' },
+            duration: 0.250*speed,
           }}
           // initial={{ x: 0, y: 0, opacity: 0.5 }}
           // animate={{ opacity: 1, x: 0, y: 0 }}
@@ -46,7 +46,6 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = (props) => {
             ...style,
             top: top,
             left: left,
-            scale: zoomPercentage,
           }}
           className='node'
         >

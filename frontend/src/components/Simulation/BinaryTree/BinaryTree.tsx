@@ -1,19 +1,13 @@
 import { TreeNode } from './BinaryTreeTypes'
 import BinaryTreeNode from './BinaryTreeNode'
 import Branch from './Branch'
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ActionType, Events } from './Helpers/MapActionToStyles'
-import { binaryHeapToArray } from './Helpers/Functions'
 
 interface BTProps {
   root: TreeNode
-  position?: {
-    top: number,
-    left: number
-  }
   level: number
-  zoomPercentage: number
-  speed: number
+  speed:  React.MutableRefObject<number>
   height: number
   actions: Events | null
 }
@@ -27,7 +21,7 @@ type StackItem = {
 };
 const gapY = 50
 const BinaryTree: FC<BTProps> = (props) => {
-  const { zoomPercentage, speed, level, root, height, actions, position } = props
+  const {speed, level, root, height, actions } = props
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
   useEffect(() => {
     function handleResize() {
@@ -58,19 +52,19 @@ const BinaryTree: FC<BTProps> = (props) => {
     if (branchPosition) {
       nodeElement =
         <BinaryTreeNode
-          position={{ top: Math.round(top), left: Math.round(left) }} zoomPercentage={1}
+          position={{ top: Math.round(top), left: Math.round(left) }}
           id={node.id}
-          value={node.value} speed={1}
+          value={node.value} speed={speed.current}
           action={ActionType.NONE}
         >
           <Branch zoomPercentage={1} pos={branchPosition} key={`${node.value}-${node.id}-${branchPosition.x1}`}/>
         </BinaryTreeNode>
     } else {
       nodeElement = <BinaryTreeNode
-        position={{ top: Math.round(top), left: Math.round(left) }} zoomPercentage={1}
+        position={{ top: Math.round(top), left: Math.round(left) }}
         id={node.id}
         action={ActionType.NONE}
-        value={node.value} speed={1} />
+        value={node.value} speed={speed.current} />
     }
     if (node.right) {
       rightNodeX = left + Math.min(viewportWidth, 1100) / (height * (2 ** (level - 0.5)))
