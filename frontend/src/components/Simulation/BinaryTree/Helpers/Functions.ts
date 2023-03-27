@@ -92,7 +92,7 @@ export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition:
             }
             style = {backgroundColor: '#1a7e3c'}
             animate = {
-                x: (nodeInteractionPosition - myPosition)*50,
+                x: (nodeInteractionPosition - myPosition)*32,
             }
             break
         }

@@ -14,7 +14,7 @@ function calculateHeight(root: TreeNode | undefined): number {
   return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1
 }
 const Heap = () => {
-  const heapArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 999]
+  const heapArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 999,22,22,22,22,22,22,22,22,2,22]
   //const heapArray= [1,2,3]
   const heapRoot = arrayToBinaryTree(heapArray)
   const [root, setRoot] = useState<TreeNode>(heapRoot)
@@ -40,11 +40,13 @@ const Heap = () => {
     return (
       <>
         <button onClick={Animate}>Start Animation</button>
-        <div className="container mx-auto max-w-7xl px-0 py-0 mt-60">
+        <div className="container mx-auto max-w-7xl px-0 py-0 mt-64">
           <HeapArray items={currentArr} actions={currentActions} speed={speed}/>
         </div>
-        <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={speed}
-                    actions={currentActions} />
+        <div className="container mx-auto max-w-7xl px-0 py-0">
+          <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={speed}
+                      actions={currentActions} />
+        </div>
         <br/>
         <button className='' onClick={() => {speed.current = speed.current/2}}>
             Faster Animation

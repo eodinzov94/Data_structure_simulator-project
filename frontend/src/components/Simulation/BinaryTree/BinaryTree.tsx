@@ -67,7 +67,7 @@ const BinaryTree: FC<BTProps> = (props) => {
         value={node.value} speed={speed.current} />
     }
     if (node.right) {
-      rightNodeX = left + Math.min(viewportWidth, 1100) / (height * (2 ** (level - 0.5)))
+      rightNodeX = left + Math.min(viewportWidth, 600) / (height * (2 ** (level - 0.5)))
       rightNodeY = top + gapY
       stack.push({
         node: node.right,
@@ -78,7 +78,7 @@ const BinaryTree: FC<BTProps> = (props) => {
       })
     }
     if (node.left) {
-      leftNodeX = left - Math.min(viewportWidth, 1100) / (height * (2 ** (level - 0.5)))
+      leftNodeX = left - Math.min(viewportWidth, 600) / (height * (2 ** (level - 0.5)))
       leftNodeY = top + gapY
       stack.push({
         node: node.left,

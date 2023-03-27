@@ -22,7 +22,7 @@
   /* flex-direction: row; */
   background: var(--accent);
   height: 30px;
-  width: 50px;
+  width: 32px;
   border: solid 1px black;
 }
 
@@ -31,10 +31,10 @@
   list-style: none;
   color: #000000;
   text-align: center;
-  line-height: 40px;
+  line-height: 30px;
   font-weight: 700;
   display: inline-block;
-  height:40px;
+  height:30px;
   
 }
 
