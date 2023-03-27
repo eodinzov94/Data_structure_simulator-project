@@ -1,58 +1,42 @@
-import React, { FC, ReactElement } from 'react'
+import React, { FC } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import './BinaryTree.css'
-import { ActionType } from './Helpers/MapActionToStyles'
 import { getAnimationsAndStyles } from './Helpers/Functions'
+import { NodeObj } from './ClassObjects/NodeObj'
+import Branch from './Branch'
 
 interface BinaryTreeNodeProps {
-  position: {
-    top: number,
-    left: number
-  }
-  speed: number
-  id: number
-  value: number
-  children?: ReactElement | ReactElement[];
-  action: ActionType
-  nodeInteractionPosition?: {
-    top: number,
-    left: number
-  }
+  nodeObj: NodeObj
 }
 
-const BinaryTreeNode: FC<BinaryTreeNodeProps> = (props) => {
-  const { position, speed, id, value, children, nodeInteractionPosition, action } = props
-  const { top, left } = position
-  const {initial,exit,animate,style} = getAnimationsAndStyles(action, nodeInteractionPosition,position)
-  console.log(speed)
+const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
+  const {initial,exit,animate,style} = getAnimationsAndStyles(nodeObj.action, nodeObj.swapPosition,nodeObj.position)
   return (
     <>
-      <AnimatePresence key={`${value}-${id}`}>
+      <AnimatePresence>
         <motion.span
-          data-id={`${id},${top},${left}`}
-          layout={'position'}
+          data-id={`${nodeObj.id},${nodeObj.position.x},${nodeObj.position.y}`}
           transition={{
-            layout: { duration: 0.250*speed, ease: 'easeIn' },
-            duration: 0.250*speed,
+            layout: { duration: 0.250*nodeObj.speed, ease: 'easeIn' },
+            duration: 0.250*nodeObj.speed,
           }}
-          // initial={{ x: 0, y: 0, opacity: 0.5 }}
-          // animate={{ opacity: 1, x: 0, y: 0 }}
-          // exit={{ opacity: 0.5, x: 2750 }}
+          layout={'position'}
           initial={initial}
           animate={animate}
           exit={exit}
-          key={`${value}-${id}`}
+          key={`${nodeObj.value}-${nodeObj.id}`}
           style={{
             ...style,
-            top: top,
-            left: left,
+            top: nodeObj.position.y,
+            left: nodeObj.position.x,
           }}
           className='node'
         >
-          {value}
+          {nodeObj.value}
         </motion.span>
       </AnimatePresence>
-      {children}
+      {nodeObj.branch && <Branch branch={nodeObj.branch }
+       key={`${nodeObj.branch.x1}-${nodeObj.branch.x2}-${nodeObj.branch.y1}-${nodeObj.branch.y1}`} />}
     </>
   )
 }

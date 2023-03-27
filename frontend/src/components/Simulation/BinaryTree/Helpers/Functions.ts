@@ -32,8 +32,8 @@ export function arrayToBinaryTree(arr: number[]): TreeNode {
 }
 
 export function getAnimationsAndStyles(action: ActionType,
-                                       nodeInteractionPosition?: { top: number, left: number },
-                                       myPosition?: { top: number, left: number }
+                                       nodeInteractionPosition: { y: number, x: number }|null,
+                                       myPosition?: { y: number, x: number }
 ): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
     let initial = {}, animate = {}, exit = {}, style = {}
     switch (action) {
@@ -49,11 +49,12 @@ export function getAnimationsAndStyles(action: ActionType,
         }
         case ActionType.SWAP: {
             if (!nodeInteractionPosition || !myPosition) {
-                throw new Error('nodeInteractionPosition and myPosition are required')
+                throw new Error(`nodeInteractionPosition and myPosition are required\n 
+                  nodeInteractionPosition: ${nodeInteractionPosition}\n myPosition: ${myPosition}`)
             }
             animate = {
-                y: nodeInteractionPosition.top - myPosition.top,
-                x: nodeInteractionPosition.left - myPosition.left
+                y: nodeInteractionPosition.y - myPosition.y,
+                x: nodeInteractionPosition.x - myPosition.x
                }
             style = {backgroundColor: '#1a7e3c'}
             break

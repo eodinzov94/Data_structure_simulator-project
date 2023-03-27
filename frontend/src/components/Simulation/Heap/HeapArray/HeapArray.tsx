@@ -13,7 +13,7 @@ interface Props {
 
 function itemsToArray(items: number[],speed:  React.MutableRefObject<number>) {
     return items.map((value, index) =>
-        <ArrayItem value={value} id={index} action={ActionType.NONE} speed={speed.current}/>
+        <ArrayItem value={value} id={index} action={ActionType.NONE} speed={speed.current} key={`Arr-${index}`}/>
     )
 }
 
