@@ -2,6 +2,7 @@
 import { motion, useTime, useTransform } from 'framer-motion'
 import { faviconLime500 } from '../../utils/logos'
 import { ReactElement } from 'react'
+import { RotatesLogo } from '../UI/RotatesLogo';
 
 interface Props {
     title:string;
