@@ -29,6 +29,16 @@ export const generateJwt = (user: IUser) => {
     { expiresIn: '48h' },
   )
 }
+export const generateConfirmMailToken = (email:string) => {
+  return sign(
+    {
+      email,
+      type:'VERIFY_EMAIL'
+    },
+    process.env.JWT_SECRET_KEY as string,
+    { expiresIn: '5m' },
+  )
+}
 
 class UserController {
 
@@ -83,6 +93,10 @@ class UserController {
       const comparePassword = bcrypt.compareSync(password, user.password)
       if (!comparePassword) {
         return next(ApiError.forbidden('Incorrect email or password'))
+      }
+      if(!user.isEmailConfirmed){
+        await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email)
+        return next(ApiError.forbidden('Verify your email first, the link sent to the email'))
       }
       if (!user.isEnabled2FA) {
         const token = generateJwt(user)

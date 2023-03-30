@@ -1,26 +1,27 @@
 import { EnvelopeIcon } from '@heroicons/react/24/solid'
-import { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { CheckEmail } from "./AuthFunctions";
-import { RoutePaths } from "../../Routes/RoutePaths";
-import ErrorMsg from "../UI/ErrorMsg";
-import FormButton from "./FormButton";
-import { ContentProps } from "../../pages/ForgotPasswordPage";
-const EmailForVarification = (props:ContentProps) => {
-  const enteredEmail = useRef<HTMLInputElement>(null);
+import { FC, FormEvent, useState } from 'react'
+import { CheckEmail } from './AuthFunctions'
+import ErrorMsg from '../UI/ErrorMsg'
+import FormButton from './FormButton'
+import { useSend2FACodeMutation } from '../../store/reducers/auth-reducer-api'
+import { CodeTypes } from '../../types/Auth'
+import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
+
+interface EmailForVerificationProps{
+  setEmail:(code:string) => void
+  onConfirm: () => void;
+}
+const EmailForVerification:FC<EmailForVerificationProps> = ({setEmail,onConfirm}) => {
+  const [enteredEmail, setEnteredEmail] = useState<string>('');
   const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
-
-  let history = useHistory();
-
-  const SubmitEmail = (event: React.FormEvent<HTMLFormElement>) => {
+  const [sendCode, { error,isSuccess }] = useSend2FACodeMutation()
+  const SubmitEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    //get email value
-    const email = enteredEmail.current?.value || "";
+
 
     //check email
     const errors = [];
-    if (!CheckEmail(email)) {
+    if (!CheckEmail(enteredEmail)) {
       errors.push("Invalid email");
     }
 
@@ -29,22 +30,17 @@ const EmailForVarification = (props:ContentProps) => {
     if (errors.length!==0) {
       return;
     }
-
     //Send request to the server!!!!
-    
-
-    //if error display the error
-
-    //if the email was sent, change the page to input code page
-    props.onConfirm() 
-
+    await sendCode({email:enteredEmail,type:CodeTypes.RESET_PW}).unwrap()
+      .then(() => {
+      setEmail(enteredEmail)
+      onConfirm()})
+    .catch((rejected) => console.error(rejected));
   };
 
   return (
     <form
       className="mt-8 space-y-6"
-      action={"#"}
-      method="POST"
       onSubmit={SubmitEmail}
     >
       <input type="hidden" name="remember" defaultValue="true" />
@@ -61,7 +57,8 @@ const EmailForVarification = (props:ContentProps) => {
             required
             className={`relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-lime-500 focus:outline-none focus:ring-lime-500 sm:text-sm`}
             placeholder="Email address"
-            ref={enteredEmail}
+            value={enteredEmail}
+            onChange={(e)=>setEnteredEmail(e.target.value)}
           />
         </div>
       </div>
@@ -69,6 +66,11 @@ const EmailForVarification = (props:ContentProps) => {
       {errorMsgs.length!==0 && (
         <ErrorMsg
           ErrorMessages={errorMsgs}
+        />
+      )}
+      {isErrorWithDataAndMessage(error) && (
+        <ErrorMsg
+          ErrorMessages={[error.data.message]}
         />
       )}
       <FormButton
@@ -85,4 +87,4 @@ const EmailForVarification = (props:ContentProps) => {
   );
 };
 
-export default EmailForVarification;
+export default EmailForVerification;

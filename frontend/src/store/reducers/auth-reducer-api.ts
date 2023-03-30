@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {
+  CodeTypes,
   IUser,
   LoginPayload,
   RegisterLecturerPayload,
@@ -37,7 +38,7 @@ export const authApi = createApi({
 
     }),
 
-    login: builder.mutation<{ token: string, status: 'Redirect-2FA' | 'OK', user: IUser,email?:string }, LoginPayload>({
+    login: builder.mutation<{ token: string, status: 'Redirect-2FA' | 'OK', user: IUser, email?: string }, LoginPayload>({
       query: (payload) => ({
         url: `/user/login`,
         method: 'POST',
@@ -49,7 +50,7 @@ export const authApi = createApi({
           if (data.status === 'OK') {
             localStorage.setItem('accessToken', data.token)
             dispatch(setUser(data.user))
-          }else if(data.status === 'Redirect-2FA' && data.email){
+          } else if (data.status === 'Redirect-2FA' && data.email) {
             dispatch(setEmailFor2Factor(data.email))
           }
         } catch (error) {
@@ -79,10 +80,10 @@ export const authApi = createApi({
       query: (payload) => ({
         url: `/lecturer/register-lecturer`,
         method: 'POST',
-        body: {...payload,role:'Lecturer'},
+        body: { ...payload, role: 'Lecturer' },
       }),
     }),
-    verify2fa: builder.mutation<{ token: string, status: 'OK', user: IUser }, VerificationCodePayload>({
+    verify2fa: builder.mutation<{ token?: string, status: 'OK', user?: IUser }, VerificationCodePayload>({
       query: (payload) => ({
         url: `/user/verify-2fa`,
         method: 'POST',
@@ -91,7 +92,7 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled
-          if (data.status === 'OK') {
+          if (args.type === '2FA' && data.status === 'OK' && data?.token && data?.user) {
             localStorage.setItem('accessToken', data.token)
             dispatch(setUser(data.user))
           }
@@ -101,16 +102,39 @@ export const authApi = createApi({
       },
     }),
 
-    // login2fa: builder.query< any>({
-    //     query: () => `/lecturer/report/general-report`,
-    // }),
+    send2FACode: builder.mutation<{ status: 'OK' }, { email: string, type: CodeTypes }>({
+      query: (payload) => ({
+        url: `/user/send-2fa-code`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    resetPassword: builder.mutation<{ status: 'OK' }, { email: string, type: CodeTypes, code:string ,password:string}>({
+      query: (payload) => ({
+        url: `/user/reset-password`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
 
-    // forgotPassword: builder.query< any>({
-    //     query: () => `/lecturer/report/general-report`,
-    // }),
+    verifyEmail: builder.mutation<{ status: 'OK' }, { token:string}>({
+      query: (payload) => ({
+        url: `/user/verify-email`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
   }),
 })
-
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useAuthMeQuery, useLoginMutation, useRegisterMutation,useVerify2faMutation,useRegisterLecturerMutation } = authApi
+export const {
+  useAuthMeQuery,
+  useLoginMutation,
+  useRegisterMutation,
+  useVerify2faMutation,
+  useRegisterLecturerMutation,
+  useResetPasswordMutation,
+  useSend2FACodeMutation,
+  useVerifyEmailMutation
+} = authApi

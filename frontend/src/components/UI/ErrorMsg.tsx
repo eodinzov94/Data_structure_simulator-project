@@ -1,11 +1,13 @@
 /* The components get array of string, each element represent an error message.
 the component display each element in li tag */
 
+import { FC } from 'react'
+
 interface Props {
   ErrorMessages: string[];
 }
 
-const ErrorMsg = (props: Props) => {
+const ErrorMsg:FC<Props> = (props: Props) => {
   return (
     <div
       className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-left"
