@@ -16,6 +16,7 @@ import { quickSort } from "../../components/Simulation/Sorts/QuickSort/QuickSort
 import { SortControlsPanel } from "../../components/Simulation/ControlsPanels/SortControlsPanel";
 import { is } from "immer/dist/internal";
 import { PseudoCode } from "../../components/Simulation/PseudoCode/PseudoCode";
+import { IndexArray } from "../../components/Simulation/Sorts/IndexArray";
 
 const MAX_ELEMENTS = 10;
 
@@ -27,7 +28,9 @@ export interface Position {
 
 const QuickSortPage = () => {
   const [state, dispatch] = useReducer(quickSortReducer, { data: [] });
-  const [line,setLine] = useState(-1)
+  const [line, setLine] = useState(-1);
+  const [iIndex, setIIndex] = useState(-2);
+  const [jIndex, setJIndex] = useState(-2);
   let isAnimate: boolean = false;
   const abortRef = useRef(false); //dive into it later
 
@@ -41,12 +44,18 @@ const QuickSortPage = () => {
       if (abortRef.current) {
         break;
       }
-      setLine(val.line)
+      setLine(val.line);
       const payload: number[] =
         val.index2 !== undefined ? [val.index1, val.index2] : [val.index1];
-
-      if (val.action!==ActionKind.BLANK)
+      if (val.action === ActionKind.UPDATE_I) setIIndex(payload[0]);
+      else if (val.action === ActionKind.UPDATE_J) setJIndex(payload[0]);
+      else if (val.action !== ActionKind.BLANK) {
         dispatch({ type: val.action, payload: payload });
+        if (val.action === ActionKind.DONE) {
+          setIIndex(-2);
+          setJIndex(-2);
+        }
+      }
 
       await sleep(2000);
     }
@@ -90,6 +99,8 @@ const QuickSortPage = () => {
   };
 
   const setInput = (data: number[]) => {
+    setIIndex(-1);
+    setJIndex(-1);
     dispatch({ type: ActionKind.SET_DATA, payload: data });
   };
 
@@ -119,8 +130,11 @@ const QuickSortPage = () => {
       <div className="container mx-auto max-w-7xl px-0 md: py-0">
         <div className="flex flex-nowrap">
           {/*middle section */}
-          <QuickSort items={state.data} />
-          <PseudoCode line={line}/>
+          <div className="basis-9/12">
+            <IndexArray size={state.data.length + 1} i={iIndex} j={jIndex} />
+            <QuickSort items={state.data} />
+          </div>
+          <PseudoCode line={line} />
         </div>
       </div>
     </>

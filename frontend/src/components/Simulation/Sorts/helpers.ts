@@ -16,7 +16,9 @@ export enum ActionKind {
   DONE = "DONE",
   MARK_PIVOT = "MARK_PIVOT",
   BASE = "BASE",
-  BLANK = "BLANK"
+  BLANK = "BLANK",
+  UPDATE_I = "UPDATE_I",
+  UPDATE_J = "UPDATE_J",
 }
 
 // An interface for our actions

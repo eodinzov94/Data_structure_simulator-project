@@ -1,7 +1,7 @@
 import styles from "./QuickSort.module.css";
+import styles2 from "../IndexArray.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { sortItem } from "../types";
-
 interface Props {
   items: sortItem[]; //data of stack
   children?: JSX.Element | JSX.Element[];
@@ -11,7 +11,7 @@ const QuickSort = (props: Props) => {
   return (
     <div className={`basis-9/12 ${styles.example}`}>
       {/*Data of stack animation*/}
-      <motion.ul className={styles.s_ul} >
+      <motion.ul className={styles.s_ul}>
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the stack data to motion.il /*/}
           {props.items.map((elem: sortItem) => (
@@ -19,7 +19,7 @@ const QuickSort = (props: Props) => {
               className={styles.s_li}
               layout
               transition={{
-                layout: { duration: 2, ease: "easeIn"},
+                layout: { duration: 2, ease: "easeIn" },
               }}
               initial={{ scale: 0.8, x: 50, opacity: 0.5 }}
               animate={{
@@ -47,6 +47,13 @@ const QuickSort = (props: Props) => {
           ))}
         </AnimatePresence>
       </motion.ul>
+      <ul className={styles2.s_ul} style={{marginLeft:"35px"}}>
+        {[...Array(props.items.length)].map((elem: number, index) => (
+          <li className={styles2.s_li} key={index} style={{fontSize:14, color:"gray"}}>
+            {index} {/* text inside the box */}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

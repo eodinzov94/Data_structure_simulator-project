@@ -40,13 +40,14 @@ function sort(array: sortItem[], low: number, high: number,opArr:SortOperation[]
 function partition(array: sortItem[], low: number, high: number, opArr:SortOperation[]): number{
   const pivot:sortItem = array[high];
   let pivotIndex:number = high
-  opArr.push({action:ActionKind.BLANK,index1:-1,line:8})
   let i:number = low - 1;
+  opArr.push({action:ActionKind.UPDATE_I,index1:i,line:8})
   for(let j = low; j<=high-1; j++){
-    opArr.push({action:ActionKind.BLANK,index1:-1,line:9})
+    opArr.push({action:ActionKind.UPDATE_J,index1:j,line:9})
     opArr.push({action:ActionKind.MARK,index1:high,index2:j,line:10}) //CMP J Piv
     if(compare(array[j], pivot) === -1){
       i = i + 1;
+      opArr.push({action:ActionKind.UPDATE_I,index1:i,line:11})
       opArr.push({action:ActionKind.MARK,index1:i,line:11})// MARK I  -- CHANGE LATER 
       swap(array, i, j)
       opArr.push({action:ActionKind.SWAP,index1:i,index2:j,line:12})// SWAP I J
