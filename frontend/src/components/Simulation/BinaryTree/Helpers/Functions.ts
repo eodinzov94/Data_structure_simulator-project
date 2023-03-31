@@ -74,7 +74,7 @@ export function getAnimationsAndStyles(action: ActionType,
 
 }
 
-export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition: number, nodeInteractionPosition?: number): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
+export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition: number, nodeInteractionPosition: number | null): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
     let initial = {}, animate = {}, exit = {}, style = {}
     switch (action) {
         case ActionType.ADD: {
@@ -88,7 +88,7 @@ export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition:
             break
         }
         case ActionType.SWAP: {
-            if (nodeInteractionPosition === undefined || myPosition === undefined) {
+            if (nodeInteractionPosition === null || myPosition === undefined) {
                 throw new Error('nodeInteractionPosition and myPosition are required')
             }
             style = {backgroundColor: '#1a7e3c'}

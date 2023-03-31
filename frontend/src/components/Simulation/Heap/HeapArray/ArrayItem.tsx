@@ -2,19 +2,15 @@ import React from 'react';
 import styles from "../HeapArray/HeapArray.module.css";
 import {motion} from "framer-motion";
 import {getHeapArrayAnimationsAndStyles} from "../../BinaryTree/Helpers/Functions";
-import {ActionType} from "../../BinaryTree/Helpers/MapActionToStyles";
+import {ArrayItemObj} from "../../BinaryTree/ClassObjects/ArrayItemObj";
 
 interface Props {
-    value: number;
-    id: number
-    action: ActionType;
-    nodeInteractionIndex?: number;
-    speed: number;
+    arrayItemObj: ArrayItemObj
 }
 
 const ArrayItem = (props: Props) => {
-    const {value, id, speed, action, nodeInteractionIndex} = props;
-    const {exit, style, initial, animate} = getHeapArrayAnimationsAndStyles(action, id, nodeInteractionIndex);
+    const {value, id, speed, action, swapIndex} = props.arrayItemObj;
+    const {exit, style, initial, animate} = getHeapArrayAnimationsAndStyles(action, id, swapIndex);
 
 
     return (
@@ -31,7 +27,7 @@ const ArrayItem = (props: Props) => {
             exit={exit}
             key={`${value}-${id}`}
         >
-            {value}
+            {value === -Infinity ? '−∞' : value}
         </motion.li>
     );
 };

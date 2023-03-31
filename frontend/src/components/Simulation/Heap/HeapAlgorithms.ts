@@ -5,6 +5,8 @@ export function buildMaxHeap(A: number[],actionsArr:Events[],heapSnapshots:HeapS
     for (let i = Math.floor(heapSize / 2); i >= 0; i--) {
         maxHeapify(A, i, heapSize,actionsArr,heapSnapshots);
     }
+    if(!heapSnapshots.length)
+        console.log("Already a max heap!") //TODO:Toastify or smth
 }
 
 
@@ -19,8 +21,10 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
     if (right < heapSize && A[right] > A[largest]) {
       itemArr.push({ action: ActionType.HIGHLIGHT_LIGHT, item: right })
     }
-    actionsArr.push(itemArr);
-    heapSnapshots.push([...A])
+    if(itemArr.length){
+        actionsArr.push(itemArr);
+        heapSnapshots.push([...A])
+    }
     if (left < heapSize && A[left] > A[largest]) {
         largest = left;
     }
@@ -29,8 +33,7 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
     }
     if (largest !== i) {
         actionsArr.push([
-            { action: left === largest? ActionType.HIGHLIGHT_LIGHT:ActionType.NONE, item: left },
-            { action: right === largest? ActionType.HIGHLIGHT_LIGHT:ActionType.NONE, item: right },
+            { action: ActionType.HIGHLIGHT_LIGHT, item: largest },
             { action: ActionType.HIGHLIGHT_FULL, item: i }
         ]);
         heapSnapshots.push([...A]);

@@ -32,7 +32,7 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
           }}
           className='node'
         >
-          {nodeObj.value}
+          {nodeObj.value === -Infinity ? '−∞' : nodeObj.value}
         </motion.span>
       </AnimatePresence>
       {nodeObj.branch && <Branch branch={nodeObj.branch }

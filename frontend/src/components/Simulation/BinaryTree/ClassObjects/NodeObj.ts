@@ -70,14 +70,7 @@ export class NodeObj {
     } else if (this.parent === null || this.parent.position === null) {
       throw new Error('parent is null or parent position is null')
     }
-    if (this.type === 'left') {
-      this.branch = new BranchObj({
-        x1: this.parent.position.x,
-        x2: this.position.x,
-        y1: this.parent.position.y,
-        y2: this.position.y,
-      })
-    } else {
+    else {
       this.branch = new BranchObj({
         x1: this.parent.position.x,
         x2: this.position.x,
