@@ -9,7 +9,7 @@ export enum ActionType {
     HIGHLIGHT_FULL = "HIGHLIGHT_FULL",
     HIGHLIGHT_LIGHT = "HIGHLIGHT_LIGHT",
     SWAP = "SWAP",
-    DELETE = "DONE",
+    DELETE = "DELETE",
     ADD = "BASE",
     NONE = "NONE"
 }

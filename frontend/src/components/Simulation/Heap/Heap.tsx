@@ -19,19 +19,26 @@ const Heap = () => {
                                               .getController(currentArr,useDispatch())
 
     const Animate = async (animation: string) => {
-        // switch (animation) {
-        //     case 'abc':
-        //         return
-        //
-        //     default:
-        //         await controller.buildMaxHeap()
-        //         return
-        // }
-        await controller.buildMaxHeap()
+        switch (animation) {
+            case 'BuildHeap':
+                await controller.buildMaxHeap()
+                return
+          case 'GetMax':
+            await controller.heapMax()
+            return
+          case 'ExtractMax':
+            await controller.extractMax()
+            return
+            default:
+                return
+        }
+
     }
     return (
         <>
-            <button onClick={async () => await Animate('')}>Start Animation</button>
+            <button onClick={async () => await Animate('BuildHeap')}>Start Animation</button>
+          <button onClick={async () => await Animate('GetMax')}>Heap get Max</button>
+          <button onClick={async () => await Animate('ExtractMax')}>Heap extract Max</button>
             <div className="container mx-auto max-w-7xl px-0 py-0 mt-64">
                 <HeapArray items={currentArr} actions={currentActions} speed={controller.speed}/>
             </div>

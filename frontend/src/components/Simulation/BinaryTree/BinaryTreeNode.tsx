@@ -10,7 +10,7 @@ interface BinaryTreeNodeProps {
 }
 
 const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
-  const {initial,exit,animate,style} = getAnimationsAndStyles(nodeObj.action, nodeObj.swapPosition,nodeObj.position)
+  const {initial,animate,style} = getAnimationsAndStyles(nodeObj.action, nodeObj.swapPosition,nodeObj.position)
   return (
     <>
       <AnimatePresence>
@@ -23,7 +23,7 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
           layout={'position'}
           initial={initial}
           animate={animate}
-          exit={exit}
+          exit={{ opacity: 0 }}
           key={`${nodeObj.value}-${nodeObj.id}`}
           style={{
             ...style,

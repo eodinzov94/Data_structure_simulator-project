@@ -1,7 +1,7 @@
 import { TreeNode } from '../BinaryTreeTypes'
 import { Events, HeapSnapshots } from '../Helpers/MapActionToStyles'
 import { sleep } from '../../../../utils/animation-helpers'
-import { buildMaxHeap } from '../../Heap/HeapAlgorithms'
+import { buildMaxHeap, heapExtractMax, heapMax } from '../../Heap/HeapAlgorithms'
 import { arrayToBinaryTree } from '../Helpers/Functions'
 import { setActions, setArray, setRoot } from '../../../../store/reducers/alghoritms/heap-reducer'
 import { AppDispatch } from '../../../../store/store'
@@ -33,27 +33,44 @@ class HeapAnimationController {
     this.dispatch = dispatch
   }
 
-  public static getController(arr: number[],
-                              dispatch: AppDispatch) {
+  static getController(arr: number[],
+                       dispatch: AppDispatch) {
     if (!HeapAnimationController.controller)
       HeapAnimationController.controller = new HeapAnimationController(arr, dispatch)
     return HeapAnimationController.controller
   }
 
-  public async buildMaxHeap() {
+  async buildMaxHeap() {
+    await this.initNewAnimation()
+    buildMaxHeap([...this.arr], this.actionArray, this.heapSnapshots)
+    this.frame = 0
+    await this.playAnimation()
+  }
+  async heapMax() {
+    await this.initNewAnimation()
+    heapMax([...this.arr], this.actionArray, this.heapSnapshots)
+    this.frame = 0
+    await this.playAnimation()
+  }
+  async extractMax() {
+    await this.initNewAnimation()
+    heapExtractMax([...this.arr], this.actionArray, this.heapSnapshots)
+    this.frame = 0
+    await this.playAnimation()
+  }
+  async initNewAnimation() {
     this.stopFlag = true
     await sleep(500 * this.speed)
+    if(this.heapSnapshots.length){
+      this.arr = this.heapSnapshots[this.heapSnapshots.length - 1]
+    }
     this.actionArray = []
     this.heapSnapshots = []
     this.stopFlag = false
     this.pauseFlag = false
-    buildMaxHeap([...this.arr], this.actionArray, this.heapSnapshots)
-    this.frame = 0
-    await this.playAnimation()
-
   }
 
-  private async playAnimation() {
+  async playAnimation() {
     if (this.actionArray.length !== this.heapSnapshots.length) {
       throw new Error('Heap snapshot length does not match actions array length')
     }

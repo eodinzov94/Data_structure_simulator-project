@@ -34,13 +34,10 @@ export function arrayToBinaryTree(arr: number[]): TreeNode {
 export function getAnimationsAndStyles(action: ActionType,
                                        nodeInteractionPosition: { y: number, x: number }|null,
                                        myPosition?: { y: number, x: number }
-): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
-    let initial = {}, animate = {}, exit = {}, style = {}
+): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], style: React.CSSProperties } {
+    let initial = {}, animate = {}, style = {}
     switch (action) {
         case ActionType.ADD: {
-            break
-        }
-        case ActionType.DELETE: {
             break
         }
         case ActionType.HIGHLIGHT_FULL: {
@@ -70,17 +67,14 @@ export function getAnimationsAndStyles(action: ActionType,
             break
         }
     }
-    return {initial, animate, exit, style}
+    return {initial, animate, style}
 
 }
 
-export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition: number, nodeInteractionPosition: number | null): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
-    let initial = {}, animate = {}, exit = {}, style = {}
+export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition: number, nodeInteractionPosition: number | null): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], style: React.CSSProperties } {
+    let initial = {}, animate = {}, style = {}
     switch (action) {
         case ActionType.ADD: {
-            break
-        }
-        case ActionType.DELETE: {
             break
         }
         case ActionType.HIGHLIGHT_FULL: {
@@ -108,7 +102,7 @@ export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition:
             break
         }
     }
-    return {initial, animate, exit, style}
+    return {initial, animate, style}
 
 }
 

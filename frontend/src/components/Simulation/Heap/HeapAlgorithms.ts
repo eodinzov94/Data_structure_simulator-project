@@ -41,9 +41,7 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
             { action: ActionType.SWAP, item: i,item2:largest},
         ]);
         heapSnapshots.push([...A]);
-        console.log(A);
         [A[i], A[largest]] = [A[largest], A[i]];
-        console.log(A);
         heapSnapshots.push([...A]);
         actionsArr.push([]);
         maxHeapify(A, largest, heapSize,actionsArr,heapSnapshots );
@@ -51,28 +49,49 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
 }
 
 
-// export function heapExtractMax(A: number[], heapSize: number): number | undefined {
-//     if (heapSize < 1) {
-//         throw new Error("Heap underflow");
-//     }
-//     const max = A[0];
-//     A[0] = A[heapSize - 1];
-//     maxHeapify(A, 0, heapSize - 1);
-//     return max;
-// }
-
-
-export function heapMax(A: number[],actionsArr:Events[]): number | undefined {
+export function heapExtractMax(A: number[],actionsArr:Events[],heapSnapshots:HeapSnapshots ): number | undefined {
     if (A.length < 1) {
-        return undefined;
+        throw new Error("Heap underflow");
+    }
+    const max = A[0];
+    /* SELECT FIRST + LAST */
+    actionsArr.push([
+        { action: ActionType.HIGHLIGHT_FULL, item: 0 },
+        { action: ActionType.HIGHLIGHT_LIGHT, item: 0 },
+    ]);
+    heapSnapshots.push([...A]);
+    /* END SELECT FIRST + LAST */
+
+    /* SWAP ANIMATION */
+    actionsArr.push([
+        { action: ActionType.SWAP, item: 0,item2:A.length - 1},
+    ]);
+    heapSnapshots.push([...A]);
+    /* END SWAP ANIMATION */
+    A[0] = A[A.length - 1];
+    A.pop();
+    /* ACTUAL REMOVE */
+    actionsArr.push([]);
+    heapSnapshots.push([...A]);
+    /* END ACTUAL REMOVE */
+    maxHeapify(A, 0, A.length,actionsArr,heapSnapshots);
+    return max;
+}
+
+
+export function heapMax(A: number[],actionsArr:Events[],heapSnapshots:HeapSnapshots ) {
+    if (A.length < 1) {
+        return ;
     }
     actionsArr.push([
         { action: ActionType.HIGHLIGHT_FULL, item: 0 },
     ]);
+    heapSnapshots.push([...A]);
     actionsArr.push([
         { action: ActionType.NONE, item: 0 },
     ]);
-    return A[0];
+    heapSnapshots.push([...A]);
+
 }
 
 
