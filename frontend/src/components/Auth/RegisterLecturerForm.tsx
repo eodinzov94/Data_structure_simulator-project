@@ -64,10 +64,6 @@ const RegistrationForm = () => {
     }
 
     registerUser(dataEntered)
-
-
-
-
   };
 
   return (

@@ -7,7 +7,7 @@ export enum RoutePaths{
     FORGOT_PASSWORD ='/forgotPassword',
     REGISTER_LECTURER="/register-lecturer",
     TWO_FA = '/2fa',
-
+    VERIFY_EMAIL = '/verify-email/:token',
 
     //reports
     REPORTS = "/reports",
@@ -17,11 +17,13 @@ export enum RoutePaths{
     //Animations
     STACK = "/stack",
     QUEUE = "/queue",
+    QUICK_SORT = "/quicksort",
+    INSERTION_SORT = "/insertionsort",
+
 
     //feedbacks
     ADD_FEEDBACK = "/add-feedback",
     ALL_FEEDBACKS = '/all-feedbacks'
-
 }
 
 export default RoutePaths;

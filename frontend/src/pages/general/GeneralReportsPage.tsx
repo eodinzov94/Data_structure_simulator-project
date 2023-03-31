@@ -1,14 +1,14 @@
 import { useState } from "react";
-import DoughnutChart from "../components/Charts/Doughnut";
-import BarChart from "../components/Charts/BarChart";
-import DropDown from "../components/UI/DropDown";
-import MediumCard from "../components/UI/MediumCard";
-import FloatUpContainer from "../components/UI/FloatUpContainer";
-import LineChrat from "../components/Charts/Line";
-import ExportExcel from "../components/Charts/ExportExcel";
-import { useGetGeneralReportsQuery} from "../store/reducers/report-reducer";
-import { makeTable } from '../utils/helper-functions'
-import { ExportData, GeneralReport } from '../types/GeneralReport'
+import DoughnutChart from "../../components/Charts/Doughnut";
+import BarChart from "../../components/Charts/BarChart";
+import DropDown from "../../components/UI/DropDown";
+import MediumCard from "../../components/UI/MediumCard";
+import FloatUpContainer from "../../components/UI/FloatUpContainer";
+import LineChrat from "../../components/Charts/Line";
+import ExportExcel from "../../components/Charts/ExportExcel";
+import { useGetGeneralReportsQuery} from "../../store/reducers/report-reducer";
+import { makeTable } from '../../utils/helper-functions'
+import { ExportData, GeneralReport } from '../../types/GeneralReport'
 
 enum choices {
   USERS_GENDER = "Gender",
