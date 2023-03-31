@@ -1,5 +1,4 @@
-import {ActionType, Events} from "../Helpers/MapActionToStyles";
-import React from "react";
+import { ActionType, Events } from '../Helpers/MapActionToStyles'
 
 export class ArrayItemObj {
     value: number;
@@ -21,10 +20,10 @@ export class ArrayItemObj {
         this.swapIndex = swapIndex
     }
 
-    static generateArrayObjects(items: number[], speed: React.MutableRefObject<number>) {
+    static generateArrayObjects(items: number[], speed: number) {
 
         return items.map((value, index) => {
-            return new ArrayItemObj(value, index, speed.current)
+            return new ArrayItemObj(value, index, speed)
         })
     }
 

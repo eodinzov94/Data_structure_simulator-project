@@ -7,7 +7,7 @@ import { NodeObj } from './ClassObjects/NodeObj'
 interface BTProps {
   root: TreeNode
   level: number
-  speed:  React.MutableRefObject<number>
+  speed:  number
   height: number
   actions: Events | null
 }

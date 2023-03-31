@@ -1,95 +1,92 @@
-import {Dispatch, MutableRefObject, SetStateAction} from "react";
-import {TreeNode} from "../BinaryTreeTypes";
-import {Events, HeapSnapshots} from "../Helpers/MapActionToStyles";
-import {sleep} from "../../../../utils/animation-helpers";
-import {buildMaxHeap} from "../../Heap/HeapAlgorithms";
-import {arrayToBinaryTree} from "../Helpers/Functions";
+import { TreeNode } from '../BinaryTreeTypes'
+import { Events, HeapSnapshots } from '../Helpers/MapActionToStyles'
+import { sleep } from '../../../../utils/animation-helpers'
+import { buildMaxHeap } from '../../Heap/HeapAlgorithms'
+import { arrayToBinaryTree } from '../Helpers/Functions'
+import { setActions, setArray, setRoot } from '../../../../store/reducers/alghoritms/heap-reducer'
+import { AppDispatch } from '../../../../store/store'
+
 
 class HeapAnimationController {
-    speed: MutableRefObject<number>;
-    arr: number[];
-    stopFlag: MutableRefObject<boolean>;
-    pauseFlag: MutableRefObject<boolean>;
-    setCurrentArr: Dispatch<SetStateAction<number[]>>;
-    setRoot: Dispatch<SetStateAction<TreeNode>>;
-    setCurrentActions: Dispatch<SetStateAction<Events>>;
-    actionArray: Events[];
-    heapSnapshots: HeapSnapshots;
-    frame: MutableRefObject<number>;
+  speed: number
+  arr: number[]
+  stopFlag: boolean
+  pauseFlag: boolean
+  actionArray: Events[]
+  heapSnapshots: HeapSnapshots
+  frame: number
+  dispatch: AppDispatch
 
 
-    private static controller: null | HeapAnimationController = null
+  private static controller: null | HeapAnimationController = null
 
-    private constructor(arr: number[],
-                        speed: MutableRefObject<number>,
-                        pauseFlag: MutableRefObject<boolean>,
-                        stopFlag: MutableRefObject<boolean>,
-                        setCurrentArr: Dispatch<SetStateAction<number[]>>,
-                        setRoot: Dispatch<SetStateAction<TreeNode>>,
-                        setCurrentActions: Dispatch<SetStateAction<Events>>,
-                        frame: MutableRefObject<number>) {
-        this.arr = arr;
-        this.speed = speed;
-        this.pauseFlag = pauseFlag;
-        this.stopFlag = stopFlag;
-        this.setCurrentArr = setCurrentArr;
-        this.setRoot = setRoot;
-        this.setCurrentActions = setCurrentActions;
-        this.actionArray = [];
-        this.heapSnapshots = [];
-        this.frame = frame;
+  private constructor(arr: number[],
+                      dispatch: AppDispatch,
+  ) {
+    this.arr = arr
+    this.speed = 1
+    this.pauseFlag = false
+    this.stopFlag = false
+    this.actionArray = []
+    this.heapSnapshots = []
+    this.frame = -1
+    this.dispatch = dispatch
+  }
+
+  public static getController(arr: number[],
+                              dispatch: AppDispatch) {
+    if (!HeapAnimationController.controller)
+      HeapAnimationController.controller = new HeapAnimationController(arr, dispatch)
+    return HeapAnimationController.controller
+  }
+
+  public async buildMaxHeap() {
+    this.stopFlag = true
+    await sleep(500 * this.speed)
+    this.actionArray = []
+    this.heapSnapshots = []
+    this.stopFlag = false
+    this.pauseFlag = false
+    buildMaxHeap([...this.arr], this.actionArray, this.heapSnapshots)
+    this.frame = 0
+    await this.playAnimation()
+
+  }
+
+  private async playAnimation() {
+    if (this.actionArray.length !== this.heapSnapshots.length) {
+      throw new Error('Heap snapshot length does not match actions array length')
     }
-
-    public static getController(arr: number[],
-                                speed: MutableRefObject<number>,
-                                pauseFlag: MutableRefObject<boolean>,
-                                stopFlag: MutableRefObject<boolean>,
-                                setCurrentArr: Dispatch<SetStateAction<number[]>>,
-                                setRoot: Dispatch<SetStateAction<TreeNode>>,
-                                setCurrentActions: Dispatch<SetStateAction<Events>>,
-                                frame: MutableRefObject<number>) {
-        if (!HeapAnimationController.controller)
-            HeapAnimationController.controller = new HeapAnimationController(arr, speed, pauseFlag, stopFlag, setCurrentArr, setRoot, setCurrentActions, frame)
-        return HeapAnimationController.controller
+    for (let i = this.frame; i < this.actionArray.length; i++) {
+      if (this.stopFlag) {
+        this.setCurrentArr(this.heapSnapshots[this.heapSnapshots.length - 1])
+        this.setRoot(arrayToBinaryTree(this.heapSnapshots[this.heapSnapshots.length - 1]))
+        this.frame = i
+        this.setCurrentActions([])
+        break
+      }
+      if (this.pauseFlag) {
+        this.frame = i
+        break
+      }
+      this.setCurrentActions(this.actionArray[i])
+      this.setRoot(arrayToBinaryTree(this.heapSnapshots[i]))
+      this.setCurrentArr(this.heapSnapshots[i])
+      await sleep(500 * this.speed)
     }
+  }
 
-    public async buildMaxHeap() {
-        this.stopFlag.current = true
-        await sleep(500 * this.speed.current)
-        this.actionArray = [];
-        this.heapSnapshots = [];
-        this.stopFlag.current = false;
-        this.pauseFlag.current = false;
-        buildMaxHeap(this.arr, this.actionArray, this.heapSnapshots)
-        this.frame.current = 0;
-        await this.playAnimation()
+  setCurrentActions(actions: Events) {
+    this.dispatch(setActions(actions))
+  }
 
-    }
+  setRoot(node: TreeNode) {
+    this.dispatch(setRoot(node))
+  }
 
-    private async playAnimation() {
-        if (this.actionArray.length !== this.heapSnapshots.length) {
-            throw new Error("Heap snapshot length does not match actions array length")
-        }
-        for (let i = this.frame.current; i < this.actionArray.length; i++) {
-            // if (this.stopFlag.current) {
-            //     this.setCurrentArr(this.heapSnapshots[this.heapSnapshots.length - 1])
-            //     this.setRoot(arrayToBinaryTree(this.heapSnapshots[this.heapSnapshots.length - 1]))
-            //     this.setCurrentFrame(this.heapSnapshots.length)
-            //     this.frame.current = i
-            //     this.setCurrentActions([])
-            //     return
-            // }
-            // if(this.pauseFlag.current){
-            //     this.setCurrentFrame(i)
-            //     this.frame.current = i
-            //     return
-            // }
-            this.setCurrentActions(this.actionArray[i])
-            this.setRoot(arrayToBinaryTree(this.heapSnapshots[i]))
-            this.setCurrentArr(this.heapSnapshots[i])
-            await sleep(500 * this.speed.current)
-        }
-    }
+  setCurrentArr(arr: number[]) {
+    this.dispatch(setArray(arr))
+  }
 }
 
-export default HeapAnimationController;
+export default HeapAnimationController

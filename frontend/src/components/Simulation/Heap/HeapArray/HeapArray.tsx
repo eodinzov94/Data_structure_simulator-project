@@ -1,14 +1,14 @@
-import styles from "../../Sorts/QuickSort/QuickSort.module.css";
-import {AnimatePresence, motion} from "framer-motion";
-import ArrayItem from "./ArrayItem";
-import {ActionType, Events} from "../../BinaryTree/Helpers/MapActionToStyles";
-import React from "react";
-import {ArrayItemObj} from "../../BinaryTree/ClassObjects/ArrayItemObj";
+import styles from '../../Sorts/QuickSort/QuickSort.module.css'
+import { AnimatePresence, motion } from 'framer-motion'
+import ArrayItem from './ArrayItem'
+import { Events } from '../../BinaryTree/Helpers/MapActionToStyles'
+import React from 'react'
+import { ArrayItemObj } from '../../BinaryTree/ClassObjects/ArrayItemObj'
 
 interface Props {
     items: number[]; //data of stack
     actions: Events;
-    speed:  React.MutableRefObject<number>;
+    speed:  number;
 }
 
 const HeapArray = (props: Props) => {

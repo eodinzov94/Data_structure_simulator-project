@@ -1,6 +1,5 @@
 import { BranchObj } from './BranchObj'
 import { ActionType, Events } from '../Helpers/MapActionToStyles'
-import { MutableRefObject } from 'react'
 import { TreeNode } from '../BinaryTreeTypes'
 
 export class NodeObj {
@@ -86,13 +85,13 @@ export class NodeObj {
   }
 
 
-  static generateTreeObjects(viewportWidth: number, height: number, speed: MutableRefObject<number>, root: TreeNode, level: number): NodeObj[] {
+  static generateTreeObjects(viewportWidth: number, height: number, speed: number, root: TreeNode, level: number): NodeObj[] {
     const treeObjects = []
     const stack = [{
       node: root,
       nodeObj: new NodeObj(
         { x: viewportWidth / 2, y: 120 },
-        speed.current,
+        speed,
         root.id,
         root.value,
         viewportWidth,
@@ -115,7 +114,7 @@ export class NodeObj {
           node: node.right,
           nodeObj: new NodeObj(
             { x: 0, y: 0 }, //Will be calculated according to the parent,
-            speed.current,
+            speed,
             node.right.id,
             node.right.value,
             viewportWidth,
@@ -131,7 +130,7 @@ export class NodeObj {
           node: node.left,
           nodeObj: new NodeObj(
             { x: 0, y: 0 },//Will be calculated according to the parent
-            speed.current,
+            speed,
             node.left.id,
             node.left.value,
             viewportWidth,

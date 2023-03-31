@@ -41,7 +41,9 @@ export function maxHeapify(A: number[], i: number, heapSize: number,actionsArr:E
             { action: ActionType.SWAP, item: i,item2:largest},
         ]);
         heapSnapshots.push([...A]);
+        console.log(A);
         [A[i], A[largest]] = [A[largest], A[i]];
+        console.log(A);
         heapSnapshots.push([...A]);
         actionsArr.push([]);
         maxHeapify(A, largest, heapSize,actionsArr,heapSnapshots );

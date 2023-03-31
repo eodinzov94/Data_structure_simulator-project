@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit"
 import authReducer from "./reducers/auth-reducer"
 import {reportApi} from "./reducers/report-reducer";
 import { authApi } from './reducers/auth-reducer-api'
+import heapReducer from './reducers/alghoritms/heap-reducer'
 
 const store = configureStore({
     reducer:{
         //add reducers here
         auth: authReducer,
+        heap: heapReducer,
         [reportApi.reducerPath]: reportApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
     },
