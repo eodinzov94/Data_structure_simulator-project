@@ -3,9 +3,11 @@ import React from "react";
 
 interface Props {
   line: number;
+  code: PseudoItem[];
   children?: JSX.Element | JSX.Element[];
 }
-interface PseudoItem {
+
+export interface PseudoItem {
   text: string;
   tabAmount: number;
 }
@@ -31,9 +33,8 @@ export const PseudoCode = (props: Props) => {
 
   return (
     <motion.div className="basis-3/12" style={{ textAlign: "left" }}>
-      Pseudo code:
       <motion.ul>
-        {arr.map((l, index) => (
+        {props.code.map((l, index) => (
           <motion.li
             initial={{ backgroundColor: "rgba(0,0,0,0)" }}
             animate={{

@@ -1,7 +1,7 @@
-import FloatUpContainer from "../components/UI/FloatUpContainer";
-import MediumCard from "../components/UI/MediumCard";
+import FloatUpContainer from "../../components/UI/FloatUpContainer";
+import MediumCard from "../../components/UI/MediumCard";
 import { TableColumn } from "react-data-table-component";
-import DataTableBase from "../components/UI/DataTableBase";
+import DataTableBase from "../../components/UI/DataTableBase";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
