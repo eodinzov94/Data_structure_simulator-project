@@ -51,7 +51,8 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
             height: '335px',
             top: '25%',
             border: '2px solid #84cc16',
-            borderLeft: 'none',
+            borderRadius: '20px',
+            marginLeft:5
           },
         }}>
           <div className='flex justify-end'>
