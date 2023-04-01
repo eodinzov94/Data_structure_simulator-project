@@ -35,7 +35,11 @@ abstract class AnimationController {
     this.stopFlag = true
     this.clearTimeOuts()
     if(this.heapSnapshots.length){
+      const i = this.heapSnapshots.length - 1
       this.arr = this.heapSnapshots[this.heapSnapshots.length - 1]
+      this.setCurrentActions([])
+      this.setRoot(arrayToBinaryTree(this.heapSnapshots[i]))
+      this.setCurrentArr(this.heapSnapshots[i])
     }
     this.actionArray = []
     this.heapSnapshots = []
@@ -116,6 +120,9 @@ abstract class AnimationController {
     this.playFrame()
   }
   private playFrame() {
+    if(!this.actionArray){
+      return
+    }
     if(this.frame >= this.actionArray.length ){
       this.frame = this.actionArray.length
       return;
@@ -132,6 +139,13 @@ abstract class AnimationController {
   clearTimeOuts() {
     this.timeOutsArr.forEach(timeOut => clearTimeout(timeOut))
     this.timeOutsArr = []
+  }
+  setArray(arr: number[]) {
+    this.arr = arr
+    this.heapSnapshots = []
+    this.actionArray = []
+    this.setRoot(arrayToBinaryTree(arr))
+    this.setCurrentArr(arr)
   }
 }
 
