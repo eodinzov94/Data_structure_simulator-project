@@ -1,9 +1,9 @@
-import styles from '../../Sorts/QuickSort/QuickSort.module.css'
 import { AnimatePresence, motion } from 'framer-motion'
 import ArrayItem from './ArrayItem'
-import { Events } from '../../BinaryTree/Helpers/MapActionToStyles'
+import './HeapArray.css'
+import { Events } from '../../BinaryTree/BinaryTreeTypes'
 import React from 'react'
-import { ArrayItemObj } from '../../BinaryTree/ClassObjects/ArrayItemObj'
+import { ArrayItemObj } from '../../../../ClassObjects/ArrayItemObj'
 
 interface Props {
     items: number[]; //data of stack
@@ -17,9 +17,9 @@ const HeapArray = (props: Props) => {
         ArrayItemObj.setActions(arr, actions)
         return (
 
-            <div className={`basis-9/12 ${styles.example}`}>
+            <div className={`basis-9/12`}>
               <AnimatePresence>
-              <motion.ul className={styles.s_ul}>
+              <motion.ul className='s_ul'>
                         {arr.map( item =>
                             <ArrayItem arrayItemObj = {item} key={`${item.id}-${item.value}`}/>
                         )}

@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import './BinaryTree.css'
-import { BranchObj } from './ClassObjects/BranchObj'
+import { BranchObj } from '../../../ClassObjects/BranchObj'
 interface BranchProps {
   branch:BranchObj
 }

@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from '../HeapArray/HeapArray.module.css'
+import './HeapArray.css'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getHeapArrayAnimationsAndStyles } from '../../BinaryTree/Helpers/Functions'
-import { ArrayItemObj } from '../../BinaryTree/ClassObjects/ArrayItemObj'
+import { ArrayItemObj } from '../../../../ClassObjects/ArrayItemObj'
 
 interface Props {
   arrayItemObj: ArrayItemObj
@@ -15,7 +15,7 @@ const ArrayItem = (props: Props) => {
   return (
     <AnimatePresence>
       <motion.li
-        className={styles.s_li}
+        className='s_li'
         layout
         transition={{
           layout: { duration: 0.250 * speed, ease: 'easeIn' },

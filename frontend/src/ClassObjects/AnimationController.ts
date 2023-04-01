@@ -1,9 +1,8 @@
-import { TreeNode } from '../BinaryTreeTypes'
-import { Events, HeapSnapshots } from '../Helpers/MapActionToStyles'
-import { sleep } from '../../../../utils/animation-helpers'
-import { arrayToBinaryTree } from '../Helpers/Functions'
-import { setActions, setArray, setPlaying, setRoot } from '../../../../store/reducers/alghoritms/heap-reducer'
-import { AppDispatch } from '../../../../store/store'
+import { Events, HeapSnapshots, TreeNode } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
+import { sleepWithID } from '../utils/animation-helpers'
+import { arrayToBinaryTree } from '../components/Simulation/BinaryTree/Helpers/Functions'
+import { setActions, setArray, setPlaying, setRoot } from '../store/reducers/alghoritms/heap-reducer'
+import { AppDispatch } from '../store/store'
 
 
 abstract class AnimationController {
@@ -15,7 +14,7 @@ abstract class AnimationController {
   heapSnapshots: HeapSnapshots
   frame: number
   dispatch: AppDispatch
-
+  timeOutsArr: NodeJS.Timeout[]
 
 
   protected constructor(arr: number[],
@@ -27,13 +26,14 @@ abstract class AnimationController {
     this.stopFlag = false
     this.actionArray = []
     this.heapSnapshots = []
+    this.timeOutsArr = []
     this.frame = -1
     this.dispatch = dispatch
   }
 
   async initNewAnimation() {
     this.stopFlag = true
-    await sleep(500 * this.speed)
+    this.clearTimeOuts()
     if(this.heapSnapshots.length){
       this.arr = this.heapSnapshots[this.heapSnapshots.length - 1]
     }
@@ -63,7 +63,7 @@ abstract class AnimationController {
       this.setCurrentActions(this.actionArray[i])
       this.setRoot(arrayToBinaryTree(this.heapSnapshots[i]))
       this.setCurrentArr(this.heapSnapshots[i])
-      await sleep(500 * this.speed)
+      await sleepWithID(500 * this.speed, this.timeOutsArr)
     }
     this.setPlaying(false)
   }
@@ -87,7 +87,7 @@ abstract class AnimationController {
   }
   async pause() {
     this.pauseFlag = true
-    await sleep(500 * this.speed)
+    this.clearTimeOuts()
     this.setPlaying(false)
   }
   async jumpToEnd() {
@@ -127,6 +127,11 @@ abstract class AnimationController {
     this.setCurrentActions(this.actionArray[this.frame])
     this.setRoot(arrayToBinaryTree(this.heapSnapshots[this.frame]))
     this.setCurrentArr(this.heapSnapshots[this.frame])
+  }
+
+  clearTimeOuts() {
+    this.timeOutsArr.forEach(timeOut => clearTimeout(timeOut))
+    this.timeOutsArr = []
   }
 }
 

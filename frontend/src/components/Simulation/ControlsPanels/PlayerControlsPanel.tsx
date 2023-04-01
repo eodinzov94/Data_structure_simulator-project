@@ -8,7 +8,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import SpeedIcon from '@mui/icons-material/Speed'
 import { useAppSelector } from '../../../store/hooks'
-import AnimationController from '../BinaryTree/ClassObjects/AnimationController'
+import AnimationController from '../../../ClassObjects/AnimationController'
 
 interface Props {
   controller: AnimationController

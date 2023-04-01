@@ -1,4 +1,4 @@
-import { ActionType, Events, HeapSnapshots } from '../BinaryTree/Helpers/MapActionToStyles'
+import { ActionType, Events, HeapSnapshots } from '../BinaryTree/BinaryTreeTypes'
 
 export function buildMaxHeap(A: number[],actionsArr:Events[],heapSnapshots:HeapSnapshots): void {
     const heapSize = A.length;

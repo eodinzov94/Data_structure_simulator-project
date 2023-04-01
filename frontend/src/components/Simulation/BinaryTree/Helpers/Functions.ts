@@ -1,5 +1,5 @@
 import {TreeNode} from '../BinaryTreeTypes'
-import {ActionType} from './MapActionToStyles'
+import {ActionType} from '../BinaryTreeTypes'
 import React from 'react'
 import {AnimationProps} from 'framer-motion'
 

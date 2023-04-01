@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import './BinaryTree.css'
 import { getAnimationsAndStyles } from './Helpers/Functions'
-import { NodeObj } from './ClassObjects/NodeObj'
+import { NodeObj } from '../../../ClassObjects/NodeObj'
 import Branch from './Branch'
 
 interface BinaryTreeNodeProps {

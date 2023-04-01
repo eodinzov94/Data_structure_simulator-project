@@ -1,7 +1,7 @@
 import BinaryTree from '../BinaryTree/BinaryTree'
 import { TreeNode } from '../BinaryTree/BinaryTreeTypes'
 import HeapArray from './HeapArray/HeapArray'
-import HeapAnimationController from '../BinaryTree/ClassObjects/HeapAnimationController'
+import HeapAnimationController from '../../../ClassObjects/HeapAnimationController'
 import { useAppSelector } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
 import PlayerControlsPanel from '../ControlsPanels/PlayerControlsPanel'

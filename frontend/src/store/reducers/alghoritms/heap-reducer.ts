@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
-import { Events } from '../../../components/Simulation/BinaryTree/Helpers/MapActionToStyles'
+import { Events } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { arrayToBinaryTree } from '../../../components/Simulation/BinaryTree/Helpers/Functions'
 
 

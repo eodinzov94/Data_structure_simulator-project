@@ -1,6 +1,6 @@
 import { BranchObj } from './BranchObj'
-import { ActionType, Events } from '../Helpers/MapActionToStyles'
-import { TreeNode } from '../BinaryTreeTypes'
+import { ActionType, Events } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
+import { TreeNode } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
 
 export class NodeObj {
   static availableSpace = 600

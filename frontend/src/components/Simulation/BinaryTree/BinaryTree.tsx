@@ -1,8 +1,8 @@
 import { TreeNode } from './BinaryTreeTypes'
 import BinaryTreeNode from './BinaryTreeNode'
 import React, { FC, useEffect, useState } from 'react'
-import { Events } from './Helpers/MapActionToStyles'
-import { NodeObj } from './ClassObjects/NodeObj'
+import { Events } from './BinaryTreeTypes'
+import { NodeObj } from '../../../ClassObjects/NodeObj'
 
 interface BTProps {
   root: TreeNode

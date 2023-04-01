@@ -1,4 +1,4 @@
-import { ActionType, Events } from '../Helpers/MapActionToStyles'
+import { ActionType, Events } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
 
 export class ArrayItemObj {
     value: number;

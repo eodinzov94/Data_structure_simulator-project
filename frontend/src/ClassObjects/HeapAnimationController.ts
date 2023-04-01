@@ -1,5 +1,5 @@
-import { buildMaxHeap, heapExtractMax, heapMax } from '../../Heap/HeapAlgorithms'
-import { AppDispatch } from '../../../../store/store'
+import { buildMaxHeap, heapExtractMax, heapMax } from '../components/Simulation/Heap/HeapAlgorithms'
+import { AppDispatch } from '../store/store'
 import AnimationController from './AnimationController'
 
 
