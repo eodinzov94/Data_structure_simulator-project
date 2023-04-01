@@ -52,7 +52,6 @@ abstract class AnimationController {
     if (this.actionArray.length !== this.heapSnapshots.length) {
       throw new Error('Heap snapshot length does not match actions array length')
     }
-    console.log(this.frame)
     for (let i = this.frame; i < this.actionArray.length; i++) {
       this.frame = i
       if (this.stopFlag) {
@@ -70,6 +69,7 @@ abstract class AnimationController {
       await sleepWithID(500 * this.speed, this.timeOutsArr)
     }
     this.setPlaying(false)
+    this.frame = 0
   }
 
   setCurrentActions(actions: Events) {
