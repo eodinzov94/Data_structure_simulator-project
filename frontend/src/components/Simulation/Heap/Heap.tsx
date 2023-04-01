@@ -4,6 +4,7 @@ import HeapArray from './HeapArray/HeapArray'
 import HeapAnimationController from '../BinaryTree/ClassObjects/HeapAnimationController'
 import { useAppSelector } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
+import PlayerControlsPanel from '../ControlsPanels/PlayerControlsPanel'
 
 function calculateHeight(root: TreeNode | undefined): number {
     if (!root) {
@@ -46,30 +47,31 @@ const Heap = () => {
                 <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={controller.speed}
                             actions={currentActions}/>
             </div>
-            <br/>
-            <button className='' onClick={() => {
-                controller.stopFlag = !controller.stopFlag
-            }}>
-                Skip to end of animation
-            </button>
-            <br/>
-            <button className='' onClick={() => {
-                controller.pauseFlag = !controller.pauseFlag
-            }}>
-                Toggle Animation Pause
-            </button>
-            <br/>
-            <button className='' onClick={() => {
-              controller.speed = controller.speed / 2
-            }}>
-                Faster Animation
-            </button>
-            <br/>
-            <button className='' onClick={() => {
-              controller.speed = controller.speed * 2
-            }}>
-                Slower Animation
-            </button>
+          <PlayerControlsPanel controller={controller}/>
+            {/*<br/>*/}
+            {/*<button className='' onClick={() => {*/}
+            {/*    controller.stopFlag = !controller.stopFlag*/}
+            {/*}}>*/}
+            {/*    Skip to end of animation*/}
+            {/*</button>*/}
+            {/*<br/>*/}
+            {/*<button className='' onClick={() => {*/}
+            {/*    controller.pauseFlag = !controller.pauseFlag*/}
+            {/*}}>*/}
+            {/*    Toggle Animation Pause*/}
+            {/*</button>*/}
+            {/*<br/>*/}
+            {/*<button className='' onClick={() => {*/}
+            {/*  controller.speed = controller.speed / 2*/}
+            {/*}}>*/}
+            {/*    Faster Animation*/}
+            {/*</button>*/}
+            {/*<br/>*/}
+            {/*<button className='' onClick={() => {*/}
+            {/*  controller.speed = controller.speed * 2*/}
+            {/*}}>*/}
+            {/*    Slower Animation*/}
+            {/*</button>*/}
         </>
     )
 }

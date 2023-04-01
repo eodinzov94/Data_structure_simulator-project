@@ -1,5 +1,5 @@
 import styles from '../../Sorts/QuickSort/QuickSort.module.css'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import ArrayItem from './ArrayItem'
 import { Events } from '../../BinaryTree/Helpers/MapActionToStyles'
 import React from 'react'
@@ -16,12 +16,15 @@ const HeapArray = (props: Props) => {
         const arr = ArrayItemObj.generateArrayObjects(items, speed);
         ArrayItemObj.setActions(arr, actions)
         return (
+
             <div className={`basis-9/12 ${styles.example}`}>
-                <motion.ul className={styles.s_ul}>
+              <AnimatePresence>
+              <motion.ul className={styles.s_ul}>
                         {arr.map( item =>
-                            <ArrayItem arrayItemObj = {item} key={item.id}/>
+                            <ArrayItem arrayItemObj = {item} key={`${item.id}-${item.value}`}/>
                         )}
                 </motion.ul>
+              </AnimatePresence>
             </div>
         );
     }

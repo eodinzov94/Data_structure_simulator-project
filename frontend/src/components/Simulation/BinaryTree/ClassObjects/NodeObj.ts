@@ -37,7 +37,7 @@ export class NodeObj {
     this.branch = null
     this.parent = parent
     this.level = level
-    this.height = height
+    this.height = Math.max(5,height)
     this.viewportWidth = viewportWidth
     this.type = type
     this.calculatePosition()
@@ -90,7 +90,7 @@ export class NodeObj {
     const stack = [{
       node: root,
       nodeObj: new NodeObj(
-        { x: viewportWidth / 2, y: 120 },
+        { x: viewportWidth / 2 -17, y: 120 },
         speed,
         root.id,
         root.value,

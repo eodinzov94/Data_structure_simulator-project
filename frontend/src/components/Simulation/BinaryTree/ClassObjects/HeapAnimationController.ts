@@ -3,7 +3,7 @@ import { Events, HeapSnapshots } from '../Helpers/MapActionToStyles'
 import { sleep } from '../../../../utils/animation-helpers'
 import { buildMaxHeap, heapExtractMax, heapMax } from '../../Heap/HeapAlgorithms'
 import { arrayToBinaryTree } from '../Helpers/Functions'
-import { setActions, setArray, setRoot } from '../../../../store/reducers/alghoritms/heap-reducer'
+import { setActions, setArray, setPlaying, setRoot } from '../../../../store/reducers/alghoritms/heap-reducer'
 import { AppDispatch } from '../../../../store/store'
 
 
@@ -58,6 +58,12 @@ class HeapAnimationController {
     this.frame = 0
     await this.playAnimation()
   }
+  async insertKey() {
+   // TODO:implement
+  }
+  async heapSort() {
+    // TODO:implement
+  }
   async initNewAnimation() {
     this.stopFlag = true
     await sleep(500 * this.speed)
@@ -67,30 +73,32 @@ class HeapAnimationController {
     this.actionArray = []
     this.heapSnapshots = []
     this.stopFlag = false
-    this.pauseFlag = false
   }
 
   async playAnimation() {
+    this.setPlaying(true)
+    this.pauseFlag = false
     if (this.actionArray.length !== this.heapSnapshots.length) {
       throw new Error('Heap snapshot length does not match actions array length')
     }
+    console.log(this.frame)
     for (let i = this.frame; i < this.actionArray.length; i++) {
+      this.frame = i
       if (this.stopFlag) {
         this.setCurrentArr(this.heapSnapshots[this.heapSnapshots.length - 1])
         this.setRoot(arrayToBinaryTree(this.heapSnapshots[this.heapSnapshots.length - 1]))
-        this.frame = i
         this.setCurrentActions([])
-        break
+        return;
       }
       if (this.pauseFlag) {
-        this.frame = i
-        break
+        return;
       }
       this.setCurrentActions(this.actionArray[i])
       this.setRoot(arrayToBinaryTree(this.heapSnapshots[i]))
       this.setCurrentArr(this.heapSnapshots[i])
       await sleep(500 * this.speed)
     }
+    this.setPlaying(false)
   }
 
   setCurrentActions(actions: Events) {
@@ -103,6 +111,55 @@ class HeapAnimationController {
 
   setCurrentArr(arr: number[]) {
     this.dispatch(setArray(arr))
+  }
+  setPlaying(value:boolean) {
+    this.dispatch(setPlaying(value))
+  }
+  setSpeed(speed: number) {
+    this.speed = 1/speed
+  }
+  async pause() {
+    this.pauseFlag = true
+    await sleep(500 * this.speed)
+    this.setPlaying(false)
+  }
+  async jumpToEnd() {
+    await this.pause()
+    const i = this.actionArray.length - 1
+    this.setCurrentActions([])
+    this.setRoot(arrayToBinaryTree(this.heapSnapshots[i]))
+    this.setCurrentArr(this.heapSnapshots[i])
+    this.frame = i
+  }
+  async jumpToStart() {
+    await this.pause()
+    this.frame = 0
+    this.setCurrentActions([])
+    this.setRoot(arrayToBinaryTree(this.heapSnapshots[0]))
+    this.setCurrentArr(this.heapSnapshots[0])
+  }
+  async playNextFrame() {
+    await this.pause()
+    this.frame += 1
+    this.playFrame()
+  }
+  async playPreviousFrame() {
+    await this.pause()
+    this.frame -= 1
+    this.playFrame()
+  }
+  private playFrame() {
+    if(this.frame >= this.actionArray.length ){
+      this.frame = this.actionArray.length
+      return;
+    }
+    if(this.frame < 0){
+      this.frame = 0
+      return;
+    }
+    this.setCurrentActions(this.actionArray[this.frame])
+    this.setRoot(arrayToBinaryTree(this.heapSnapshots[this.frame]))
+    this.setCurrentArr(this.heapSnapshots[this.frame])
   }
 }
 
