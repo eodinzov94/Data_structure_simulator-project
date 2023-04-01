@@ -7,11 +7,11 @@ import PauseIcon from '@mui/icons-material/Pause'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import SpeedIcon from '@mui/icons-material/Speed'
-import HeapAnimationController from '../BinaryTree/ClassObjects/HeapAnimationController'
 import { useAppSelector } from '../../../store/hooks'
+import AnimationController from '../BinaryTree/ClassObjects/AnimationController'
 
 interface Props {
-  controller: HeapAnimationController
+  controller: AnimationController
 }
 
 const PlayerControlsPanel: FC<Props> = ({ controller }) => {
