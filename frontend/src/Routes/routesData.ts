@@ -17,6 +17,7 @@ import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
 import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
+import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
 
 export interface RouteItem {
   path: string;
@@ -41,6 +42,8 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.QUEUE, element: QueuePage },
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
   { path: RoutePaths.INSERTION_SORT, element: InsertionSortPage },
+  { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },
+
 ];
 
 export const lecturerRoutes: RouteItem[] = [

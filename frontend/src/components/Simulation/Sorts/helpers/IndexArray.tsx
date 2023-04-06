@@ -4,7 +4,7 @@ import styles from "./IndexArray.module.css";
 interface Props{
     size:number;
     i:number;
-    j:number;
+    j?:number;
 }
 
 export const IndexArray = (props:Props) => {
@@ -25,7 +25,9 @@ export const IndexArray = (props:Props) => {
                   key={index}
                 >
                   {
+                    props.j?
                     index===props.i+1 && props.i === props.j ? "i,j": (index === props.i+1 ? 'i' :  (index ===props.j+1 ? 'j':''))
+                    : index===props.i+1? 'i':''
                   } {/* text inside the box */}
                 </motion.li>
               ))}

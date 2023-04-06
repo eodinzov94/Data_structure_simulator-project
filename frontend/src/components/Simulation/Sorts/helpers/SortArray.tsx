@@ -1,5 +1,4 @@
-import styles from "./QuickSort/QuickSort.module.css";
-import styles2 from "./IndexArray.module.css";
+import styles from "../QuickSort/QuickSort.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { sortItem } from "./types";
 import ArrayElement from "./ArrayElement";
@@ -17,7 +16,7 @@ const SortArray = (props: Props) => {
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the data to motion.il /*/}
           {props.items.map((elem: sortItem,index) => (
-            <ArrayElement name={index.toString()} value={elem.value} color={elem.color}/>
+            <ArrayElement name={index.toString()} value={elem.value} color={elem.color} key={index}/>
             ))}
         </AnimatePresence>
       </motion.ul>

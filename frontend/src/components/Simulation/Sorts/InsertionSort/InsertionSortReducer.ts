@@ -1,5 +1,4 @@
-import { stat } from "fs";
-import { sortItem } from "../types";
+import { sortItem } from "../helpers/types";
 
 export enum ItemColor {
   BASE = "#84cc16",
@@ -64,7 +63,9 @@ export function insertionSortReducer(state: State, action: Action) {
             };
         });
         return {
-            ...state,
+            i: -2,
+            j: -2,
+            line: -1,
             data: newData,
         };
         }

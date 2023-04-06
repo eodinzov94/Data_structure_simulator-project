@@ -1,4 +1,4 @@
-import styles from "./QuickSort/QuickSort.module.css";
+import styles from "../QuickSort/QuickSort.module.css";
 import styles2 from "./IndexArray.module.css";
 import { motion } from "framer-motion";
 
@@ -12,6 +12,7 @@ interface Props {
 const ArrayElement = (props: Props) => {
   return (
           <motion.li
+            key={props.name}
             className={styles.s_li}
             layout
             transition={{
@@ -26,6 +27,7 @@ const ArrayElement = (props: Props) => {
               transition: { duration: 0.5 }, //todo fix animations on bgcolor
             }}
             exit={{
+              backgroundColor:"#84cc16",
               scale: 0.8,
               x: -100, //move to the rigth
               opacity: 0.2,
@@ -37,9 +39,9 @@ const ArrayElement = (props: Props) => {
           >
             {props.value} {/* text inside the box */}
             
-      <li className={styles2.s_li} style={{fontSize:14, color:"gray"}}>
-      {props.name} {/* text inside the box */}
-      </li>
+      <a className={styles2.s_li} style={{fontSize:14, color:"gray"}}>
+      {props.name} {/* text under the box */}
+      </a>
           </motion.li>
         );
 };
