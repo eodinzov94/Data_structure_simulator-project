@@ -1,7 +1,6 @@
-import { useReducer, useRef } from "react";
+import {useRef } from "react";
 import {
-  insertionSortOperation,
-  sortItem,
+  countingSortOperation
 } from "../../../components/Simulation/Sorts/helpers/types";
 import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
@@ -10,49 +9,41 @@ import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import SortArray from "../../../components/Simulation/Sorts/helpers/SortArray";
 import {
-  insertionSortReducer,
-  State,
-  insertionSortActionKind as ActionKind,
-  ItemColor,
-} from "../../../components/Simulation/Sorts/InsertionSort/InsertionSortReducer";
-import { insertionSort } from "../../../components/Simulation/Sorts/InsertionSort/InsertionSortAlgorithm";
-import { InsertionSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
-import ArrayElement from "../../../components/Simulation/Sorts/helpers/ArrayElement";
+  CountingSortPseudoCode,
+} from "../../../components/Simulation/PseudoCode/PseudoCodeData";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import {
+  init,
+} from "../../../store/reducers/countingSortReducer";
+import { CountingSort } from "../../../components/Simulation/Sorts/CountingSort/CountingSortAlgorithem";
 
 const MAX_ELEMENTS = 10;
 
-const INIT_STATE: State = {
-  data: [] as sortItem[],
-  i: -2,
-  j: -2,
-  line: -1,
-};
+const CountingSortPage = () => {
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.countingSort);
 
-const InsertionSortPage = () => {
-  const [state, dispatch] = useReducer(insertionSortReducer, INIT_STATE);
   const abortRef = useRef(false);
   const setAbortTrue = () => (abortRef.current = true);
   const setAbortFalse = () => (abortRef.current = false);
 
   const Sort = async () => {
-    setAbortFalse();
-    const opArr: insertionSortOperation[] = insertionSort([...state.data]);
+    const opArr: countingSortOperation[] = CountingSort([...state.A], state.k);
     for (var op of opArr) {
       if (abortRef.current) {
         break;
       }
-      dispatch({ type: op.action, payload: op.payload });
+      dispatch(op.action(op.payload));
       await sleep(2000);
     }
   };
 
   const setInput = (data: number[]) => {
-    setAbortTrue();
-    dispatch({ type: ActionKind.SET_DATA, payload: { data } });
+    dispatch(init({ data, arr_name: "A" }));
   };
 
   const setRandomInput = () => {
-    setInput(getRandomNumsArr(MAX_ELEMENTS));
+    setInput(getRandomNumsArr(MAX_ELEMENTS, 10));
   };
 
   return (
@@ -66,6 +57,7 @@ const InsertionSortPage = () => {
         rightBtnText={"Sort"}
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
+        maxInputNum={9}
       ></SortControlsPanel>
 
       {/* animation section */}
@@ -74,26 +66,27 @@ const InsertionSortPage = () => {
         {/*middle section */}
         <div className="flex flex-nowrap">
           <div className="basis-9/12">
-            <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-            <SortArray items={state.data} />
+            <IndexArray size={state.A.length + 1} i={state.indexA} />
+            <SortArray items={state.A} />
+
             <div style={{ marginTop: "40px" }}>
-              {state.keyValue ? (
-                <ArrayElement
-                  name="key"
-                  value={state.keyValue}
-                  color={state.line == 7 ? ItemColor.MARKED : ItemColor.BASE}
-                />
-              ) : (
-                <></>
-              )}
+              <IndexArray size={state.C.length + 1} i={state.indexC} />
+              <SortArray items={state.C} />
             </div>
+
+            <div style={{ marginTop: "40px" }}>
+              <IndexArray size={state.B.length + 1} i={state.indexB} />
+              <SortArray items={state.B} />
+            </div>
+
+            <div> K = {state.k}</div>
           </div>
           {/* psaudo code */}
-          <PseudoCode code={InsertionSortPseudoCode} line={state.line} />
+          <PseudoCode code={CountingSortPseudoCode} line={state.line} />
         </div>
       </div>
     </>
   );
 };
 
-export default InsertionSortPage;
+export default CountingSortPage;

@@ -1,4 +1,4 @@
-import { sortItem } from "../types";
+import { sortItem } from "../helpers/types";
 
 export enum ItemColor {
     BASE = "#84cc16",

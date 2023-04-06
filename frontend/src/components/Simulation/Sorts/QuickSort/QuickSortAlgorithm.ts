@@ -1,5 +1,5 @@
-import { sortItem ,QuickSortOperation} from "../types";
-import { compare } from "../helpers";
+import { sortItem, QuickSortOperation } from "../helpers/types";
+import { compare } from "../helpers/functions";
 import { QuickSortActionKind as ActionKind } from "./QuickSortReducer";
 
 export function quickSort(array: sortItem[]): QuickSortOperation[] {

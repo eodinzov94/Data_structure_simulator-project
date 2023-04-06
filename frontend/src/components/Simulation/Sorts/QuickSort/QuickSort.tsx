@@ -1,7 +1,7 @@
 import styles from "./QuickSort.module.css";
-import styles2 from "../IndexArray.module.css";
+import styles2 from "../helpers/IndexArray.module.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { sortItem } from "../types";
+import { sortItem } from "../helpers/types";
 interface Props {
   items: sortItem[]; //data of stack
   children?: JSX.Element | JSX.Element[];
