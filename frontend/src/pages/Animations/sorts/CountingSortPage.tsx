@@ -28,6 +28,7 @@ const CountingSortPage = () => {
   const setAbortFalse = () => (abortRef.current = false);
 
   const Sort = async () => {
+    setAbortFalse()
     const opArr: countingSortOperation[] = CountingSort([...state.A], state.k);
     for (var op of opArr) {
       if (abortRef.current) {
@@ -39,11 +40,12 @@ const CountingSortPage = () => {
   };
 
   const setInput = (data: number[]) => {
+    setAbortTrue();
     dispatch(init({ data, arr_name: "A" }));
   };
 
   const setRandomInput = () => {
-    setInput(getRandomNumsArr(MAX_ELEMENTS, 10));
+    setInput(getRandomNumsArr(MAX_ELEMENTS, 11));
   };
 
   return (

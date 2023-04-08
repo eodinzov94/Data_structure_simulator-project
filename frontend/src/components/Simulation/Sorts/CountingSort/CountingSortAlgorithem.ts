@@ -1,11 +1,8 @@
 import { Colors, countingSortOperation, sortItem } from "../helpers/types";
 import {
-  counting,
   init,
   setIndex,
   setColor,
-  accumulate,
-  decreasingC,
   setLine,
   setValue,
 } from "../../../../store/reducers/countingSortReducer";

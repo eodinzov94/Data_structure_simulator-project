@@ -53,7 +53,6 @@ export type countingSortPayload =
   | number
   | valuePayload;
 
-
 const initialState = {
   A: [] as sortItem[],
   B: [] as sortItem[],
@@ -77,6 +76,12 @@ const countingSortSlice = createSlice({
           arr = numbersToSortItems(data);
           state.A = arr;
           state.k = Math.max(...data);
+          state.B = [] as sortItem[];
+          state.C = [] as sortItem[];
+          state.indexA = -2;
+          state.indexB = -2;
+          state.indexC = -2;
+          state.line = -1;
           break;
         }
         case "B": {
@@ -110,22 +115,6 @@ const countingSortSlice = createSlice({
         }
       }
       state.line = line;
-      return state;
-    },
-    counting(state) {
-      const index = state.A[state.indexA].value;
-      state.C[index].value = state.C[index].value + 1;
-      return state;
-    },
-    accumulate(state) {
-      const index = state.indexC;
-      state.C[index].value = state.C[index].value + state.C[index - 1].value;
-      return state;
-    },
-    decreasingC(state) {
-      const index = state.A[state.indexA].value;
-      state.C[index].value = state.C[index].value - 1;
-      state.line = state.line + 1;
       return state;
     },
     setValue(state, action: PayloadAction<valuePayload>) {
@@ -178,9 +167,6 @@ export const {
   init,
   setIndex,
   setColor,
-  counting,
-  accumulate,
-  decreasingC,
   setLine,
   setValue,
 } = countingSortSlice.actions;
