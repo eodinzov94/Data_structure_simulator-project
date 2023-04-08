@@ -14,8 +14,6 @@ import FeedbacksPage from "../pages/general/FeedbacksPage";
 import AddFeedbackPage from "../pages/general/AddFeedBackPage";
 import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
 
-import QuickSortPage  from '../pages/sorts/QuickSortPage'
-import EmailVerificationPage from '../pages/EmailVerificationPage'
 import Heap from "../components/Simulation/Heap/Heap";
 import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";

@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 import HeapAnimationController from '../../../ClassObjects/HeapAnimationController'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import {setInputArray, setInputKey} from '../../../store/reducers/alghoritms/heap-reducer'
-import { getArrFromInput } from '../Sorts/helpers'
+import {getArrFromInput} from "../Sorts/helpers/functions";
 
 interface Props {
   controller: HeapAnimationController
