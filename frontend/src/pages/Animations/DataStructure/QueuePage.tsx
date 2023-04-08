@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import Queue from "../components/Simulation/Queue/Queue";
+import Queue from "../../../components/Simulation/Queue/Queue";
 import ControlsPanel, {
   Item,
-} from "../components/Simulation/ControlsPanels/SqControlsPanel";
+} from "../../../components/Simulation/ControlsPanels/SqControlsPanel";
 
 const MAX_ELEMENTS = 10;
 
@@ -38,7 +37,7 @@ const QueuePage = () => {
         return { curr: prevState.curr + 35, prev: prevState.curr };
       });
       setTailPosition((prevState) => {
-        return prevState-35;
+        return prevState - 35;
       });
       setIsPop(true);
 
@@ -61,7 +60,7 @@ const QueuePage = () => {
         return { curr: prevState.curr - 35, prev: prevState.curr };
       });
       setTailPosition((prevState) => {
-        return prevState+35;
+        return prevState + 35;
       });
       setData(new_data);
     }
@@ -78,7 +77,7 @@ const QueuePage = () => {
 
     //fix positions
     setTailPosition((prevState) => {
-      return  -35 + 35 * newData.length;
+      return -35 + 35 * newData.length;
     });
   };
 
@@ -98,7 +97,11 @@ const QueuePage = () => {
       <div className="container mx-auto max-w-7xl px-0 md: py-0">
         <div className="flex flex-nowrap">
           {/*middle section */}
-          <Queue headPosition={headPosition} tailPosition={tailPosition} items={data} />
+          <Queue
+            headPosition={headPosition}
+            tailPosition={tailPosition}
+            items={data}
+          />
 
           {/*rigth section */}
           {/* <div className="basis-3/12">

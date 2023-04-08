@@ -2,7 +2,7 @@ import { useState } from "react";
 import swal from "sweetalert";
 import MediumCard from "../../UI/MediumCard";
 import SimulationInputGroup from "../../UI/SimulationInputGroup";
-import { getArrFromInput } from "../Sorts/helpers";
+import { getArrFromInput } from "../Sorts/helpers/functions";
 export interface Item {
   value: string;
   key: number;
@@ -22,20 +22,21 @@ interface Props {
   leftBtnText?: string;
 
   maxElements: number;
+
+  maxInputNum?:number;
 }
 
 export const SortControlsPanel = (props: Props) => {
   const [enteredValue, setEnteredValue] = useState<string>(""); //state for the value that need to be push
 
   const inputValueHandler = () => {
-    const result = getArrFromInput(props.maxElements, enteredValue);
-    
-    if (typeof result === "string") swal({icon:'error', text:result})
+    const result = getArrFromInput(props.maxElements, enteredValue, props.maxInputNum);
+
+    if (typeof result === "string") swal({ icon: "error", text: result });
     else {
       props.inputHandler(result as number[]);
-      if(props.abortTrueHandler)
-        props.abortTrueHandler()
-      setEnteredValue('')
+      if (props.abortTrueHandler) props.abortTrueHandler();
+      setEnteredValue("");
     }
   };
 

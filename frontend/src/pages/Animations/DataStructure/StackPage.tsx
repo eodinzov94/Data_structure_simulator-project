@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Stack from "../components/Simulation/Stack/Stack";
+import Stack from "../../../components/Simulation/Stack/Stack";
 import { motion } from "framer-motion";
 import SqControlsPanel, {
   Item,
-} from "../components/Simulation/ControlsPanels/SqControlsPanel";
+} from "../../../components/Simulation/ControlsPanels/SqControlsPanel";
 
 const MAX_ELEMENTS = 10;
 
@@ -65,7 +65,7 @@ const StackPage = () => {
           <Stack items={data} />
 
           {/*rigth section */}
-           <div className="basis-4/12">
+          <div className="basis-4/12">
             Pseudo code:
             <ul>
               <motion.li
@@ -102,7 +102,7 @@ const StackPage = () => {
                 {"    return arr[size-1];"}
               </motion.li>
             </ul>
-          </div> 
+          </div>
         </div>
       </div>
     </>

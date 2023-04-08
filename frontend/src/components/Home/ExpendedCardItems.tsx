@@ -14,7 +14,7 @@ const ExpendedCardItems = (props: { list: ExpendedItem[] | undefined }) => {
       transition: {
         duration: 0.5,
         when: "beforeChildren",
-        staggerChildren: 0.3,
+        staggerChildren: 0.15,
       },
     },
   };
