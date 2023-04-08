@@ -1,55 +1,51 @@
 import BinaryTree from '../BinaryTree/BinaryTree'
-import { TreeNode } from '../BinaryTree/BinaryTreeTypes'
-import { useState } from 'react'
-import { arrayToBinaryTree } from '../BinaryTree/Helpers/Functions'
-import { sleep } from '../../../utils/animation-helpers'
-import { Events, HeapSnapshots } from '../BinaryTree/Helpers/MapActionToStyles'
-import { buildMaxHeap } from './HeapAlgorithms'
+import {TreeNode} from '../BinaryTree/BinaryTreeTypes'
 import HeapArray from './HeapArray/HeapArray'
+import HeapAnimationController from '../../../ClassObjects/HeapAnimationController'
+import {useAppSelector} from '../../../store/hooks'
+import {useDispatch} from 'react-redux'
+import PlayerControlsPanel from '../ControlsPanels/PlayerControlsPanel'
+import HeapControlsPanel from '../ControlsPanels/HeapControlsPanel'
+import {PseudoCode} from "../PseudoCode/PseudoCode";
+import {HeapsortPseudoCode} from "../PseudoCode/HeapPseudoCodeData";
+import {FC} from "react";
 
 function calculateHeight(root: TreeNode | undefined): number {
-  if (!root) {
-    return 0
-  }
-  return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1
+    if (!root) {
+        return 0
+    }
+    return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1
 }
-const Heap = () => {
-  // const heapArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-  const heapArray= [1,2,3]
-  const heapRoot = arrayToBinaryTree(heapArray)
-  const [root, setRoot] = useState<TreeNode>(heapRoot)
-  const [currentActions, setCurrentActions] = useState<Events>([])
-  const [currentArr, setCurrentArr] = useState(heapArray)
+
+const Heap: FC = () => {
+    const root = useAppSelector(state => state.heap.root)
+    const currentActions = useAppSelector(state => state.heap.currentActions)
+    const currentArr = useAppSelector(state => state.heap.currentArr)
+    const currentAlg = useAppSelector(state => state.heap.currentAlg)
+    const currentLine = useAppSelector(state => state.heap.currentLine)
+    const controller = HeapAnimationController
+        .getController(currentArr, useDispatch())
 
 
-  const Animate = async () => {
-    const actionsArr: Events[] = []
-    const heapSnapshots: HeapSnapshots = []
-    buildMaxHeap(heapArray, actionsArr,heapSnapshots)
-    //change to iterate with i, and i will be saved as state - will help with memento
-    if(actionsArr.length!==heapSnapshots.length){
-      throw new Error("Heap snapshot length does not match actions array length")
-    }
-    for (let i = 0; i < actionsArr.length; i++) {
-      setCurrentActions(actionsArr[i])
-      setRoot(arrayToBinaryTree(heapSnapshots[i]))
-      setCurrentArr(heapSnapshots[i])
-      await sleep(2000)
-    }
-  }
     return (
-      <>
-        <button onClick={Animate}>Start Animation</button>
-        <div className="container mx-auto max-w-7xl px-0 py-0 mt-60">
-          <HeapArray items={currentArr} actions={currentActions}/>
-        </div>
-        <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={1} zoomPercentage={1}
-                    actions={currentActions} />
-        {/*<button onClick={() => setCurrentArr(heapArray2)}>*/}
-        {/*    Click me 2!*/}
-        {/*</button>*/}
-      </>
+        <>
+            <HeapControlsPanel controller={controller}/>
+            <div className="container mx-auto max-w-7xl px-0 py-0 mt-64">
+                <HeapArray items={currentArr} actions={currentActions} speed={controller.speed}/>
+            </div>
+            <div className="container mx-auto max-w-7xl px-0 py-0">
+                <BinaryTree root={root} level={0} height={calculateHeight(root)} speed={controller.speed}
+                            actions={currentActions}/>
+            </div>
+            <PlayerControlsPanel controller={controller}/>
+            <div className="flex justify-end mr-5">
+                <div className=" w-fit">
+                    {/*//TODO:Re-align psuedocode from far right*/}
+                    <PseudoCode line={currentLine} code={HeapsortPseudoCode[currentAlg]}/>
+                </div>
+            </div>
+        </>
     )
-  }
+}
 
-  export default Heap
+export default Heap
