@@ -1,55 +1,30 @@
-import styles from "../../Sorts/QuickSort/QuickSort.module.css";
-import {AnimatePresence, motion} from "framer-motion";
-import ArrayItem from "./ArrayItem";
-import {ActionType, Events} from "../../BinaryTree/Helpers/MapActionToStyles";
-import React from "react";
+import { AnimatePresence, motion } from 'framer-motion'
+import ArrayItem from './ArrayItem'
+import './HeapArray.css'
+import { Events } from '../../BinaryTree/BinaryTreeTypes'
+import React from 'react'
+import { ArrayItemObj } from '../../../../ClassObjects/ArrayItemObj'
 
 interface Props {
     items: number[]; //data of stack
     actions: Events;
-}
-
-
-function itemsToArray(items: number[]) {
-    return items.map((value, index) =>
-        <ArrayItem value={value} id={index} action={ActionType.NONE}/>
-    )
+    speed:  number;
 }
 
 const HeapArray = (props: Props) => {
-        const {items, actions} = props;
-        const arr = itemsToArray(items);
-        if (actions) {
-            try {
-                for (let action of actions) {
-                    if (action.action === ActionType.SWAP) {
-
-                        const itemProps = {...arr[action.item].props};
-                        const item2Props = {...arr[action.item2!].props};
-                        itemProps.action = ActionType.SWAP;
-                        itemProps.nodeInteractionIndex = item2Props.id;
-                        item2Props.action = ActionType.SWAP;
-                        item2Props.nodeInteractionIndex = itemProps.id;
-                        arr[action.item] = {...arr[action.item], props: itemProps};
-                        arr[action.item2!] = {...arr[action.item2!], props: item2Props};
-                    } else {
-                        const itemProps = {...arr[action.item].props};
-                        itemProps.action = action.action;
-                        arr[action.item] = {...arr[action.item], props: itemProps};
-                    }
-                }
-            } catch (e) {
-                console.log(e);
-            }
-
-        }
+        const {items, actions,speed} = props;
+        const arr = ArrayItemObj.generateArrayObjects(items, speed);
+        ArrayItemObj.setActions(arr, actions)
         return (
-            <div className={`basis-9/12 ${styles.example}`}>
-                <motion.ul className={styles.s_ul}>
-                    <AnimatePresence>
-                        {arr}
-                    </AnimatePresence>
+
+            <div className={`basis-9/12`}>
+              <AnimatePresence>
+              <motion.ul className='s_ul'>
+                        {arr.map( item =>
+                            <ArrayItem arrayItemObj = {item} key={`${item.id}-${item.value}`}/>
+                        )}
                 </motion.ul>
+              </AnimatePresence>
             </div>
         );
     }

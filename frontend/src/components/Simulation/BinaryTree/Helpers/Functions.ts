@@ -1,5 +1,5 @@
 import {TreeNode} from '../BinaryTreeTypes'
-import {ActionType} from './MapActionToStyles'
+import {ActionType} from '../BinaryTreeTypes'
 import React from 'react'
 import {AnimationProps} from 'framer-motion'
 
@@ -32,15 +32,12 @@ export function arrayToBinaryTree(arr: number[]): TreeNode {
 }
 
 export function getAnimationsAndStyles(action: ActionType,
-                                       nodeInteractionPosition?: { top: number, left: number },
-                                       myPosition?: { top: number, left: number }
-): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
-    let initial = {}, animate = {}, exit = {}, style = {}
+                                       nodeInteractionPosition: { y: number, x: number }|null,
+                                       myPosition?: { y: number, x: number }
+): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], style: React.CSSProperties } {
+    let initial = {}, animate = {}, style = {}
     switch (action) {
         case ActionType.ADD: {
-            break
-        }
-        case ActionType.DELETE: {
             break
         }
         case ActionType.HIGHLIGHT_FULL: {
@@ -49,11 +46,12 @@ export function getAnimationsAndStyles(action: ActionType,
         }
         case ActionType.SWAP: {
             if (!nodeInteractionPosition || !myPosition) {
-                throw new Error('nodeInteractionPosition and myPosition are required')
+                throw new Error(`nodeInteractionPosition and myPosition are required\n 
+                  nodeInteractionPosition: ${nodeInteractionPosition}\n myPosition: ${myPosition}`)
             }
             animate = {
-                y: nodeInteractionPosition.top - myPosition.top,
-                x: nodeInteractionPosition.left - myPosition.left
+                y: nodeInteractionPosition.y - myPosition.y,
+                x: nodeInteractionPosition.x - myPosition.x
                }
             style = {backgroundColor: '#1a7e3c'}
             break
@@ -69,17 +67,14 @@ export function getAnimationsAndStyles(action: ActionType,
             break
         }
     }
-    return {initial, animate, exit, style}
+    return {initial, animate, style}
 
 }
 
-export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition: number, nodeInteractionPosition?: number): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], exit: AnimationProps['exit'], style: React.CSSProperties } {
-    let initial = {}, animate = {}, exit = {}, style = {}
+export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition: number, nodeInteractionPosition: number | null): { initial: AnimationProps['initial'], animate: AnimationProps['animate'], style: React.CSSProperties } {
+    let initial = {}, animate = {}, style = {}
     switch (action) {
         case ActionType.ADD: {
-            break
-        }
-        case ActionType.DELETE: {
             break
         }
         case ActionType.HIGHLIGHT_FULL: {
@@ -87,12 +82,12 @@ export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition:
             break
         }
         case ActionType.SWAP: {
-            if (nodeInteractionPosition === undefined || myPosition === undefined) {
+            if (nodeInteractionPosition === null || myPosition === undefined) {
                 throw new Error('nodeInteractionPosition and myPosition are required')
             }
             style = {backgroundColor: '#1a7e3c'}
             animate = {
-                x: (nodeInteractionPosition - myPosition)*50,
+                x: (nodeInteractionPosition - myPosition)*32,
             }
             break
         }
@@ -107,7 +102,7 @@ export function getHeapArrayAnimationsAndStyles( action: ActionType, myPosition:
             break
         }
     }
-    return {initial, animate, exit, style}
+    return {initial, animate, style}
 
 }
 
