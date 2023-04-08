@@ -6,6 +6,7 @@ export class ArrayItemObj {
     action: ActionType;
     swapIndex: number | null;
     speed: number;
+    visible: boolean;//TODO:Add animation
 
     constructor(value: number, id: number, speed: number) {
         this.value = value;
@@ -13,6 +14,7 @@ export class ArrayItemObj {
         this.action = ActionType.NONE;
         this.speed = speed
         this.swapIndex = null;
+        this.visible = true;
     }
 
     setAction(action: ActionType, swapIndex: number | null) {
@@ -32,12 +34,16 @@ export class ArrayItemObj {
             try {
                 for (let action of actions) {
                     if (action.action === ActionType.SWAP) {
-                        if (!action.item2) {
+                        if (typeof action.item2 !== 'number') {
                             throw new Error('item2 is required for swap action')
                         }
                         arrayObjects[action.item].setAction(ActionType.SWAP, arrayObjects[action.item2].id)
                         arrayObjects[action.item2].setAction(ActionType.SWAP, arrayObjects[action.item].id)
-                    } else {
+                    }
+                    // else if(action.action === ActionType.MASHU){
+                    //     //TODO:set invisible
+                    // }
+                    else {
                         arrayObjects[action.item].setAction(action.action, null)
                     }
                 }

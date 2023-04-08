@@ -3,9 +3,9 @@ export enum ActionType {
     HIGHLIGHT_FULL = "HIGHLIGHT_FULL",
     HIGHLIGHT_LIGHT = "HIGHLIGHT_LIGHT",
     SWAP = "SWAP",
-    DELETE = "DELETE",
-    ADD = "BASE",
-    NONE = "NONE"
+    ADD = "ADD",
+    NONE = "NONE",
+    CHANGE = "CHANGE"
 }
 
 export type Events = { action: ActionType, item: number,item2?:number }[];

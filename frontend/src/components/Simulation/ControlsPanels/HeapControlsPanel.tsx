@@ -3,7 +3,7 @@ import { FC, useState } from 'react'
 import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 import HeapAnimationController from '../../../ClassObjects/HeapAnimationController'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { setInputArray } from '../../../store/reducers/alghoritms/heap-reducer'
+import {setInputArray, setInputKey} from '../../../store/reducers/alghoritms/heap-reducer'
 import { getArrFromInput } from '../Sorts/helpers'
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 const HeapControlsPanel: FC<Props> = ({ controller }) => {
   const [open, setOpen] = useState(true)
   const inputArray = useAppSelector(state => state.heap.inputArray)
+  const inputKey = useAppSelector(state=> state.heap.inputKey)
   const dispatch = useAppDispatch()
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -37,6 +38,12 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
         return
       case 'Extract-Max':
         await controller.extractMax()
+        return
+      case 'Insert Key':
+        await controller.insertKey(inputKey)
+        return
+      case 'Heap-Sort':
+        await controller.heapSort()
         return
       default:
         return
@@ -81,12 +88,16 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
                 </div>
               </ListItem>
             ))}
-            {['Insert Key', 'Heap-Sort'].map((text) => (
-              <ListItem key={text}>
-                <ListItemText primary={text} />
+              <ListItem key={'Insert Key'}>
+                <ListItemText primary={'Insert Key'} />
+                <Input className='ml-5' placeholder='e.g 1,2,3,4,...' value={inputKey}
+                       onChange={(e) => dispatch(setInputKey(Number(e.target.value)))} />
+                <ListItemButton onClick={async () => await Animate('Insert Key')}>
+                  GO
+                </ListItemButton>
               </ListItem>
-            ))}
           </List>
+        {/*//TODO:Add heapsort controller*/}
         </Drawer>
         :
         <div className='flex justify-start absolute top-1/4'>

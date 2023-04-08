@@ -17,6 +17,7 @@ export class NodeObj {
   height: number
   viewportWidth: number
   type: 'root' | 'left' | 'right'
+  visible: boolean //TODO:Add animation
 
   constructor(position: { x: number, y: number },
               speed: number,
@@ -40,6 +41,7 @@ export class NodeObj {
     this.height = Math.max(5,height)
     this.viewportWidth = viewportWidth
     this.type = type
+    this.visible = true
     this.calculatePosition()
     this.createBranch()
   }
@@ -64,7 +66,7 @@ export class NodeObj {
   }
 
   createBranch() {
-    if (this.type === 'root') {
+    if (this.type === 'root' || !this.visible) {
       return
     } else if (this.parent === null || this.parent.position === null) {
       throw new Error('parent is null or parent position is null')
@@ -155,12 +157,16 @@ export class NodeObj {
       try {
         for (let action of actions) {
           if (action.action === ActionType.SWAP) {
-            if (!action.item2) {
+            if (typeof action.item2 !== 'number') {
               throw new Error('item2 is required for swap action')
             }
             treeObjects[action.item].setAction(ActionType.SWAP, treeObjects[action.item2].position)
             treeObjects[action.item2].setAction(ActionType.SWAP, treeObjects[action.item].position)
-          } else {
+          }
+          // else if(action.action === ActionType.MASHU){
+          //     //TODO:set invisible
+          // }
+          else {
             treeObjects[action.item].setAction(action.action, null)
           }
         }
