@@ -6,6 +6,8 @@ export interface ChartItem {
   export interface ChartProps {
     items: ChartItem[];
     title: string;
+    onClick? : (index:number)=>void;
+    id?:string;
   }
 
 

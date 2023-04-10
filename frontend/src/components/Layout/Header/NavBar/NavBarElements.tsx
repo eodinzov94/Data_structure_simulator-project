@@ -50,7 +50,7 @@ const NavBarElements = () => {
       ) : (
         // not logged in
         <>
-          <NavBarElementDropDown title={"More"} items={resources} />
+          {/* <NavBarElementDropDown title={"More"} items={resources} /> */}
         </>
       )}
     </Popover.Group>

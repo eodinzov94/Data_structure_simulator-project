@@ -1,5 +1,7 @@
 import "chart.js/auto";
-import { Bar } from "react-chartjs-2";
+import { useRef } from "react";
+import { Bar, getElementAtEvent } from "react-chartjs-2";
+import { datasetConfig } from "./charts-utils";
 import { ChartProps, getData, getLabels } from "./interface";
 
 const bar = {
@@ -7,10 +9,8 @@ const bar = {
     labels: [] as string[],
     datasets: [
       {
-        label:'Registerd',
-        backgroundColor:["rgba(163, 230, 53, 0.3)","rgba(125, 212, 252, 0.3)"],
-        borderColor: ["rgba(163, 230, 53, 0.8)","rgba(125, 212, 252, 0.8)"],
-        borderWidth: 2,
+        label: "Data",
+        ...datasetConfig,
         data: [] as number[],
       },
     ],
@@ -26,14 +26,24 @@ const bar = {
 };
 
 const BarChart = (props: ChartProps) => {
+  const chartRef = useRef();
   bar.data.labels = getLabels(props.items);
   bar.data.datasets[0].data = getData(props.items);
-  bar.options.plugins.title.text = props.title; 
-  
-  return(
-    <>
-      <Bar data={bar.data} options={bar.options}></Bar>
-    </>
+  bar.options.plugins.title.text = props.title;
+
+  const onClick = (event: any) => {
+    let elem = getElementAtEvent(chartRef.current!, event);
+    if (elem.length && elem[0].index !== undefined && props.onClick)
+      props.onClick(elem[0].index);
+  };
+  return (
+      <Bar
+        id={props.id}
+        ref={chartRef}
+        onClick={onClick}
+        data={bar.data}
+        options={bar.options}
+      ></Bar>
   );
 };
 
