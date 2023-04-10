@@ -18,6 +18,9 @@ export enum RoutePaths{
     STACK = "/stack",
     QUEUE = "/queue",
     QUICK_SORT = "/quicksort",
+    INSERTION_SORT = "/insertionsort",
+    COUNTING_SORT = "/countingsort",
+
 
     //feedbacks
     ADD_FEEDBACK = "/add-feedback",

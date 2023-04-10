@@ -1,22 +1,17 @@
 import { useReducer, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import QuickSort from "../../components/Simulation/Sorts/QuickSort/QuickSort";
+import QuickSort from "../../../components/Simulation/Sorts/QuickSort/QuickSort";
+import { QuickSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
+import { sleep } from "../../../utils/animation-helpers";
+import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
+import { quickSort } from "../../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
+import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
+import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
+import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
+import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import {
-  sortItem,
-  SortOperation,
-} from "../../components/Simulation/Sorts/types";
-import { sleep } from "../../utils/animation-helpers";
-import {
+  QuickSortActionKind as ActionKind,
   quickSortReducer,
-  ActionKind,
-  ItemColor,
-  getRandomNumsArr,
-} from "../../components/Simulation/Sorts/helpers";
-import { quickSort } from "../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
-import { SortControlsPanel } from "../../components/Simulation/ControlsPanels/SortControlsPanel";
-import { is } from "immer/dist/internal";
-import { PseudoCode } from "../../components/Simulation/PseudoCode/PseudoCode";
-import { IndexArray } from "../../components/Simulation/Sorts/IndexArray";
+} from "../../../components/Simulation/Sorts/QuickSort/QuickSortReducer";
 
 const MAX_ELEMENTS = 10;
 
@@ -36,7 +31,7 @@ const QuickSortPage = () => {
 
   const Sort = async () => {
     setAbortFalse();
-    const arr: SortOperation[] = quickSort([...state.data]);
+    const arr: QuickSortOperation[] = quickSort([...state.data]);
     isAnimate = true;
     console.log(isAnimate);
     //change to iterate with i, and i will be save as state - will help with memento
@@ -59,7 +54,6 @@ const QuickSortPage = () => {
 
       await sleep(2000);
     }
-    console.log("--here---");
 
     // //memento checking
     // for (var i = arr.length - 1; i >= 0; i--) {
@@ -134,7 +128,7 @@ const QuickSortPage = () => {
             <IndexArray size={state.data.length + 1} i={iIndex} j={jIndex} />
             <QuickSort items={state.data} />
           </div>
-          <PseudoCode line={line} />
+          <PseudoCode code={QuickSortPseudoCode} line={line} />
         </div>
       </div>
     </>

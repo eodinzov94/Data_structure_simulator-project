@@ -1,10 +1,8 @@
-import React from "react";
-import DsCard from "../components/Home/DsCard";
-import FloatUpContainer from "../components/UI/FloatUpContainer";
-import RoutePaths from "../Routes/RoutePaths";
-
-import GRP from '../assets/generalReportsPhoto.png'
-import ARP from '../assets/algorithmsReportsPhoto.png'
+import DsCard from "../../components/Home/DsCard";
+import FloatUpContainer from "../../components/UI/FloatUpContainer";
+import RoutePaths from "../../Routes/RoutePaths";
+import GRP from '../../assets/generalReportsPhoto.png'
+import ARP from '../../assets/algorithmsReportsPhoto.png'
 
 const ReportsPage = () => {
   return (

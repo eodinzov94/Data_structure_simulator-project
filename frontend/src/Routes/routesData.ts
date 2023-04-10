@@ -1,21 +1,23 @@
-import React from 'react'
-import { RoutePaths } from './RoutePaths'
-import ForgotPasswordPage from '../pages/ForgotPasswordPage'
-import HomePage from '../pages/HomePage'
-import LoginPage from '../pages/LoginPage'
-import RegistrationPage from '../pages/RegistrationPage'
-import StackPage from '../pages/StackPage'
-import GeneralReportsPage from '../pages/GeneralReportsPage'
-import ReportsPage from '../pages/ReportsPage'
-import QueuePage from '../pages/QueuePage'
-import AlgorithmsReportPage from '../pages/AlgorithmsReportsPage'
-import RegisterLecturerPage from '../pages/RegisterLecturerPage'
-import FeedbacksPage from '../pages/FeedbacksPage'
-import AddFeedbackPage from '../pages/AddFeedBackPage'
-import TwoFactorAuthPage from '../pages/TwoFactorAuthPage'
+import React from "react";
+import { RoutePaths } from "./RoutePaths";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+import RegistrationPage from "../pages/RegistrationPage";
+import StackPage from "../pages/Animations/DataStructure/StackPage";
+import GeneralReportsPage from "../pages/general/GeneralReportsPage";
+import ReportsPage from "../pages/general/ReportsPage";
+import QueuePage from "../pages/Animations/DataStructure/QueuePage";
+import AlgorithmsReportPage from "../pages/general/AlgorithmsReportsPage";
+import RegisterLecturerPage from "../pages/RegisterLecturerPage";
+import FeedbacksPage from "../pages/general/FeedbacksPage";
+import AddFeedbackPage from "../pages/general/AddFeedBackPage";
+import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
 
-import QuickSortPage  from '../pages/sorts/QuickSortPage'
-import EmailVerificationPage from '../pages/EmailVerificationPage'
+import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
+import EmailVerificationPage from "../pages/EmailVerificationPage";
+import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
+import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
 
 export interface RouteItem {
   path: string;
@@ -30,7 +32,6 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
   { path: RoutePaths.TWO_FA, element: TwoFactorAuthPage },
   { path: RoutePaths.VERIFY_EMAIL, element: EmailVerificationPage },
-
 ];
 
 export const userRoutes: RouteItem[] = [
@@ -40,6 +41,9 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
+  { path: RoutePaths.INSERTION_SORT, element: InsertionSortPage },
+  { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },
+
 ];
 
 export const lecturerRoutes: RouteItem[] = [
@@ -48,5 +52,4 @@ export const lecturerRoutes: RouteItem[] = [
   { path: RoutePaths.GENERAL_REPORTS, element: GeneralReportsPage },
   { path: RoutePaths.ALGORITHMS_REPORTS, element: AlgorithmsReportPage },
   { path: RoutePaths.ALL_FEEDBACKS, element: FeedbacksPage },
-
 ];

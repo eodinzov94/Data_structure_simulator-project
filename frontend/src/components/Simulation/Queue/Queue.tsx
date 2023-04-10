@@ -1,6 +1,6 @@
 import styles from "./Queue.module.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { Position } from "../../../pages/QueuePage";
+import { Position } from "../../../pages/Animations/DataStructure/QueuePage";
 import { Item } from "../ControlsPanels/SqControlsPanel";
 import QueuePointer from "./QueuePointer";
 
@@ -8,7 +8,7 @@ interface Props {
   items: Item[]; //data of stack
   children?: JSX.Element | JSX.Element[];
   headPosition: Position;
-  tailPosition:number;
+  tailPosition: number;
 }
 
 const Queue = (props: Props) => {
