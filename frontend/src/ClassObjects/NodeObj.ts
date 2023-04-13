@@ -2,12 +2,13 @@ import { BranchObj } from "./BranchObj";
 import {
   ActionType,
   Events,
+  NodeRole,
 } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 import { TreeNode } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 
 export class NodeObj {
   static availableSpace = 600;
-  static gapY = 50;
+  static gapY = 65;
   position: { x: number; y: number };
   speed: number;
   id: number;
@@ -20,6 +21,7 @@ export class NodeObj {
   height: number;
   viewportWidth: number;
   type: "root" | "left" | "right";
+  nodeRole?: string ;
 
   constructor(
     position: { x: number; y: number },
@@ -93,16 +95,20 @@ export class NodeObj {
     this.swapPosition = swapPosition;
   }
 
+  setRole(role?: string) {
+    this.nodeRole = role;
+  }
+
   static generateTreeObjects(
     viewportWidth: number,
     height: number,
     speed: number,
-    root: TreeNode|null,
+    root: TreeNode | null,
     level: number,
     currentHeapSize?: number
   ): NodeObj[] {
-    if(!root){
-      return []
+    if (!root) {
+      return [];
     }
     const treeObjects = [];
     const stack = [
@@ -188,14 +194,19 @@ export class NodeObj {
               ActionType.SWAP,
               treeObjects[action.item].position
             );
-          }
-          else {
+          } else {
             treeObjects[action.item].setAction(action.action, null);
           }
         }
       } catch (e) {
         console.log(e);
       }
+    }
+  }
+
+  static setRoles(treeObjects: NodeObj[], roles: NodeRole[]) {
+    for (let role of roles) {
+      treeObjects[role.id].setRole(role.role);
     }
   }
 }

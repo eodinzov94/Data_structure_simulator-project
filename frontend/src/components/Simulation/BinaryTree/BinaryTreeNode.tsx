@@ -18,7 +18,7 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
   return (
     <>
         <motion.span
-          data-id={`${nodeObj.position.x},${nodeObj.position.y}`}
+          data-id={nodeObj.nodeRole}
           transition={{
             layout: { duration: 0.400 * nodeObj.speed, ease: "easeIn" },
             duration: 0.400 * nodeObj.speed,
@@ -33,7 +33,7 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
             top: nodeObj.position.y,
             left: nodeObj.position.x,
           }}
-          className="node"
+          className={nodeObj.nodeRole?"node node-selected":"node"}
         >
           {nodeObj.value === -Infinity ? "−∞" : nodeObj.value}
         </motion.span>

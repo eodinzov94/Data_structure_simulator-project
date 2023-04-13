@@ -1,4 +1,4 @@
-import { TreeNode } from "../BinaryTreeTypes";
+import { NodeRole, TreeNode } from '../BinaryTreeTypes'
 import { ActionType } from "../BinaryTreeTypes";
 import React from "react";
 import { AnimationProps } from "framer-motion";
@@ -193,4 +193,17 @@ export function getArrFromInputForHeap(maxSize: number, data: string, maxNum=999
     newData.push(num);
   }
   return newData;
+}
+
+
+export const getNodeRolesForIter = (left:number,right:number,i:number,heapSize:number) => {
+  const roles = [] as NodeRole[]
+  if (left < heapSize){
+    roles.push({role:"L",id:left})
+  }
+  if (right < heapSize){
+    roles.push({role:"R",id:right})
+  }
+  roles.push({role:"𝑖",id:i})
+  return roles
 }

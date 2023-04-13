@@ -15,6 +15,8 @@ class HeapAnimationController extends AnimationController {
   private constructor(arr: number[], dispatch: AppDispatch) {
     super(arr, dispatch)
     buildMaxHeap([...this.arr], this.memento)
+    // @ts-ignore
+    window.memento = this.memento
   }
 
   static getController(arr: number[],

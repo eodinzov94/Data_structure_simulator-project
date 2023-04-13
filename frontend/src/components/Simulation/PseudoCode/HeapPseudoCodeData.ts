@@ -5,7 +5,7 @@ export interface CodeReference {
 }
 export const HeapsortPseudoCode = {
     BuildMaxHeap: [
-        {text: "Build-Max-HeapPage(A)", tabAmount: 0},
+        {text: "Build-Max-Heap(A)", tabAmount: 0},
         {text: "𝐴.ℎ𝑒𝑎𝑝_𝑠𝑖𝑧𝑒 ← 𝐴.𝑙𝑒𝑛𝑔𝑡ℎ", tabAmount: 1},
         {text: "for 𝑖 ← ⌊𝐴.𝑙𝑒𝑛𝑔𝑡ℎ/2⌋ down to 1", tabAmount: 1},
         {text: "𝑴𝒂𝒙-𝑯𝒆𝒂𝒑𝒊𝒇𝒚(𝐴,𝑖)", tabAmount: 2},

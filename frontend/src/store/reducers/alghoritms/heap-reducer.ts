@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
+import { NodeRole, TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { Events } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { arrayToBinaryTree } from '../../../components/Simulation/BinaryTree/Helpers/Functions'
 import {CodeReference, HeapsortPseudoCode} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
@@ -17,7 +17,8 @@ const initialState = {root:arrayToBinaryTree(heapArray),
   currentAlg: 'BuildMaxHeap' as keyof typeof HeapsortPseudoCode,
   currentLine:0,
   inputKey: 0,
-  currentHeapSize:heapArray.length
+  currentHeapSize:heapArray.length,
+  currentRoles:[] as NodeRole[]
 };
 
 const heapSlice = createSlice({
@@ -53,11 +54,23 @@ const heapSlice = createSlice({
       state.currentAlg = action.payload.name
       state.currentLine = action.payload.line
       return state
+    },
+    setRoles(state,action:PayloadAction<NodeRole[]>){
+      state.currentRoles = action.payload
     }
   }
 });
 
 
 export default heapSlice.reducer;
-export const {setRoot, setCodeRef, setInputKey,setInputArray,setPlaying,setActions,setArray} = heapSlice.actions;
+export const {
+  setRoot,
+  setCodeRef,
+  setInputKey,
+  setInputArray,
+  setPlaying,
+  setActions,
+  setArray,
+  setRoles
+} = heapSlice.actions;
 

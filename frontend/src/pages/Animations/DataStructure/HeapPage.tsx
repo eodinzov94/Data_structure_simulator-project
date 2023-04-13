@@ -24,6 +24,7 @@ const HeapPage: FC = () => {
   const currentAlg = useAppSelector((state) => state.heap.currentAlg);
   const currentLine = useAppSelector((state) => state.heap.currentLine);
   const currentHeapSize = useAppSelector((state) => state.heap.currentHeapSize);
+  const currentRoles = useAppSelector((state) => state.heap.currentRoles);
   const controller = HeapAnimationController.getController(
     currentArr,
     useDispatch()
@@ -32,14 +33,6 @@ const HeapPage: FC = () => {
   return (
     <>
       <HeapControlsPanel controller={controller} />
-      <div className="container mx-auto max-w-7xl px-0 py-0 mt-64">
-        <HeapArray
-          items={currentArr}
-          actions={currentActions}
-          speed={controller.speed}
-          currentHeapSize={currentHeapSize}
-        />
-      </div>
       <div className="container mx-auto max-w-7xl px-0 py-0">
         <BinaryTree
           root={root}
@@ -47,6 +40,15 @@ const HeapPage: FC = () => {
           height={calculateHeight(root)}
           speed={controller.speed}
           actions={currentActions}
+          roles={currentRoles}
+          currentHeapSize={currentHeapSize}
+        />
+      </div>
+      <div className="container mx-auto max-w-7xl px-0 py-0 mt-96">
+        <HeapArray
+          items={currentArr}
+          actions={currentActions}
+          speed={controller.speed}
           currentHeapSize={currentHeapSize}
         />
       </div>

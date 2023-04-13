@@ -1,4 +1,4 @@
-import {ActionType, Events} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import { ActionType, Events, NodeRole } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
 import {CodeReference} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 
@@ -7,6 +7,7 @@ interface Snapshot {
     array: number[];
     codeRef: CodeReference;
     currentHeapSize?: number;
+    roles:NodeRole[]
 }
 
 
@@ -30,6 +31,12 @@ export class HeapMemento {
         }
         return this.snapshots[this.snapshots.length -1].array
     }
+    getRoles(index: number){
+        if(index < 0 || index >= this.snapshots.length){
+            throw new Error('Index out of range')
+        }
+        return this.snapshots[index].roles
+    }
     getActions(index : number){
         if (index < 0 || index >= this.snapshots.length){
             throw new Error('Index out of range')
@@ -46,14 +53,18 @@ export class HeapMemento {
         return 'BuildMaxHeap'
     }
     getCodeRef(index: number){
+        if(index < 0 || index >= this.snapshots.length){
+            throw new Error(`Index ${index} out of range, length is ${this.snapshots.length}`)
+        }
         return this.snapshots[index].codeRef
     }
-    addBlank(codeRef: CodeReference, array: number[],heapSize?: number) {
+    addBlank(codeRef: CodeReference, array: number[],heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [],
             array:HeapMemento.getArrayToAdd(this, array),
             codeRef,
-            currentHeapSize: heapSize
+            currentHeapSize: heapSize,
+            roles:nodeRoles
         });
     }
     getHeapSize(index: number){
@@ -71,21 +82,23 @@ export class HeapMemento {
         return this.snapshots[this.getLength()-1].currentHeapSize
 
     }
-    addSwap(codeRef: CodeReference, array: number[], index1: number, index2: number,heapSize?: number) {
+    addSwap(codeRef: CodeReference, array: number[], index1: number, index2: number,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action: ActionType.SWAP, item: index1, item2: index2}],
             array: [...array],
             codeRef,
-            currentHeapSize: heapSize
+            currentHeapSize: heapSize,
+            roles:nodeRoles
         });
     }
 
-    addSnapshot(codeRef: CodeReference, array: number[], index: number, action: ActionType,heapSize?: number) {
+    addSnapshot(codeRef: CodeReference, array: number[], index: number, action: ActionType,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action, item: index}],
             array: HeapMemento.getArrayToAdd(this, array),
             codeRef,
-            currentHeapSize: heapSize
+            currentHeapSize: heapSize,
+            roles:nodeRoles
         });
     }
 

@@ -1,6 +1,6 @@
 
 export class BranchObj {
-  static baseSize = 15;
+  static baseSize = 18;
   x1: number;
   x2: number;
   y1: number;

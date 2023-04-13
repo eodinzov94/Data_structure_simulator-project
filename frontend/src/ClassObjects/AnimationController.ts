@@ -1,16 +1,16 @@
 import {
-  Events,
+  Events, NodeRole,
   TreeNode,
-} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+} from '../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { sleepWithID } from "../utils/animation-helpers";
 import { arrayToBinaryTree } from "../components/Simulation/BinaryTree/Helpers/Functions";
 import {
   setActions,
   setArray,
   setCodeRef,
-  setPlaying,
+  setPlaying, setRoles,
   setRoot,
-} from "../store/reducers/alghoritms/heap-reducer";
+} from '../store/reducers/alghoritms/heap-reducer'
 import { AppDispatch } from "../store/store";
 import { HeapMemento } from "./HeapMemento";
 import { CodeReference } from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
@@ -31,7 +31,7 @@ abstract class AnimationController {
     this.stopFlag = false;
     this.memento = new HeapMemento();
     this.timeOutsArr = [];
-    this.frame = -1;
+    this.frame = 0;
     this.dispatch = dispatch;
   }
 
@@ -42,6 +42,7 @@ abstract class AnimationController {
       const i = this.memento.getLength() - 1;
       this.arr = this.memento.getLastArr();
       this.setCurrentActions([]);
+      this.setCurrentRoles([]);
       this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
       this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
     }
@@ -59,6 +60,7 @@ abstract class AnimationController {
         this.setCurrentArr(this.memento.getLastArr(),this.memento.getLastHeapSize());
         this.setRoot(arrayToBinaryTree(this.memento.getLastArr()));
         this.setCurrentActions([]);
+        this.setCurrentRoles([]);
         return;
       }
       if (this.pauseFlag) {
@@ -66,6 +68,7 @@ abstract class AnimationController {
       }
       this.setReference(this.memento.getCodeRef(i));
       this.setCurrentActions(this.memento.getActions(i));
+      this.setCurrentRoles(this.memento.getRoles(i));
       this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
       this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
       await sleepWithID(500 * this.speed, this.timeOutsArr);
@@ -90,7 +93,9 @@ abstract class AnimationController {
         this.dispatch(setArray({arr,currentHeapSize:arr.length}),);
     }
   }
-
+  setCurrentRoles(roles: NodeRole[]) {
+    this.dispatch(setRoles(roles));
+  }
   setPlaying(value: boolean) {
     this.dispatch(setPlaying(value));
   }
@@ -113,6 +118,7 @@ abstract class AnimationController {
     await this.pause();
     const i = this.memento.getLength() - 1;
     this.setCurrentActions([]);
+    this.setCurrentRoles(this.memento.getRoles(i));
     this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
     this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
     this.setReference(this.memento.getCodeRef(i));
@@ -123,6 +129,7 @@ abstract class AnimationController {
     await this.pause();
     this.frame = 0;
     this.setCurrentActions([]);
+    this.setCurrentRoles(this.memento.getRoles(0));
     this.setRoot(arrayToBinaryTree(this.memento.getArray(0)));
     this.setReference(this.memento.getCodeRef(0));
     this.setCurrentArr(this.memento.getArray(0),this.memento.getHeapSize(0));
@@ -153,6 +160,7 @@ abstract class AnimationController {
       return;
     }
     this.setCurrentActions(this.memento.getActions(this.frame));
+    this.setCurrentRoles(this.memento.getRoles(this.frame));
     this.setReference(this.memento.getCodeRef(this.frame));
     this.setRoot(arrayToBinaryTree(this.memento.getArray(this.frame)));
     this.setCurrentArr(this.memento.getArray(this.frame),this.memento.getHeapSize(this.frame));

@@ -1,42 +1,45 @@
 import {HeapMemento} from '../../../ClassObjects/HeapMemento';
 import {ActionType} from '../BinaryTree/BinaryTreeTypes'
+import { getNodeRolesForIter } from '../BinaryTree/Helpers/Functions'
 
 export function buildMaxHeap(A: number[], memento: HeapMemento): void {
     const heapSize = A.length;
     memento.addBlank({line: 1, name: "BuildMaxHeap"}, A)
     for (let i = Math.floor(heapSize / 2); i >= 0; i--) {
-        memento.addBlank({line: 2, name: "BuildMaxHeap"},A)
-        memento.addBlank({line: 3, name: "BuildMaxHeap"},A)
+        memento.addBlank({line: 2, name: "BuildMaxHeap"},A,heapSize,[{id:i,role:'𝑖'}])
+        //memento.addBlank({line: 3, name: "BuildMaxHeap"},A)
+        memento.addSnapshot({line: 3, name: "BuildMaxHeap"}, A,i,ActionType.NONE,heapSize,[{id:i,role:'𝑖'}])
         maxHeapify(A, i, heapSize, memento);
     }
 }
 
 
 export function maxHeapify(A: number[], i: number, heapSize: number, memento: HeapMemento): void {
-    memento.addBlank({line: 1, name: "MaxHeapify"}, A,heapSize)
     const left = (2 * i) + 1;
-    memento.addBlank({line: 2, name: "MaxHeapify"}, A,heapSize)
     const right = (2 * i) + 2;
+    let roles = getNodeRolesForIter(left,right,i,heapSize)
+    memento.addBlank({line: 1, name: "MaxHeapify"}, A,heapSize,roles)
+    memento.addBlank({line: 2, name: "MaxHeapify"}, A,heapSize,roles)
     let largest = i;
-
-    memento.addBlank({line: 3, name: "MaxHeapify"}, A,heapSize)
+    memento.addBlank({line: 3, name: "MaxHeapify"}, A,heapSize,roles)
     if (left < heapSize && A[left] > A[largest]) {
-        memento.addSnapshot({line: 4, name: "MaxHeapify"},A, left, ActionType.HIGHLIGHT_LIGHT,heapSize)
+        memento.addSnapshot({line: 4, name: "MaxHeapify"},A, left, ActionType.HIGHLIGHT_LIGHT,heapSize,roles)
         largest = left;
     } else {
-        memento.addBlank({line: 5, name: "MaxHeapify"}, A,heapSize)
+        memento.addBlank({line: 5, name: "MaxHeapify"}, A,heapSize,roles)
     }
-    memento.addBlank({line: 6, name: "MaxHeapify"}, A,heapSize)
+    memento.addBlank({line: 6, name: "MaxHeapify"}, A,heapSize,roles)
     if (right < heapSize && A[right] > A[largest]) {
-        memento.addSnapshot({line: 7, name: "MaxHeapify"},A, right, ActionType.HIGHLIGHT_LIGHT,heapSize)
+        memento.addSnapshot({line: 7, name: "MaxHeapify"},A, right, ActionType.HIGHLIGHT_LIGHT,heapSize,roles)
         largest = right;
     }
-    memento.addBlank({line: 8, name: "MaxHeapify"}, A,heapSize)
+    memento.addBlank({line: 8, name: "MaxHeapify"}, A,heapSize,roles)
     if (largest !== i) {
-        memento.addSnapshot({line: 9, name: "MaxHeapify"},A, largest, ActionType.HIGHLIGHT_FULL,heapSize);
+        memento.addSnapshot({line: 9, name: "MaxHeapify"},A, largest, ActionType.HIGHLIGHT_FULL,heapSize,roles);
+        roles = [];
         [A[i], A[largest]] = [A[largest], A[i]];
-        memento.addSwap({line: 9, name: "MaxHeapify"}, A, i, largest,heapSize);
-        memento.addBlank({line: 10, name: "MaxHeapify"}, A,heapSize)
+        memento.addSwap({line: 9, name: "MaxHeapify"}, A, i, largest,heapSize,roles);
+        memento.addBlank({line: 10, name: "MaxHeapify"}, A,heapSize,roles)
         maxHeapify(A, largest, heapSize, memento);
     }
 }
@@ -112,7 +115,5 @@ export function maxHeapSort(A: number[], memento: HeapMemento): number[] {
         maxHeapify(A, 0, heapSize, memento);
     }
     memento.addBlank({line: 5, name: "MaxHeapSort"},A,heapSize-1);
-    // @ts-ignore
-    window.memento = memento
     return A;
 }

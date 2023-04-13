@@ -1,4 +1,4 @@
-import { TreeNode } from "./BinaryTreeTypes";
+import { NodeRole, TreeNode } from "./BinaryTreeTypes";
 import BinaryTreeNode from "./BinaryTreeNode";
 import React, { FC, useEffect, useState } from "react";
 import { Events } from "./BinaryTreeTypes";
@@ -12,10 +12,11 @@ interface BTProps {
   height: number;
   actions: Events | null;
   currentHeapSize?: number;
+  roles: NodeRole[];
 }
 
 const BinaryTree: FC<BTProps> = (props) => {
-  const { speed, level, root, height, actions, currentHeapSize } = props;
+  const { speed, level, root, height, actions, currentHeapSize, roles } = props;
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -38,6 +39,7 @@ const BinaryTree: FC<BTProps> = (props) => {
     currentHeapSize
   );
   NodeObj.setActions(treeObjects, actions);
+  NodeObj.setRoles(treeObjects, roles);
   return (
     <div>
       <AnimatePresence>
@@ -48,4 +50,4 @@ const BinaryTree: FC<BTProps> = (props) => {
     </div>
   );
 };
-export default BinaryTree
+export default BinaryTree;
