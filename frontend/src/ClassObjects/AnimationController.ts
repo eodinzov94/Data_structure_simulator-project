@@ -3,7 +3,7 @@ import { sleepWithID } from '../utils/animation-helpers'
 import { arrayToBinaryTree } from '../components/Simulation/BinaryTree/Helpers/Functions'
 import {setActions, setArray, setCodeRef, setPlaying, setRoot} from '../store/reducers/alghoritms/heap-reducer'
 import { AppDispatch } from '../store/store'
-import {Memento} from "./Memento";
+import {HeapMemento} from "./HeapMemento";
 import {CodeReference} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 
@@ -12,7 +12,7 @@ abstract class AnimationController {
   arr: number[]
   stopFlag: boolean
   pauseFlag: boolean
-  memento: Memento
+  memento: HeapMemento
   frame: number
   dispatch: AppDispatch
   timeOutsArr: NodeJS.Timeout[]
@@ -25,7 +25,7 @@ abstract class AnimationController {
     this.speed = 1
     this.pauseFlag = false
     this.stopFlag = false
-    this.memento = new Memento()
+    this.memento = new HeapMemento()
     this.timeOutsArr = []
     this.frame = -1
     this.dispatch = dispatch
@@ -60,7 +60,7 @@ abstract class AnimationController {
       if (this.pauseFlag) {
         return;
       }
-      this.setReference(this.memento.getReference(i))
+      this.setReference(this.memento.getCodeRef(i))
       this.setCurrentActions(this.memento.getActions(i))
       this.setRoot(arrayToBinaryTree(this.memento.getArray(i)))
       this.setCurrentArr(this.memento.getArray(i))
@@ -102,7 +102,7 @@ abstract class AnimationController {
     this.setCurrentActions([])
     this.setRoot(arrayToBinaryTree(this.memento.getArray(i)))
     this.setCurrentArr(this.memento.getArray(i))
-    this.setReference(this.memento.getReference(i))
+    this.setReference(this.memento.getCodeRef(i))
     this.frame = i
   }
   async jumpToStart() {
@@ -110,7 +110,7 @@ abstract class AnimationController {
     this.frame = 0
     this.setCurrentActions([])
     this.setRoot(arrayToBinaryTree(this.memento.getArray(0)))
-    this.setReference(this.memento.getReference(0))
+    this.setReference(this.memento.getCodeRef(0))
     this.setCurrentArr(this.memento.getArray(0))
   }
   async playNextFrame() {
@@ -136,7 +136,7 @@ abstract class AnimationController {
       return;
     }
     this.setCurrentActions(this.memento.getActions(this.frame))
-    this.setReference(this.memento.getReference(this.frame))
+    this.setReference(this.memento.getCodeRef(this.frame))
     this.setRoot(arrayToBinaryTree(this.memento.getArray(this.frame)))
     this.setCurrentArr(this.memento.getArray(this.frame))
   }
