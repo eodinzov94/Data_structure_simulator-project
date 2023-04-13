@@ -13,30 +13,30 @@ export function buildMaxHeap(A: number[], memento: HeapMemento): void {
 
 
 export function maxHeapify(A: number[], i: number, heapSize: number, memento: HeapMemento): void {
-    memento.addBlank({line: 1, name: "MaxHeapify"}, A)
+    memento.addBlank({line: 1, name: "MaxHeapify"}, A,heapSize)
     const left = (2 * i) + 1;
-    memento.addBlank({line: 2, name: "MaxHeapify"}, A)
+    memento.addBlank({line: 2, name: "MaxHeapify"}, A,heapSize)
     const right = (2 * i) + 2;
     let largest = i;
 
-    memento.addBlank({line: 3, name: "MaxHeapify"}, A)
+    memento.addBlank({line: 3, name: "MaxHeapify"}, A,heapSize)
     if (left < heapSize && A[left] > A[largest]) {
-        memento.addSnapshot({line: 4, name: "MaxHeapify"},A, left, ActionType.HIGHLIGHT_LIGHT)
+        memento.addSnapshot({line: 4, name: "MaxHeapify"},A, left, ActionType.HIGHLIGHT_LIGHT,heapSize)
         largest = left;
     } else {
-        memento.addBlank({line: 5, name: "MaxHeapify"}, A)
+        memento.addBlank({line: 5, name: "MaxHeapify"}, A,heapSize)
     }
-    memento.addBlank({line: 6, name: "MaxHeapify"}, A)
+    memento.addBlank({line: 6, name: "MaxHeapify"}, A,heapSize)
     if (right < heapSize && A[right] > A[largest]) {
-        memento.addSnapshot({line: 7, name: "MaxHeapify"},A, right, ActionType.HIGHLIGHT_LIGHT)
+        memento.addSnapshot({line: 7, name: "MaxHeapify"},A, right, ActionType.HIGHLIGHT_LIGHT,heapSize)
         largest = right;
     }
-    memento.addBlank({line: 8, name: "MaxHeapify"}, A)
+    memento.addBlank({line: 8, name: "MaxHeapify"}, A,heapSize)
     if (largest !== i) {
-        memento.addSnapshot({line: 9, name: "MaxHeapify"},A, largest, ActionType.HIGHLIGHT_FULL);
-        memento.addSwap({line: 9, name: "MaxHeapify"}, A, i, largest);
+        memento.addSnapshot({line: 9, name: "MaxHeapify"},A, largest, ActionType.HIGHLIGHT_FULL,heapSize);
         [A[i], A[largest]] = [A[largest], A[i]];
-        memento.addBlank({line: 10, name: "MaxHeapify"}, A)
+        memento.addSwap({line: 9, name: "MaxHeapify"}, A, i, largest,heapSize);
+        memento.addBlank({line: 10, name: "MaxHeapify"}, A,heapSize)
         maxHeapify(A, largest, heapSize, memento);
     }
 }
@@ -46,13 +46,12 @@ export function heapExtractMax(A: number[], memento: HeapMemento): number | unde
     memento.addBlank({line: 1, name: "HeapExtractMax"}, A)
     if (A.length < 1) {
         memento.addBlank({line: 2, name: "HeapExtractMax"},A)
-        throw new Error("Heap underflow");
+        throw new Error("HeapPage underflow");
     }
     memento.addSnapshot({line: 3, name: "HeapExtractMax"}, A,0, ActionType.HIGHLIGHT_FULL);
     const max = A[0];
-    memento.addSnapshot({line: 4, name: "HeapExtractMax"},A, 0, ActionType.CHANGE);
     A[0] = A[A.length - 1];
-    memento.addBlank({line: 4, name: "HeapExtractMax"}, A);
+    memento.addSnapshot({line: 4, name: "HeapExtractMax"},A, 0, ActionType.CHANGE);
     A.pop();
     memento.addBlank({line: 5, name: "HeapExtractMax"}, A)
     memento.addBlank({line: 6, name: "HeapExtractMax"},A)
@@ -87,15 +86,13 @@ export function heapIncreaseKey(A: number[], i: number, key: number, memento: He
         memento.addBlank({line: 2, name: "HeapIncreaseKey"},A)
         return;
     }
-    memento.addSnapshot({line: 3, name: "HeapIncreaseKey"}, A,i, ActionType.CHANGE);
     A[i] = key;
-    memento.addBlank({line: 3, name: "HeapIncreaseKey"}, A)
+    memento.addSnapshot({line: 3, name: "HeapIncreaseKey"}, A,i, ActionType.CHANGE);
     memento.addBlank({line: 4, name: "HeapIncreaseKey"},A)
     while (i > 0 && A[Math.floor((i - 1) / 2)] < A[i]) {
         const j = Math.floor((i - 1) / 2);
-        memento.addSwap({line: 5, name: "HeapIncreaseKey"}, A, i, j);
         [A[i], A[j]] = [A[j], A[i]];
-        memento.addBlank({line: 5, name: "HeapIncreaseKey"}, A)
+        memento.addSwap({line: 5, name: "HeapIncreaseKey"}, A, i, j);
         i = Math.floor((i - 1) / 2);
         memento.addSnapshot({line: 6, name: "HeapIncreaseKey"}, A,i, ActionType.HIGHLIGHT_LIGHT);
     }
@@ -103,18 +100,19 @@ export function heapIncreaseKey(A: number[], i: number, key: number, memento: He
 }
 
 export function maxHeapSort(A: number[], memento: HeapMemento): number[] {
-    memento.addBlank({line: 1, name: "MaxHeapSort"}, A)
-    buildMaxHeap(A,memento);
+    //memento.addBlank({line: 1, name: "MaxHeapSort"}, A)
+    //buildMaxHeap(A,memento);
     let heapSize = A.length;
-    memento.addBlank({line: 2, name: "MaxHeapSort"},A)
+    memento.addBlank({line: 2, name: "MaxHeapSort"},A,heapSize);
     for (let i = A.length - 1; i > 0; i--) {
-        memento.addSwap({line: 3, name: "MaxHeapSort"}, A, 0,i);
         [A[0], A[i]] = [A[i], A[0]];
-        memento.addBlank({line: 3, name: "MaxHeapSort"}, A);
+        memento.addSwap({line: 3, name: "MaxHeapSort"}, A, 0,i,heapSize);
         heapSize--;
-        // memento.addInvisibleByRef({line: 4, name: "MaxHeapSort"});
-        memento.addBlank({line: 5, name: "MaxHeapSort"},A);
+        memento.addBlank({line: 5, name: "MaxHeapSort"},A,heapSize);
         maxHeapify(A, 0, heapSize, memento);
     }
+    memento.addBlank({line: 5, name: "MaxHeapSort"},A,heapSize-1);
+    // @ts-ignore
+    window.memento = memento
     return A;
 }

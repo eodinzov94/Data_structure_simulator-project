@@ -16,14 +16,15 @@ const initialState = {root:arrayToBinaryTree(heapArray),
   inputArray:'',
   currentAlg: 'BuildMaxHeap' as keyof typeof HeapsortPseudoCode,
   currentLine:0,
-  inputKey: 0
+  inputKey: 0,
+  currentHeapSize:heapArray.length
 };
 
 const heapSlice = createSlice({
   name:'heap' ,
   initialState,
   reducers:{
-    setRoot(state,action:PayloadAction<TreeNode>){
+    setRoot(state,action:PayloadAction<TreeNode | null>){
       state.root = action.payload
       return state
     },
@@ -31,8 +32,9 @@ const heapSlice = createSlice({
       state.currentActions = action.payload
       return state
     },
-    setArray(state,action:PayloadAction<number[]>){
-      state.currentArr = action.payload
+    setArray(state,action:PayloadAction<{arr:number[],currentHeapSize:number}>){
+      state.currentArr = action.payload.arr
+      state.currentHeapSize = action.payload.currentHeapSize
       return state
     },
     setPlaying(state,action:PayloadAction<boolean>){
