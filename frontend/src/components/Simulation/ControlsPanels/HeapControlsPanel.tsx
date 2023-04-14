@@ -17,6 +17,7 @@ import {
   setInputKey,
 } from "../../../store/reducers/alghoritms/heap-reducer";
 import { getArrFromInputForHeap } from "../BinaryTree/Helpers/Functions";
+import { sleep } from '../../../utils/animation-helpers'
 interface Props {
   controller: HeapAnimationController;
 }
@@ -59,6 +60,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
   };
 
   const Animate = async (animation: string) => {
+    await sleep(400)
     switch (animation) {
       case "Build-Max-Heap":
         await controller.buildMaxHeap();

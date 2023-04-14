@@ -114,5 +114,6 @@ export function maxHeapSort(A: number[], memento: HeapMemento): number[] {
         memento.addBlank({line: 5, name: "MaxHeapSort"},A,heapSize);
         maxHeapify(A, 0, heapSize, memento);
     }
+    memento.addBlank({line: 0, name: "MaxHeapSort"},A,heapSize-1);
     return A;
 }

@@ -40,7 +40,7 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
         {nodeObj.branch && (
           <Branch
             branch={nodeObj.branch}
-            key={`${nodeObj.branch.x1}-${nodeObj.branch.x2}-${nodeObj.branch.y1}-${nodeObj.branch.y1}`}
+            key={`${nodeObj.id},${nodeObj.value}-Branch`}
           />
         )}
     </>
