@@ -1,36 +1,37 @@
-import React from 'react'
-import './HeapArray.css'
-import { AnimatePresence, motion } from 'framer-motion'
-import { getHeapArrayAnimationsAndStyles } from '../../BinaryTree/Helpers/Functions'
-import { ArrayItemObj } from '../../../../ClassObjects/ArrayItemObj'
+import React from "react";
+import "./HeapArray.css";
+import { motion } from "framer-motion";
+import { getHeapArrayAnimationsAndStyles } from "../../BinaryTree/Helpers/Functions";
+import { ArrayItemObj } from "../../../../ClassObjects/ArrayItemObj";
 
 interface Props {
-  arrayItemObj: ArrayItemObj
+  arrayItemObj: ArrayItemObj;
 }
 
 const ArrayItem = (props: Props) => {
-  const { value, id, speed, action, swapIndex } = props.arrayItemObj
-  const { style, initial, animate } = getHeapArrayAnimationsAndStyles(action, id, swapIndex)
-
+  const { value, id, speed, action, swapIndex, ghosted } = props.arrayItemObj;
+  const { style, initial, animate } = getHeapArrayAnimationsAndStyles(
+    action,
+    id,
+    swapIndex
+  );
   return (
-    <AnimatePresence>
-      <motion.li
-        className='s_li'
+      <motion.span
+        className="s_li"
         layout
         transition={{
-          layout: { duration: 0.250 * speed, ease: 'easeIn' },
-          duration: 0.250 * speed,
+          layout: { duration: 0.4 * speed, ease: "easeIn" },
+          duration: 0.4 * speed,
         }}
         initial={initial}
         animate={animate}
-        style={style}
+        style={ghosted ? { ...style, background: "gray" } : style}
         exit={{ opacity: 0 }}
-        key={`${value}-${id}`}
+        key={`${id}-${value}`}
       >
-        {value === -Infinity ? '−∞' : value}
-      </motion.li>
-    </AnimatePresence>
-  )
-}
+        {value === -Infinity ? "−∞" : value}
+      </motion.span>
+  );
+};
 
 export default ArrayItem

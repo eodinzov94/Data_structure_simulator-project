@@ -1,39 +1,40 @@
-import { TreeNode } from './BinaryTreeTypes'
-import BinaryTreeNode from './BinaryTreeNode'
-import React, { FC, useEffect, useState } from 'react'
-import { Events } from './BinaryTreeTypes'
-import { NodeObj } from '../../../ClassObjects/NodeObj'
+import { Events, NodeRole, TreeNode } from "./BinaryTreeTypes";
+import BinaryTreeNode from "./BinaryTreeNode";
+import React, { FC } from "react";
+import { NodeObj } from "../../../ClassObjects/NodeObj";
+import { AnimatePresence } from "framer-motion";
 
 interface BTProps {
-  root: TreeNode
-  level: number
-  speed:  number
-  height: number
-  actions: Events | null
+  root: TreeNode | null;
+  level: number;
+  speed: number;
+  height: number;
+  actions: Events | null;
+  currentHeapSize?: number;
+  roles: NodeRole[];
+  viewportWidth: number;
 }
 
 const BinaryTree: FC<BTProps> = (props) => {
-  const {speed, level, root, height, actions } = props
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
-  useEffect(() => {
-    function handleResize() {
-      setViewportWidth(window.innerWidth)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    // Clean up the event listener on unmount
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-  const treeObjects = NodeObj.generateTreeObjects(viewportWidth,height,speed,root,level)
-  NodeObj.setActions(treeObjects,actions)
+  const { speed, level, root, height, actions, currentHeapSize, roles,viewportWidth } = props;
+  const treeObjects = NodeObj.generateTreeObjects(
+    viewportWidth,
+    height,
+    speed,
+    root,
+    level,
+    currentHeapSize
+  );
+  NodeObj.setActions(treeObjects, actions);
+  NodeObj.setRoles(treeObjects, roles);
   return (
     <div>
-      {treeObjects.map(nodeObj=><BinaryTreeNode nodeObj={nodeObj} key={nodeObj.id}/>)}
+      <AnimatePresence>
+        {treeObjects.map((nodeObj) => (
+          <BinaryTreeNode nodeObj={nodeObj} key={nodeObj.id} />
+        ))}
+      </AnimatePresence>
     </div>
-
-  )
-}
-export default BinaryTree
+  );
+};
+export default BinaryTree;

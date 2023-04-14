@@ -10,11 +10,14 @@ export enum ActionType {
 
 export type Events = { action: ActionType, item: number,item2?:number }[];
 
-
 export type HeapSnapshots = (number[])[];
 export interface TreeNode {
     value: number;
     id: number;
     left?: TreeNode;
     right?: TreeNode;
+}
+export interface NodeRole {
+    id: number;
+    role: string;
 }

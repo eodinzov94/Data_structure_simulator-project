@@ -14,7 +14,7 @@ import FeedbacksPage from "../pages/general/FeedbacksPage";
 import AddFeedbackPage from "../pages/general/AddFeedBackPage";
 import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
 
-import Heap from "../components/Simulation/Heap/Heap";
+import HeapPage from "../pages/Animations/DataStructure/HeapPage";
 import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
@@ -41,7 +41,7 @@ export const userRoutes: RouteItem[] = [
   //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
-  { path: RoutePaths.HEAP, element: Heap },
+  { path: RoutePaths.HEAP, element: HeapPage },
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
   { path: RoutePaths.INSERTION_SORT, element: InsertionSortPage },
   { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
+import { NodeRole, TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { Events } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { arrayToBinaryTree } from '../../../components/Simulation/BinaryTree/Helpers/Functions'
 import {CodeReference, HeapsortPseudoCode} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
@@ -16,14 +16,16 @@ const initialState = {root:arrayToBinaryTree(heapArray),
   inputArray:'',
   currentAlg: 'BuildMaxHeap' as keyof typeof HeapsortPseudoCode,
   currentLine:0,
-  inputKey: 0
+  inputKey: 0,
+  currentHeapSize:heapArray.length,
+  currentRoles:[] as NodeRole[]
 };
 
 const heapSlice = createSlice({
   name:'heap' ,
   initialState,
   reducers:{
-    setRoot(state,action:PayloadAction<TreeNode>){
+    setRoot(state,action:PayloadAction<TreeNode | null>){
       state.root = action.payload
       return state
     },
@@ -31,8 +33,9 @@ const heapSlice = createSlice({
       state.currentActions = action.payload
       return state
     },
-    setArray(state,action:PayloadAction<number[]>){
-      state.currentArr = action.payload
+    setArray(state,action:PayloadAction<{arr:number[],currentHeapSize:number}>){
+      state.currentArr = action.payload.arr
+      state.currentHeapSize = action.payload.currentHeapSize
       return state
     },
     setPlaying(state,action:PayloadAction<boolean>){
@@ -51,11 +54,23 @@ const heapSlice = createSlice({
       state.currentAlg = action.payload.name
       state.currentLine = action.payload.line
       return state
+    },
+    setRoles(state,action:PayloadAction<NodeRole[]>){
+      state.currentRoles = action.payload
     }
   }
 });
 
 
 export default heapSlice.reducer;
-export const {setRoot, setCodeRef, setInputKey,setInputArray,setPlaying,setActions,setArray} = heapSlice.actions;
+export const {
+  setRoot,
+  setCodeRef,
+  setInputKey,
+  setInputArray,
+  setPlaying,
+  setActions,
+  setArray,
+  setRoles
+} = heapSlice.actions;
 

@@ -157,7 +157,7 @@ export default HomePageData;
 //     url: "/login",
 //   },
 //   {
-//     title: "Heap",
+//     title: "HeapPage",
 //     image: "https://bit.ly/3BQdTqk",
 //     url: "/login",
 //   },

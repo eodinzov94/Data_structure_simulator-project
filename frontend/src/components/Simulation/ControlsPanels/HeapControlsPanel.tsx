@@ -1,114 +1,140 @@
-import { Drawer, IconButton, Input, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
-import { FC, useState } from 'react'
-import { ChevronLeft, ChevronRight } from '@mui/icons-material'
-import HeapAnimationController from '../../../ClassObjects/HeapAnimationController'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import {setInputArray, setInputKey} from '../../../store/reducers/alghoritms/heap-reducer'
-import {getArrFromInput} from "../Sorts/helpers/functions";
+import { Alert, Input } from "@mui/material";
+import React, { FC, useState } from "react";
+import HeapAnimationController from "../../../ClassObjects/HeapAnimationController";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import {
+  setInputArray,
+  setInputKey,
+} from "../../../store/reducers/alghoritms/heap-reducer";
+import { getArrFromInputForHeap } from "../BinaryTree/Helpers/Functions";
+import { sleep } from "../../../utils/animation-helpers";
+import MediumCard from "../../UI/MediumCard";
 
 interface Props {
-  controller: HeapAnimationController
+  controller: HeapAnimationController;
 }
 
 const HeapControlsPanel: FC<Props> = ({ controller }) => {
-  const [open, setOpen] = useState(true)
-  const inputArray = useAppSelector(state => state.heap.inputArray)
-  const inputKey = useAppSelector(state=> state.heap.inputKey)
-  const dispatch = useAppDispatch()
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
+  const inputArray = useAppSelector((state) => state.heap.inputArray);
+  const inputKey = useAppSelector((state) => state.heap.inputKey);
+  const [error, setError] = useState("");
+  const dispatch = useAppDispatch();
+  const setCurrentError = (error: string) => {
+    setError(error);
+    setTimeout(() => {
+      setError("");
+    }, 5000);
+  };
   const createHeapHandler = async () => {
-    const arr = getArrFromInput(25, inputArray)
-    if (typeof arr !== 'string') {
-      controller.setArray(arr)
+    const res = getArrFromInputForHeap(25, inputArray);
+    if (typeof res !== "string") {
+      controller.setArray(res);
+      await Animate("Build-Max-Heap");
+    } else {
+      setCurrentError(res);
     }
-    await Animate('Create')
-  }
-  const Animate = async (animation: string) => {
-    switch (animation) {
-      case 'Create':
-        await controller.buildMaxHeap()
-        return
-      case 'Heap-Max':
-        await controller.heapMax()
-        return
-      case 'Extract-Max':
-        await controller.extractMax()
-        return
-      case 'Insert Key':
-        await controller.insertKey(inputKey)
-        return
-      case 'Heap-Sort':
-        await controller.heapSort()
-        return
-      default:
-        return
-    }
+  };
 
-  }
+  const handleInputKey = (e: any) => {
+    const val = Number(e.target.value);
+    if (val < 1000 && val > -1) {
+      dispatch(setInputKey(val));
+    } else {
+      setCurrentError("Please enter a number between 0 and 999");
+    }
+  };
+
+  const Animate = async (animation: string) => {
+    await sleep(400);
+    switch (animation) {
+      case "Build-Max-Heap":
+        await controller.buildMaxHeap();
+        return;
+      case "Heap-Max":
+        await controller.heapMax();
+        return;
+      case "Extract-Max":
+        await controller.extractMax();
+        return;
+      case "Insert Key":
+        await controller.insertKey(inputKey);
+        return;
+      case "Heap-Sort":
+        await controller.heapSort();
+        return;
+      default:
+        return;
+    }
+  };
   return (
     <>
-      {open ? <Drawer variant='persistent' elevation={11} anchor='left' open={open} hideBackdrop
-                      ModalProps={{ disableEnforceFocus: true }} PaperProps={{
-          style: {
-            height: '335px',
-            top: '25%',
-            border: '2px solid #84cc16',
-            borderRadius: '20px',
-            marginLeft:5
-          },
-        }}>
-          <div className='flex justify-end'>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeft className='bg-lime-400 rounded-full' />
-            </IconButton>
+      {error && (
+          <div className="flex min-h-full absolute top-[48px] inset-0 justify-center py-10  sm:px-4 lg:px-8">
+            <Alert
+              severity="error"
+              color="error"
+              className="w-[670px] h-[50px]"
+              onClose={() => setError("")}
+          >
+            {error}
+          </Alert>
           </div>
-          <List>
-            <ListItem key={'Create'}>
-              <div className='flex justify-end items-center'>
-                <ListItemText primary={'Create'} />
-                <Input className='ml-5' placeholder='e.g 1,2,3,4,...' value={inputArray}
-                       onChange={(e) => dispatch(setInputArray(e.target.value))} />
-                <ListItemButton onClick={createHeapHandler}>
-                  GO
-                </ListItemButton>
-              </div>
-            </ListItem>
-            {['Heap-Max', 'Extract-Max'].map((text) => (
-              <ListItem key={text}>
-                <div className='flex justify-end items-center'>
-                  <ListItemText>{text}</ListItemText>
-                  <ListItemButton onClick={async () => await Animate(text)}>
-                    GO
-                  </ListItemButton>
-                </div>
-              </ListItem>
-            ))}
-              <ListItem key={'Insert Key'}>
-                <ListItemText primary={'Insert Key'} />
-                <Input className='ml-5' placeholder='e.g 1,2,3,4,...' value={inputKey}
-                       onChange={(e) => dispatch(setInputKey(Number(e.target.value)))} />
-                <ListItemButton onClick={async () => await Animate('Insert Key')}>
-                  GO
-                </ListItemButton>
-              </ListItem>
-          </List>
-        {/*//TODO:Add heapsort controller*/}
-        </Drawer>
-        :
-        <div className='flex justify-start absolute top-1/4'>
-          <IconButton onClick={handleDrawerOpen}>
-            <ChevronRight color='action' className='bg-lime-400 rounded-full' />
-          </IconButton>
+      )}
+      <MediumCard isSmaller={true} maxWidth={"max-w-2xl"}>
+        <div className="flex">
+          {["Heap-Max", "Extract-Max", "Heap-Sort"].map((text) => (
+            <div className="py-2 px-2" key={text}>
+              <button
+                className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow"
+                onClick={async () => await Animate(text)}
+              >
+                {text}
+              </button>
+            </div>
+          ))}
+          <div className="py-2 px-2" key={"Build-Max-Heap"}>
+            <button
+              className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow"
+              onClick={createHeapHandler}
+            >
+              Build-Max-Heap
+            </button>
+            <br />
+            <Input
+              placeholder="e.g 1,2,3,4,..."
+              sx={{ width: "120px" }}
+              value={inputArray}
+              onChange={(e) => dispatch(setInputArray(e.target.value))}
+            />
+          </div>
+          <div className="py-2 px-2" key={"Insert Key"}>
+            <button
+              className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded"
+              onClick={async () =>
+                await Animate("Insert Key").catch(() =>
+                  setCurrentError("Array size overflow, max is 25.")
+                )
+              }
+            >
+              Insert Key
+            </button>
+            <br />
+            <Input
+              sx={{ width: "25px" }}
+              value={inputKey}
+              type="text"
+              inputProps={{
+                min: 0,
+                max: 999,
+                style: { textAlign: "center" },
+              }}
+              onChange={handleInputKey}
+            />
+          </div>
         </div>
-      }
+      </MediumCard>
     </>
+  );
+};
 
-  )
-}
-
-export default HeapControlsPanel
+export default HeapControlsPanel;
