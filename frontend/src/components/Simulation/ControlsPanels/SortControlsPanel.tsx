@@ -67,7 +67,7 @@ export const SortControlsPanel = (props: Props) => {
         {/*right button */}
         <button
           onClick={props.rightBtnHandler}
-          className=" inline-block px-4 py-2.5 bg-lime-500 text-white font-medium text-md leading-tight  rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out"
+          className="inline-block px-4 py-2.5 bg-lime-500 text-white font-medium text-md leading-tight  rounded shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out"
         >
           {props.rightBtnText}
         </button>

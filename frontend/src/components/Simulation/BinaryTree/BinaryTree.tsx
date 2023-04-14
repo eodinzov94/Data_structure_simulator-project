@@ -1,7 +1,6 @@
-import { NodeRole, TreeNode } from "./BinaryTreeTypes";
+import { Events, NodeRole, TreeNode } from "./BinaryTreeTypes";
 import BinaryTreeNode from "./BinaryTreeNode";
-import React, { FC, useEffect, useState } from "react";
-import { Events } from "./BinaryTreeTypes";
+import React, { FC } from "react";
 import { NodeObj } from "../../../ClassObjects/NodeObj";
 import { AnimatePresence } from "framer-motion";
 
@@ -13,23 +12,11 @@ interface BTProps {
   actions: Events | null;
   currentHeapSize?: number;
   roles: NodeRole[];
+  viewportWidth: number;
 }
 
 const BinaryTree: FC<BTProps> = (props) => {
-  const { speed, level, root, height, actions, currentHeapSize, roles } = props;
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    function handleResize() {
-      setViewportWidth(window.innerWidth);
-    }
-
-    window.addEventListener("resize", handleResize);
-
-    // Clean up the event listener on unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const { speed, level, root, height, actions, currentHeapSize, roles,viewportWidth } = props;
   const treeObjects = NodeObj.generateTreeObjects(
     viewportWidth,
     height,

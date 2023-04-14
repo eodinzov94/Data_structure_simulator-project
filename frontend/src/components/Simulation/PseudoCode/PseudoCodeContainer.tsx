@@ -30,11 +30,12 @@ const PseudoCodeContainer: FC<Props> = ({ code, line }) => {
             style: {
               minWidth: "300px",
               height: "auto",
-              top: "25%",
+              top: "265px",
               border: "2px solid #84cc16",
               borderRadius: "20px",
               marginRight: 5,
               padding: 10,
+              position:"absolute"
             },
           }}
         >
@@ -46,7 +47,7 @@ const PseudoCodeContainer: FC<Props> = ({ code, line }) => {
           <PseudoCode line={line} code={code} />
         </Drawer>
       ) : (
-        <div className="absolute top-1/4 right-1">
+        <div className="absolute top-[265px] right-1">
           <IconButton onClick={handleDrawerOpen}>
             <ChevronLeft className="bg-lime-400 rounded-full" />
           </IconButton>

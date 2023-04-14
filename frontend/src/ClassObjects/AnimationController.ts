@@ -45,6 +45,8 @@ abstract class AnimationController {
       this.setCurrentRoles([]);
       this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
       this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
+    }else{
+      this.setCurrentRoles([]);
     }
     this.memento.clearSnapshots();
     this.stopFlag = false;

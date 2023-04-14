@@ -115,7 +115,7 @@ export class NodeObj {
       {
         node: root,
         nodeObj: new NodeObj(
-          { x: viewportWidth / 2 - 17, y: 120 },
+          { x: viewportWidth / 2 - 80, y: 270 },
           speed,
           root.id,
           root.value,
@@ -209,6 +209,9 @@ export class NodeObj {
       return;
     }
     for (let role of roles) {
+      if(treeObjects[role.id]===undefined) {
+        return;
+      }
       treeObjects[role.id].setRole(role.role);
     }
   }

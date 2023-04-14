@@ -7,8 +7,9 @@ import { useDispatch } from "react-redux";
 import PlayerControlsPanel from "../../../components/Simulation/ControlsPanels/PlayerControlsPanel";
 import HeapControlsPanel from "../../../components/Simulation/ControlsPanels/HeapControlsPanel";
 import { HeapsortPseudoCode } from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
+import PhoneRotate from "../../../assets/rotateTablet.svg";
 
 function calculateHeight(root: TreeNode | undefined | null): number {
   if (!root) {
@@ -29,12 +30,27 @@ const HeapPage: FC = () => {
     currentArr,
     useDispatch()
   );
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setViewportWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const fitsAnimation = viewportWidth>=1120 ;
 
   return (
     <>
+      {fitsAnimation ?
+      <>
       <HeapControlsPanel controller={controller} />
       <div className="container mx-auto max-w-7xl px-0 py-0">
         <BinaryTree
+          viewportWidth={viewportWidth}
           root={root}
           level={0}
           height={calculateHeight(root)}
@@ -44,7 +60,7 @@ const HeapPage: FC = () => {
           currentHeapSize={currentHeapSize}
         />
       </div>
-      <div className="container mx-auto max-w-7xl px-0 py-0 mt-96">
+      <div className="container mx-auto max-w-7xl px-0 py-0 mt-80">
         <HeapArray
           items={currentArr}
           actions={currentActions}
@@ -61,8 +77,21 @@ const HeapPage: FC = () => {
           />
         </div>
       </div>
+      </>
+      :
+             <div className="relative grid place-content-center place-items-center gap-2 before:bg-gradient-to-t before:from-teal-500/70 before:via-fuchsia-600 before:to-transparent before:blur-xl before:filter">
+               <h2 className="title text-3xl font-black text-lime-600">Min supported width for this simulation</h2>
+               <h2 className="cursive text-5xl font-thin text-lime-600">1120px</h2>
+               <img
+                      src={PhoneRotate}
+                      alt="Rotate device"
+               />
+             </div>
+
+
+      }
     </>
   );
 };
 
-export default HeapPage;
+export default HeapPage
