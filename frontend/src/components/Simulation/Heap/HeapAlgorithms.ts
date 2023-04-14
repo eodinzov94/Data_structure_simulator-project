@@ -49,7 +49,7 @@ export function heapExtractMax(A: number[], memento: HeapMemento): number | unde
     memento.addBlank({line: 1, name: "HeapExtractMax"}, A)
     if (A.length < 1) {
         memento.addBlank({line: 2, name: "HeapExtractMax"},A)
-        throw new Error("HeapPage underflow");
+        return ;
     }
     memento.addSnapshot({line: 3, name: "HeapExtractMax"}, A,0, ActionType.HIGHLIGHT_FULL);
     const max = A[0];
@@ -114,6 +114,5 @@ export function maxHeapSort(A: number[], memento: HeapMemento): number[] {
         memento.addBlank({line: 5, name: "MaxHeapSort"},A,heapSize);
         maxHeapify(A, 0, heapSize, memento);
     }
-    memento.addBlank({line: 5, name: "MaxHeapSort"},A,heapSize-1);
     return A;
 }

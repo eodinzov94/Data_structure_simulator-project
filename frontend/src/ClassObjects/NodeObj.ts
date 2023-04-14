@@ -205,6 +205,9 @@ export class NodeObj {
   }
 
   static setRoles(treeObjects: NodeObj[], roles: NodeRole[]) {
+    if(!treeObjects.length) {
+      return;
+    }
     for (let role of roles) {
       treeObjects[role.id].setRole(role.role);
     }
