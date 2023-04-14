@@ -69,14 +69,21 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
   return (
     <>
       {error && (
-             <Alert severity="error" color="error" className="w-[670px] absolute top-[80px] left-[625px]" onClose={() => setError("")}>
-               {error}
-             </Alert>
+          <div className="flex min-h-full absolute top-[48px] inset-0 justify-center py-10  sm:px-4 lg:px-8">
+            <Alert
+              severity="error"
+              color="error"
+              className="w-[670px] h-[50px]"
+              onClose={() => setError("")}
+          >
+            {error}
+          </Alert>
+          </div>
       )}
       <MediumCard isSmaller={true} maxWidth={"max-w-2xl"}>
         <div className="flex">
           {["Heap-Max", "Extract-Max", "Heap-Sort"].map((text) => (
-            <div className="py-2 px-2">
+            <div className="py-2 px-2" key={text}>
               <button
                 className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow"
                 onClick={async () => await Animate(text)}
@@ -85,7 +92,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
               </button>
             </div>
           ))}
-          <div className="py-2 px-2">
+          <div className="py-2 px-2" key={"Build-Max-Heap"}>
             <button
               className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow"
               onClick={createHeapHandler}
@@ -100,10 +107,14 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
               onChange={(e) => dispatch(setInputArray(e.target.value))}
             />
           </div>
-          <div className="py-2 px-2">
+          <div className="py-2 px-2" key={"Insert Key"}>
             <button
               className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded"
-              onClick={async () => await Animate("Insert Key")}
+              onClick={async () =>
+                await Animate("Insert Key").catch(() =>
+                  setCurrentError("Array size overflow, max is 25.")
+                )
+              }
             >
               Insert Key
             </button>
