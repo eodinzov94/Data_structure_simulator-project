@@ -69,7 +69,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
   return (
     <>
       {error && (
-          <div className="flex min-h-full absolute top-[48px] inset-0 justify-center py-10  sm:px-4 lg:px-8">
+          <div className="flex absolute top-[48px] inset-0 justify-center py-10 ">
             <Alert
               severity="error"
               color="error"
