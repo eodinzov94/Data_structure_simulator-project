@@ -24,7 +24,7 @@ export enum RoutePaths{
 
 
     //feedbacks
-    ADD_FEEDBACK = "/add-feedback",
+    POST_FEEDBACK = "/post-feedback",
     ALL_FEEDBACKS = '/all-feedbacks'
 }
 

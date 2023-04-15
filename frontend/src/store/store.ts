@@ -4,6 +4,7 @@ import {reportApi} from "./reducers/report-reducer";
 import { authApi } from './reducers/auth-reducer-api'
 import heapReducer from './reducers/alghoritms/heap-reducer'
 import countingSortReducer from "./reducers/countingSortReducer";
+import { feedbackApi } from './reducers/feedback-reducer'
 
 const store = configureStore({
     reducer:{
@@ -13,9 +14,10 @@ const store = configureStore({
         heap: heapReducer,
         [reportApi.reducerPath]: reportApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
+        [feedbackApi.reducerPath]: feedbackApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat([reportApi.middleware,authApi.middleware])
+        getDefaultMiddleware().concat([reportApi.middleware,authApi.middleware,feedbackApi.middleware])
 
 });
 

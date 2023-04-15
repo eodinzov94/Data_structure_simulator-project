@@ -65,18 +65,8 @@ class UserController {
           lastSeen: new Date(),
           isEnabled2FA: role === 'Lecturer'
         })
-      const token = generateJwt(user)
-      return res.json({
-        token,
-        user: {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: user.role
-        },
-        status:"OK"
-      })
+      await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email)
+      return res.json({ status: 'Redirect-Email-Confirmation'})
     } catch (e: any) {
       return next(ApiError.badRequest('Input error'))
     }
