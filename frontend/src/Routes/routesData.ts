@@ -38,6 +38,7 @@ export const publicRoutes: RouteItem[] = [
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
+  { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
   //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
