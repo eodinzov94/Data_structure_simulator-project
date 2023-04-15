@@ -1,6 +1,8 @@
-import { useReducer, useRef, useState } from "react";
+import {useRef} from "react";
 import QuickSort from "../../../components/Simulation/Sorts/QuickSort/QuickSort";
-import { QuickSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
+import {
+  quickSortOperation,
+} from "../../../components/Simulation/Sorts/helpers/types";
 import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { quickSort } from "../../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
@@ -8,10 +10,8 @@ import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels
 import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
-import {
-  QuickSortActionKind as ActionKind,
-  quickSortReducer,
-} from "../../../components/Simulation/Sorts/QuickSort/QuickSortReducer";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { quickSortActions as ActionKind } from "../../../store/reducers/quickSortReducer";
 
 const MAX_ELEMENTS = 10;
 
@@ -22,36 +22,20 @@ export interface Position {
 }
 
 const QuickSortPage = () => {
-  const [state, dispatch] = useReducer(quickSortReducer, { data: [] });
-  const [line, setLine] = useState(-1);
-  const [iIndex, setIIndex] = useState(-2);
-  const [jIndex, setJIndex] = useState(-2);
-  let isAnimate: boolean = false;
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.quickSort);
+
   const abortRef = useRef(false); //dive into it later
 
   const Sort = async () => {
     setAbortFalse();
-    const arr: QuickSortOperation[] = quickSort([...state.data]);
-    isAnimate = true;
-    console.log(isAnimate);
+    const arr: quickSortOperation[] = quickSort([...state.data]);
     //change to iterate with i, and i will be save as state - will help with memento
-    for (var val of arr) {
+    for (var op of arr) {
       if (abortRef.current) {
         break;
       }
-      setLine(val.line);
-      const payload: number[] =
-        val.index2 !== undefined ? [val.index1, val.index2] : [val.index1];
-      if (val.action === ActionKind.UPDATE_I) setIIndex(payload[0]);
-      else if (val.action === ActionKind.UPDATE_J) setJIndex(payload[0]);
-      else if (val.action !== ActionKind.BLANK) {
-        dispatch({ type: val.action, payload: payload });
-        if (val.action === ActionKind.DONE) {
-          setIIndex(-2);
-          setJIndex(-2);
-        }
-      }
-
+      dispatch(op.action(op.payload));
       await sleep(2000);
     }
 
@@ -93,9 +77,7 @@ const QuickSortPage = () => {
   };
 
   const setInput = (data: number[]) => {
-    setIIndex(-1);
-    setJIndex(-1);
-    dispatch({ type: ActionKind.SET_DATA, payload: data });
+    dispatch(ActionKind.init(data));
   };
 
   const setRandomInput = () => {
@@ -125,10 +107,13 @@ const QuickSortPage = () => {
         <div className="flex flex-nowrap">
           {/*middle section */}
           <div className="basis-9/12">
-            <IndexArray size={state.data.length + 1} i={iIndex} j={jIndex} />
+            <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
             <QuickSort items={state.data} />
+            <div>
+              p = {state.p}, r={state.r}
+            </div>
           </div>
-          <PseudoCode code={QuickSortPseudoCode} line={line} />
+          <PseudoCode code={QuickSortPseudoCode} line={state.line} />
         </div>
       </div>
     </>

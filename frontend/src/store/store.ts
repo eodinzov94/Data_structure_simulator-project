@@ -3,12 +3,14 @@ import authReducer from "./reducers/auth-reducer"
 import {reportApi} from "./reducers/report-reducer";
 import { authApi } from './reducers/auth-reducer-api'
 import countingSortReducer from "./reducers/countingSortReducer";
+import quickSortReducer from "./reducers/quickSortReducer";
 
 const store = configureStore({
     reducer:{
         //add reducers here
         auth: authReducer,
         countingSort: countingSortReducer ,
+        quickSort: quickSortReducer,
         [reportApi.reducerPath]: reportApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
     },
