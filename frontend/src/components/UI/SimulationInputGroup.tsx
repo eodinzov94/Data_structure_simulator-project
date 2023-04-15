@@ -8,6 +8,8 @@ interface Props {
   btnText?:string;
   btnOnClick?: () => void;
   onChange: (s: string) => void;
+
+  disable?:boolean;
 }
 
 const SimulationInputGroup = (props: Props) => {
@@ -26,6 +28,7 @@ const SimulationInputGroup = (props: Props) => {
       <div className="absolute inset-y-0 right-0 flex items-center">
         <button
           onClick={props.btnOnClick}
+          disabled = {props.disable!==undefined? props.disable:false}
           className=" inline-block px-4 py-2.5 bg-lime-500 text-white font-medium text-md leading-tight  shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out rounded-r-md "
         >
           {props.btnText ? props.btnText : 'BTN'}

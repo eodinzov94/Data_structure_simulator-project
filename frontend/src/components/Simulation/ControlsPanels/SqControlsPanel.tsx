@@ -5,6 +5,7 @@ import SimulationInputGroup from "../../UI/SimulationInputGroup";
 export interface Item {
   value: string;
   key: number;
+  color?:string;
 }
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
   setRandomInput?:(newData:Item[])=>void;
 
   isRemovedEnabled: boolean; //to prevent colision between pop animation
+  isAddEnabled?: boolean; //to prevent colision between push animation
   
   addBtnText: string;
   removeBtnText: string;
@@ -65,6 +67,7 @@ const SqControlsPanel = (props: Props) => {
           btnText={props.addBtnText}
           onChange={setEnteredValue}
           btnOnClick={inputValueHandler}
+          disable={props.isAddEnabled}
         />
 
         {/*POP button */}
