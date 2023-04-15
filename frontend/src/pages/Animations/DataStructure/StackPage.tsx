@@ -41,7 +41,7 @@ const StackPage = () => {
       await sleep(1000);
 
       dispatch(stackActions.pop());
-      await sleep(1000);
+      await sleep(2000);
     }
     dispatch(stackActions.setLine(-1));
 
