@@ -33,11 +33,11 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
   { path: RoutePaths.TWO_FA, element: TwoFactorAuthPage },
   { path: RoutePaths.VERIFY_EMAIL, element: EmailVerificationPage },
+  { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
 ];
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
-  { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage },
   //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },

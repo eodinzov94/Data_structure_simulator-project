@@ -4,6 +4,7 @@ import authMiddleware from '../middleware/AuthMiddleware.js'
 import TwoFactorAuthController from '../controllers/TwoFactorAuthController.js'
 import Verify2FA_MW from '../middleware/Verify2FA_Middleware.js'
 import { CODE_TYPES } from '../types/TWOFA_Types.js'
+import FeedbackController from '../controllers/FeedbackController.js'
 
 
 const router = Router()
@@ -19,4 +20,5 @@ router.post('/verify-2fa',TwoFactorAuthController.verify)//V
 router.post('/verify-email',TwoFactorAuthController.verifyEmail)//X
 router.post('/set-2fa-status',Verify2FA_MW(CODE_TYPES.TWO_FA),TwoFactorAuthController.set2FA_status)//X
 router.post('/reset-password',Verify2FA_MW(CODE_TYPES.RESET_PW),TwoFactorAuthController.resetPassword)//V
+router.post('/post-feedback',FeedbackController.create)
 export default router
