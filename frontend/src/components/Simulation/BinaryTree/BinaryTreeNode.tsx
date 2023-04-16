@@ -36,13 +36,14 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
           className={nodeObj.nodeRole?"node node-selected":"node"}
         >
           {nodeObj.value === -Infinity ? "−∞" : nodeObj.value}
+
         </motion.span>
-        {nodeObj.branch && (
-          <Branch
-            branch={nodeObj.branch}
-            key={`${nodeObj.id},${nodeObj.value}-Branch`}
-          />
-        )}
+           {nodeObj.branch && (
+                  <Branch
+                         branch={nodeObj.branch}
+                         key={`${nodeObj.id},${nodeObj.value}-Branch`}
+                  />
+           )}
     </>
   );
 };

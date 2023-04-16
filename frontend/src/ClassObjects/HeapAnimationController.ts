@@ -39,7 +39,6 @@ class HeapAnimationController extends AnimationController {
     this.frame = 0
     await this.playAnimation()
   }
-
   async extractMax() {
     await this.initNewAnimation()
     heapExtractMax([...this.arr], this.memento)

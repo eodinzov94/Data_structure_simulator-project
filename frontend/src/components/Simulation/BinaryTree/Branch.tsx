@@ -7,7 +7,7 @@ interface BranchProps {
 }
 
 const Branch: FC<BranchProps> = ({branch}) => {
-  return (<motion.span className='branch' style={branch.getStyle()} />)
+  return (<motion.span className='branch' exit={{opacity:0}} style={branch.getStyle()} />)
 }
 export default Branch
 

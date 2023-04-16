@@ -207,3 +207,11 @@ export const getNodeRolesForIter = (left:number,right:number,i:number,heapSize:n
   roles.push({role:"𝑖",id:i})
   return roles
 }
+export const generateRandomArrForHeap = () =>{
+  const randomArray = [];
+  const length = Math.floor(Math.random() * 9) + 7; // Generate a random length between 10 and 15
+  for (let i = 0; i < length; i++) {
+    randomArray.push(Math.floor(Math.random() * 100)); // Generate a random number between 0 and 99 and add it to the array
+  }
+  return randomArray;
+}

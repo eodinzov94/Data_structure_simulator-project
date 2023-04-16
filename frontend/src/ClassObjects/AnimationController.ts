@@ -39,12 +39,11 @@ abstract class AnimationController {
     this.stopFlag = true;
     this.clearTimeOuts();
     if (this.memento.getLength()) {
-      const i = this.memento.getLength() - 1;
       this.arr = this.memento.getLastArr();
       this.setCurrentActions([]);
       this.setCurrentRoles([]);
-      this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
-      this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
+      this.setRoot(arrayToBinaryTree(this.arr));
+      this.setCurrentArr(this.arr,this.memento.getLastHeapSize());
     }else{
       this.setCurrentRoles([]);
     }
