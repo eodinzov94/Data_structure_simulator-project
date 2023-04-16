@@ -26,7 +26,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
     }, 5000);
   };
   const createHeapHandler = async () => {
-    const res = getArrFromInputForHeap(25, inputArray);
+    const res = getArrFromInputForHeap(15, inputArray);
     if (typeof res !== "string") {
       controller.setArray(res);
       await Animate("Build-Max-Heap");
