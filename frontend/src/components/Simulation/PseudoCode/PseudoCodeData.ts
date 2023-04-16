@@ -45,3 +45,19 @@ export const CountingSortPseudoCode: PseudoItem[] = [
   { text: "index = C[value]", tabAmount: 2 },
   { text: "B[index] = value", tabAmount: 2 },
 ];
+
+export const stackPseudoCode: PseudoItem[] = [
+  { text: "N = 10", tabAmount: 0 },
+  { text: "", tabAmount: 1 },
+  { text: "Pop(stack):", tabAmount: 0 },
+  { text: "if (!stack.isEmpty()):", tabAmount: 1 },
+  { text: "value = stack[top]", tabAmount: 2 },
+  { text: "top = top - 1", tabAmount: 2 },
+  { text: "return value", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "", tabAmount: 1 },
+  { text: "Push(stack, value):", tabAmount: 0 },
+  { text: "if (top < N)", tabAmount: 1 },
+  { text: "top = top + 1", tabAmount: 2 },
+  { text: "stack[top] = value", tabAmount: 2 },
+];
