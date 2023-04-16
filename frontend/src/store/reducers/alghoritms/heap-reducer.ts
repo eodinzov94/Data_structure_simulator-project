@@ -6,7 +6,7 @@ import {CodeReference, HeapPseudoCode} from "../../../components/Simulation/Pseu
 
 
 
-const heapArray = [17, 14, 13, 10, 5, 8, 7, 2, 1, 0]
+const heapArray = [2, 1, 0]
 
 
 const initialState = {root:arrayToBinaryTree(heapArray),

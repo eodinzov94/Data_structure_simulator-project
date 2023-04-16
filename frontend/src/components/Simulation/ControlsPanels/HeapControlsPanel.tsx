@@ -124,7 +124,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
               className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded"
               onClick={async () =>
                 await Animate("Insert Key").catch(() =>
-                  setCurrentError("Array size overflow, max is 25.")
+                  setCurrentError("Array size overflow, max is 15.")
                 )
               }
             >
