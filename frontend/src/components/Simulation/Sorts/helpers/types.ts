@@ -3,7 +3,7 @@ import {
   AnimationPayload,
   insertionSortActionKind,
 } from "../InsertionSort/InsertionSortReducer";
-import { QuickSortActionKind } from "../QuickSort/QuickSortReducer";
+import { quickSortPayload } from "../../../../store/reducers/quickSortReducer";
 
 export interface sortItem {
   value: number;
@@ -12,12 +12,9 @@ export interface sortItem {
   color: string;
 }
 
-export interface QuickSortOperation {
-  action: QuickSortActionKind;
-  index1: number;
-  index2?: number;
-  pivot?: boolean;
-  line: number;
+export interface quickSortOperation {
+  action: any;
+  payload: quickSortPayload;
 }
 
 export interface insertionSortOperation {

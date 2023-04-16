@@ -63,6 +63,7 @@ export default function Stack(props: Props) {
               initial={{ scale: 0.8, y: -50, opacity: 0.5 }}
               layout
               animate={{ 
+                backgroundColor: elem.color? elem.color: "#84cc16",
                 scale: 1,
                 y: 0,
                 opacity: 1,
