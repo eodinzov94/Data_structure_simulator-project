@@ -16,6 +16,7 @@ import {
   init,
 } from "../../../store/reducers/countingSortReducer";
 import { CountingSort } from "../../../components/Simulation/Sorts/CountingSort/CountingSortAlgorithem";
+import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 
 const MAX_ELEMENTS = 10;
 
@@ -63,12 +64,8 @@ const CountingSortPage = () => {
       ></SortControlsPanel>
 
       {/* animation section */}
-
-      <div className="container mx-auto max-w-7xl px-0 md: py-0">
-        {/*middle section */}
-        <div className="flex flex-nowrap">
-          <div className="basis-9/12">
-            <IndexArray size={state.A.length + 1} i={state.indexA} />
+      <AnimationWrapper line={state.line} code={CountingSortPseudoCode}>
+      <IndexArray size={state.A.length + 1} i={state.indexA} />
             <SortArray items={state.A} />
 
             <div style={{ marginTop: "40px" }}>
@@ -82,11 +79,7 @@ const CountingSortPage = () => {
             </div>
 
             <div> K = {state.k}</div>
-          </div>
-          {/* psaudo code */}
-          <PseudoCode code={CountingSortPseudoCode} line={state.line} />
-        </div>
-      </div>
+      </AnimationWrapper>
     </>
   );
 };

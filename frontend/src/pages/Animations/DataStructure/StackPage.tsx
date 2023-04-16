@@ -8,6 +8,7 @@ import { stackPseudoCode } from "../../../components/Simulation/PseudoCode/Pseud
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { stackActions } from "../../../store/reducers/stackReducer";
 import { sleep } from "../../../utils/animation-helpers";
+import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 
 const MAX_ELEMENTS = 10;
 
@@ -53,7 +54,7 @@ const StackPage = () => {
     //   window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
     // }
 
-    setIsPush(true)
+    setIsPush(true);
     dispatch(stackActions.setLine(10));
     await sleep(2000);
     if (state.data.length < MAX_ELEMENTS) {
@@ -65,8 +66,7 @@ const StackPage = () => {
       await sleep(2000);
     }
     dispatch(stackActions.setLine(-1));
-    setIsPush(false)
-
+    setIsPush(false);
   };
 
   const setRandomInput = (newData: Item[]) => {
@@ -88,15 +88,9 @@ const StackPage = () => {
         maxLengthOfValue={8}
       />
 
-      <div className="container mx-auto max-w-7xl px-0 md: py-10">
-        <div className="flex flex-nowrap">
-          {/*middle section */}
-          <Stack items={state.data} />
-
-          {/*rigth section */}
-          <PseudoCode code={stackPseudoCode} line={state.line} />
-        </div>
-      </div>
+      <AnimationWrapper line={state.line} code={stackPseudoCode}>
+        <Stack items={state.data} />
+      </AnimationWrapper>
     </>
   );
 };

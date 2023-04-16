@@ -18,6 +18,7 @@ import {
 import { insertionSort } from "../../../components/Simulation/Sorts/InsertionSort/InsertionSortAlgorithm";
 import { InsertionSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import ArrayElement from "../../../components/Simulation/Sorts/helpers/ArrayElement";
+import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 
 const MAX_ELEMENTS = 10;
 
@@ -69,29 +70,21 @@ const InsertionSortPage = () => {
       ></SortControlsPanel>
 
       {/* animation section */}
-
-      <div className="container mx-auto max-w-7xl px-0 md: py-0">
-        {/*middle section */}
-        <div className="flex flex-nowrap">
-          <div className="basis-9/12">
-            <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-            <SortArray items={state.data} />
-            <div style={{ marginTop: "40px" }}>
-              {state.keyValue ? (
-                <ArrayElement
-                  name="key"
-                  value={state.keyValue}
-                  color={state.line == 7 ? ItemColor.MARKED : ItemColor.BASE}
-                />
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
-          {/* psaudo code */}
-          <PseudoCode code={InsertionSortPseudoCode} line={state.line} />
+      <AnimationWrapper line={state.line} code={InsertionSortPseudoCode}>
+        <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
+        <SortArray items={state.data} />
+        <div style={{ marginTop: "40px" }}>
+          {state.keyValue ? (
+            <ArrayElement
+              name="key"
+              value={state.keyValue}
+              color={state.line == 7 ? ItemColor.MARKED : ItemColor.BASE}
+            />
+          ) : (
+            <></>
+          )}
         </div>
-      </div>
+      </AnimationWrapper>
     </>
   );
 };
