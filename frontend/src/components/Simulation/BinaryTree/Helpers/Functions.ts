@@ -1,9 +1,13 @@
-import { NodeRole, TreeNode } from '../BinaryTreeTypes'
-import { ActionType } from "../BinaryTreeTypes";
+import { ActionType, NodeRole, TreeNode } from "../BinaryTreeTypes";
 import React from "react";
 import { AnimationProps } from "framer-motion";
+import {
+  HeapPseudoCode,
+  HeapPseudoCodeKeys,
+  HeapPseudoCodeList,
+} from "../../PseudoCode/HeapPseudoCodeData";
 
-export function arrayToBinaryTree(arr: number[]): TreeNode|null {
+export function arrayToBinaryTree(arr: number[]): TreeNode | null {
   if (!arr.length) {
     return null;
   }
@@ -214,4 +218,16 @@ export const generateRandomArrForHeap = () =>{
     randomArray.push(Math.floor(Math.random() * 100)); // Generate a random number between 0 and 99 and add it to the array
   }
   return randomArray;
+}
+
+export const combinePseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
+       if(HeapPseudoCodeList[currentAlg].length===2){
+         const alg1 = HeapPseudoCodeList[currentAlg][0]
+         const alg2 = HeapPseudoCodeList[currentAlg][1]
+         const code1 = HeapPseudoCode[alg1]
+         const code2 = HeapPseudoCode[alg2]
+         return [...code1,{ text: "", tabAmount: 1 },...code2]
+       }
+       return HeapPseudoCode[currentAlg]
+
 }

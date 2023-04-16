@@ -16,7 +16,7 @@ const HeapArray = (props: Props) => {
   const arr = ArrayItemObj.generateArrayObjects(items, speed,currentHeapSize);
   ArrayItemObj.setActions(arr, actions);
   return (
-    <div className={`basis-9/12`}>
+    <div className="basis-9/12 mr-56">
       <AnimatePresence>
         <span className="s_ul">
           {arr.map((item) => (
