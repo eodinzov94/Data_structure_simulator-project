@@ -5,13 +5,13 @@ import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { quickSort } from "../../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
-import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { quickSortActions as ActionKind } from "../../../store/reducers/quickSortReducer";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
 
 const MAX_ELEMENTS = 10;
 
@@ -90,18 +90,8 @@ const QuickSortPage = () => {
 
   return (
     <>
-      <img
-        src={quickSortPhoto}
-        style={{
-          paddingTop: "4px",
-          width: "200px",
-          marginLeft: "auto",
-          marginRight: "auto",
-          display: "block",
-        }}
-        alt={"Quick Sort"}
-      />
       {/*top section */}
+      <SubjectImg name={"Quick Sort"} src={quickSortPhoto} width="200px" />
       <SortControlsPanel
         rightBtnHandler={Sort}
         inputHandler={setInput}
@@ -125,44 +115,3 @@ const QuickSortPage = () => {
 };
 
 export default QuickSortPage;
-
-/*rigth section */
-
-/* <div className="basis-3/12">
-            Pseudo code:
-            <ul>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["#bef264", "rgba(0,0,0,0)"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  duration: 2,
-                }}
-              >
-                {"if (!stack.isEmpty()):"}
-              </motion.li>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["rgba(0,0,0,0)", "#bef264"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  delay: 0.5,
-                  duration: 0.5,
-                }}
-              >
-                {"    return arr[size-1];"}
-              </motion.li>
-            </ul>
-          </div> */

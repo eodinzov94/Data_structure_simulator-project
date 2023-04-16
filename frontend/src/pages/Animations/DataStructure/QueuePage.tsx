@@ -4,6 +4,8 @@ import ControlsPanel, {
   Item,
 } from "../../../components/Simulation/ControlsPanels/SqControlsPanel";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
+import queuePhoto from "../../../assets/Algorithms/Q1.png";
 
 const MAX_ELEMENTS = 10;
 
@@ -85,6 +87,8 @@ const QueuePage = () => {
   return (
     <>
       {/*top section */}
+      <SubjectImg name={"Queue"} src={queuePhoto} width="200px" />
+
       <ControlsPanel
         removeHandler={Dequeue}
         addHandler={Enqueue}

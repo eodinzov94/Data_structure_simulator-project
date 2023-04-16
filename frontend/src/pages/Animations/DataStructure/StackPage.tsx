@@ -3,12 +3,13 @@ import Stack from "../../../components/Simulation/Stack/Stack";
 import SqControlsPanel, {
   Item,
 } from "../../../components/Simulation/ControlsPanels/SqControlsPanel";
-import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
 import { stackPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { stackActions } from "../../../store/reducers/stackReducer";
 import { sleep } from "../../../utils/animation-helpers";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
+import stackPhoto from "../../../assets/Algorithms/S1.png";
 
 const MAX_ELEMENTS = 10;
 
@@ -76,6 +77,7 @@ const StackPage = () => {
   return (
     <>
       {/*top section */}
+      <SubjectImg name={"Queue"} src={stackPhoto} width="200px" />
 
       <SqControlsPanel
         removeHandler={popFromStack}

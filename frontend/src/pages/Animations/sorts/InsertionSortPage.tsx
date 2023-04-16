@@ -6,7 +6,6 @@ import {
 import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
-import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import SortArray from "../../../components/Simulation/Sorts/helpers/SortArray";
 import {
@@ -19,6 +18,8 @@ import { insertionSort } from "../../../components/Simulation/Sorts/InsertionSor
 import { InsertionSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import ArrayElement from "../../../components/Simulation/Sorts/helpers/ArrayElement";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
+import insertionSortPhoto from "../../../assets/Algorithms/IS1.png";
 
 const MAX_ELEMENTS = 10;
 
@@ -59,6 +60,8 @@ const InsertionSortPage = () => {
   return (
     <>
       {/*top section */}
+    <SubjectImg name={"Insertion Sort"} src={insertionSortPhoto} width="260px"/>
+
       <SortControlsPanel
         rightBtnHandler={Sort}
         inputHandler={setInput}
