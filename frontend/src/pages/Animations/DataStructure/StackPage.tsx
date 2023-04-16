@@ -18,11 +18,9 @@ const StackPage = () => {
   const state = useAppSelector((state) => state.stack);
 
   const [data, setData] = useState<Item[]>([]); //data of the stack
-  const [isPop, setIsPop] = useState<boolean>(false);
-  const [isPush, setIsPush] = useState<boolean>(false);
-
+  const [isAnimate, setIsAnimate] = useState<boolean>(false);
   const popFromStack = async () => {
-    setIsPop(true);
+    setIsAnimate(true);
 
     dispatch(stackActions.setLine(3));
     await sleep(2000);
@@ -45,7 +43,7 @@ const StackPage = () => {
     }
     dispatch(stackActions.setLine(-1));
 
-    setIsPop(false);
+    setIsAnimate(false);
   };
 
   const pushToStack = async (value: string) => {
@@ -53,7 +51,7 @@ const StackPage = () => {
     //   window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
     // }
 
-    setIsPush(true)
+    setIsAnimate(true)
     dispatch(stackActions.setLine(10));
     await sleep(2000);
     if (state.data.length < MAX_ELEMENTS) {
@@ -65,7 +63,7 @@ const StackPage = () => {
       await sleep(2000);
     }
     dispatch(stackActions.setLine(-1));
-    setIsPush(false)
+    setIsAnimate(false)
 
   };
 
@@ -81,8 +79,8 @@ const StackPage = () => {
         removeHandler={popFromStack}
         addHandler={pushToStack}
         setRandomInput={setRandomInput}
-        isRemovedEnabled={isPop}
-        isAddEnabled={isPush}
+        isRemovedEnabled={isAnimate}
+        isAddEnabled={isAnimate}
         addBtnText={"Push"}
         removeBtnText={"Pop"}
         maxLengthOfValue={8}

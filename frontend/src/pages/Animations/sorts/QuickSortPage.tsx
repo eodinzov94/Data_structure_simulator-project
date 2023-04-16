@@ -10,6 +10,7 @@ import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels
 import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
+import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { quickSortActions as ActionKind } from "../../../store/reducers/quickSortReducer";
 
@@ -90,6 +91,11 @@ const QuickSortPage = () => {
 
   return (
     <>
+      <img
+        src={quickSortPhoto}
+        style={{paddingTop:'4px',width:'20%',marginLeft:'auto',marginRight:'auto',display:'block'}}
+        alt={"Quick Sort"}
+      />
       {/*top section */}
       <SortControlsPanel
         rightBtnHandler={Sort}
