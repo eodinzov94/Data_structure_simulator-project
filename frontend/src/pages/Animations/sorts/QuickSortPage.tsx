@@ -12,6 +12,7 @@ import {
   QuickSortActionKind as ActionKind,
   quickSortReducer,
 } from "../../../components/Simulation/Sorts/QuickSort/QuickSortReducer";
+import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
 
 const MAX_ELEMENTS = 10;
 
@@ -108,6 +109,11 @@ const QuickSortPage = () => {
 
   return (
     <>
+      <img
+        src={quickSortPhoto}
+        style={{paddingTop:'4px',width:'20%',marginLeft:'auto',marginRight:'auto',display:'block'}}
+        alt={"Quick Sort"}
+      />
       {/*top section */}
       <SortControlsPanel
         rightBtnHandler={Sort}
