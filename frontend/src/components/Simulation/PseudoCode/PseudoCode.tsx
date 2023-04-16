@@ -3,6 +3,8 @@ import styles from "./PseudoCodeWrapper.module.css";
 import bars from "../../../assets/bars-staggered.png";
 import cross from "../../../assets/cross.png";
 import { PseudoProps } from "./pc-helpers";
+import { SubjectImg } from "../../UI/SubjectImg";
+import headlinePhoto from "../../../assets/Algorithms/PseudoCode.png";
 
 
 export const PseudoCode = (props: PseudoProps) => {
@@ -44,9 +46,9 @@ export const PseudoCode = (props: PseudoProps) => {
               animate={{ opacity: 1, transition: { duration: 1 } }}
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
             >
-              <span className={styles.headLineSide}>
-                <u>Pseudo Code</u>
-              </span>
+              <SubjectImg name={"Pseudo code"} src={headlinePhoto} width="180px" />
+              <br/>
+
 
               {props.code.map((l, index) => (
                 <motion.li

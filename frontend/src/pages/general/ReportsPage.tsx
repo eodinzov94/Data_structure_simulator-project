@@ -9,7 +9,6 @@ import headlinePhoto from "../../assets/ReportsHead.png";
 const ReportsPage = () => {
   return (
     <FloatUpContainer>
-
       <section className="container mx-auto px-0 sm:px-0 py-24">
         <div className="grid grid-cols-0 md:grid-cols-0 lg:grid-cols-0 2xl:grid-cols-0 justify-items-center gap-10">
         <SubjectImg name={"GR"} src={headlinePhoto} width="300px" />
