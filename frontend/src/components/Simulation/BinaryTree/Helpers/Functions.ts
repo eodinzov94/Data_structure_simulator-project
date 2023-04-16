@@ -200,12 +200,12 @@ export function getArrFromInputForHeap(maxSize: number, data: string, maxNum=999
 }
 
 
-export const getNodeRolesForIter = (left:number,right:number,i:number,heapSize:number) => {
+export const getNodeRolesForIter = (left:number|null,right:number|null,i:number,heapSize:number) => {
   const roles = [] as NodeRole[]
-  if (left < heapSize){
+  if (left && left < heapSize){
     roles.push({role:"L",id:left})
   }
-  if (right < heapSize){
+  if (right && right < heapSize){
     roles.push({role:"R",id:right})
   }
   roles.push({role:"𝑖",id:i})

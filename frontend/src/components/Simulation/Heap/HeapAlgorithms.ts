@@ -27,7 +27,7 @@ export function maxHeapify(A: number[], i: number, heapSize: number, memento: He
     const left = (2 * i) + 1;
     const right = (2 * i) + 2;
     let roles = getNodeRolesForIter(left,right,i,heapSize)
-    memento.addBlank({line: 1+gap, name: currentAlg}, A,heapSize,roles)
+    memento.addBlank({line: 1+gap, name: currentAlg}, A,heapSize,getNodeRolesForIter(left,null,i,heapSize))
     memento.addBlank({line: 2+gap, name: currentAlg}, A,heapSize,roles)
     let largest = i;
     memento.addBlank({line: 3+gap, name: currentAlg}, A,heapSize,roles)
