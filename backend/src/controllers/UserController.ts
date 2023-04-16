@@ -146,6 +146,18 @@ class UserController {
         return next(ApiError.internal('User does not exists'))
       }
       await User.update({ lastSeen: new Date() }, { where: { id: req.user!.id } })
+
+      if (user.role == 'Lecturer'){
+        return res.json(
+          {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
+          })
+      }
+
       return res.json(
         {
           id: user.id,
@@ -153,7 +165,10 @@ class UserController {
           lastName: user.lastName,
           email: user.email,
           role: user.role,
+          gender: user.gender,
+          birthYear: user.birthYear
         })
+        
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Authentication error'

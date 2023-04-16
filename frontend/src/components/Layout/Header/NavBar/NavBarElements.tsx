@@ -14,17 +14,27 @@ import { useAppSelector } from "../../../../store/hooks";
 const NavBarElements = () => {
   const authSlice = useAppSelector(selectAuthentication);
 
+  if (!authSlice.isLoggedIn){
+    // you can add navbar elements in the header for not logged in users here:
+    return <></>
+  }
+
   return (
     <Popover.Group as="nav" className="hidden space-x-10 md:flex">
       {/* <NavBarElementDropDown title={"Solutions"} items={solutions} />
       <NavBarElementLink title={"Docs"} link="#"></NavBarElementLink> */}
 
-      {authSlice.isLoggedIn ? (
-        //you can add here buttons for every role that logged in
-
-        authSlice.user?.role === "Lecturer" ? (
+        {/* every role */}
+        <>
+              <NavBarElementLink
+              title={"Profile"}
+              link={RoutePaths.PROFILE}
+            ></NavBarElementLink>
+        </>
+        {authSlice.user?.role === "Lecturer" ? (
           // lecturer
           <>
+
             <NavBarElementLink
               title={"Reports"}
               link={RoutePaths.REPORTS}
@@ -39,20 +49,15 @@ const NavBarElements = () => {
             ></NavBarElementLink>
           </>
         ) : (
-          // general user - not lecturer
+          // not lecturer
           <>
             <NavBarElementLink
               title={"Add Feedback"}
               link={RoutePaths.ADD_FEEDBACK}
             ></NavBarElementLink>
           </>
-        )
-      ) : (
-        // not logged in
-        <>
-          {/* <NavBarElementDropDown title={"More"} items={resources} /> */}
-        </>
-      )}
+        )}
+      
     </Popover.Group>
   );
 };

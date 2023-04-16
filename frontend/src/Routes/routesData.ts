@@ -18,6 +18,7 @@ import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
 import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
+import ProfilePage from "../pages/ProfilePage";
 
 export interface RouteItem {
   path: string;
@@ -37,6 +38,7 @@ export const publicRoutes: RouteItem[] = [
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
   { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage },
+  { path: RoutePaths.PROFILE, element: ProfilePage },
   //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },

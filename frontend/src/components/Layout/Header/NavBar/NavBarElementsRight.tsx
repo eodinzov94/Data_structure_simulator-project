@@ -8,7 +8,6 @@ const NavBarElementsRight = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
   const userFirstName = useAppSelector((state) => state.auth.user?.firstName);
-  const userRole = useAppSelector((state) => state.auth.user?.role);
   const logOutHandler = () => {
     localStorage.removeItem("accessToken");
     dispatch(logout());

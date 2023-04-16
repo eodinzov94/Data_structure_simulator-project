@@ -3,7 +3,9 @@ export interface IUser{
     firstName:string,
     lastName:string,
     email:string,
-    role:string
+    role:string,
+    birthYear?:number,
+    gender?:"Male"|"Female"
 }
 
 export interface AuthState{
