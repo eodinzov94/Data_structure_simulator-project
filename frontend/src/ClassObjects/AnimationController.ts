@@ -177,6 +177,8 @@ abstract class AnimationController {
     this.memento.clearSnapshots();
     this.setRoot(arrayToBinaryTree(arr));
     this.setCurrentArr(arr);
+    this.setCurrentActions([]);
+    this.setCurrentRoles([]);
   }
 }
 

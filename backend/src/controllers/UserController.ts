@@ -143,6 +143,8 @@ class UserController {
           lastName: user.lastName,
           email: user.email,
           role: user.role,
+          birthYear: user.birthYear,
+          gender: user.gender,
         })
     } catch (e: any) {
       console.log(e)
