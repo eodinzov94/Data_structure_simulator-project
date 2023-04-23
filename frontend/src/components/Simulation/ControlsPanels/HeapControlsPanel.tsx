@@ -6,17 +6,18 @@ import {
   setInputArray,
   setInputKey,
 } from "../../../store/reducers/alghoritms/heap-reducer";
-import { getArrFromInputForHeap } from "../BinaryTree/Helpers/Functions";
+import { generateRandomArrForHeap, getArrFromInputForHeap } from '../BinaryTree/Helpers/Functions'
 import { sleep } from "../../../utils/animation-helpers";
 import MediumCard from "../../UI/MediumCard";
 
 interface Props {
   controller: HeapAnimationController;
 }
-
+const buttonClassname = "bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed"
 const HeapControlsPanel: FC<Props> = ({ controller }) => {
   const inputArray = useAppSelector((state) => state.heap.inputArray);
   const inputKey = useAppSelector((state) => state.heap.inputKey);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
   const setCurrentError = (error: string) => {
@@ -26,7 +27,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
     }, 5000);
   };
   const createHeapHandler = async () => {
-    const res = getArrFromInputForHeap(25, inputArray);
+    const res = getArrFromInputForHeap(15, inputArray);
     if (typeof res !== "string") {
       controller.setArray(res);
       await Animate("Build-Max-Heap");
@@ -45,7 +46,11 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
   };
 
   const Animate = async (animation: string) => {
-    await sleep(400);
+    setIsButtonDisabled(true);
+    await sleep(20);
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 1500)
     switch (animation) {
       case "Build-Max-Heap":
         await controller.buildMaxHeap();
@@ -62,9 +67,13 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
       case "Heap-Sort":
         await controller.heapSort();
         return;
+      case "Clear":
+        await controller.setArray([]);
+        return;
       default:
         return;
     }
+
   };
   return (
     <>
@@ -80,12 +89,13 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
           </Alert>
           </div>
       )}
-      <MediumCard isSmaller={true} maxWidth={"max-w-2xl"}>
+      <MediumCard isSmaller={true} maxWidth={"max-w-3xl"}>
         <div className="flex">
-          {["Heap-Max", "Extract-Max", "Heap-Sort"].map((text) => (
+          {["Heap-Max", "Extract-Max", "Heap-Sort", "Clear"].map((text) => (
             <div className="py-2 px-2" key={text}>
               <button
-                className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow"
+                disabled={isButtonDisabled}
+                className={buttonClassname}
                 onClick={async () => await Animate(text)}
               >
                 {text}
@@ -94,25 +104,40 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
           ))}
           <div className="py-2 px-2" key={"Build-Max-Heap"}>
             <button
-              className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow"
+              disabled={isButtonDisabled}
+              className={ buttonClassname + " w-[200px]"}
+
+                   //tailwind disabled class end
+                   //disabled={isButtonDisabled}
               onClick={createHeapHandler}
             >
               Build-Max-Heap
             </button>
             <br />
+            <button
+                   disabled={isButtonDisabled}
+                   className="mt-2 mr-2 bg-white hover:bg-lime-100 text-lime-800 font-semibold py-1 px-[5px] border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                   onClick={async () => {
+                     await controller.setArray(generateRandomArrForHeap());
+                     await Animate("Build-Max-Heap");
+                   }}
+            >
+              Random
+            </button>
             <Input
               placeholder="e.g 1,2,3,4,..."
-              sx={{ width: "120px" }}
+              sx={{ width: "120px"}}
               value={inputArray}
               onChange={(e) => dispatch(setInputArray(e.target.value))}
             />
           </div>
           <div className="py-2 px-2" key={"Insert Key"}>
             <button
-              className="bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded"
+              disabled={isButtonDisabled}
+              className={ buttonClassname }
               onClick={async () =>
                 await Animate("Insert Key").catch(() =>
-                  setCurrentError("Array size overflow, max is 25.")
+                  setCurrentError("Array size overflow, max is 15.")
                 )
               }
             >
@@ -120,7 +145,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
             </button>
             <br />
             <Input
-              sx={{ width: "25px" }}
+              sx={{ width: "25px",marginTop:"9px" }}
               value={inputKey}
               type="text"
               inputProps={{

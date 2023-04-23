@@ -6,10 +6,10 @@ import { useAppSelector } from "../../../store/hooks";
 import { useDispatch } from "react-redux";
 import PlayerControlsPanel from "../../../components/Simulation/ControlsPanels/PlayerControlsPanel";
 import HeapControlsPanel from "../../../components/Simulation/ControlsPanels/HeapControlsPanel";
-import { HeapsortPseudoCode } from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
 import { FC, useEffect, useState } from "react";
 import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
 import PhoneRotate from "../../../assets/rotateTablet.svg";
+import { combinePseudoCodes } from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 
 function calculateHeight(root: TreeNode | undefined | null): number {
   if (!root) {
@@ -60,7 +60,7 @@ const HeapPage: FC = () => {
           currentHeapSize={currentHeapSize}
         />
       </div>
-      <div className="container mx-auto max-w-7xl px-0 py-0 mt-80">
+      <div className="container mx-auto max-w-7xl px-0 py-0 mt-72">
         <HeapArray
           items={currentArr}
           actions={currentActions}
@@ -73,7 +73,7 @@ const HeapPage: FC = () => {
         <div className=" w-fit">
           <PseudoCodeContainer
             line={currentLine}
-            code={HeapsortPseudoCode[currentAlg]}
+            code={combinePseudoCodes(currentAlg)}
           />
         </div>
       </div>

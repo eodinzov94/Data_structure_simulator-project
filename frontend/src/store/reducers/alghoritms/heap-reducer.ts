@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NodeRole, TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { Events } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { arrayToBinaryTree } from '../../../components/Simulation/BinaryTree/Helpers/Functions'
-import {CodeReference, HeapsortPseudoCode} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import {CodeReference, HeapPseudoCode} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 
 
-const heapArray = [17, 14, 13, 10, 5, 8, 7, 2, 1, 0]
+const heapArray = [2, 1, 0]
 
 
 const initialState = {root:arrayToBinaryTree(heapArray),
@@ -14,7 +14,7 @@ const initialState = {root:arrayToBinaryTree(heapArray),
   currentArr:heapArray,
   isPlaying :false,
   inputArray:'',
-  currentAlg: 'BuildMaxHeap' as keyof typeof HeapsortPseudoCode,
+  currentAlg: 'BuildMaxHeap' as keyof typeof HeapPseudoCode,
   currentLine:0,
   inputKey: 0,
   currentHeapSize:heapArray.length,

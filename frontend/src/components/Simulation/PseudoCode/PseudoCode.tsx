@@ -28,7 +28,7 @@ export const PseudoCode = (props: Props) => {
             }}
           >
             {
-              //this section responsable for the tabs before each line
+              //this section responsible for the tabs before each line
               [...Array(l.tabAmount)].map((x, i) => (
                 <span key={i}>&emsp;</span>
               ))

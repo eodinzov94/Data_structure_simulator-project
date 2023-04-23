@@ -39,7 +39,6 @@ class HeapAnimationController extends AnimationController {
     this.frame = 0
     await this.playAnimation()
   }
-
   async extractMax() {
     await this.initNewAnimation()
     heapExtractMax([...this.arr], this.memento)
@@ -49,8 +48,9 @@ class HeapAnimationController extends AnimationController {
   }
 
   async insertKey(key:number) {
-    if(this.arr.length === 25)
+    if(this.arr.length === 15){
       throw new Error("Array is full");
+    }
     await this.initNewAnimation()
     maxHeapInsert([...this.arr], key, this.memento)
     this.setReference({name:this.memento.getCurrentAlg(),line:0})

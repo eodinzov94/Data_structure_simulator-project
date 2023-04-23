@@ -1,9 +1,13 @@
-import { NodeRole, TreeNode } from '../BinaryTreeTypes'
-import { ActionType } from "../BinaryTreeTypes";
+import { ActionType, NodeRole, TreeNode } from "../BinaryTreeTypes";
 import React from "react";
 import { AnimationProps } from "framer-motion";
+import {
+  HeapPseudoCode,
+  HeapPseudoCodeKeys,
+  HeapPseudoCodeList,
+} from "../../PseudoCode/HeapPseudoCodeData";
 
-export function arrayToBinaryTree(arr: number[]): TreeNode|null {
+export function arrayToBinaryTree(arr: number[]): TreeNode | null {
   if (!arr.length) {
     return null;
   }
@@ -196,14 +200,34 @@ export function getArrFromInputForHeap(maxSize: number, data: string, maxNum=999
 }
 
 
-export const getNodeRolesForIter = (left:number,right:number,i:number,heapSize:number) => {
+export const getNodeRolesForIter = (left:number|null,right:number|null,i:number,heapSize:number) => {
   const roles = [] as NodeRole[]
-  if (left < heapSize){
+  if (left && left < heapSize){
     roles.push({role:"L",id:left})
   }
-  if (right < heapSize){
+  if (right && right < heapSize){
     roles.push({role:"R",id:right})
   }
   roles.push({role:"𝑖",id:i})
   return roles
+}
+export const generateRandomArrForHeap = () =>{
+  const randomArray = [];
+  const length = Math.floor(Math.random() * 9) + 7; // Generate a random length between 10 and 15
+  for (let i = 0; i < length; i++) {
+    randomArray.push(Math.floor(Math.random() * 100)); // Generate a random number between 0 and 99 and add it to the array
+  }
+  return randomArray;
+}
+
+export const combinePseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
+       if(HeapPseudoCodeList[currentAlg].length===2){
+         const alg1 = HeapPseudoCodeList[currentAlg][0]
+         const alg2 = HeapPseudoCodeList[currentAlg][1]
+         const code1 = HeapPseudoCode[alg1]
+         const code2 = HeapPseudoCode[alg2]
+         return [...code1,{ text: "", tabAmount: 1 },...code2]
+       }
+       return HeapPseudoCode[currentAlg]
+
 }
