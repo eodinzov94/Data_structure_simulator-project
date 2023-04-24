@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
-import { PseudoCode, PseudoItem } from "./PseudoCode";
+import { PseudoCode} from "./PseudoCode";
 import { Drawer, IconButton } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { PseudoItem } from "./pc-helpers";
 
 interface Props {
   line: number;

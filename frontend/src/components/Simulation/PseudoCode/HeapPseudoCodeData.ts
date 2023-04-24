@@ -1,4 +1,5 @@
-import {PseudoItem} from "./PseudoCode";
+import { PseudoItem } from "./pc-helpers"
+
 export interface CodeReference {
     line: number,
     name: keyof typeof HeapPseudoCode,

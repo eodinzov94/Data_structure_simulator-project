@@ -1,8 +1,6 @@
 import { Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { solutions, resources } from "../HeaderData";
-import { faviconLime500 } from "../../../../utils/logos";
 import RoutePaths from "../../../../Routes/RoutePaths";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";

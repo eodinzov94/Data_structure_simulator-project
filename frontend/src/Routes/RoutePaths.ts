@@ -24,7 +24,6 @@ export enum RoutePaths{
     INSERTION_SORT = "/insertionsort",
     COUNTING_SORT = "/countingsort",
 
-
     //feedbacks
     POST_FEEDBACK = "/post-feedback",
     ALL_FEEDBACKS = '/all-feedbacks'
