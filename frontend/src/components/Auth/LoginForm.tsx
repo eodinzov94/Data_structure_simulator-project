@@ -1,11 +1,12 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-import { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { RoutePaths } from '../../Routes/RoutePaths'
 import ErrorMsg from '../UI/ErrorMsg'
 import FormButton from './FormButton'
 import { useLoginMutation } from '../../store/reducers/auth-reducer-api'
 import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
+import Spinner from '../UI/Spinner'
 
 
 const LoginForm = () => {
@@ -30,6 +31,7 @@ const LoginForm = () => {
       className='mt-8 space-y-6'
       onSubmit={SubmitLogin}
     >
+      <Spinner isLoading={isLoading}/>
       <input type='hidden' name='remember' defaultValue='true' />
       <div className='-space-y-px rounded-md shadow-sm'>
         <div>
@@ -85,6 +87,7 @@ const LoginForm = () => {
       <FormButton
         type={'submit'}
         title={'Sign in'}
+        disabled={isLoading}
         icon={
           <LockClosedIcon
             className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}

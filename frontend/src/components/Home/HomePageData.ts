@@ -87,7 +87,7 @@ const HomePageData = [
     title: "Heap",
     gif: heapGif,
     image: heapPhoto,
-    url: "/login",
+    url: "/heap",
   },
   {
     title: "Sorts",
@@ -157,7 +157,7 @@ export default HomePageData;
 //     url: "/login",
 //   },
 //   {
-//     title: "Heap",
+//     title: "HeapPage",
 //     image: "https://bit.ly/3BQdTqk",
 //     url: "/login",
 //   },

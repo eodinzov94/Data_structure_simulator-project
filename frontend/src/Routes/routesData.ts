@@ -14,6 +14,7 @@ import FeedbacksPage from "../pages/general/FeedbacksPage";
 import AddFeedbackPage from "../pages/general/AddFeedBackPage";
 import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
 
+import HeapPage from "../pages/Animations/DataStructure/HeapPage";
 import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
@@ -33,15 +34,18 @@ export const publicRoutes: RouteItem[] = [
   { path: RoutePaths.FORGOT_PASSWORD, element: ForgotPasswordPage },
   { path: RoutePaths.TWO_FA, element: TwoFactorAuthPage },
   { path: RoutePaths.VERIFY_EMAIL, element: EmailVerificationPage },
+  { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
 ];
 
 export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
-  { path: RoutePaths.ADD_FEEDBACK, element: AddFeedbackPage },
+  { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
   { path: RoutePaths.PROFILE, element: ProfilePage },
+
   //Animations
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
+  { path: RoutePaths.HEAP, element: HeapPage },
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
   { path: RoutePaths.INSERTION_SORT, element: InsertionSortPage },
   { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },

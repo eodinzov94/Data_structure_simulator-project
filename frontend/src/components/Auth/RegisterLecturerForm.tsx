@@ -7,6 +7,7 @@ import { CheckConfirmPassword, CheckEmail, CheckName, CheckPassword } from './Au
 import { RegisterLecturerPayload } from '../../types/Auth'
 import { useRegisterLecturerMutation } from '../../store/reducers/auth-reducer-api'
 import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
+import { Alert } from '@mui/material'
 
 const initialState = {
   firstName: "",
@@ -73,6 +74,11 @@ const RegistrationForm = () => {
       method="POST"
       onSubmit={onSubmitHandler}
     >
+      {isSuccess && (
+             <Alert severity="success" color="success">
+               User created successfully!
+             </Alert>
+      )}
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
         {/* first name */}

@@ -15,7 +15,7 @@ const AuthCard = (props: Props) => {
       <div className="max-w-md w-full p-10 bg-white border border-gray-200 rounded-lg shadow-lg">
         <div className="w-full max-w-md space-y-8 ">
           <div>
-            <RotatesLogo />
+            {/*<RotatesLogo />*/}
             <h2 className="mt-2 text-center text-3xl font-bold tracking-tight text-gray-900">
               {props.title}
             </h2>

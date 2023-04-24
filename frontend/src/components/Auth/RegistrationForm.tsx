@@ -9,6 +9,8 @@ import { CheckConfirmPassword, CheckEmail, CheckName, CheckPassword } from './Au
 import { RegisterPayload } from '../../types/Auth'
 import { useRegisterMutation } from '../../store/reducers/auth-reducer-api'
 import { isErrorWithDataAndMessage } from '../../utils/helper-functions'
+import { Alert } from '@mui/material'
+import Spinner from '../UI/Spinner'
 
 const initialState = {
   firstName: "",
@@ -22,7 +24,7 @@ const initialState = {
 const GENDER = ["Male", "Female"];
 
 const RegistrationForm = () => {
-  const [registerUser, { error,isLoading }] = useRegisterMutation()
+  const [registerUser, { error,isLoading,isSuccess }] = useRegisterMutation()
   const [dataEntered, setDataEntered] = useState<RegisterPayload>(initialState);
   const [errorMsgs, setErrorMsg] = useState<string[]>([]);
   const onChangeGender = (index: number) => {
@@ -70,21 +72,20 @@ const RegistrationForm = () => {
     if (errors.length) {
       return;
     }
-
     registerUser(dataEntered)
-
-
-
-
   };
 
   return (
     <form
       className="mt-8 space-y-6"
-      action="#"
-      method="POST"
       onSubmit={onSubmitHandler}
     >
+      {isSuccess && (
+             <Alert severity="success" color="success">
+               User created successfully! Please check your email to confirm your account.
+             </Alert>
+      )}
+      <Spinner isLoading={isLoading}/>
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">
         {/* first name */}
@@ -215,6 +216,7 @@ const RegistrationForm = () => {
       <FormButton
         type={"submit"}
         title={"Sign up"}
+        disabled={isLoading}
         icon={
           <ClipboardDocumentListIcon
             className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}

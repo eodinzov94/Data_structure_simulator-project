@@ -6,7 +6,6 @@ import { PseudoProps } from "./pc-helpers";
 import { SubjectImg } from "../../UI/SubjectImg";
 import headlinePhoto from "../../../assets/Algorithms/PseudoCode.png";
 
-
 export const PseudoCode = (props: PseudoProps) => {
   const [open, cycleOpen] = useCycle(true, false);
   return (
@@ -19,7 +18,7 @@ export const PseudoCode = (props: PseudoProps) => {
     >
       <div>
         <button className={styles["button-side"]} onClick={() => cycleOpen()}>
-          {open ? <img alt='>>' src={cross} /> : <img alt="<<" src={bars} />}
+          {open ? <img alt=">>" src={cross} /> : <img alt="<<" src={bars} />}
         </button>
       </div>
 
@@ -46,9 +45,12 @@ export const PseudoCode = (props: PseudoProps) => {
               animate={{ opacity: 1, transition: { duration: 1 } }}
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
             >
-              <SubjectImg name={"Pseudo code"} src={headlinePhoto} width="180px" />
-              <br/>
-
+              <SubjectImg
+                name={"Pseudo code"}
+                src={headlinePhoto}
+                width="180px"
+              />
+              <br />
 
               {props.code.map((l, index) => (
                 <motion.li
@@ -56,7 +58,7 @@ export const PseudoCode = (props: PseudoProps) => {
                   initial={{ backgroundColor: "#ecfccb" }}
                   animate={{
                     backgroundColor:
-                      index === props.line ?  "#a3e635" : "#ecfccb",
+                      index === props.line ? "#a3e635" : "#ecfccb",
                   }}
                   transition={{
                     duration: 0.5,
