@@ -19,7 +19,7 @@ export const PseudoCode = (props: PseudoProps) => {
     >
       <div>
         <button className={styles["button-side"]} onClick={() => cycleOpen()}>
-          {open ? <img src={cross} /> : <img src={bars} />}
+          {open ? <img alt='>>' src={cross} /> : <img alt="<<" src={bars} />}
         </button>
       </div>
 

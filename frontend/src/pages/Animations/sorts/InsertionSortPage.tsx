@@ -81,7 +81,7 @@ const InsertionSortPage = () => {
             <ArrayElement
               name="key"
               value={state.keyValue}
-              color={state.line == 7 ? ItemColor.MARKED : ItemColor.BASE}
+              color={state.line === 7 ? ItemColor.MARKED : ItemColor.BASE}
             />
           ) : (
             <></>

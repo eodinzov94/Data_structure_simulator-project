@@ -60,7 +60,7 @@ const StackPage = () => {
     await sleep(2000);
     if (state.data.length < MAX_ELEMENTS) {
       //add new elment at the start
-      const key = data.length;
+      //const key = data.length;
       dispatch(stackActions.incTop());
       await sleep(2000);
       dispatch(stackActions.setTopValue(value));
