@@ -1,42 +1,82 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useCycle } from "framer-motion";
+import styles from "./PseudoCodeWrapper.module.css";
+import bars from "../../../assets/bars-staggered.png";
+import cross from "../../../assets/cross.png";
+import { PseudoProps } from "./pc-helpers";
+import { SubjectImg } from "../../UI/SubjectImg";
+import headlinePhoto from "../../../assets/Algorithms/PseudoCode.png";
 
-interface Props {
-  line: number;
-  code: PseudoItem[];
-  children?: JSX.Element | JSX.Element[];
-}
 
-export interface PseudoItem {
-  text: string;
-  tabAmount: number;
-}
-
-export const PseudoCode = (props: Props) => {
+export const PseudoCode = (props: PseudoProps) => {
+  const [open, cycleOpen] = useCycle(true, false);
   return (
-    <motion.div className="basis-3/12" style={{ textAlign: "left" }}>
-      <motion.ul>
-        {props.code.map((l, index) => (
-          <motion.li
-            key={index}
-            initial={{ backgroundColor: "rgba(0,0,0,0)" }}
+    <div
+      className={
+        open
+          ? "basis-3/12 h-screen z-50 " + styles["div-side"]
+          : "h-screen z-50 " + styles["div-side"]
+      }
+    >
+      <div>
+        <button className={styles["button-side"]} onClick={() => cycleOpen()}>
+          {open ? <img alt='>>' src={cross} /> : <img alt="<<" src={bars} />}
+        </button>
+      </div>
+
+      <AnimatePresence mode="sync">
+        {open && (
+          <motion.aside
+            className={styles["aside-side"]}
+            initial={{ width: 0 }}
             animate={{
-              backgroundColor:
-                index === props.line ? "#bef264" : "rgba(0,0,0,0)",
+              width: 300,
+              borderWidth: "2px",
+              borderRadius: "10px",
+              borderColor: "#ecfccb",
             }}
-            transition={{
-              duration: 0.5,
+            exit={{
+              width: 0,
+              transition: { delay: 0.3, duration: 0.3 },
             }}
           >
-            {
-              //this section responsable for the tabs before each line
-              [...Array(l.tabAmount)].map((x, i) => (
-                <span key={i}>&emsp;</span>
-              ))
-            }
-            <span>{l.text}</span>
-          </motion.li>
-        ))}
-      </motion.ul>
-    </motion.div>
+            <motion.ul
+              className="px-2"
+              style={{ textAlign: "left" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 1 } }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            >
+              <SubjectImg name={"Pseudo code"} src={headlinePhoto} width="180px" />
+              <br/>
+
+
+              {props.code.map((l, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ backgroundColor: "#ecfccb" }}
+                  animate={{
+                    backgroundColor:
+                      index === props.line ?  "#a3e635" : "#ecfccb",
+                  }}
+                  transition={{
+                    duration: 0.5,
+                  }}
+                  exit={{ transition: { duration: 0.1 } }}
+                >
+                  <span>{index}.&emsp;</span>
+                  {
+                    //this section responsable for the tabs before each line
+                    [...Array(l.tabAmount)].map((x, i) => (
+                      <span key={i}>&emsp;</span>
+                    ))
+                  }
+                  <span>{l.text}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };

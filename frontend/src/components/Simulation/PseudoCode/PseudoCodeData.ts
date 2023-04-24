@@ -1,4 +1,4 @@
-import { PseudoItem } from "./PseudoCode";
+import { PseudoItem } from "./pc-helpers";
 
 export const QuickSortPseudoCode: PseudoItem[] = [
   { text: "Quicksort (𝐴, 𝑝, 𝑟 ):", tabAmount: 0 },

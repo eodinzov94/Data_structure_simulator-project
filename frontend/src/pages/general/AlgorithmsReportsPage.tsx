@@ -9,6 +9,8 @@ import {
   DUMMY,
   DUMMY1,
 } from "../../components/Charts/charts-utils";
+import { SubjectImg } from "../../components/UI/SubjectImg";
+import headlinePhoto from "../../assets/AlgoReport.png";
 import ExportExcel from "../../components/Charts/ExportExcel";
 import { makeTable } from "../../utils/helper-functions";
 
@@ -21,6 +23,8 @@ const AlgorithmsReportPage = () => {
   return (
     <FloatUpContainer>
       <MediumCard>
+      <SubjectImg name={"AR"} src={headlinePhoto} width="500px" />
+
         <BarChart
           id="first"
           items={DUMMY}

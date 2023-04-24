@@ -9,6 +9,8 @@ import ExportExcel from "../../components/Charts/ExportExcel";
 import { useGetGeneralReportsQuery } from "../../store/reducers/report-reducer";
 import { makeTable } from "../../utils/helper-functions";
 import { ExportData, GeneralReport } from "../../types/GeneralReport";
+import { SubjectImg } from "../../components/UI/SubjectImg";
+import headlinePhoto from "../../assets/GeneralReport.png";
 
 enum choices {
   USERS_GENDER = "Gender",
@@ -45,6 +47,7 @@ const GeneralReportsPage = () => {
   return (
     <FloatUpContainer>
         <MediumCard>
+        <SubjectImg name={"GR"} src={headlinePhoto} width="400px" />
 
       {isError && <div>Error fetching</div>}
       {isLoading && (

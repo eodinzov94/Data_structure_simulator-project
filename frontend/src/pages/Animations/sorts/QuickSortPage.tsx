@@ -1,18 +1,17 @@
-import {useRef} from "react";
+import { useRef } from "react";
 import QuickSort from "../../../components/Simulation/Sorts/QuickSort/QuickSort";
-import {
-  quickSortOperation,
-} from "../../../components/Simulation/Sorts/helpers/types";
+import { quickSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
 import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { quickSort } from "../../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
-import { PseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCode";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { quickSortActions as ActionKind } from "../../../store/reducers/quickSortReducer";
+import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
 
 const MAX_ELEMENTS = 10;
 
@@ -91,12 +90,8 @@ const QuickSortPage = () => {
 
   return (
     <>
-      <img
-        src={quickSortPhoto}
-        style={{paddingTop:'4px',width:'20%',marginLeft:'auto',marginRight:'auto',display:'block'}}
-        alt={"Quick Sort"}
-      />
       {/*top section */}
+      <SubjectImg name={"Quick Sort"} src={quickSortPhoto} width="200px" />
       <SortControlsPanel
         rightBtnHandler={Sort}
         inputHandler={setInput}
@@ -108,63 +103,15 @@ const QuickSortPage = () => {
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
       />
-
-      <div className="container mx-auto max-w-7xl px-0 md: py-0">
-        <div className="flex flex-nowrap">
-          {/*middle section */}
-          <div className="basis-9/12">
-            <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-            <QuickSort items={state.data} />
-            <div>
-              p = {state.p}, r={state.r}
-            </div>
-          </div>
-          <PseudoCode code={QuickSortPseudoCode} line={state.line} />
+      <AnimationWrapper line={state.line} code={QuickSortPseudoCode}>
+        <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
+        <QuickSort items={state.data} />
+        <div>
+          p = {state.p}, r={state.r}
         </div>
-      </div>
+      </AnimationWrapper>
     </>
   );
 };
 
 export default QuickSortPage;
-
-/*rigth section */
-
-/* <div className="basis-3/12">
-            Pseudo code:
-            <ul>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["#bef264", "rgba(0,0,0,0)"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  duration: 2,
-                }}
-              >
-                {"if (!stack.isEmpty()):"}
-              </motion.li>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["rgba(0,0,0,0)", "#bef264"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  delay: 0.5,
-                  duration: 0.5,
-                }}
-              >
-                {"    return arr[size-1];"}
-              </motion.li>
-            </ul>
-          </div> */
