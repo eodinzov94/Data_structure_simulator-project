@@ -1,68 +1,51 @@
 // const btnColor:string = "text-lime-500";
-import { RoutePaths } from '../../../../Routes/RoutePaths'
-import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { logout } from '../../../../store/reducers/auth-reducer'
+import { RoutePaths } from "../../../../Routes/RoutePaths";
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { logout } from "../../../../store/reducers/auth-reducer";
 
 const NavBarElementsRight = () => {
-  const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-  const userFirstName = useAppSelector(state => state.auth.user?.firstName)
-  const userRole = useAppSelector(state => state.auth.user?.role)
-  const logOutHandler = ( ) => {
-    localStorage.removeItem('accessToken')
-    dispatch(logout())
-  }
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const userFirstName = useAppSelector((state) => state.auth.user?.firstName);
+  const logOutHandler = () => {
+    localStorage.removeItem("accessToken");
+    dispatch(logout());
+  };
   return (
-    <div className='hidden items-center justify-end md:flex md:flex-1 lg:w-0'>
-      {!isLoggedIn && <><Link
-          to={RoutePaths.LOGIN}
-          className='whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900'
-        >
-          Sign in
-        </Link>
+    <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+      {!isLoggedIn && (
+        <>
+          <Link
+            to={RoutePaths.LOGIN}
+            className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+          >
+            Sign in
+          </Link>
           <Link
             to={RoutePaths.REGISTER}
-            className='ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600'
+            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600"
           >
             Sign up
           </Link>
         </>
-      }
-
-      {userRole==='Lecturer' &&
-        <Link
-          to={RoutePaths.REGISTER_LECTURER}
-          className='ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600'
-        >
-          Register Lecturer
-        </Link>
-
-      }
-
-      {isLoggedIn &&
+      )}
+      {isLoggedIn && (
         <>
-          <div
-            className='whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900'
-          >
-
+          <div className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
             Welcome {userFirstName}
           </div>
 
           <div
             onClick={logOutHandler}
-            className='ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600 cursor-pointer'
+            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600 cursor-pointer"
           >
             Log Out
           </div>
         </>
-
-      }
-
-
-
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default NavBarElementsRight
+export default NavBarElementsRight;

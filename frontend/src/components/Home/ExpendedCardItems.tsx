@@ -38,11 +38,12 @@ const ExpendedCardItems = (props: { list: ExpendedItem[] | undefined }) => {
       className='w-46'
     >
       {props.list &&
-        props.list.map((elem) => {
+        props.list.map((elem,index) => {
           return (
             <motion.li
               className="inline-block mt-1 w-48 py-1 bg-lime-500 text-white font-medium text-sm  shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out rounded-md"
               variants={itemVariant}
+              key={index}
             >
               <Link to={elem.url}>{elem.name}</Link>
             </motion.li>

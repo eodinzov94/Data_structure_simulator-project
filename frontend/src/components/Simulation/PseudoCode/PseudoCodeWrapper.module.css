@@ -1,0 +1,27 @@
+
+  .div-side{
+    font-family: "Roboto", sans-serif;
+    display: flex;
+   justify-content: flex-end;
+
+  }
+  .aside-side {
+    background-color: #ecfccb;
+  }
+  .button-side {
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    border-color: #d9f99d;
+    border-width: 2px;
+  }
+  .button-side:hover{
+    background-color: #84cc16;
+  }
+
+  .headLineSide{
+    font-size: large;
+    font-weight: bold;
+    margin-left: 4rem;    
+  }
+  

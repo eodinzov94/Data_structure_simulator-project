@@ -9,6 +9,8 @@ export enum RoutePaths{
     TWO_FA = '/2fa',
     VERIFY_EMAIL = '/verify-email/:token',
 
+    PROFILE = '/profile', 
+
     //reports
     REPORTS = "/reports",
     GENERAL_REPORTS = "/reports/general",
