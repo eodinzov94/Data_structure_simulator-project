@@ -1,110 +1,97 @@
 import { useState } from "react";
 import Stack from "../../../components/Simulation/Stack/Stack";
-import { motion } from "framer-motion";
 import SqControlsPanel, {
   Item,
 } from "../../../components/Simulation/ControlsPanels/SqControlsPanel";
+import { stackPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { stackActions } from "../../../store/reducers/stackReducer";
+import { sleep } from "../../../utils/animation-helpers";
+import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
+import stackPhoto from "../../../assets/Algorithms/S1.png";
 
 const MAX_ELEMENTS = 10;
 
 //The stack page divides to 3 col: left = control panel (navbar), middle = stack, rigth = psaudo code
 
 const StackPage = () => {
-  const [data, setData] = useState<Item[]>([]); //data of the stack
-  const [isPop, setIsPop] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.stack);
 
-  const popFromStack = () => {
-    if (data.length > 0) {
+  const [data, setData] = useState<Item[]>([]); //data of the stack
+  const [isAnimate, setIsAnimate] = useState<boolean>(false);
+  const popFromStack = async () => {
+    setIsAnimate(true);
+
+    dispatch(stackActions.setLine(3));
+    await sleep(2000);
+    if (state.data.length > 0) {
       //if the stack is not empty
       //copy data and remove first element
-      setIsPop(false);
+
       const new_data = [...data];
       new_data.splice(0, 1);
       setData(new_data); //update data
 
-      setIsPop(true);
+      dispatch(stackActions.markTop());
+      await sleep(2000);
 
-      setTimeout(() => {
-        setIsPop(false);
-      }, 2000);
+      dispatch(stackActions.setLine(5));
+      await sleep(1000);
+
+      dispatch(stackActions.pop());
+      await sleep(2000);
     }
+    dispatch(stackActions.setLine(-1));
+
+    setIsAnimate(false);
   };
 
-  const pushToStack = (value: string) => {
-    if (data.length === MAX_ELEMENTS) {
-      window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
-    } else {
+  const pushToStack = async (value: string) => {
+    // if (data.length === MAX_ELEMENTS) {
+    //   window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
+    // }
+
+    setIsAnimate(true)
+    dispatch(stackActions.setLine(10));
+    await sleep(2000);
+    if (state.data.length < MAX_ELEMENTS) {
       //add new elment at the start
-      const key = data.length;
-      const new_data = [{ value, key }, ...data];
-      setData(new_data);
+      //const key = data.length;
+      dispatch(stackActions.incTop());
+      await sleep(2000);
+      dispatch(stackActions.setTopValue(value));
+      await sleep(2000);
     }
+    dispatch(stackActions.setLine(-1));
+
+    setIsAnimate(false)
   };
 
   const setRandomInput = (newData: Item[]) => {
-    setData(newData);
+    dispatch(stackActions.init(newData));
   };
 
   return (
     <>
       {/*top section */}
+      <SubjectImg name={"Queue"} src={stackPhoto} width="200px" />
 
       <SqControlsPanel
         removeHandler={popFromStack}
         addHandler={pushToStack}
         setRandomInput={setRandomInput}
-        isRemovedEnabled={isPop}
+        isRemovedEnabled={isAnimate}
+        isAddEnabled={isAnimate}
         addBtnText={"Push"}
         removeBtnText={"Pop"}
         maxLengthOfValue={8}
       />
 
-      <div className="container mx-auto max-w-7xl px-0 md: py-10">
-        <div className="flex flex-nowrap">
-          {/*middle section */}
-          <Stack items={data} />
-
-          {/*rigth section */}
-          <div className="basis-4/12">
-            Pseudo code:
-            <ul>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["#bef264", "rgba(0,0,0,0)"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  duration: 2,
-                }}
-              >
-                {"if (!stack.isEmpty()):"}
-              </motion.li>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["rgba(0,0,0,0)", "#bef264"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  delay: 0.5,
-                  duration: 0.5,
-                }}
-              >
-                {"    return arr[size-1];"}
-              </motion.li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <AnimationWrapper line={state.line} code={stackPseudoCode}>
+        <Stack items={state.data} />
+      </AnimationWrapper>
     </>
   );
 };

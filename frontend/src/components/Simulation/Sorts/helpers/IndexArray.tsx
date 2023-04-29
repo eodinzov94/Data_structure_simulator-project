@@ -25,7 +25,7 @@ export const IndexArray = (props:Props) => {
                   key={index}
                 >
                   {
-                    props.j?
+                    props.j!==undefined?
                     index===props.i+1 && props.i === props.j ? "i,j": (index === props.i+1 ? 'i' :  (index ===props.j+1 ? 'j':''))
                     : index===props.i+1? 'i':''
                   } {/* text inside the box */}

@@ -3,6 +3,9 @@ import Queue from "../../../components/Simulation/Queue/Queue";
 import ControlsPanel, {
   Item,
 } from "../../../components/Simulation/ControlsPanels/SqControlsPanel";
+import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
+import { SubjectImg } from "../../../components/UI/SubjectImg";
+import queuePhoto from "../../../assets/Algorithms/Q1.png";
 
 const MAX_ELEMENTS = 10;
 
@@ -84,6 +87,8 @@ const QueuePage = () => {
   return (
     <>
       {/*top section */}
+      <SubjectImg name={"Queue"} src={queuePhoto} width="200px" />
+
       <ControlsPanel
         removeHandler={Dequeue}
         addHandler={Enqueue}
@@ -93,57 +98,13 @@ const QueuePage = () => {
         removeBtnText={"Dequeue"}
         maxLengthOfValue={4}
       />
-
-      <div className="container mx-auto max-w-7xl px-0 md: py-0">
-        <div className="flex flex-nowrap">
-          {/*middle section */}
-          <Queue
-            headPosition={headPosition}
-            tailPosition={tailPosition}
-            items={data}
-          />
-
-          {/*rigth section */}
-          {/* <div className="basis-3/12">
-            Pseudo code:
-            <ul>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["#bef264", "rgba(0,0,0,0)"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  duration: 2,
-                }}
-              >
-                {"if (!stack.isEmpty()):"}
-              </motion.li>
-              <motion.li
-                initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-                animate={
-                  isPop
-                    ? {
-                        backgroundColor: ["rgba(0,0,0,0)", "#bef264"],
-                      }
-                    : {}
-                }
-                transition={{
-                  // duration: 2.5,
-                  delay: 0.5,
-                  duration: 0.5,
-                }}
-              >
-                {"    return arr[size-1];"}
-              </motion.li>
-            </ul>
-          </div> */}
-        </div>
-      </div>
+      <AnimationWrapper line={0} code={[]}>
+        <Queue
+          headPosition={headPosition}
+          tailPosition={tailPosition}
+          items={data}
+        />
+      </AnimationWrapper>
     </>
   );
 };

@@ -60,7 +60,7 @@ const ForgotPasswordPage = () => {
     }
   };
 
-  const FPstr: string = `font-medium text-${mainColor} hover:text-${mainHoverColor}`;
+  //const FPstr: string = `font-medium text-${mainColor} hover:text-${mainHoverColor}`;
   return (
     <AuthWrapper
       cardTitle={Titles[currentStage]}

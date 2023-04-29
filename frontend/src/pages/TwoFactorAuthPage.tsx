@@ -1,4 +1,3 @@
-import { mainColor, mainHoverColor } from '../styles/tColors'
 import CodeVerificationForm from '../components/Auth/CodeVerificationForm'
 import AuthWrapper from '../components/Auth/AuthWrapper'
 import { Login2FALime500 } from '../utils/logos'

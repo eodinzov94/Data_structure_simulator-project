@@ -9,6 +9,8 @@ export enum RoutePaths{
     TWO_FA = '/2fa',
     VERIFY_EMAIL = '/verify-email/:token',
 
+    PROFILE = '/profile', 
+
     //reports
     REPORTS = "/reports",
     GENERAL_REPORTS = "/reports/general",
@@ -21,7 +23,6 @@ export enum RoutePaths{
     HEAP = "/heap",
     INSERTION_SORT = "/insertionsort",
     COUNTING_SORT = "/countingsort",
-
 
     //feedbacks
     POST_FEEDBACK = "/post-feedback",

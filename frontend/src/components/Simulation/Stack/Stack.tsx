@@ -12,7 +12,7 @@ interface Props {
 
 export default function Stack(props: Props) {
   return (
-    <div className={`flex basis-8/12 w-full px-20 ml-56 ${styles.example}`}>
+    <div className={`flex w-full px-20 justify-center  ${styles.example}`}>
 
       {/* Top & Aroow animation */}
         <AnimatePresence mode={"sync"}>
@@ -63,6 +63,7 @@ export default function Stack(props: Props) {
               initial={{ scale: 0.8, y: -50, opacity: 0.5 }}
               layout
               animate={{ 
+                backgroundColor: elem.color? elem.color: "#84cc16",
                 scale: 1,
                 y: 0,
                 opacity: 1,
