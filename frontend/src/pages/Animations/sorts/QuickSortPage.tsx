@@ -30,6 +30,7 @@ const QuickSortPage = () => {
   const Sort = async () => {
     setAbortFalse();
     const arr: quickSortOperation[] = quickSort([...state.data]);
+    console.log(arr)
     //change to iterate with i, and i will be save as state - will help with memento
     for (var op of arr) {
       if (abortRef.current) {
@@ -77,6 +78,7 @@ const QuickSortPage = () => {
   };
 
   const setInput = (data: number[]) => {
+    setAbortTrue();
     dispatch(ActionKind.init(data));
   };
 
