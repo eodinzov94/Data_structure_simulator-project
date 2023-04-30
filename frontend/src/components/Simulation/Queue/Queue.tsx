@@ -13,7 +13,7 @@ interface Props {
 
 const Queue = (props: Props) => {
   return (
-    <div className={`${styles.example}`}>
+    <div className={styles.example}>
       {/* Head & Aroow animation */}
       {props.items.length > 0 && (
         <QueuePointer
@@ -40,6 +40,7 @@ const Queue = (props: Props) => {
                 x: 0,
                 opacity: 1,
                 transition: { type: "spring", stiffness: 20 },
+                backgroundColor: elem.color? elem.color: "#84cc16",
               }}
               exit={{
                 //when the elment pops
@@ -47,8 +48,7 @@ const Queue = (props: Props) => {
                 x: -100, //move to the rigth
                 opacity: 0.2,
                 transition: {
-                  delay: 1,
-                  duration: 1.5, //control the speed
+                  duration: 0.7, //control the speed
                 },
               }}
               key={elem.key}

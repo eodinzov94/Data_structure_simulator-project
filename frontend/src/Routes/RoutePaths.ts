@@ -10,6 +10,7 @@ export enum RoutePaths{
     VERIFY_EMAIL = '/verify-email/:token',
 
     PROFILE = '/profile', 
+    EDIT_PROFILE = '/edit-profile', 
 
     //reports
     REPORTS = "/reports",

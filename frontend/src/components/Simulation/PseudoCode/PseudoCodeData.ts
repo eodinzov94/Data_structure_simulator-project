@@ -61,3 +61,19 @@ export const stackPseudoCode: PseudoItem[] = [
   { text: "top = top + 1", tabAmount: 2 },
   { text: "stack[top] = value", tabAmount: 2 },
 ];
+
+export const queuePseudoCode: PseudoItem[] = [
+  { text: "N = 10", tabAmount: 0 },
+  { text: "", tabAmount: 1 },
+  { text: "Dequeue(queue):", tabAmount: 0 },
+  { text: "if (!queue.isEmpty()):", tabAmount: 1 },
+  { text: "value = queue[head]", tabAmount: 2 },
+  { text: "head = head + 1", tabAmount: 2 },
+  { text: "return value", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "", tabAmount: 1 },
+  { text: "Enqueue(queue, value):", tabAmount: 0 },
+  { text: "if (tail < N)", tabAmount: 1 },
+  { text: "tail = tail + 1", tabAmount: 2 },
+  { text: "queue[tail] = value", tabAmount: 2 },
+];

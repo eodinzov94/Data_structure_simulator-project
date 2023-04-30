@@ -7,6 +7,7 @@ import countingSortReducer from "./reducers/countingSortReducer";
 import quickSortReducer from "./reducers/quickSortReducer";
 import stackReducer from "./reducers/stackReducer";
 import { feedbackApi } from "./reducers/feedback-reducer";
+import queueReducer from "./reducers/queueReducer";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     countingSort: countingSortReducer,
     quickSort: quickSortReducer,
     stack: stackReducer,
+    queue: queueReducer,
     heap: heapReducer,
     [reportApi.reducerPath]: reportApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
