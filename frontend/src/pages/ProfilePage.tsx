@@ -3,6 +3,7 @@ import FormButton from "../components/Auth/FormButton";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import { useAppSelector } from "../store/hooks";
 import { LockOpenIcon, PencilIcon } from '@heroicons/react/20/solid'
+import { ProfileLime500 } from "../utils/logos";
 
 
 const ProfilePage = () => {
@@ -75,6 +76,11 @@ const ProfilePage = () => {
 
 
         </AuthCard>
+      </FloatUpContainer>
+      <FloatUpContainer>
+        <div className="flex items-center justify-center px-2 sm:px-4 lg:px-8 ">
+          <img className="h-64" src={ProfileLime500} alt="Vzou" />
+        </div>
       </FloatUpContainer>
     </>
   );
