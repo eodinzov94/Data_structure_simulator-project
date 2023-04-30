@@ -12,11 +12,6 @@ export function quickSort(array: sortItem[]): quickSortOperation[] {
     payload: { indexList: [0, array.length - 1], line: 0 },
   });
   sort(array, 0, array.length - 1, opArr);
-  // opArr.push({ action: ActionKind.BLANK, index1: -1, line: -1 }); //non line
-  opArr.push({
-    action: ActionKind.init,
-    payload: [],
-  }); 
   return opArr;
 }
 
@@ -26,7 +21,10 @@ function sort(
   high: number,
   opArr: quickSortOperation[]
 ) {
-  opArr.push({ action: ActionKind.setLine, payload: 1 }); //if (p<1)
+  opArr.push({
+    action: ActionKind.setPandR,
+    payload: { indexList: [low, high], line: 1 },
+  });
   if (low < high) {
     opArr.push({
       action: ActionKind.markPivot,
@@ -43,6 +41,8 @@ function sort(
       payload: { indexList: [low], line: 15 },
     }); // DONE
   }
+  opArr.push({ action: ActionKind.setLine, payload: -1 }); 
+
 }
 
 function partition(
@@ -51,10 +51,7 @@ function partition(
   high: number,
   opArr: quickSortOperation[]
 ): number {
-  opArr.push({
-    action: ActionKind.setPandR,
-    payload: { indexList: [low, high], line: 7 },
-  });
+  opArr.push({ action: ActionKind.setLine, payload: 7 }); 
 
   const pivot: sortItem = array[high];
   let pivotIndex: number = high;
