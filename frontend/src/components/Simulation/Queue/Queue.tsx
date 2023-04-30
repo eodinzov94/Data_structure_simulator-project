@@ -13,7 +13,7 @@ interface Props {
 
 const Queue = (props: Props) => {
   return (
-    <div className={`basis-9/12 ${styles.example}`}>
+    <div className={`${styles.example}`}>
       {/* Head & Aroow animation */}
       {props.items.length > 0 && (
         <QueuePointer

@@ -1,4 +1,3 @@
-import React from "react";
 import { PseudoProps } from "../PseudoCode/pc-helpers";
 import { PseudoCode } from "../PseudoCode/PseudoCode";
 
