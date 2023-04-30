@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const stackSlice = createSlice({
-  name: "quickSort",
+  name: "stack",
   initialState,
   reducers: {
     init(state, action: PayloadAction<Item[]>) {

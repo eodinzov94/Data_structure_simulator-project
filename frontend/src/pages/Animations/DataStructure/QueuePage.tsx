@@ -6,6 +6,10 @@ import ControlsPanel, {
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import queuePhoto from "../../../assets/Algorithms/Q1.png";
+import { queuePseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { queueActions } from "../../../store/reducers/queueReducer";
+import { sleep } from "../../../utils/animation-helpers";
 
 const MAX_ELEMENTS = 10;
 
@@ -16,6 +20,11 @@ export interface Position {
 }
 
 const QueuePage = () => {
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.queue);
+  const [isAnimate, setIsAnimate] = useState<boolean>(false);
+
+
   const [data, setData] = useState<Item[]>([]); //data of the stack
   const [isPop, setIsPop] = useState<boolean>(false);
   const [keyValue, setKeyValue] = useState<number>(0);
@@ -28,60 +37,48 @@ const QueuePage = () => {
   //   const [xPosition, setXPosition] = useState(35);
   //   const [xPrevPosition, setXPrevPosition] = useState(70);
 
-  const Dequeue = () => {
-    if (data.length > 0) {
-      //if the stack is not empty
-      //copy data and remove first element
-      setIsPop(false);
-      const new_data = [...data];
-      new_data.splice(0, 1);
-      setData(new_data); //update data
-      setHeadPosition((prevState) => {
-        return { curr: prevState.curr + 35, prev: prevState.curr };
-      });
-      setTailPosition((prevState) => {
-        return prevState - 35;
-      });
-      setIsPop(true);
+  const Dequeue = async() => {
+    setIsAnimate(true)
+    dispatch(queueActions.setLine(3));
+    await sleep(2000);
+    if (state.data.length > 0) {
+      //if the queue is not empty
 
-      setTimeout(() => {
-        setIsPop(false);
-      }, 2000);
+      dispatch(queueActions.markHead())
+      await sleep(2000);
+
+      dispatch(queueActions.incHead())
+      await sleep(2000);
+
+      dispatch(queueActions.dequeue())
+      await sleep(2000);
+
     }
+    dispatch(queueActions.setLine(-1));
+    setIsAnimate(false)
+
   };
 
-  const Enqueue = (value: string) => {
-    if (data.length === MAX_ELEMENTS) {
-      window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
-    } else {
+  const Enqueue = async(value: string) => {
+    setIsAnimate(true)
+    
+    dispatch(queueActions.setLine(10));
+    await sleep(2000);
+    if (data.length < MAX_ELEMENTS) {
       //add new elment at the start
-      const new_data = [...data, { value, key: keyValue }];
-      setKeyValue((prevState) => {
-        return prevState + 1;
-      });
-      setHeadPosition((prevState) => {
-        return { curr: prevState.curr - 35, prev: prevState.curr };
-      });
-      setTailPosition((prevState) => {
-        return prevState + 35;
-      });
-      setData(new_data);
+      dispatch(queueActions.incTail());
+      await sleep(2000);
+
+      dispatch(queueActions.enqueue(value));
+      await sleep(2000);
     }
+    dispatch(queueActions.setLine(-1));
+    setIsAnimate(false)
+
   };
 
   const setRandomInput = (newData: Item[]) => {
-    setData(newData);
-    setKeyValue(newData.length);
-
-    //fix positions
-    setHeadPosition((prevState) => {
-      return { curr: -35 * newData.length, prev: prevState.curr };
-    });
-
-    //fix positions
-    setTailPosition((prevState) => {
-      return -35 + 35 * newData.length;
-    });
+    dispatch(queueActions.inputData(newData))
   };
 
   return (
@@ -93,16 +90,17 @@ const QueuePage = () => {
         removeHandler={Dequeue}
         addHandler={Enqueue}
         setRandomInput={setRandomInput}
-        isRemovedEnabled={isPop}
+        isRemovedEnabled={isAnimate}
+        isAddEnabled={isAnimate}
         addBtnText={"Enqueue"}
         removeBtnText={"Dequeue"}
         maxLengthOfValue={4}
       />
-      <AnimationWrapper line={0} code={[]}>
+      <AnimationWrapper line={state.line} code={queuePseudoCode}>
         <Queue
-          headPosition={headPosition}
-          tailPosition={tailPosition}
-          items={data}
+          headPosition={state.headPosition}
+          tailPosition={state.tailPosition}
+          items={state.data}
         />
       </AnimationWrapper>
     </>

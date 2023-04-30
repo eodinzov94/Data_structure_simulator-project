@@ -20,6 +20,7 @@ import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
 import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
 import ProfilePage from "../pages/ProfilePage";
+import EditProfilePage from "../pages/EditProfilePage";
 
 export interface RouteItem {
   path: string;
@@ -41,6 +42,7 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.HOME, element: HomePage },
   { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
   { path: RoutePaths.PROFILE, element: ProfilePage },
+  { path: RoutePaths.EDIT_PROFILE, element: EditProfilePage },
 
   //Animations
   { path: RoutePaths.STACK, element: StackPage },

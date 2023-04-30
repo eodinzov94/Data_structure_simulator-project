@@ -19,7 +19,6 @@ const StackPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.stack);
 
-  const [data, setData] = useState<Item[]>([]); //data of the stack
   const [isAnimate, setIsAnimate] = useState<boolean>(false);
   const popFromStack = async () => {
     setIsAnimate(true);
@@ -28,11 +27,6 @@ const StackPage = () => {
     await sleep(2000);
     if (state.data.length > 0) {
       //if the stack is not empty
-      //copy data and remove first element
-
-      const new_data = [...data];
-      new_data.splice(0, 1);
-      setData(new_data); //update data
 
       dispatch(stackActions.markTop());
       await sleep(2000);
