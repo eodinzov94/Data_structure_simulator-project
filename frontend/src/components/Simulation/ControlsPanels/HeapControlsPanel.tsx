@@ -29,7 +29,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
   const createHeapHandler = async () => {
     const res = getArrFromInputForHeap(15, inputArray);
     if (typeof res !== "string") {
-      controller.setArray(res);
+      controller.setArrFromInput(res);
       await Animate("Build-Max-Heap");
     } else {
       setCurrentError(res);
@@ -68,7 +68,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
         await controller.heapSort();
         return;
       case "Clear":
-        await controller.setArray([]);
+        await controller.setArrFromInput([]);
         return;
       default:
         return;
@@ -118,7 +118,7 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
                    disabled={isButtonDisabled}
                    className="mt-2 mr-2 bg-white hover:bg-lime-100 text-lime-800 font-semibold py-1 px-[5px] border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed"
                    onClick={async () => {
-                     await controller.setArray(generateRandomArrForHeap());
+                     await controller.setArrFromInput(generateRandomArrForHeap());
                      await Animate("Build-Max-Heap");
                    }}
             >

@@ -199,6 +199,7 @@ export class NodeObj {
           }
         }
       } catch (e) {
+        console.log(treeObjects);
         console.log(e);
       }
     }

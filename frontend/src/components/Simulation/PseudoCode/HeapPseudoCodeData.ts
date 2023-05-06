@@ -2,8 +2,9 @@ import { PseudoItem } from "./pc-helpers"
 
 export interface CodeReference {
     line: number,
-    name: keyof typeof HeapPseudoCode,
+    name: HeapAlgNames,
 }
+export type HeapAlgNames = keyof typeof HeapPseudoCode
 export const HeapPseudoCode = {
     BuildMaxHeap: [
         {text: "Build-Max-Heap(A)", tabAmount: 0},

@@ -1,6 +1,5 @@
 import {AppDispatch} from "../store/store";
 import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
-import {setActions, setRoles} from "../store/reducers/alghoritms/heap-reducer";
 import {CodeReference} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 abstract class AnimationController {
@@ -27,12 +26,12 @@ abstract class AnimationController {
   }
 
   setCurrentActions(actions: Events) {
-    this.dispatch(setActions(actions));
+    //implement in subclasses
   }
 
 
   setCurrentRoles(roles: NodeRole[]) {
-    this.dispatch(setRoles(roles));
+    //implement in subclasses
   }
 
   setPlaying(value: boolean) {
@@ -50,9 +49,7 @@ abstract class AnimationController {
   }
 
   async pause() {
-    this.pauseFlag = true;
-    this.clearTimeOuts();
-    this.setPlaying(false);
+
   }
 
   async jumpToEnd() {

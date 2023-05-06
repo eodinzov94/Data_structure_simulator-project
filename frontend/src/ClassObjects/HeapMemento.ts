@@ -1,92 +1,43 @@
-import {ActionType, Events, NodeRole} from '../components/Simulation/BinaryTree/BinaryTreeTypes'
-import {CodeReference} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import {ActionType, NodeRole} from '../components/Simulation/BinaryTree/BinaryTreeTypes'
+import {CodeReference, HeapAlgNames} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import {Memento} from "./Memento";
 
 
-interface HeapSnapshot {
-    actions: Events;
-    array: number[];
-    codeRef: CodeReference;
-    currentHeapSize?: number;
-    roles:NodeRole[]
-}
-
-
-export class HeapMemento  {
-    snapshots: HeapSnapshot[]
+export class HeapMemento extends Memento<number[],HeapAlgNames> {
+    heapSizeData: (number|undefined)[]
     constructor() {
-        this.snapshots = []
-    }
-    getArray(index: number){
-        if(index < 0 || index >= this.snapshots.length){
-            throw new Error('Index out of range')
-        }
-        return this.snapshots[index].array
-    }
-    getLastArr(){
-        if(!this.snapshots.length){
-            throw new Error('No snapshots')
-        }
-        return this.snapshots[this.snapshots.length -1].array
-    }
-    getRoles(index: number){
-        if(index < 0 || index >= this.snapshots.length){
-            throw new Error('Index out of range')
-        }
-        return this.snapshots[index].roles
-    }
-    getActions(index : number){
-        if (index < 0 || index >= this.snapshots.length){
-            throw new Error('Index out of range')
-        }
-        return this.snapshots[index].actions
-    }
-    clearSnapshots(){
-        this.snapshots = []
-    }
-    getCurrentAlg(){
-        if(this.snapshots.length){
-            return this.snapshots[0].codeRef.name
-        }
-        return 'BuildMaxHeap'
-    }
-    getCodeRef(index: number){
-        if(index < 0 || index >= this.snapshots.length){
-            throw new Error(`Index ${index} out of range, length is ${this.snapshots.length}`)
-        }
-        return this.snapshots[index].codeRef
+        super('BuildMaxHeap')
+        this.heapSizeData = []
     }
     addBlank(codeRef: CodeReference, array: number[],heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [],
-            array:HeapMemento.getArrayToAdd(this, array),
+            data:HeapMemento.getArrayToAdd(this, array),
             codeRef,
-            currentHeapSize: heapSize,
             roles:nodeRoles
         });
+        this.heapSizeData.push(heapSize)
     }
     getHeapSize(index: number){
-        if(index < 0 || index >= this.snapshots.length){
+        if(index < 0 || index >= this.heapSizeData.length){
             throw new Error('Index out of range')
         }
-        return this.snapshots[index].currentHeapSize
-
-
+        return this.heapSizeData[index]
     }
     getLastHeapSize(){
-        if(!this.snapshots.length){
+        if(!this.heapSizeData.length){
             throw new Error('No snapshots')
         }
-        return this.snapshots[this.getLength()-1].currentHeapSize
-
+        return this.heapSizeData[this.heapSizeData.length-1]
     }
     addSwap(codeRef: CodeReference, array: number[], index1: number, index2: number,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action: ActionType.SWAP, item: index1, item2: index2}],
-            array: [...array],
+            data: [...array],
             codeRef,
-            currentHeapSize: heapSize,
             roles:nodeRoles
         });
+        this.heapSizeData.push(heapSize)
     }
 
     getLength(){
@@ -96,11 +47,15 @@ export class HeapMemento  {
     addSnapshot(codeRef: CodeReference, array: number[], index: number, action: ActionType,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action, item: index}],
-            array: HeapMemento.getArrayToAdd(this, array),
+            data: HeapMemento.getArrayToAdd(this, array),
             codeRef,
-            currentHeapSize: heapSize,
             roles:nodeRoles
         });
+        this.heapSizeData.push(heapSize)
+    }
+    clearSnapshots() {
+        super.clearSnapshots()
+        this.heapSizeData = []
     }
 
     /**
@@ -112,14 +67,14 @@ export class HeapMemento  {
     **/
     static getArrayToAdd(memento:HeapMemento, runtimeArr: number[]) {
         //check if memento is empty or runtimeArr is not the same as last runtimeArr, if so new copy is needed
-      if(!memento.getLength() || runtimeArr.length !== memento.getLastArr().length){
+      if(!memento.getLength() || runtimeArr.length !== memento.getLastData().length){
           if (runtimeArr.length === 0) {
               return []
           }
           return [...runtimeArr]
       }
       try {
-          const lastArr = memento.getLastArr()
+          const lastArr = memento.getLastData()
           //check if runtimeArr is the same as the last runtimeArr
           for (let i = 0; i < runtimeArr.length; i++) {
               if (runtimeArr[i] !== lastArr[i]) {
