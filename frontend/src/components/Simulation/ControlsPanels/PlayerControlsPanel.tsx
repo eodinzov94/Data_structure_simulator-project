@@ -11,7 +11,7 @@ import { useAppSelector } from '../../../store/hooks'
 import AnimationController from '../../../ClassObjects/AnimationController'
 
 interface Props {
-  controller: AnimationController
+  controller: AnimationController<any,any>
 }
 
 const PlayerControlsPanel: FC<Props> = ({ controller }) => {
