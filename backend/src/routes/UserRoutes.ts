@@ -6,7 +6,8 @@ import Verify2FA_MW from '../middleware/Verify2FA_Middleware.js'
 import { CODE_TYPES } from '../types/TWOFA_Types.js'
 import FeedbackController from '../controllers/FeedbackController.js'
 
-
+/* Some routes use the auth middleware to make sure the user is authorized to access the page
+  Others use Verify2FA middleware to make sure users with 2FA on have an active token when trying to access these pages.*/
 const router = Router()
 router.post('/register', UserController.registration) //V
 router.post('/login', UserController.login)//V
