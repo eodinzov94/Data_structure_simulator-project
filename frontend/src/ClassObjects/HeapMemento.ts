@@ -1,8 +1,8 @@
-import { ActionType, Events, NodeRole } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
+import {ActionType, Events, NodeRole} from '../components/Simulation/BinaryTree/BinaryTreeTypes'
 import {CodeReference} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 
-interface Snapshot {
+interface HeapSnapshot {
     actions: Events;
     array: number[];
     codeRef: CodeReference;
@@ -11,13 +11,10 @@ interface Snapshot {
 }
 
 
-export class HeapMemento {
-    snapshots: Snapshot[];
+export class HeapMemento  {
+    snapshots: HeapSnapshot[]
     constructor() {
-        this.snapshots = [];
-    }
-    getLength(){
-        return this.snapshots.length
+        this.snapshots = []
     }
     getArray(index: number){
         if(index < 0 || index >= this.snapshots.length){
@@ -92,6 +89,10 @@ export class HeapMemento {
         });
     }
 
+    getLength(){
+        return this.snapshots.length
+    }
+
     addSnapshot(codeRef: CodeReference, array: number[], index: number, action: ActionType,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action, item: index}],
@@ -133,4 +134,5 @@ export class HeapMemento {
       }
 
     }
+
 }

@@ -12,8 +12,8 @@ export const PseudoCode = (props: PseudoProps) => {
     <div
       className={
         open
-          ? "basis-3/12 h-screen z-50 " + styles["div-side"]
-          : "h-screen z-50 " + styles["div-side"]
+          ? "basis-3/12 z-50 " + styles["div-side"]
+          : "z-50 " + styles["div-side"]
       }
     >
       <div>
@@ -28,7 +28,7 @@ export const PseudoCode = (props: PseudoProps) => {
             className={styles["aside-side"]}
             initial={{ width: 0 }}
             animate={{
-              width: 300,
+              width: "fit-content",
               borderWidth: "2px",
               borderRadius: "10px",
               borderColor: "#ecfccb",
@@ -67,7 +67,7 @@ export const PseudoCode = (props: PseudoProps) => {
                 >
                   <span>{index}.&emsp;</span>
                   {
-                    //this section responsable for the tabs before each line
+                    //this section responsible for the tabs before each line
                     [...Array(l.tabAmount)].map((x, i) => (
                       <span key={i}>&emsp;</span>
                     ))

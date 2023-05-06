@@ -81,7 +81,7 @@ const HeapPage: FC = () => {
       :
              <div className="relative grid place-content-center place-items-center gap-2 before:bg-gradient-to-t before:from-teal-500/70 before:via-fuchsia-600 before:to-transparent before:blur-xl before:filter">
                <h2 className="title text-3xl font-black text-lime-600">Min supported width for this simulation</h2>
-               <h2 className="cursive text-5xl font-thin text-lime-600">1120px</h2>
+               <h2 className="cursive text-5xl font-thin text-lime-600">1120px current width : {viewportWidth}</h2>
                <img
                       src={PhoneRotate}
                       alt="Rotate device"

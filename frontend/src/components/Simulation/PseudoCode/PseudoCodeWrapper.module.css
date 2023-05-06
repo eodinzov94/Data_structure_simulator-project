@@ -7,6 +7,7 @@
   }
   .aside-side {
     background-color: #ecfccb;
+    min-width: fit-content;
   }
   .button-side {
     cursor: pointer;

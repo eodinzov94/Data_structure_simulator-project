@@ -34,6 +34,7 @@ const BinaryTree: FC<BTProps> = (props) => {
           <BinaryTreeNode nodeObj={nodeObj} key={nodeObj.id} />
         ))}
       </AnimatePresence>
+
     </div>
   );
 };
