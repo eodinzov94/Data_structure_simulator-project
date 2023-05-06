@@ -7,9 +7,9 @@ import {
   HeapPseudoCodeList,
 } from "../../PseudoCode/HeapPseudoCodeData";
 
-export function arrayToBinaryTree(arr: number[]): TreeNode | null {
+export function arrayToBinaryTree(arr: number[]): TreeNode | undefined {
   if (!arr.length) {
-    return null;
+    return undefined;
   }
 
   const root: TreeNode = { value: arr[0], id: 0 };
@@ -230,4 +230,10 @@ export const combinePseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
        }
        return HeapPseudoCode[currentAlg]
 
+}
+export function calculateHeight(root: TreeNode | undefined | null): number {
+  if (!root) {
+    return 0;
+  }
+  return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1;
 }

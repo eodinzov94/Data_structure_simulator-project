@@ -1,19 +1,19 @@
 import AnimationController from "./AnimationController";
 import {BSTreeMemento} from "./BSTreeMemento";
-import {BST_Node} from "../components/Simulation/BST/BST_Algorithms";
+import {BST_Node, build} from "../components/Simulation/BST/BST_Algorithms";
 import {AppDispatch} from "../store/store";
 import {setActions, setCodeRef, setPlaying, setRoles, setRoot} from "../store/reducers/alghoritms/bst-reducer";
 import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 
 
-class BSTreeAnimationController extends AnimationController<BST_Node | null,string> {
+class BSTreeAnimationController extends AnimationController<BST_Node | undefined,string> {
     private static controller: null | BSTreeAnimationController = null
 
-    private constructor(root: BST_Node | null, dispatch: AppDispatch) {
+    private constructor(root: BST_Node | undefined, dispatch: AppDispatch) {
         super(dispatch, new BSTreeMemento(),root)
     }
 
-    static getController(root: BST_Node,
+    static getController(root: BST_Node | undefined,
                          dispatch: AppDispatch) {
         if (!BSTreeAnimationController.controller)
             BSTreeAnimationController.controller = new BSTreeAnimationController(root, dispatch)
@@ -21,7 +21,7 @@ class BSTreeAnimationController extends AnimationController<BST_Node | null,stri
     }
 
 
-    setRoot(node: BST_Node | null) {
+    setRoot(node: BST_Node | undefined) {
         this.dispatch(setRoot(node));
     }
 
@@ -58,18 +58,51 @@ class BSTreeAnimationController extends AnimationController<BST_Node | null,stri
         this.setCurrentRoles(this.memento.getRoles(index));
         this.setReference(this.memento.getCodeRef(index));
     }
-    initData(data: BST_Node | null) {
+    initData(data: BST_Node | undefined) {
         this.setReference({name: this.memento.getCurrentAlg(), line: 0});
         this.setRoot(data);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
     }
-    setTreeFromInput(root: BST_Node | null) {
+    setTreeFromInput(arr:number[]) {
+        const root = build(arr);
         this.data = root;
         this.memento.clearSnapshots();
         this.setRoot(root);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
+    }
+
+    async search() {
+
+    }
+
+    async insert() {
+
+    }
+
+    async deleteNode() {
+
+    }
+
+    async min() {
+
+    }
+
+    async max() {
+
+    }
+
+    async successor() {
+
+    }
+
+    async predecessor() {
+
+    }
+
+    async build() {
+
     }
 }
 

@@ -57,14 +57,14 @@ abstract class AnimationController<T, Y> {
         this.setPlaying(false);
         this.frame = 0;
     }
-    async playAlgorithm(algFunc: Function,...args: any[]) {
+
+    async playAlgorithm(algFunc: Function, ...args: any[]) {
         await this.initNewAnimation()
-        algFunc( ...args)
+        algFunc(...args)
         this.setReference({name: this.memento.getCurrentAlg(), line: 0})
         this.frame = 0
         await this.playAnimation()
     }
-
 
 
     setSpeed(speed: number) {
@@ -132,6 +132,7 @@ abstract class AnimationController<T, Y> {
     setCurrentRoles(roles: NodeRole[]) {
         //implement in subclasses
     }
+
     setPlaying(value: boolean) {
         //implement in subclasses
     }

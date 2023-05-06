@@ -25,7 +25,7 @@ const heapSlice = createSlice({
   name:'heap' ,
   initialState,
   reducers:{
-    setRoot(state,action:PayloadAction<TreeNode | null>){
+    setRoot(state,action:PayloadAction<TreeNode | undefined>){
       state.root = action.payload
       return state
     },

@@ -6,7 +6,7 @@ import {BST_Node} from "../../../components/Simulation/BST/BST_Algorithms";
 
 const initialState = {
     currentActions:[] as Events,
-    currentRoot:null as BST_Node | null,
+    currentRoot:undefined as BST_Node | undefined,
     isPlaying :false,
     inputArray:'',
     inputKey: 0,
@@ -19,7 +19,7 @@ const bstSlice = createSlice({
     name:'bst' ,
     initialState,
     reducers:{
-        setRoot(state,action:PayloadAction<BST_Node | null>){
+        setRoot(state,action:PayloadAction<BST_Node | undefined>){
             state.currentRoot = action.payload
             return state
         },

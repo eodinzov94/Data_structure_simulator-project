@@ -15,7 +15,7 @@ export class NodeObj {
   value: number;
   branch: BranchObj | null;
   action: ActionType;
-  parent: NodeObj | null;
+  parent: NodeObj | undefined;
   swapPosition: { x: number; y: number } | null;
   level: number;
   height: number;
@@ -29,7 +29,7 @@ export class NodeObj {
     id: number,
     value: number,
     viewportWidth: number,
-    parent: NodeObj | null,
+    parent: NodeObj | undefined,
     level: number,
     height: number,
     type: "root" | "left" | "right"
@@ -53,7 +53,7 @@ export class NodeObj {
   calculatePosition() {
     if (this.type === "root") {
       return;
-    } else if (this.parent === null || this.parent.position === null) {
+    } else if (this.parent === undefined || this.parent.position === undefined) {
       throw new Error("parent is null or parent position is null");
     }
     if (this.type === "left") {
@@ -78,7 +78,7 @@ export class NodeObj {
   createBranch() {
     if (this.type === "root") {
       return;
-    } else if (this.parent === null || this.parent.position === null) {
+    } else if (this.parent === undefined || this.parent.position === undefined) {
       throw new Error("parent is null or parent position is null");
     } else {
       this.branch = new BranchObj({
@@ -103,7 +103,7 @@ export class NodeObj {
     viewportWidth: number,
     height: number,
     speed: number,
-    root: TreeNode | null,
+    root: TreeNode | undefined,
     level: number,
     currentHeapSize?: number
   ): NodeObj[] {
@@ -120,7 +120,7 @@ export class NodeObj {
           root.id,
           root.value,
           viewportWidth,
-          null,
+          undefined,
           level,
           height,
           "root"

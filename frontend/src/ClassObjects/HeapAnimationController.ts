@@ -75,7 +75,7 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
         this.stopFlag = false;
     }
 
-    setRoot(node: TreeNode | null) {
+    setRoot(node: TreeNode | undefined) {
         this.dispatch(setRoot(node));
     }
 

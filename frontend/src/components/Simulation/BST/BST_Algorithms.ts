@@ -6,7 +6,7 @@ export interface BST_Node extends TreeNode {
     right?: BST_Node;
 }
 
-function search(root: BST_Node | undefined, k: number): BST_Node | undefined {
+export function search(root: BST_Node | undefined, k: number): BST_Node | undefined {
     if (!root || root.value === k) {
         return root;
     }
@@ -16,7 +16,6 @@ function search(root: BST_Node | undefined, k: number): BST_Node | undefined {
         return search(root.right, k);
     }
 }
-
 export function insert(
     root: BST_Node | undefined,
     new_node: BST_Node
@@ -46,7 +45,7 @@ export function insert(
     return root;
 }
 
-function deleteNode(root: BST_Node, x: TreeNode): BST_Node | undefined {
+export function deleteNode(root: BST_Node, x: TreeNode): BST_Node | undefined {
     if (!x.left && !x.right) {
         if (x.value < root.value) {
             root.left = undefined;
@@ -70,21 +69,21 @@ function deleteNode(root: BST_Node, x: TreeNode): BST_Node | undefined {
     return undefined;
 }
 
-function min(root: TreeNode): TreeNode {
+export function min(root: TreeNode): TreeNode {
     while (root.left) {
         root = root.left;
     }
     return root;
 }
 
-function max(root: TreeNode): TreeNode {
+export function max(root: TreeNode): TreeNode {
     while (root.right) {
         root = root.right;
     }
     return root;
 }
 
-function successor(root: BST_Node, x: TreeNode): BST_Node | undefined {
+export function successor(root: BST_Node, x: TreeNode): BST_Node | undefined {
     if (root.right) {
         return min(root.right);
     }
@@ -96,7 +95,7 @@ function successor(root: BST_Node, x: TreeNode): BST_Node | undefined {
     return y;
 }
 
-function predecessor(root: BST_Node, x: BST_Node): BST_Node | undefined {
+export function predecessor(root: BST_Node, x: BST_Node): BST_Node | undefined {
     if (root.left) {
         return max(root.left);
     }
@@ -108,7 +107,7 @@ function predecessor(root: BST_Node, x: BST_Node): BST_Node | undefined {
     return y;
 }
 
-function build(input: number[]): BST_Node | undefined {
+export function build(input: number[]): BST_Node | undefined {
     let root: BST_Node | undefined = undefined;
     for (let i = 0; i < input.length; i++) {
         let node: BST_Node = {
@@ -136,7 +135,7 @@ function getMaxId(root: BST_Node | undefined): number {
 
 
 
-function createNewNode(currentRoot: BST_Node | undefined, value: number): BST_Node {
+export function createNewNode(currentRoot: BST_Node | undefined, value: number): BST_Node {
     return {
         value: value,
         id: Math.max(countNodes(currentRoot), getMaxId(currentRoot))+ 1,

@@ -5,7 +5,7 @@ import { NodeObj } from "../../../ClassObjects/NodeObj";
 import { AnimatePresence } from "framer-motion";
 
 interface BTProps {
-  root: TreeNode | null;
+  root: TreeNode | undefined;
   level: number;
   speed: number;
   height: number;
