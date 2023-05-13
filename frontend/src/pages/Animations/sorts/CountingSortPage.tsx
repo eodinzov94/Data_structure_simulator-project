@@ -12,6 +12,7 @@ import { CountingSort } from "../../../components/Simulation/Sorts/CountingSort/
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import countingSortPhoto from "../../../assets/Algorithms/CS1.png";
+import SortController from "../../../ClassObjects/SortController";
 
 const MAX_ELEMENTS = 10;
 
@@ -22,17 +23,12 @@ const CountingSortPage = () => {
   const abortRef = useRef(false);
   const setAbortTrue = () => (abortRef.current = true);
   const setAbortFalse = () => (abortRef.current = false);
+  const controller = SortController.getController(dispatch);
 
   const Sort = async () => {
     setAbortFalse();
     const opArr: countingSortOperation[] = CountingSort([...state.A], state.k);
-    for (var op of opArr) {
-      if (abortRef.current) {
-        break;
-      }
-      dispatch(op.action(op.payload));
-      await sleep(2000);
-    }
+    await controller.Sort(opArr);
   };
 
   const setInput = (data: number[]) => {
@@ -61,7 +57,7 @@ const CountingSortPage = () => {
       ></SortControlsPanel>
 
       {/* animation section */}
-      <AnimationWrapper line={state.line} code={CountingSortPseudoCode}>
+      <AnimationWrapper line={state.line} code={CountingSortPseudoCode} controller={controller}>
         <IndexArray size={state.A.length + 1} i={state.indexA} />
         <SortArray items={state.A} />
 

@@ -8,6 +8,7 @@ import quickSortReducer from "./reducers/quickSortReducer";
 import stackReducer from "./reducers/stackReducer";
 import { feedbackApi } from "./reducers/feedback-reducer";
 import queueReducer from "./reducers/queueReducer";
+import animationControlReducer from "./reducers/animation-control-reducer";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     stack: stackReducer,
     queue: queueReducer,
     heap: heapReducer,
+    animationController: animationControlReducer,
     [reportApi.reducerPath]: reportApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [feedbackApi.reducerPath]: feedbackApi.reducer,

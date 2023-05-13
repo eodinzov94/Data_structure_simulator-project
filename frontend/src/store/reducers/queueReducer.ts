@@ -39,6 +39,8 @@ const queueSlice = createSlice({
         new_data.splice(0, 1);
         state.data = new_data
         state.tailPosition -= 35
+        state.headPosition.curr -= 35
+
     },
     moveTail(state,action: PayloadAction<number>){
         state.tailPosition += action.payload

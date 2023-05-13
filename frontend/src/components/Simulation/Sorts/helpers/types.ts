@@ -12,6 +12,10 @@ export interface sortItem {
   color: string;
 }
 
+export type SortOperations =
+  quickSortOperation[]
+  | countingSortOperation[];
+
 export interface quickSortOperation {
   action: any;
   payload: quickSortPayload;
