@@ -8,7 +8,7 @@ import HeapControlsPanel from "../../../components/Simulation/ControlsPanels/Hea
 import {FC, useEffect, useState} from "react";
 import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
 import PhoneRotate from "../../../assets/rotateTablet.svg";
-import {calculateHeight, combinePseudoCodes} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
+import {calculateHeight, combineHeapPseudoCodes} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 
 const HeapPage: FC = () => {
     const root = useAppSelector((state) => state.heap.root); //TODO:Randomize input
@@ -66,7 +66,7 @@ const HeapPage: FC = () => {
                         <div className=" w-fit">
                             <PseudoCodeContainer
                                 line={currentLine}
-                                code={combinePseudoCodes(currentAlg)}
+                                code={combineHeapPseudoCodes(currentAlg)}
                             />
                         </div>
                     </div>

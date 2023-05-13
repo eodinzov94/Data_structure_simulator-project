@@ -6,13 +6,13 @@ import {BSTreeNode} from "./BSTreeNode";
 
 export class BSTreeMemento  extends Memento<BSTreeNode | undefined,string> {
     constructor() {
-        super('Stam')
+        super('Search')
     }
 
     addBlank(codeRef: any, tree: BSTreeNode | undefined, heapSize?: number, nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [],
-            data:BSTreeMemento.getTreeToAdd(tree),
+            data:BSTreeNode.deepCopy(tree),
             codeRef,
             roles:nodeRoles
         });
@@ -20,7 +20,7 @@ export class BSTreeMemento  extends Memento<BSTreeNode | undefined,string> {
     addSwap(codeRef: any, tree: BSTreeNode | undefined, index1: number, index2: number, heapSize?: number, nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action: ActionType.SWAP, item: index1, item2: index2}],
-            data: BSTreeMemento.getTreeToAdd(tree),
+            data: BSTreeNode.deepCopy(tree),
             codeRef,
             roles:nodeRoles
         });
@@ -30,35 +30,21 @@ export class BSTreeMemento  extends Memento<BSTreeNode | undefined,string> {
         return this.snapshots.length
     }
 
-    addSnapshot(codeRef: any, tree: BSTreeNode | undefined, index: number, action: ActionType, heapSize?: number, nodeRoles:NodeRole[]=[]) {
+    addSnapshot(codeRef: any, tree: BSTreeNode | undefined, index: number, action: ActionType, nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action, item: index}],
-            data:BSTreeMemento.getTreeToAdd(tree),
+            data:BSTreeNode.deepCopy(tree),
             codeRef,
             roles:nodeRoles
         });
     }
-
-    static getTreeToAdd(runtimeTree: BSTreeNode | undefined) {
-        if (!runtimeTree) {
-            return undefined;
-        }
-
-        const newNode: BSTreeNode = {
-            value: runtimeTree.value,
-            id: runtimeTree.id,
-            left: BSTreeMemento.getTreeToAdd(runtimeTree.left),
-            right: BSTreeMemento.getTreeToAdd(runtimeTree.right),
-        };
-
-        if (newNode.left) {
-            newNode.left.parent = newNode;
-        }
-        if (newNode.right) {
-            newNode.right.parent = newNode;
-        }
-
-        return newNode;
+    addDoubleSnapShot(codeRef: any, tree: BSTreeNode | undefined, index1: number, index2: number, action: ActionType, nodeRoles:NodeRole[]=[]) {
+        this.snapshots.push({
+            actions: [{action, item: index1},{action, item: index2}],
+            data:BSTreeNode.deepCopy(tree),
+            codeRef,
+            roles:nodeRoles
+        });
     }
 
 }

@@ -1,8 +1,8 @@
 import { PseudoItem } from "./pc-helpers"
 
-export interface CodeReference {
+export interface CodeReference<T> {
     line: number,
-    name: HeapAlgNames,
+    name: T,
 }
 export type HeapAlgNames = keyof typeof HeapPseudoCode
 export const HeapPseudoCode = {

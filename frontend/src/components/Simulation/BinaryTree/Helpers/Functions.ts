@@ -6,6 +6,7 @@ import {
   HeapPseudoCodeKeys,
   HeapPseudoCodeList,
 } from "../../PseudoCode/HeapPseudoCodeData";
+import {BSTPseudoCode, BSTPseudoCodeKeys, BSTPseudoCodeList} from "../../PseudoCode/BSTreePseudoCodeData";
 
 export function arrayToBinaryTree(arr: number[]): TreeNode | undefined {
   if (!arr.length) {
@@ -202,7 +203,7 @@ export const generateRandomArrForHeap = () =>{
   return randomArray;
 }
 
-export const combinePseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
+export const combineHeapPseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
        if(HeapPseudoCodeList[currentAlg].length===2){
          const alg1 = HeapPseudoCodeList[currentAlg][0]
          const alg2 = HeapPseudoCodeList[currentAlg][1]
@@ -211,6 +212,17 @@ export const combinePseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
          return [...code1,{ text: "", tabAmount: 1 },...code2]
        }
        return HeapPseudoCode[currentAlg]
+
+}
+export const combineBSTPseudoCodes = (currentAlg:BSTPseudoCodeKeys) => {
+  if(BSTPseudoCodeList[currentAlg].length===2){
+    const alg1 = BSTPseudoCodeList[currentAlg][0]
+    const alg2 = BSTPseudoCodeList[currentAlg][1]
+    const code1 = BSTPseudoCode[alg1]
+    const code2 = BSTPseudoCode[alg2]
+    return [...code1,{ text: "", tabAmount: 1 },...code2]
+  }
+  return BSTPseudoCode[currentAlg]
 
 }
 export function calculateHeight(root: TreeNode | undefined | null): number {

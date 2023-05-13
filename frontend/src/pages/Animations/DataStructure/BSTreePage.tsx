@@ -4,9 +4,11 @@ import {useDispatch} from "react-redux";
 import PlayerControlsPanel from "../../../components/Simulation/ControlsPanels/PlayerControlsPanel";
 import {FC, useEffect, useState} from "react";
 import PhoneRotate from "../../../assets/rotateTablet.svg";
-import {calculateHeight} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
+import {calculateHeight, combineBSTPseudoCodes} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 import BSTreeControlsPanel from "../../../components/Simulation/ControlsPanels/BSTreeControlsPanel";
+import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
+import {PseudoItem} from "../../../components/Simulation/PseudoCode/pc-helpers";
 
 
 const HeapPage: FC = () => {
@@ -20,6 +22,8 @@ const HeapPage: FC = () => {
         useDispatch()
     );
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+    // @ts-ignore
+    window.memento = controller.memento
     useEffect(() => {
         function handleResize() {
             setViewportWidth(window.innerWidth);
@@ -40,6 +44,7 @@ const HeapPage: FC = () => {
                     <BSTreeControlsPanel controller={controller}/>
                     <div className="container mx-auto max-w-7xl px-0 py-0 mt-96">
                         <BinaryTree
+                            isBsTree={true}
                             viewportWidth={viewportWidth}
                             root={root}
                             level={0}
@@ -50,14 +55,14 @@ const HeapPage: FC = () => {
                         />
                     </div>
                     <PlayerControlsPanel controller={controller}/>
-                    {/*TODO:<div className="flex justify-end mr-5">*/}
-                    {/*    <div className=" w-fit">*/}
-                    {/*        <PseudoCodeContainer*/}
-                    {/*            line={currentLine}*/}
-                    {/*            code={combinePseudoCodes(currentAlg)}*/}
-                    {/*        />*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                   <div className="flex justify-end mr-5">
+                        <div className=" w-fit">
+                            <PseudoCodeContainer
+                                line={currentLine}
+                                code={combineBSTPseudoCodes(currentAlg) as PseudoItem[]}
+                            />
+                        </div>
+                    </div>
                 </>
                 :
                 <div

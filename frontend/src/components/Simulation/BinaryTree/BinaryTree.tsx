@@ -13,10 +13,11 @@ interface BTProps {
   currentHeapSize?: number;
   roles: NodeRole[];
   viewportWidth: number;
+  isBsTree?: boolean;
 }
 
 const BinaryTree: FC<BTProps> = (props) => {
-  const { speed, level, root, height, actions, currentHeapSize, roles,viewportWidth } = props;
+  const { speed, level, root, height, actions, currentHeapSize, roles,viewportWidth,isBsTree } = props;
   const treeObjects = NodeObj.generateTreeObjects(
     viewportWidth,
     height,
@@ -25,8 +26,8 @@ const BinaryTree: FC<BTProps> = (props) => {
     level,
     currentHeapSize
   );
-  NodeObj.setActions(treeObjects, actions);
-  NodeObj.setRoles(treeObjects, roles);
+  NodeObj.setActions(treeObjects, actions, isBsTree);
+  NodeObj.setRoles(treeObjects, roles, isBsTree);
   return (
     <div>
       <AnimatePresence>

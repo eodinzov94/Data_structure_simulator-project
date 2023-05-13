@@ -9,7 +9,7 @@ export class HeapMemento extends Memento<number[],HeapAlgNames> {
         super('BuildMaxHeap')
         this.heapSizeData = []
     }
-    addBlank(codeRef: CodeReference, array: number[],heapSize?: number,nodeRoles:NodeRole[]=[]) {
+    addBlank(codeRef: CodeReference<HeapAlgNames>, array: number[],heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [],
             data:HeapMemento.getArrayToAdd(this, array),
@@ -30,7 +30,7 @@ export class HeapMemento extends Memento<number[],HeapAlgNames> {
         }
         return this.heapSizeData[this.heapSizeData.length-1]
     }
-    addSwap(codeRef: CodeReference, array: number[], index1: number, index2: number,heapSize?: number,nodeRoles:NodeRole[]=[]) {
+    addSwap(codeRef: CodeReference<HeapAlgNames>, array: number[], index1: number, index2: number,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action: ActionType.SWAP, item: index1, item2: index2}],
             data: [...array],
@@ -44,7 +44,7 @@ export class HeapMemento extends Memento<number[],HeapAlgNames> {
         return this.snapshots.length
     }
 
-    addSnapshot(codeRef: CodeReference, array: number[], index: number, action: ActionType,heapSize?: number,nodeRoles:NodeRole[]=[]) {
+    addSnapshot(codeRef: CodeReference<HeapAlgNames>, array: number[], index: number, action: ActionType,heapSize?: number,nodeRoles:NodeRole[]=[]) {
         this.snapshots.push({
             actions: [{action, item: index}],
             data: HeapMemento.getArrayToAdd(this, array),

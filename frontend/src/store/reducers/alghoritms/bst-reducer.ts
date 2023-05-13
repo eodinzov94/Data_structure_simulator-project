@@ -2,16 +2,14 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {Events, NodeRole} from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import {CodeReference} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
 import {BSTreeNode} from "../../../ClassObjects/BSTreeNode";
+import {BSTAlgNames} from "../../../components/Simulation/PseudoCode/BSTreePseudoCodeData";
 
 const initialState = {
     currentActions:[] as Events,
     currentRoot:undefined as BSTreeNode | undefined,
     isPlaying :false,
     inputArray:'',
-    inputSearch: 0,
-    inputDelete: 0,
-    inputKey: 0,
-    currentAlg: 'Stam', //as keyof typeof BST_PseudoCode,
+    currentAlg: 'Search' as BSTAlgNames,
     currentLine:0,
     currentRoles:[] as NodeRole[],
     inputValues: {
@@ -41,19 +39,11 @@ const bstSlice = createSlice({
             state.inputArray = action.payload
             return state
         },
-        setInputKey(state,action:PayloadAction<number>){
-            state.inputKey = action.payload
+        setInput(state,action:PayloadAction<{val:number,key:"Search"|"Insert"|"DeleteNode"}>){
+            state.inputValues[action.payload.key] = action.payload.val
             return state
         },
-        setInputSearch(state,action:PayloadAction<number>){
-            state.inputSearch = action.payload
-            return state
-        },
-        setInputDelete(state,action:PayloadAction<number>){
-            state.inputDelete = action.payload
-            return state
-        },
-        setCodeRef(state, action:PayloadAction<CodeReference>){
+        setCodeRef(state, action:PayloadAction<CodeReference<BSTAlgNames>>){
             state.currentAlg = action.payload.name
             state.currentLine = action.payload.line
             return state
@@ -69,9 +59,7 @@ export default bstSlice.reducer;
 export const {
     setRoot,
     setCodeRef,
-    setInputKey,
-    setInputSearch,
-    setInputDelete,
+    setInput,
     setInputArray,
     setPlaying,
     setActions,

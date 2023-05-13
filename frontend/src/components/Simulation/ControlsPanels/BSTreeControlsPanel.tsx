@@ -1,15 +1,9 @@
-import { Alert, Input } from "@mui/material";
+import {Alert, Input} from "@mui/material";
 import React, {FC, useEffect, useState} from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import {
-  setInputArray, setInputDelete,
-  setInputKey, setInputSearch,
-} from "../../../store/reducers/alghoritms/bst-reducer";
-import {
-  generateRandomArrForHeap,
-  getArrFromInputForHeap,
-} from "../BinaryTree/Helpers/Functions";
-import { sleep } from "../../../utils/animation-helpers";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {setInput, setInputArray,} from "../../../store/reducers/alghoritms/bst-reducer";
+import {generateRandomArrForHeap, getArrFromInputForHeap,} from "../BinaryTree/Helpers/Functions";
+import {sleep} from "../../../utils/animation-helpers";
 import MediumCard from "../../UI/MediumCard";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 
@@ -21,9 +15,7 @@ const buttonClassname =
   "bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed";
 const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
   const inputArray = useAppSelector((state) => state.bst.inputArray);
-  const inputKey = useAppSelector((state) => state.bst.inputKey);
-  const inputDelete = useAppSelector((state) => state.bst.inputDelete);
-  const inputSearch = useAppSelector((state) => state.bst.inputSearch);
+  const inputValues = useAppSelector((state) => state.bst.inputValues);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
@@ -46,8 +38,9 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
 
   const handleInput = (e: any) => {
     const val = Number(e.target.value);
+    const key = e.target.name
     if (val < 1000 && val > -1) {
-      dispatch(setInputKey(val));
+      dispatch(setInput({val, key}));
     } else {
       setCurrentError("Please enter a number between 0 and 999");
     }
@@ -61,10 +54,10 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
     }, 1500);
     switch (animation) {
       case "Search":
-        await controller.search();
+        await controller.search(inputValues.Search);
         return;
       case "Insert":
-        await controller.insert();
+        await controller.insert(inputValues.Insert);
         return;
       case "DeleteNode":
         await controller.deleteNode();
@@ -162,14 +155,15 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
               <br />
               <Input
                 sx={{ width: "25px", marginTop: "9px" }}
-                // value={handleInput[text as "Search" | "Insert"| "DeleteNode"]}
+                value={inputValues[text as "Search" | "Insert"| "DeleteNode"]}
+                name = {text as "Search" | "Insert"| "DeleteNode"}
                 type="text"
                 inputProps={{
                   min: 0,
                   max: 999,
                   style: { textAlign: "center" },
                 }}
-                // onChange={changeInputValue([text as "Search" | "Insert"| "DeleteNode"]}
+                 onChange={handleInput}
               />
             </div>
           ))}

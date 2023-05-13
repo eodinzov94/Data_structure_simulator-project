@@ -2,7 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NodeRole, TreeNode } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { Events } from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import { arrayToBinaryTree } from '../../../components/Simulation/BinaryTree/Helpers/Functions'
-import {CodeReference, HeapPseudoCode} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import {
+  CodeReference,
+  HeapAlgNames,
+  HeapPseudoCode
+} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 
 
@@ -50,7 +54,7 @@ const heapSlice = createSlice({
       state.inputKey = action.payload
       return state
     },
-    setCodeRef(state, action:PayloadAction<CodeReference>){
+    setCodeRef(state, action:PayloadAction<CodeReference<HeapAlgNames>>){
       state.currentAlg = action.payload.name
       state.currentLine = action.payload.line
       return state

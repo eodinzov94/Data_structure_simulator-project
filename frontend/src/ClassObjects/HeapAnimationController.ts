@@ -36,15 +36,31 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
     }
 
     async buildMaxHeap() {
-        await this.playAlgorithm(buildMaxHeap, [...this.data], this.memento)
+        try{
+            const lastData = this.memento.getLastData();
+            await this.playAlgorithm(buildMaxHeap, lastData, this.memento)
+        }catch (e) {
+            await this.playAlgorithm(buildMaxHeap, [...this.data], this.memento)
+        }
+
     }
 
     async heapMax() {
-        await this.playAlgorithm(heapMax, [...this.data], this.memento)
+        try{
+            const lastData = this.memento.getLastData();
+            await this.playAlgorithm(heapMax, lastData, this.memento)
+        }catch (e) {
+            await this.playAlgorithm(heapMax, [...this.data], this.memento)
+        }
     }
 
     async extractMax() {
-        await this.playAlgorithm(heapExtractMax, [...this.data], this.memento)
+        try{
+            const lastData = this.memento.getLastData();
+            await this.playAlgorithm(heapExtractMax, lastData, this.memento)
+        }catch (e) {
+            await this.playAlgorithm(heapExtractMax, [...this.data], this.memento)
+        }
 
     }
 
@@ -52,11 +68,22 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
         if (this.data.length === 15) {
             throw new Error("Array is full");
         }
-        await this.playAlgorithm(maxHeapInsert, [...this.data], this.memento, key)
+        try{
+            const lastData = this.memento.getLastData();
+            await this.playAlgorithm(maxHeapInsert, lastData, this.memento, key)
+        }catch (e) {
+            await this.playAlgorithm(maxHeapInsert, [...this.data], this.memento, key)
+        }
+
     }
 
     async heapSort() {
-        await this.playAlgorithm(maxHeapSort, [...this.data], this.memento)
+        try{
+            const lastData = this.memento.getLastData();
+            await this.playAlgorithm(maxHeapSort, lastData, this.memento)
+        }catch (e) {
+            await this.playAlgorithm(maxHeapSort, [...this.data], this.memento)
+        }
     }
 
     async initNewAnimation() {
@@ -109,7 +136,7 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
         this.setCurrentArr(this.memento.getData(frame), (this.memento as HeapMemento).getHeapSize(frame));
     }
 
-    setReference(ref: CodeReference) {
+    setReference(ref: CodeReference<HeapAlgNames>) {
         this.dispatch(setCodeRef(ref));
     }
 
