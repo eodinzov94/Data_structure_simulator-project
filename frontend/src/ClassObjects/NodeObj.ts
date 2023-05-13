@@ -5,6 +5,7 @@ import {
   NodeRole,
 } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 import { TreeNode } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import {BSTreeNode} from "./BSTreeNode";
 
 export class NodeObj {
   static availableSpace = 600;
@@ -103,7 +104,7 @@ export class NodeObj {
     viewportWidth: number,
     height: number,
     speed: number,
-    root: TreeNode | undefined,
+    root: TreeNode | undefined | BSTreeNode,
     level: number,
     currentHeapSize?: number
   ): NodeObj[] {

@@ -6,6 +6,7 @@ import {FC, useEffect, useState} from "react";
 import PhoneRotate from "../../../assets/rotateTablet.svg";
 import {calculateHeight} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
+import BSTreeControlsPanel from "../../../components/Simulation/ControlsPanels/BSTreeControlsPanel";
 
 
 const HeapPage: FC = () => {
@@ -36,8 +37,8 @@ const HeapPage: FC = () => {
         <>
             {fitsAnimation ?
                 <>
-                    {/* TODO: <BSTreeControlsPanel controller={controller}/>*/}
-                    <div className="container mx-auto max-w-7xl px-0 py-0">
+                    <BSTreeControlsPanel controller={controller}/>
+                    <div className="container mx-auto max-w-7xl px-0 py-0 mt-96">
                         <BinaryTree
                             viewportWidth={viewportWidth}
                             root={root}

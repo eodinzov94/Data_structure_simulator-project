@@ -1,25 +1,31 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {Events, NodeRole} from '../../../components/Simulation/BinaryTree/BinaryTreeTypes'
 import {CodeReference} from "../../../components/Simulation/PseudoCode/HeapPseudoCodeData";
-import {BST_Node} from "../../../components/Simulation/BST/BST_Algorithms";
-
+import {BSTreeNode} from "../../../ClassObjects/BSTreeNode";
 
 const initialState = {
     currentActions:[] as Events,
-    currentRoot:undefined as BST_Node | undefined,
+    currentRoot:undefined as BSTreeNode | undefined,
     isPlaying :false,
     inputArray:'',
+    inputSearch: 0,
+    inputDelete: 0,
     inputKey: 0,
-    currentAlg: 'Stam', //as keyof typeof HeapPseudoCode,
+    currentAlg: 'Stam', //as keyof typeof BST_PseudoCode,
     currentLine:0,
-    currentRoles:[] as NodeRole[]
+    currentRoles:[] as NodeRole[],
+    inputValues: {
+        Search: 1,
+        Insert: 2,
+        DeleteNode: 3,
+    }
 };
 
 const bstSlice = createSlice({
     name:'bst' ,
     initialState,
     reducers:{
-        setRoot(state,action:PayloadAction<BST_Node | undefined>){
+        setRoot(state,action:PayloadAction<BSTreeNode | undefined>){
             state.currentRoot = action.payload
             return state
         },
@@ -39,6 +45,14 @@ const bstSlice = createSlice({
             state.inputKey = action.payload
             return state
         },
+        setInputSearch(state,action:PayloadAction<number>){
+            state.inputSearch = action.payload
+            return state
+        },
+        setInputDelete(state,action:PayloadAction<number>){
+            state.inputDelete = action.payload
+            return state
+        },
         setCodeRef(state, action:PayloadAction<CodeReference>){
             state.currentAlg = action.payload.name
             state.currentLine = action.payload.line
@@ -56,6 +70,8 @@ export const {
     setRoot,
     setCodeRef,
     setInputKey,
+    setInputSearch,
+    setInputDelete,
     setInputArray,
     setPlaying,
     setActions,

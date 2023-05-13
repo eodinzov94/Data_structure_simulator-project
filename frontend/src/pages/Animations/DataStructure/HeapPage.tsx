@@ -11,7 +11,7 @@ import PhoneRotate from "../../../assets/rotateTablet.svg";
 import {calculateHeight, combinePseudoCodes} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 
 const HeapPage: FC = () => {
-    const root = useAppSelector((state) => state.heap.root);
+    const root = useAppSelector((state) => state.heap.root); //TODO:Randomize input
     const currentActions = useAppSelector((state) => state.heap.currentActions);
     const currentArr = useAppSelector((state) => state.heap.currentArr);
     const currentAlg = useAppSelector((state) => state.heap.currentAlg);

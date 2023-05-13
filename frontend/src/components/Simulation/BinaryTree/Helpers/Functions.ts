@@ -165,24 +165,6 @@ export function getHeapArrayAnimationsAndStyles(
   return { initial, animate, style };
 }
 
-export function binaryHeapToArray(root: TreeNode): number[] {
-  const queue: TreeNode[] = [root];
-  const result: number[] = [];
-
-  while (queue.length > 0) {
-    const node = queue.shift()!;
-    result.push(node.value);
-
-    if (node.left) {
-      queue.push(node.left);
-    }
-    if (node.right) {
-      queue.push(node.right);
-    }
-  }
-
-  return result;
-}
 
 export function getArrFromInputForHeap(maxSize: number, data: string, maxNum=999,minNum = 0) {
   let list = data.split(",");

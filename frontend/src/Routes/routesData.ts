@@ -20,6 +20,7 @@ import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
 import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
 import ProfilePage from "../pages/ProfilePage";
+import BSTreePage from "../pages/Animations/DataStructure/BSTreePage";
 
 export interface RouteItem {
   path: string;
@@ -46,6 +47,8 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
   { path: RoutePaths.HEAP, element: HeapPage },
+  { path: RoutePaths.BST, element: BSTreePage },
+  // { path: RoutePaths.BST, element: BSTreePage },TODO
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
   { path: RoutePaths.INSERTION_SORT, element: InsertionSortPage },
   { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },

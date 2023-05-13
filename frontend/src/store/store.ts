@@ -23,7 +23,7 @@ const store = configureStore({
         [feedbackApi.reducerPath]: feedbackApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat([
+        getDefaultMiddleware({serializableCheck: false}).concat([ // serializableCheck: false - do not delete!
             reportApi.middleware,
             authApi.middleware,
             feedbackApi.middleware,
@@ -33,7 +33,7 @@ const store = configureStore({
 export default store;
 
 /*********TYPES:**********/
-//needed in order to import the state - we use this type in the selcet function in each slice:
+//needed in order to import the state - we use this type in the select function in each slice:
 export type RootState = ReturnType<typeof store.getState>;
 //we need this type in order to dispatch the action:
 export type AppDispatch = typeof store.dispatch;

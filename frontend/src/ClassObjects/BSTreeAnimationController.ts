@@ -1,19 +1,20 @@
 import AnimationController from "./AnimationController";
 import {BSTreeMemento} from "./BSTreeMemento";
-import {BST_Node, build} from "../components/Simulation/BST/BST_Algorithms";
+import {build} from "../components/Simulation/BST/BST_Algorithms";
 import {AppDispatch} from "../store/store";
 import {setActions, setCodeRef, setPlaying, setRoles, setRoot} from "../store/reducers/alghoritms/bst-reducer";
 import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import {BSTreeNode} from "./BSTreeNode";
 
 
-class BSTreeAnimationController extends AnimationController<BST_Node | undefined,string> {
+class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined,string> {
     private static controller: null | BSTreeAnimationController = null
 
-    private constructor(root: BST_Node | undefined, dispatch: AppDispatch) {
+    private constructor(root: BSTreeNode | undefined, dispatch: AppDispatch) {
         super(dispatch, new BSTreeMemento(),root)
     }
 
-    static getController(root: BST_Node | undefined,
+    static getController(root: BSTreeNode | undefined,
                          dispatch: AppDispatch) {
         if (!BSTreeAnimationController.controller)
             BSTreeAnimationController.controller = new BSTreeAnimationController(root, dispatch)
@@ -21,7 +22,7 @@ class BSTreeAnimationController extends AnimationController<BST_Node | undefined
     }
 
 
-    setRoot(node: BST_Node | undefined) {
+    setRoot(node: BSTreeNode | undefined) {
         this.dispatch(setRoot(node));
     }
 
@@ -58,7 +59,7 @@ class BSTreeAnimationController extends AnimationController<BST_Node | undefined
         this.setCurrentRoles(this.memento.getRoles(index));
         this.setReference(this.memento.getCodeRef(index));
     }
-    initData(data: BST_Node | undefined) {
+    initData(data: BSTreeNode | undefined) {
         this.setReference({name: this.memento.getCurrentAlg(), line: 0});
         this.setRoot(data);
         this.setCurrentActions([]);
