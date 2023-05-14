@@ -77,6 +77,7 @@ const QuickSortPage = () => {
   };
 
   const setInput = (data: number[]) => {
+    setAbortTrue();
     dispatch(ActionKind.init(data));
   };
 
