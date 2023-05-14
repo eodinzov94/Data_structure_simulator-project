@@ -30,7 +30,7 @@ const PlayerControlsPanel: FC<Props> = ({controller}) => {
         <>
             <ButtonGroup variant='outlined' aria-label='outlined button group' className='mt-10'>
                 <ThemeProvider theme={theme}>
-                    <Tooltip title="Speed">
+                    <Tooltip title="Speed" arrow>
                         <Box className='mt-1 mr-5 w-28'>
                             <Stack spacing={2} direction='row' alignItems='center'>
                                 <SpeedIcon color='primary' fontSize="large"/>
@@ -39,29 +39,29 @@ const PlayerControlsPanel: FC<Props> = ({controller}) => {
                             </Stack>
                         </Box>
                     </Tooltip>
-                    <Tooltip title="Jump to start">
+                    <Tooltip title="Jump to start" arrow>
                         <Button onClick={async () => await controller.jumpToStart()}><SkipPreviousIcon/></Button>
                     </Tooltip>
-                    <Tooltip title="Previous frame">
+                    <Tooltip title="Previous frame" arrow>
                         <Button onClick={async () => await controller.playPreviousFrame()}><ChevronLeftIcon/></Button>
                     </Tooltip>
                     {!isPlaying ?
-                        <Tooltip title="Play">
+                        <Tooltip title="Play" arrow>
                             <Button onClick={async () => {
                                 await controller.playAnimation()}}>
                                 <PlayArrowIcon/>
                             </Button>
                         </Tooltip> :
-                        <Tooltip title="Pause">
+                        <Tooltip title="Pause" arrow>
                             <Button onClick={
                                 async () => {
                                     await controller.pause()
                                 }
                             }><PauseIcon/></Button></Tooltip>}
-                    <Tooltip title="Next frame">
+                    <Tooltip title="Next frame" arrow>
                         <Button onClick={async () => await controller.playNextFrame()}><ChevronRightIcon/></Button>
                     </Tooltip>
-                    <Tooltip title="Jump to end">
+                    <Tooltip title="Jump to end" arrow>
                         <Button onClick={async () => await controller.jumpToEnd()}><SkipNextIcon/></Button>
                     </Tooltip>
                 </ThemeProvider>
