@@ -9,7 +9,7 @@ import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexAr
 import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { quickSortActions as ActionKind } from "../../../store/reducers/quickSortReducer";
+import { quickSortActions as ActionKind } from "../../../store/reducers/sorts/quickSortReducer";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 

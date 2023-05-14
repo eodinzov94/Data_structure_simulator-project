@@ -1,6 +1,6 @@
 import { sortItem, quickSortOperation } from "../helpers/types";
 import { compare } from "../helpers/functions";
-import { quickSortActions as ActionKind } from "../../../../store/reducers/quickSortReducer";
+import { quickSortActions as ActionKind } from "../../../../store/reducers/sorts/quickSortReducer";
 
 export function quickSort(array: sortItem[]): quickSortOperation[] {
   if (array.length <= 1 || array == null) {
@@ -16,7 +16,7 @@ export function quickSort(array: sortItem[]): quickSortOperation[] {
   opArr.push({
     action: ActionKind.init,
     payload: [],
-  }); 
+  });
   return opArr;
 }
 

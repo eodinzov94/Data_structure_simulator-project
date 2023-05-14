@@ -1,37 +1,28 @@
-import { useReducer, useRef } from "react";
+import {useRef } from "react";
 import {
   insertionSortOperation,
-  sortItem,
 } from "../../../components/Simulation/Sorts/helpers/types";
 import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
 import SortArray from "../../../components/Simulation/Sorts/helpers/SortArray";
-import {
-  insertionSortReducer,
-  State,
-  insertionSortActionKind as ActionKind,
-  ItemColor,
-} from "../../../components/Simulation/Sorts/InsertionSort/InsertionSortReducer";
 import { insertionSort } from "../../../components/Simulation/Sorts/InsertionSort/InsertionSortAlgorithm";
 import { InsertionSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import ArrayElement from "../../../components/Simulation/Sorts/helpers/ArrayElement";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import insertionSortPhoto from "../../../assets/Algorithms/IS1.png";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { insertionSortActions as actions, ItemColor } from "../../../store/reducers/sorts/insertionSortReducer";
 
 const MAX_ELEMENTS = 10;
 
-const INIT_STATE: State = {
-  data: [] as sortItem[],
-  i: -2,
-  j: -2,
-  line: -1,
-};
 
 const InsertionSortPage = () => {
-  const [state, dispatch] = useReducer(insertionSortReducer, INIT_STATE);
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.insertionSort);
+  
   const abortRef = useRef(false);
   const setAbortTrue = () => (abortRef.current = true);
   const setAbortFalse = () => (abortRef.current = false);
@@ -43,14 +34,14 @@ const InsertionSortPage = () => {
       if (abortRef.current) {
         break;
       }
-      dispatch({ type: op.action, payload: op.payload });
+      dispatch(op.action(op.payload ));
       await sleep(2000);
     }
   };
 
   const setInput = (data: number[]) => {
     setAbortTrue();
-    dispatch({ type: ActionKind.SET_DATA, payload: { data } });
+    dispatch(actions.setData(data));
   };
 
   const setRandomInput = () => {
