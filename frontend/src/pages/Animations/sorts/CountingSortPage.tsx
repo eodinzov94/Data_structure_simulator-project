@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { countingSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
-import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
@@ -12,7 +11,7 @@ import { CountingSort } from "../../../components/Simulation/Sorts/CountingSort/
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import countingSortPhoto from "../../../assets/Algorithms/CS1.png";
-import SortController from "../../../ClassObjects/SortController";
+import CountingSortController from "../../../ClassObjects/SortControllers/CountingSortController";
 
 const MAX_ELEMENTS = 10;
 
@@ -23,7 +22,7 @@ const CountingSortPage = () => {
   const abortRef = useRef(false);
   const setAbortTrue = () => (abortRef.current = true);
   const setAbortFalse = () => (abortRef.current = false);
-  const controller = SortController.getController(dispatch);
+  const controller = CountingSortController.getController(dispatch);
 
   const Sort = async () => {
     setAbortFalse();

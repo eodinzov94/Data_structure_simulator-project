@@ -1,4 +1,4 @@
-import SortController from "../../../ClassObjects/SortController";
+import SortController from "../../../ClassObjects/SortControllers/SortController";
 
 export interface PseudoProps {
   line: number;
@@ -8,7 +8,7 @@ export interface PseudoProps {
 }
 
 export interface AnimationWrraperProps extends PseudoProps{
-  controller: SortController;
+  controller?: SortController;
 }
 
 export interface PseudoItem {
