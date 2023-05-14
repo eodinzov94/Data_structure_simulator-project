@@ -69,7 +69,7 @@ export function getAnimationsAndStyles(
       break;
     }
     case ActionType.HIGHLIGHT_FULL: {
-      style = { backgroundColor: "#431f81" };
+      style = { backgroundColor: "#309975" };
       break;
     }
     case ActionType.SWAP: {
@@ -85,11 +85,11 @@ export function getAnimationsAndStyles(
         x: 0,
         y: 0,
       };
-      style = { backgroundColor: "#1a7e3c" };
+      style = { backgroundColor: "#125f2c" };
       break;
     }
     case ActionType.HIGHLIGHT_LIGHT: {
-      style = { backgroundColor: "#8f75c0" };
+      style = { backgroundColor: "#58b368" };
       break;
     }
     case ActionType.NONE: {
@@ -136,7 +136,7 @@ export function getHeapArrayAnimationsAndStyles(
       break;
     }
     case ActionType.HIGHLIGHT_FULL: {
-      style = { backgroundColor: "#431f81" };
+      style = { backgroundColor: "#58b368" };
       break;
     }
     case ActionType.SWAP: {
@@ -153,7 +153,7 @@ export function getHeapArrayAnimationsAndStyles(
       break;
     }
     case ActionType.HIGHLIGHT_LIGHT: {
-      style = { backgroundColor: "#8f75c0" };
+      style = { backgroundColor: "#58b368" };
       break;
     }
     case ActionType.NONE: {

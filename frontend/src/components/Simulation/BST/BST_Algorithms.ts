@@ -247,9 +247,9 @@ export function predecessor(root: BSTreeNode|undefined, memento: BSTreeMemento):
    if (!root){
        return root;
    }
-   if(root.right){
-       memento.addSnapshot({line: 1, name: "Predecessor"}, root, root.right.id, ActionType.HIGHLIGHT_LIGHT)
-       return getMax(root.right,memento,root,"Predecessor");
+   if(root.left){
+       memento.addSnapshot({line: 1, name: "Predecessor"}, root, root.left.id, ActionType.HIGHLIGHT_LIGHT)
+       return getMax(root.left,memento,root,"Predecessor");
    }
    let y = root.parent;
    if(y){
