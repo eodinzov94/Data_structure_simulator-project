@@ -10,7 +10,6 @@ import { queuePseudoCode } from "../../../components/Simulation/PseudoCode/Pseud
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { queueActions } from "../../../store/reducers/queueReducer";
 import { sleep } from "../../../utils/animation-helpers";
-import SortController from "../../../ClassObjects/SortController";
 
 const MAX_ELEMENTS = 10;
 
@@ -24,7 +23,6 @@ const QueuePage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.queue);
   const [isAnimate, setIsAnimate] = useState<boolean>(false);
-  const controller = SortController.getController(dispatch);
 
   const Dequeue = async () => {
     setIsAnimate(true);
@@ -85,7 +83,7 @@ const QueuePage = () => {
         removeBtnText={"Dequeue"}
         maxLengthOfValue={4}
       />
-      <AnimationWrapper line={state.line} code={queuePseudoCode} controller={controller}>
+      <AnimationWrapper line={state.line} code={queuePseudoCode}>
         <Queue
           headPosition={state.headPosition}
           tailPosition={state.tailPosition}

@@ -15,7 +15,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SpeedIcon from "@mui/icons-material/Speed";
 import { useAppSelector } from "../../../store/hooks";
-import SortController from "../../../ClassObjects/SortController";
+import SortController from "../../../ClassObjects/SortControllers/SortController";
 
 interface Props {
   controller: SortController;
@@ -26,7 +26,6 @@ const SortPlayerPanel = (props: Props) => {
   const isPlaying = useAppSelector(
     (state) => state.animationController.isPlaying
   );
-  const stam = () => {};
   const theme = createTheme({
     palette: {
       primary: {
@@ -60,10 +59,18 @@ const SortPlayerPanel = (props: Props) => {
               <SpeedIcon color="primary" />
             </Stack>
           </Box>
-          <Button onClick={stam}>
+          <Button
+            onClick={async () => {
+              await controller.playFirstFrame();
+            }}
+          >
             <SkipPreviousIcon />
           </Button>
-          <Button onClick={stam}>
+          <Button
+            onClick={async () => {
+              await controller.playPreviousFrame();
+            }}
+          >
             <ChevronLeftIcon />
           </Button>
           {isPlaying ? (
@@ -77,16 +84,24 @@ const SortPlayerPanel = (props: Props) => {
           ) : (
             <Button
               onClick={async () => {
-                await controller.setStopFlag(false);
+                await controller.Play();
               }}
             >
               <PlayArrowIcon />
             </Button>
           )}
-          <Button onClick={stam}>
+          <Button
+            onClick={async () => {
+              await controller.playNextFrame();
+            }}
+          >
             <ChevronRightIcon />
           </Button>
-          <Button onClick={stam}>
+          <Button
+            onClick={async () => {
+              await controller.playLastFrame();
+            }}
+          >
             <SkipNextIcon />
           </Button>
         </ThemeProvider>

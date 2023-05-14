@@ -159,9 +159,13 @@ const countingSortSlice = createSlice({
     setLine(state, action: PayloadAction<number>) {
       state.line = action.payload;
     },
+    setState(state, action: PayloadAction<State>) {
+      return action.payload;
+    },
   },
 });
 
 export default countingSortSlice.reducer;
+export const CountingSortActions = countingSortSlice.actions;
 export const { init, setIndex, setColor, setLine, setValue } =
   countingSortSlice.actions;

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAnimate: false,
+  isSortStarted: false,
   isPlaying: false,
 };
 
@@ -12,8 +12,8 @@ const animationControlSlice = createSlice({
     init(state) {
       state = initialState;
     },
-    SetIsAnimate(state, action: PayloadAction<boolean>) {
-      state.isAnimate = action.payload;
+    SetIsSortStarted(state, action: PayloadAction<boolean>) {
+      state.isSortStarted = action.payload;
     },
     SetIsPlaying(state, action: PayloadAction<boolean>) {
       state.isPlaying = action.payload;
