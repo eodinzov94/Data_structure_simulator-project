@@ -1,8 +1,8 @@
-import { numbersToSortItems } from "../../components/Simulation/Sorts/helpers/functions";
+import { numbersToSortItems } from "../../../components/Simulation/Sorts/helpers/functions";
 import {
   Colors,
   sortItem,
-} from "../../components/Simulation/Sorts/helpers/types";
+} from "../../../components/Simulation/Sorts/helpers/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface State {

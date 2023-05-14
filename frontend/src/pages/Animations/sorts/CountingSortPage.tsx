@@ -6,7 +6,7 @@ import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexAr
 import SortArray from "../../../components/Simulation/Sorts/helpers/SortArray";
 import { CountingSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { init } from "../../../store/reducers/countingSortReducer";
+import { init } from "../../../store/reducers/sorts/countingSortReducer";
 import { CountingSort } from "../../../components/Simulation/Sorts/CountingSort/CountingSortAlgorithem";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
@@ -42,7 +42,11 @@ const CountingSortPage = () => {
   return (
     <>
       {/*top section */}
-      <SubjectImg name={"Counting Sort"} src={countingSortPhoto} width="260px" />
+      <SubjectImg
+        name={"Counting Sort"}
+        src={countingSortPhoto}
+        width="260px"
+      />
 
       <SortControlsPanel
         rightBtnHandler={Sort}
@@ -56,7 +60,11 @@ const CountingSortPage = () => {
       ></SortControlsPanel>
 
       {/* animation section */}
-      <AnimationWrapper line={state.line} code={CountingSortPseudoCode} controller={controller}>
+      <AnimationWrapper
+        line={state.line}
+        code={CountingSortPseudoCode}
+        controller={controller}
+      >
         <IndexArray size={state.A.length + 1} i={state.indexA} />
         <SortArray items={state.A} />
 

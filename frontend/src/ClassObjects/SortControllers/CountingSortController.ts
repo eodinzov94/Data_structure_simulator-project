@@ -1,6 +1,6 @@
 import store, { AppDispatch } from "../../store/store";
 import SortController from "./SortController";
-import { CountingSortActions } from "../../store/reducers/countingSortReducer";
+import { CountingSortActions } from "../../store/reducers/sorts/countingSortReducer";
 
 export default class CountingSortController extends SortController {
   private static controller: null | SortController;

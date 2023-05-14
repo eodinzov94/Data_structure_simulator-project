@@ -1,11 +1,12 @@
 import { SortOperations } from "../../components/Simulation/Sorts/helpers/types";
 import { animationControlActions } from "../../store/reducers/animation-control-reducer";
-import { State as countingSortState } from "../../store/reducers/countingSortReducer";
-import { State as quickSortState } from "../../store/reducers/quickSortReducer";
+import { State as countingSortState } from "../../store/reducers/sorts/countingSortReducer";
+import { State as quickSortState } from "../../store/reducers/sorts/quickSortReducer";
+import { State as insertionSortState } from "../../store/reducers/sorts/insertionSortReducer";
 import { AppDispatch } from "../../store/store";
 import { sleep } from "../../utils/animation-helpers";
 
-type mementoTypes = countingSortState | quickSortState;
+type mementoTypes = countingSortState | quickSortState | insertionSortState;
 
 export default abstract class SortController {
   memento: mementoTypes[];
@@ -101,5 +102,3 @@ export default abstract class SortController {
     }
   }
 }
-
-//need to fix timing
