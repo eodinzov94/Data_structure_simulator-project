@@ -10,6 +10,7 @@ import { queuePseudoCode } from "../../../components/Simulation/PseudoCode/Pseud
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { queueActions } from "../../../store/reducers/queueReducer";
 import { sleep } from "../../../utils/animation-helpers";
+import SortController from "../../../ClassObjects/SortController";
 
 const MAX_ELEMENTS = 10;
 
@@ -23,48 +24,35 @@ const QueuePage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.queue);
   const [isAnimate, setIsAnimate] = useState<boolean>(false);
+  const controller = SortController.getController(dispatch);
 
-
-  const [data, setData] = useState<Item[]>([]); //data of the stack
-  const [isPop, setIsPop] = useState<boolean>(false);
-  const [keyValue, setKeyValue] = useState<number>(0);
-  const [headPosition, setHeadPosition] = useState<Position>({
-    curr: 0,
-    prev: 35,
-  });
-  const [tailPosition, setTailPosition] = useState<number>(-35);
-
-  //   const [xPosition, setXPosition] = useState(35);
-  //   const [xPrevPosition, setXPrevPosition] = useState(70);
-
-  const Dequeue = async() => {
-    setIsAnimate(true)
+  const Dequeue = async () => {
+    setIsAnimate(true);
     dispatch(queueActions.setLine(3));
     await sleep(2000);
     if (state.data.length > 0) {
       //if the queue is not empty
 
-      dispatch(queueActions.markHead())
+      dispatch(queueActions.markHead());
       await sleep(2000);
 
-      dispatch(queueActions.incHead())
+      dispatch(queueActions.incHead());
+      dispatch(queueActions.incHead());
       await sleep(2000);
 
-      dispatch(queueActions.dequeue())
+      dispatch(queueActions.dequeue());
       await sleep(2000);
-
     }
     dispatch(queueActions.setLine(-1));
-    setIsAnimate(false)
-
+    setIsAnimate(false);
   };
 
-  const Enqueue = async(value: string) => {
-    setIsAnimate(true)
-    
+  const Enqueue = async (value: string) => {
+    setIsAnimate(true);
+
     dispatch(queueActions.setLine(10));
     await sleep(2000);
-    if (data.length < MAX_ELEMENTS) {
+    if (state.data.length < MAX_ELEMENTS) {
       //add new elment at the start
       dispatch(queueActions.incTail());
       await sleep(2000);
@@ -73,13 +61,14 @@ const QueuePage = () => {
       await sleep(2000);
     }
     dispatch(queueActions.setLine(-1));
-    setIsAnimate(false)
-
+    setIsAnimate(false);
   };
 
   const setRandomInput = (newData: Item[]) => {
-    dispatch(queueActions.inputData(newData))
+    dispatch(queueActions.inputData(newData));
   };
+  ////
+
 
   return (
     <>
@@ -96,7 +85,7 @@ const QueuePage = () => {
         removeBtnText={"Dequeue"}
         maxLengthOfValue={4}
       />
-      <AnimationWrapper line={state.line} code={queuePseudoCode}>
+      <AnimationWrapper line={state.line} code={queuePseudoCode} controller={controller}>
         <Queue
           headPosition={state.headPosition}
           tailPosition={state.tailPosition}

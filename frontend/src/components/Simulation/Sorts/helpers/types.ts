@@ -1,9 +1,6 @@
-import { countingSortPayload } from "../../../../store/reducers/countingSortReducer";
-import {
-  AnimationPayload,
-  insertionSortActionKind,
-} from "../InsertionSort/InsertionSortReducer";
-import { quickSortPayload } from "../../../../store/reducers/quickSortReducer";
+import { countingSortPayload } from "../../../../store/reducers/sorts/countingSortReducer";
+import { quickSortPayload } from "../../../../store/reducers/sorts/quickSortReducer";
+import { insertionSortPayload } from "../../../../store/reducers/sorts/insertionSortReducer";
 
 export interface sortItem {
   value: number;
@@ -12,14 +9,16 @@ export interface sortItem {
   color: string;
 }
 
+export type SortOperations = quickSortOperation[] | countingSortOperation[];
+
 export interface quickSortOperation {
   action: any;
   payload: quickSortPayload;
 }
 
 export interface insertionSortOperation {
-  action: insertionSortActionKind;
-  payload: AnimationPayload;
+  action: any;
+  payload: insertionSortPayload;
 }
 
 export interface countingSortOperation {
