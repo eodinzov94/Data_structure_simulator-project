@@ -69,10 +69,12 @@ const insertionSortSlice = createSlice({
     initAnimation(state){
         state.i = -2
         state.j = -2
-        state.i = -1
+        state.line = -1
         state.keyValue = undefined
-    }
-
+    },
+    setState(state, action: PayloadAction<State>) {
+      return action.payload;
+    },
   },
 });
 

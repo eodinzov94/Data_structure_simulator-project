@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { countingSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
@@ -19,19 +18,15 @@ const CountingSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.countingSort);
 
-  const abortRef = useRef(false);
-  const setAbortTrue = () => (abortRef.current = true);
-  const setAbortFalse = () => (abortRef.current = false);
   const controller = CountingSortController.getController(dispatch);
 
   const Sort = async () => {
-    setAbortFalse();
     const opArr: countingSortOperation[] = CountingSort([...state.A], state.k);
     await controller.Sort(opArr);
   };
 
-  const setInput = (data: number[]) => {
-    setAbortTrue();
+  const setInput = async (data: number[]) => {
+    await controller.init();
     dispatch(init({ data, arr_name: "A" }));
   };
 
@@ -66,16 +61,16 @@ const CountingSortPage = () => {
         controller={controller}
       >
         <IndexArray size={state.A.length + 1} i={state.indexA} />
-        <SortArray items={state.A} />
+        <SortArray items={state.A} speed={controller.speed} />
 
         <div style={{ marginTop: "40px" }}>
           <IndexArray size={state.C.length + 1} i={state.indexC} />
-          <SortArray items={state.C} />
+          <SortArray items={state.C} speed={controller.speed}  />
         </div>
 
         <div style={{ marginTop: "40px" }}>
           <IndexArray size={state.B.length + 1} i={state.indexB} />
-          <SortArray items={state.B} />
+          <SortArray items={state.B} speed={controller.speed} />
         </div>
 
         <div> K = {state.k}</div>

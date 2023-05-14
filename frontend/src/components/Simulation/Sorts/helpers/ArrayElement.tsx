@@ -7,6 +7,7 @@ interface Props {
     value: number;
     color?:string;
     children?: JSX.Element | JSX.Element[];
+    speed:number;
 }   
 
 const ArrayElement = (props: Props) => {
@@ -16,7 +17,7 @@ const ArrayElement = (props: Props) => {
             className={styles.s_li}
             layout
             transition={{
-              layout: { duration: 2, ease: "easeIn" },
+              layout: { duration: 2*props.speed, ease: "easeIn" },
             }}
             initial={{ scale: 0.8, x: 50, opacity: 0.5 }}
             animate={{
@@ -24,7 +25,7 @@ const ArrayElement = (props: Props) => {
               scale: 1,
               x: 0,
               opacity: 1,
-              transition: { duration: 0.5 }, //todo fix animations on bgcolor
+              transition: { duration: 0.5*props.speed }, //todo fix animations on bgcolor
             }}
             exit={{
               backgroundColor:"#84cc16",
@@ -33,7 +34,7 @@ const ArrayElement = (props: Props) => {
               opacity: 0.2,
               transition: {
                 delay: 1,
-                duration: 1.5, //control the speed
+                duration: 1.5*props.speed, //control the speed
               },
             }}
           >
