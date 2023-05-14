@@ -15,32 +15,22 @@ import { SubjectImg } from "../../../components/UI/SubjectImg";
 import insertionSortPhoto from "../../../assets/Algorithms/IS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { insertionSortActions as actions, ItemColor } from "../../../store/reducers/sorts/insertionSortReducer";
+import InsertionSortController from "../../../ClassObjects/SortControllers/InsertionSortController";
 
 const MAX_ELEMENTS = 10;
-
 
 const InsertionSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.insertionSort);
-  
-  const abortRef = useRef(false);
-  const setAbortTrue = () => (abortRef.current = true);
-  const setAbortFalse = () => (abortRef.current = false);
+  const controller = InsertionSortController.getController(dispatch);
 
   const Sort = async () => {
-    setAbortFalse();
     const opArr: insertionSortOperation[] = insertionSort([...state.data]);
-    for (var op of opArr) {
-      if (abortRef.current) {
-        break;
-      }
-      dispatch(op.action(op.payload ));
-      await sleep(2000);
-    }
+    await controller.Sort(opArr);
   };
 
-  const setInput = (data: number[]) => {
-    setAbortTrue();
+  const setInput = async (data: number[]) => {
+    await controller.init();
     dispatch(actions.setData(data));
   };
 
@@ -64,15 +54,16 @@ const InsertionSortPage = () => {
       ></SortControlsPanel>
 
       {/* animation section */}
-      <AnimationWrapper line={state.line} code={InsertionSortPseudoCode}>
+      <AnimationWrapper line={state.line} code={InsertionSortPseudoCode} controller={controller}>
         <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-        <SortArray items={state.data} />
+        <SortArray items={state.data} speed={controller.speed}/>
         <div style={{ marginTop: "40px" }}>
           {state.keyValue ? (
             <ArrayElement
               name="key"
               value={state.keyValue}
               color={state.line === 7 ? ItemColor.MARKED : ItemColor.BASE}
+              speed={controller.speed}
             />
           ) : (
             <></>

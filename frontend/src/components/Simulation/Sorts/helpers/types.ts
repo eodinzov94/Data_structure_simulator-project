@@ -9,7 +9,7 @@ export interface sortItem {
   color: string;
 }
 
-export type SortOperations = quickSortOperation[] | countingSortOperation[];
+export type SortOperations = quickSortOperation[] | countingSortOperation[] | insertionSortOperation[];
 
 export interface quickSortOperation {
   action: any;

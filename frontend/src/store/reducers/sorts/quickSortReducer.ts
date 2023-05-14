@@ -71,6 +71,12 @@ const quickSortSlice = createSlice({
       const { indexList, line } = action.payload;
       state.data[indexList[0]].color = ItemColor.DONE;
       state.line = line;
+      if (line == 15) {
+        state.i = -2;
+        state.j = -2;
+        state.p = -1;
+        state.r = -1;
+      }
       return state;
     },
     swap(state, action: PayloadAction<actionPayload>) {
@@ -101,6 +107,9 @@ const quickSortSlice = createSlice({
     },
     setLine(state, action: PayloadAction<number>) {
       state.line = action.payload;
+    },
+    setState(state, action: PayloadAction<State>) {
+      return action.payload;
     },
   },
 });

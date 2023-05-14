@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { quickSortActions as ActionKind } from "../../../store/reducers/sorts/quickSortReducer";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
+import QuickSortController from "../../../ClassObjects/SortControllers/QuickSortController";
 
 const MAX_ELEMENTS = 10;
 
@@ -24,70 +25,21 @@ export interface Position {
 const QuickSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.quickSort);
-
-  const abortRef = useRef(false); //dive into it later
+  const controller = QuickSortController.getController(dispatch);
 
   const Sort = async () => {
-    setAbortFalse();
-    const arr: quickSortOperation[] = quickSort([...state.data]);
-    //change to iterate with i, and i will be save as state - will help with memento
-    for (var op of arr) {
-      if (abortRef.current) {
-        break;
-      }
-      dispatch(op.action(op.payload));
-      await sleep(2000);
-    }
-
-    // //memento checking
-    // for (var i = arr.length - 1; i >= 0; i--) {
-    //   const { action, index1, index2 } = arr[i];
-    //   const payload: number[] =
-    //     index2 !== undefined ? [index1, index2] : [index1];
-    //   switch (action) {
-    //     case ActionKind.DONE: {
-    //       arr[i].pivot == false
-    //         ? dispatch({ type: ActionKind.BASE, payload: payload })
-    //         : dispatch({ type: ActionKind.MARK_PIVOT, payload: payload });
-    //       break;
-    //     }
-    //     case ActionKind.MARK_PIVOT: {
-    //       dispatch({ type: ActionKind.BASE, payload: payload });
-    //       break;
-    //     }
-    //     case ActionKind.MARK: {
-    //       dispatch({ type: ActionKind.UNMARK, payload: payload });
-    //       break;
-    //     }
-    //     case ActionKind.UNMARK: {
-    //       dispatch({ type: ActionKind.MARK, payload: payload });
-    //       break;
-    //     }
-    //     case ActionKind.SWAP: {
-    //       dispatch({ type: ActionKind.SWAP, payload: payload });
-    //       break;
-    //     }
-    //     default: {
-    //       console.log("error");
-    //       break;
-    //     }
-    //   }
-    //   await sleep(2000);
-    // }
+    const opArr: quickSortOperation[] = quickSort([...state.data]);
+    await controller.Sort(opArr);
   };
 
-  const setInput = (data: number[]) => {
-    setAbortTrue();
+  const setInput = async (data: number[]) => {
+    await controller.init();
     dispatch(ActionKind.init(data));
   };
 
   const setRandomInput = () => {
-    setAbortTrue();
     setInput(getRandomNumsArr(MAX_ELEMENTS));
   };
-
-  const setAbortTrue = () => (abortRef.current = true);
-  const setAbortFalse = () => (abortRef.current = false);
 
   return (
     <>
@@ -97,16 +49,14 @@ const QuickSortPage = () => {
         rightBtnHandler={Sort}
         inputHandler={setInput}
         leftBtnHandler={setRandomInput}
-        abortTrueHandler={setAbortTrue}
-        abortFalseHandler={setAbortFalse}
         inputBtnText={"Set"}
         rightBtnText={"Sort"}
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
       />
-      <AnimationWrapper line={state.line} code={QuickSortPseudoCode}>
+      <AnimationWrapper line={state.line} code={QuickSortPseudoCode} controller={controller}>
         <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-        <QuickSort items={state.data} />
+        <QuickSort items={state.data} speed={controller.speed}/>
         <div>
           p = {state.p}, r={state.r}
         </div>

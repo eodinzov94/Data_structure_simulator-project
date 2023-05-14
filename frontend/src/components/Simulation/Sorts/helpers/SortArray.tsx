@@ -6,6 +6,8 @@ import ArrayElement from "./ArrayElement";
 interface Props {
   items: sortItem[]; //data
   children?: JSX.Element | JSX.Element[];
+  speed:number;
+
 }
 
 const SortArray = (props: Props) => {
@@ -16,7 +18,7 @@ const SortArray = (props: Props) => {
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the data to motion.il /*/}
           {props.items.map((elem: sortItem,index) => (
-            <ArrayElement name={index.toString()} value={elem.value} color={elem.color} key={index}/>
+            <ArrayElement name={index.toString()} value={elem.value} color={elem.color} key={index} speed={props.speed}/>
             ))}
         </AnimatePresence>
       </motion.ul>

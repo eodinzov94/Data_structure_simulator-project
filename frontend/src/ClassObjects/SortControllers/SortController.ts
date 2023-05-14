@@ -10,22 +10,31 @@ type mementoTypes = countingSortState | quickSortState | insertionSortState;
 
 export default abstract class SortController {
   memento: mementoTypes[];
+  baseSleepTime:number;
   speed: number;
   frame: number;
   stopFlag: boolean;
   operationArr: SortOperations;
   reducerActions: any;
   dispatch: AppDispatch;
-  abstract getState(): countingSortState;
+  abstract getState(): mementoTypes;
 
-  constructor(dispatch: AppDispatch, reducerActions: any) {
+  constructor(dispatch: AppDispatch, reducerActions: any, sleepTime=1000) {
     this.memento = [] as mementoTypes[];
-    this.operationArr = [] as SortOperations;
-    this.reducerActions = reducerActions;
+    this.baseSleepTime=sleepTime;
     this.speed = 1;
     this.frame = 0;
     this.stopFlag = false;
+    this.operationArr = [] as SortOperations;
+    this.reducerActions = reducerActions;
     this.dispatch = dispatch;
+  }
+
+  init(){
+    this.stopFlag=true;
+    this.dispatch(animationControlActions.SetIsSortStarted(false));
+    this.memento=[] as mementoTypes[];
+    this.frame=0;
   }
 
   //Setters
@@ -72,7 +81,7 @@ export default abstract class SortController {
         break;
       }
       this.dispatchCurrentFrame();
-      await sleep(1000 * this.speed);
+      await sleep(this.baseSleepTime * this.speed);
     }
     this.setStopFlag(true);
   }
