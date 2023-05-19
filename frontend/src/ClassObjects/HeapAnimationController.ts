@@ -22,7 +22,7 @@ import {CodeReference, HeapAlgNames} from "../components/Simulation/PseudoCode/H
 
 class HeapAnimationController extends AnimationController<number[], HeapAlgNames> {
     private static controller: null | HeapAnimationController = null
-
+    protected isAfterSort: boolean = false
     private constructor(arr: number[], dispatch: AppDispatch,) {
         super(dispatch, new HeapMemento(), arr)
         buildMaxHeap([...this.data], this.memento as HeapMemento)
@@ -36,65 +36,51 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
     }
 
     async buildMaxHeap() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(buildMaxHeap, lastData, this.memento)
-        }catch (e) {
             await this.playAlgorithm(buildMaxHeap, [...this.data], this.memento)
-        }
-
     }
 
     async heapMax() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(heapMax, lastData, this.memento)
-        }catch (e) {
             await this.playAlgorithm(heapMax, [...this.data], this.memento)
-        }
     }
 
     async extractMax() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(heapExtractMax, lastData, this.memento)
-        }catch (e) {
             await this.playAlgorithm(heapExtractMax, [...this.data], this.memento)
-        }
-
     }
-
-    async insertKey(key: number) {
+    maxHeapInsert(key: number) {
         if (this.data.length === 15) {
-            throw new Error("Array is full");
+            console.log(this.data);
+            throw new Error("Array is full, max size is 15");
         }
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(maxHeapInsert, lastData, this.memento, key)
-        }catch (e) {
-            await this.playAlgorithm(maxHeapInsert, [...this.data], this.memento, key)
-        }
-
+        maxHeapInsert([...this.data],this.memento as HeapMemento, key)
     }
-
+    async insertKey(key: number) {
+        await this.playAlgorithm(this.maxHeapInsert.bind(this), key)
+    }
+    maxHeapSort(A: number[], memento: HeapMemento): number[]{
+        this.isAfterSort = true
+        return maxHeapSort(A, memento)
+    }
     async heapSort() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(maxHeapSort, lastData, this.memento)
-        }catch (e) {
-            await this.playAlgorithm(maxHeapSort, [...this.data], this.memento)
-        }
+        await this.playAlgorithm(this.maxHeapSort.bind(this), [...this.data], this.memento)
     }
 
     async initNewAnimation() {
         this.stopFlag = true;
         this.clearTimeOuts();
         if (this.memento.getLength()) {
-            this.data = this.memento.getLastData();
+            if(this.isAfterSort){
+                this.data = this.memento.getData(0)
+                this.setRoot(arrayToBinaryTree(this.data));
+                this.setCurrentArr(this.data, this.data.length);
+                this.isAfterSort = false
+            }else{
+                this.data = this.memento.getLastData();
+                this.setRoot(arrayToBinaryTree(this.data));
+                this.setCurrentArr(this.data, (this.memento as HeapMemento).getLastHeapSize());
+            }
+
             this.setCurrentActions([]);
             this.setCurrentRoles([]);
-            this.setRoot(arrayToBinaryTree(this.data));
-            this.setCurrentArr(this.data, (this.memento as HeapMemento).getLastHeapSize());
         } else {
             this.setCurrentRoles([]);
         }

@@ -136,8 +136,10 @@ const HeapControlsPanel: FC<Props> = ({ controller }) => {
               disabled={isButtonDisabled}
               className={ buttonClassname }
               onClick={async () =>
-                await Animate("Insert Key").catch(() =>
-                  setCurrentError("Array size overflow, max is 15.")
+                await Animate("Insert Key").catch((e) => {
+                      console.log(e)
+                      setCurrentError("Array size overflow, max is 15.")
+                    }
                 )
               }
             >
