@@ -15,11 +15,11 @@ import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTy
 import {BSTreeNode} from "./BSTreeNode";
 
 
-class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined,string> {
+class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined, string> {
     private static controller: null | BSTreeAnimationController = null
 
     private constructor(root: BSTreeNode | undefined, dispatch: AppDispatch) {
-        super(dispatch, new BSTreeMemento(),root)
+        super(dispatch, new BSTreeMemento(), root)
     }
 
     static getController(root: BSTreeNode | undefined,
@@ -43,9 +43,11 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     setCurrentRoles(roles: NodeRole[]) {
         this.dispatch(setRoles(roles));
     }
+
     setPlaying(value: boolean) {
         this.dispatch(setPlaying(value));
     }
+
     async jumpToEnd() {
         await this.pause();
         const i = this.memento.getLength() - 1;
@@ -57,7 +59,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     }
 
     //TODO: change to appropriate reference type
-    setReference(ref:any) {
+    setReference(ref: any) {
         this.dispatch(setCodeRef(ref));
     }
 
@@ -67,13 +69,15 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentRoles(this.memento.getRoles(index));
         this.setReference(this.memento.getCodeRef(index));
     }
+
     initData(data: BSTreeNode | undefined) {
         this.setReference({name: this.memento.getCurrentAlg(), line: 0});
         this.setRoot(data);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
     }
-    setTreeFromInput(arr:number[]) {
+
+    setTreeFromInput(arr: number[]) {
         const root = build(arr);
         this.data = root;
         this.memento.clearSnapshots();
@@ -82,24 +86,12 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentRoles([]);
     }
 
-    async search(key:number) {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(search,lastData,key, this.memento as BSTreeMemento,lastData);
-        } catch (e) {
-            await this.playAlgorithm(search,this.data,key, this.memento as BSTreeMemento,this.data);
-        }
-
+    async search(key: number) {
+        await this.playAlgorithm(search, this.data, key, this.memento as BSTreeMemento, this.data);
     }
 
     async insert(value: number) {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(insertWithAnimations,lastData,BSTreeNode.createNewNode(lastData,value) , this.memento as BSTreeMemento);
-        } catch (e) {
-            await this.playAlgorithm(insertWithAnimations,this.data,BSTreeNode.createNewNode(this.data,value) , this.memento as BSTreeMemento);
-        }
-
+        await this.playAlgorithm(insertWithAnimations, this.data, BSTreeNode.createNewNode(this.data, value), this.memento as BSTreeMemento);
     }
 
     async deleteNode() {
@@ -107,39 +99,19 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     }
 
     async min() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(getMin,lastData, this.memento as BSTreeMemento);
-        } catch (e) {
-            await this.playAlgorithm(getMin,this.data,this.memento as BSTreeMemento);
-        }
+        await this.playAlgorithm(getMin, this.data, this.memento as BSTreeMemento);
     }
 
     async max() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(getMax,lastData, this.memento as BSTreeMemento);
-        } catch (e) {
-            await this.playAlgorithm(getMax,this.data, this.memento as BSTreeMemento);
-        }
+        await this.playAlgorithm(getMax, this.data, this.memento as BSTreeMemento);
     }
 
     async successor() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(successor,lastData, this.memento as BSTreeMemento);
-        } catch (e) {
-            await this.playAlgorithm(successor,this.data,this.memento as BSTreeMemento);
-        }
+        await this.playAlgorithm(successor, this.data, this.memento as BSTreeMemento);
     }
 
     async predecessor() {
-        try{
-            const lastData = this.memento.getLastData();
-            await this.playAlgorithm(predecessor,lastData, this.memento as BSTreeMemento);
-        } catch (e) {
-            await this.playAlgorithm(predecessor,this.data,this.memento as BSTreeMemento);
-        }
+        await this.playAlgorithm(predecessor, this.data, this.memento as BSTreeMemento);
     }
 
     async build() {
