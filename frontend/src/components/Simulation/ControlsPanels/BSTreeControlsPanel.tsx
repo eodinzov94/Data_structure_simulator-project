@@ -1,7 +1,7 @@
 import {Alert, Input} from "@mui/material";
 import React, {FC, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {setInput, setInputArray,} from "../../../store/reducers/alghoritms/bst-reducer";
+import {setError, setInput, setInputArray,} from "../../../store/reducers/alghoritms/bst-reducer";
 import {generateRandomArrForHeap, getArrFromInputForHeap,} from "../BinaryTree/Helpers/Functions";
 import {sleep} from "../../../utils/animation-helpers";
 import MediumCard from "../../UI/MediumCard";
@@ -17,13 +17,13 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
   const inputArray = useAppSelector((state) => state.bst.inputArray);
   const inputValues = useAppSelector((state) => state.bst.inputValues);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [error, setError] = useState("");
+  const error = useAppSelector((state) => state.bst.error);
   const dispatch = useAppDispatch();
 
   const setCurrentError = (error: string) => {
-    setError(error);
+    dispatch(setError(error));
     setTimeout(() => {
-      setError("");
+      dispatch(setError(""));
     }, 5000);
   };
   const createBSTreeHandler = async () => {
@@ -60,7 +60,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
         await controller.insert(inputValues.Insert);
         return;
       case "DeleteNode":
-        await controller.deleteNode();
+        await controller.deleteNode(inputValues.DeleteNode);
         return;
       case "Min":
         await controller.min();
@@ -69,10 +69,10 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
         await controller.max();
         return;
       case "Successor":
-        await controller.successor();
+        await controller.successor(inputValues.Successor);
         return;
       case "Predecessor":
-        await controller.predecessor();
+        await controller.predecessor(inputValues.Predecessor);
         return;
       case "Create":
         await controller.build();
@@ -107,7 +107,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
       )}
       <MediumCard isSmaller={true} maxWidth={"max-w-5xl"}>
         <div className="flex justify-center">
-          {["Min", "Max", "Successor", "Predecessor", "Clear"].map((text) => (
+          {["Min", "Max", "Clear"].map((text) => (
             <div className="py-2 px-2" key={text}>
               <button
                 disabled={isButtonDisabled}
@@ -141,7 +141,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
               onChange={(e) => dispatch(setInputArray(e.target.value))}
             />
           </div>
-          {["Search", "Insert", "DeleteNode"].map((text) => (
+          {["Successor", "Predecessor", "Search", "Insert", "DeleteNode"].map((text) => (
             <div className="py-2 px-2" key={text}>
               <button
                 disabled={isButtonDisabled}
