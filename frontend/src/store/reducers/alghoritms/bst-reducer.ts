@@ -9,13 +9,16 @@ const initialState = {
     currentRoot:undefined as BSTreeNode | undefined,
     isPlaying :false,
     inputArray:'',
+    error:'', //TODO:error in search in bst
     currentAlg: 'Search' as BSTAlgNames,
     currentLine:0,
     currentRoles:[] as NodeRole[],
     inputValues: {
-        Search: 1,
-        Insert: 2,
-        DeleteNode: 3,
+        Successor: 1,
+        Predecessor: 2,
+        Search: 3,
+        Insert: 4,
+        DeleteNode: 5,
     }
 };
 
@@ -31,6 +34,10 @@ const bstSlice = createSlice({
             state.currentActions = action.payload
             return state
         },
+        setError(state,action:PayloadAction<string>){
+            state.error = action.payload
+            return state
+        },
         setPlaying(state,action:PayloadAction<boolean>){
             state.isPlaying = action.payload
             return state
@@ -39,7 +46,7 @@ const bstSlice = createSlice({
             state.inputArray = action.payload
             return state
         },
-        setInput(state,action:PayloadAction<{val:number,key:"Search"|"Insert"|"DeleteNode"}>){
+        setInput(state,action:PayloadAction<{val:number,key:"Successor"|"Predecessor"|"Search"|"Insert"|"DeleteNode"}>){
             state.inputValues[action.payload.key] = action.payload.val
             return state
         },
@@ -63,6 +70,7 @@ export const {
     setInputArray,
     setPlaying,
     setActions,
+    setError,
     setRoles
 } = bstSlice.actions;
 

@@ -37,6 +37,20 @@ export function search(
     }
 }
 
+function shadowSearch(
+    root: BSTreeNode | undefined,
+    k: number,
+): BSTreeNode | undefined {
+    if (!root || root.value === k) {
+        return root;
+    }
+    if (k < root.value) {
+        return shadowSearch(root.left, k);
+    } else {
+        return shadowSearch(root.right, k);
+    }
+}
+
 export function insert(
     root: BSTreeNode | undefined,
     new_node: BSTreeNode
@@ -143,36 +157,87 @@ export function insertWithAnimations(
 }
 
 
-// export function deleteNode(
+// export function deleteNode( #FIXME:Doesn't work
 //     root: BSTreeNode | undefined,
-//     x: BSTreeNode,
+//     k: number,
 //     memento: BSTreeMemento
 // ): BSTreeNode | undefined {
 //     if (!root) {
 //         return root;
 //     }
-//     if (!x.left && !x.right) {
-//         if (x.value < root.value) {
-//             root.left = undefined;
-//         } else {
-//             root.right = undefined;
-//         }
-//         return root;
+//     let z = shadowSearch(root,k)
+//     let x: BSTreeNode | undefined,y: BSTreeNode | undefined;
+//     if(!z){
+//         throw new Error("Node not found");
 //     }
-//     if (x.left && x.right) {
-//         let y = getMin(x.right,memento);
-//         x.value = y!.value;
-//         x.right = deleteNode(x.right, y!,memento);
-//         return root;
+//     if (!z.left || !z.right) {
+//         y=z
+//     }else {
+//         y = shadowSuccessor(root,z) as BSTreeNode
 //     }
-//     if (x.left) {
-//         return x.left;
+//     if (y.left) {
+//         x = y.left
+//     }else {
+//         x = y.right
 //     }
-//     if (x.right) {
-//         return x.right;
+//     if (x) {
+//         x.parent = y.parent
 //     }
-//     return undefined;
+//     if (!y.parent) {
+//         root = x
+//     }else if( y.id === y.parent!.left!.id){
+//         y.parent!.left = x
+//     }else{
+//         y.parent!.right = x
+//     }
+//     console.log({'child':x,'successor':y,'toDelete':z})
+//     if( y.id !== z.id){
+//
+//         z.parent = y.parent
+//         z.value = y.value
+//         z.left = y.left
+//         z.right = y.right
+//         z.id = y.id
+//     }
+//     return root;
 // }
+
+export function deleteNode(root: BSTreeNode | undefined, key:number, memento: BSTreeMemento,mainRoot?:BSTreeNode,)
+{
+    if (!root) {
+        memento.addBlank({line: 2, name: "Delete"}, root)
+        return root;
+    }
+    if (key < root.value) {
+        if (root.left)
+            memento.addSnapshot({line: 3, name: "Delete"}, mainRoot, root.left.id, ActionType.HIGHLIGHT_LIGHT)
+        root.left = deleteNode(root.left, key, memento, mainRoot);
+    }
+    else if (key > root.value)
+        root.right = deleteNode(root.right, key,memento,mainRoot);
+    else {
+        if (!root.left)
+            return root.right;
+        else if (!root.right)
+            return root.left;
+        let successorNode = shadowGetMin(root.right)
+        root.value = successorNode.value;
+        root.id = successorNode.id
+        root.right = deleteNode(root.right, successorNode.value,memento,mainRoot);
+    }
+    return root;
+}
+export function deleteNodeWrapper(
+    root: BSTreeNode | undefined,
+    key:number,
+    memento: BSTreeMemento
+){
+    let x = shadowSearch(root,key)
+    if(!x){
+        throw new Error("Node not found");
+    }
+    return deleteNode(root,key,memento)
+}
 
 export function getMin(root: BSTreeNode|undefined, memento: BSTreeMemento,mainRoot?:BSTreeNode,currentAlg = 'Min'): BSTreeNode|undefined {
     if (!root) {
@@ -189,6 +254,13 @@ export function getMin(root: BSTreeNode|undefined, memento: BSTreeMemento,mainRo
         memento.addSnapshot({line: 1, name: currentAlg}, mainRoot, temp.id, ActionType.HIGHLIGHT_LIGHT)
     }
     memento.addSnapshot({line: 1, name: currentAlg}, mainRoot, temp.id, ActionType.HIGHLIGHT_FULL)
+    return temp;
+}
+function shadowGetMin(root: BSTreeNode): BSTreeNode {
+    let temp = root;
+    while (temp.left) {
+        temp = temp.left;
+    }
     return temp;
 }
 
@@ -212,22 +284,27 @@ export function getMax(root: BSTreeNode|undefined, memento: BSTreeMemento,mainRo
 
 export function successor(
     root: BSTreeNode | undefined,
+    k: number,
     memento: BSTreeMemento
 ): BSTreeNode | undefined {
     if (!root){
         return root;
     }
-    if(root.right){
-        memento.addSnapshot({line: 1, name: "Successor"}, root, root.right.id, ActionType.HIGHLIGHT_LIGHT)
-        return getMin(root.right,memento,root,"Successor")
+    const foundNode = shadowSearch(root,k)
+    if(!foundNode){
+        throw new Error("Node not found");
     }
-    let y = root.parent;
+    if(foundNode.right){
+        memento.addSnapshot({line: 1, name: "Successor"}, root, foundNode.right.id, ActionType.HIGHLIGHT_LIGHT)
+        return getMin(foundNode.right,memento,root,"Successor")
+    }
+    let y = foundNode.parent;
     if(y){
         memento.addSnapshot({line: 1, name: "Successor"}, root, y.id, ActionType.HIGHLIGHT_LIGHT)
     }else{
         memento.addBlank({line: 1, name: "Successor"}, root)
     }
-    let x = root
+    let x = foundNode
     while (y && x === y?.right){
         memento.addDoubleSnapShot({line: 1, name: "Successor"},root, y.id,x.id, ActionType.HIGHLIGHT_LIGHT,[])
         x = y
@@ -242,22 +319,41 @@ export function successor(
     }
     return y
 }
+function shadowSuccessor(
+    root: BSTreeNode,
+    foundNode: BSTreeNode,
+): BSTreeNode | undefined {
 
-export function predecessor(root: BSTreeNode|undefined, memento: BSTreeMemento): BSTreeNode | undefined {
+    if(foundNode.right){
+        return shadowGetMin(foundNode.right)
+    }
+    let y = foundNode.parent;
+    let x = foundNode
+    while (y && x === y?.right){
+        x = y
+        y = y.parent
+        }
+    return y
+}
+export function predecessor(root: BSTreeNode|undefined, k: number, memento: BSTreeMemento): BSTreeNode | undefined {
    if (!root){
        return root;
    }
-   if(root.left){
-       memento.addSnapshot({line: 1, name: "Predecessor"}, root, root.left.id, ActionType.HIGHLIGHT_LIGHT)
-       return getMax(root.left,memento,root,"Predecessor");
+   const foundNode = shadowSearch(root,k)
+   if(!foundNode){
+       throw new Error("Node not found");
    }
-   let y = root.parent;
+   if(foundNode.left){
+       memento.addSnapshot({line: 1, name: "Predecessor"}, root, foundNode.left.id, ActionType.HIGHLIGHT_LIGHT)
+       return getMax(foundNode.left,memento,root,"Predecessor");
+   }
+   let y = foundNode.parent;
    if(y){
        memento.addSnapshot({line: 1, name: "Predecessor"}, root, y.id, ActionType.HIGHLIGHT_LIGHT)
    }else{
        memento.addBlank({line: 1, name: "Predecessor"}, root)
    }
-   let x = root
+   let x = foundNode
    while (y && x === y?.left){
        memento.addDoubleSnapShot({line: 1, name: "Predecessor"},root, y.id,x.id, ActionType.HIGHLIGHT_LIGHT,[])
        x = y
