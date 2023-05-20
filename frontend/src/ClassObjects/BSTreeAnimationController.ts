@@ -67,6 +67,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentRoles(this.memento.getRoles(i));
         this.setRoot(this.memento.getData(i));
         this.setReference(this.memento.getCodeRef(i));
+        this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(i));
         this.frame = i;
     }
 
@@ -92,7 +93,6 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     }
 
     setTreeFromInput(arr: number[],newRoot?:BSTreeNode) {
-
         let root: BSTreeNode | undefined
         if(newRoot){
             root = newRoot;

@@ -10,6 +10,10 @@ export class BSTreeMemento  extends Memento<BSTreeNode | undefined,string> {
         super('Search')
         this.visitedNodesSnapshots = []
     }
+    clearSnapshots() {
+        super.clearSnapshots();
+        this.visitedNodesSnapshots = []
+    }
 
     addBlank(codeRef: any, tree: BSTreeNode | undefined, heapSize?: number, nodeRoles:NodeRole[]=[],visitedNodes:number[]=[]) {
         this.snapshots.push({
