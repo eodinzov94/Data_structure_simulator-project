@@ -11,20 +11,20 @@ export const BSTPseudoCode = {
         {text: "else return 𝑺𝒆𝒂𝒓𝒄𝒉(𝑥.𝑟𝑖𝑔ℎ𝑡,𝑘)", tabAmount: 1},
     ] as PseudoItem[],
     Insert: [
-        {text: "𝑰𝒏𝒔𝒆𝒓𝒕(𝑻,𝒛)", tabAmount: 0},
-        {text: "𝑦 ← 𝑵𝑼𝑳𝑳", tabAmount: 1},
-        {text: "𝑥 ← 𝑇.root", tabAmount: 1},
-        {text: "while (𝑥 ≠ 𝑵𝑼𝑳𝑳)", tabAmount: 1},
-        {text: "𝑦 ← 𝑥", tabAmount: 2},
-        {text: "if(z.key < 𝑥.key)", tabAmount: 2},
-        {text: "𝑥 ← 𝑥.left", tabAmount: 3},
-        {text: "else 𝑥 ← 𝑥.right", tabAmount: 2},
-        {text: "z.p ← y", tabAmount: 1},
-        {text: "if(y = 𝑵𝑼𝑳𝑳) //T was empty", tabAmount: 1},
-        {text: "T.root ← z", tabAmount: 2},
-        {text: "elseif(z.key < y.key)", tabAmount: 1},
-        {text: "y.left ← z", tabAmount: 2},
-        {text: "else y.right ← z", tabAmount: 1},
+        {text: "𝑰𝒏𝒔𝒆𝒓𝒕(𝑻,𝒛)", tabAmount: 0}, //0
+        {text: "𝑦 ← 𝑵𝑼𝑳𝑳", tabAmount: 1},//1
+        {text: "𝑥 ← 𝑇.root", tabAmount: 1},//2
+        {text: "while (𝑥 ≠ 𝑵𝑼𝑳𝑳)", tabAmount: 1},//3
+        {text: "𝑦 ← 𝑥", tabAmount: 2},//4
+        {text: "if(z.key < 𝑥.key)", tabAmount: 2},//5
+        {text: "𝑥 ← 𝑥.left", tabAmount: 3},//6
+        {text: "else 𝑥 ← 𝑥.right", tabAmount: 2},//7
+        {text: "z.p ← y", tabAmount: 1},//8
+        {text: "if(y = 𝑵𝑼𝑳𝑳) //T was empty", tabAmount: 1},//9
+        {text: "T.root ← z", tabAmount: 2},        //10
+        {text: "elseif(z.key < y.key)", tabAmount: 1}, //11
+        {text: "y.left ← z", tabAmount: 2},            //12
+        {text: "else y.right ← z", tabAmount: 1},   //13
     ] as PseudoItem[],
     // Delete: [
     //     {text: "Delete(𝑻,𝒛)", tabAmount: 0},
@@ -47,7 +47,7 @@ export const BSTPseudoCode = {
     Delete: [
         {text: "Delete(𝑻,key)", tabAmount: 0},
         {text: "if(T.root == null)", tabAmount: 1},
-        {text: "return T.root", tabAmount: 1},
+        {text: "return T.root", tabAmount: 2},
         {text: "if(key < T.root.value)", tabAmount: 1},
         {text: "T.root.left ← Delete(𝑻.root.left,key)", tabAmount: 2},
         {text: "elseif(key > T.root.value)", tabAmount: 1},

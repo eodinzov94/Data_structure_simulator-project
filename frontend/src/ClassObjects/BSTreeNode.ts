@@ -33,7 +33,7 @@ export class BSTreeNode{
         if (!root) {
             return 0;
         }
-        return 1 + BSTreeNode.countNodes(root.left) + BSTreeNode.countNodes(root.right);
+        return 1 + this.countNodes(root.left) + this.countNodes(root.right);
     }
 
 // create function that can get max id from tree
@@ -41,7 +41,7 @@ export class BSTreeNode{
         if (!root) {
             return 0;
         }
-        return Math.max(BSTreeNode.getMaxId(root.left), BSTreeNode.getMaxId(root.right));
+        return Math.max(root.id,this.getMaxId(root.left), this.getMaxId(root.right));
     }
 
     static createNewNode(
@@ -50,8 +50,18 @@ export class BSTreeNode{
     ): BSTreeNode {
         return {
             value: value,
-            id: Math.max(BSTreeNode.countNodes(currentRoot), BSTreeNode.getMaxId(currentRoot)) + 1,
+            id: this.getNextId(currentRoot) ,
         };
+    }
+    static getNextId(root: BSTreeNode | undefined): number {
+        if (!root) {
+            console.log('not root');
+            return 0;
+        }
+        let count = this.countNodes(root)
+        let maxid = this.getMaxId(root)
+        console.log( {count, maxid})
+        return Math.max(this.countNodes(root), this.getMaxId(root)+1)
     }
 
 }

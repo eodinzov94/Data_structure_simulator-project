@@ -36,22 +36,22 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
     }
 
     async buildMaxHeap() {
-            await this.playAlgorithm(buildMaxHeap, [...this.data], this.memento)
+            await this.playAlgorithm(buildMaxHeap, this.memento)
     }
 
     async heapMax() {
-            await this.playAlgorithm(heapMax, [...this.data], this.memento)
+            await this.playAlgorithm(heapMax, this.memento)
     }
 
     async extractMax() {
-            await this.playAlgorithm(heapExtractMax, [...this.data], this.memento)
+            await this.playAlgorithm(heapExtractMax, this.memento)
     }
-    maxHeapInsert(key: number) {
+    maxHeapInsert(data: number[],key: number) {
         if (this.data.length === 15) {
             console.log(this.data);
             throw new Error("Array is full, max size is 15");
         }
-        maxHeapInsert([...this.data],this.memento as HeapMemento, key)
+        maxHeapInsert(data,this.memento as HeapMemento, key)
     }
     async insertKey(key: number) {
         await this.playAlgorithm(this.maxHeapInsert.bind(this), key)
@@ -61,7 +61,7 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
         return maxHeapSort(A, memento)
     }
     async heapSort() {
-        await this.playAlgorithm(this.maxHeapSort.bind(this), [...this.data], this.memento)
+        await this.playAlgorithm(this.maxHeapSort.bind(this), this.memento)
     }
 
     async initNewAnimation() {

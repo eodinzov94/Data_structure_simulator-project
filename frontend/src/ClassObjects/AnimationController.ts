@@ -32,6 +32,7 @@ abstract class AnimationController<T, Y> {
             this.data = this.memento.getLastData();
             this.initData(this.data)
         } else {
+
             this.setCurrentRoles([]);
         }
         this.memento.clearSnapshots();
@@ -60,7 +61,8 @@ abstract class AnimationController<T, Y> {
 
     async playAlgorithm(algFunc: Function, ...args: any[]) {
         await this.initNewAnimation()
-        algFunc(...args)
+        const data = Array.isArray(this.data) ?[...this.data] : this.data
+        algFunc(data,...args)
         this.setReference({name: this.memento.getCurrentAlg(), line: 0})
         this.frame = 0
         await this.playAnimation()

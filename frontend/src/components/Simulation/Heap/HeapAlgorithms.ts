@@ -84,7 +84,6 @@ export function heapMax(A: number[], memento: HeapMemento) {
 
 
 export function maxHeapInsert(A: number[], memento: HeapMemento,key: number): void {
-    debugger
     memento.addBlank({line: 1, name: "MaxHeapInsert"}, A)
     A.push(-Infinity);
     memento.addSnapshot({line: 2, name: "MaxHeapInsert"}, A, A.length - 1, ActionType.ADD);

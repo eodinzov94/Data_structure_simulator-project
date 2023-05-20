@@ -99,7 +99,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
             severity="error"
             color="error"
             className="w-[670px] h-[50px]"
-            onClose={() => setError("")}
+            onClose={() => dispatch(setError(""))}
           >
             {error}
           </Alert>
