@@ -58,9 +58,6 @@ export class BSTreeNode{
             console.log('not root');
             return 0;
         }
-        let count = this.countNodes(root)
-        let maxid = this.getMaxId(root)
-        console.log( {count, maxid})
         return Math.max(this.countNodes(root), this.getMaxId(root)+1)
     }
 

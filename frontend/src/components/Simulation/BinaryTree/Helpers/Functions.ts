@@ -7,6 +7,7 @@ import {
   HeapPseudoCodeList,
 } from "../../PseudoCode/HeapPseudoCodeData";
 import {BSTPseudoCode, BSTPseudoCodeKeys, BSTPseudoCodeList} from "../../PseudoCode/BSTreePseudoCodeData";
+import {BSTreeNode} from "../../../../ClassObjects/BSTreeNode";
 
 export function arrayToBinaryTree(arr: number[]): TreeNode | undefined {
   if (!arr.length) {
@@ -225,7 +226,7 @@ export const combineBSTPseudoCodes = (currentAlg:BSTPseudoCodeKeys) => {
   return BSTPseudoCode[currentAlg]
 
 }
-export function calculateHeight(root: TreeNode | undefined | null): number {
+export function calculateHeight(root: TreeNode | undefined | null | BSTreeNode): number {
   if (!root) {
     return 0;
   }

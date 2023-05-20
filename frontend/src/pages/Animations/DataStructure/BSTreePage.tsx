@@ -17,6 +17,7 @@ const HeapPage: FC = () => {
     const currentAlg = useAppSelector((state) => state.bst.currentAlg);
     const currentLine = useAppSelector((state) => state.bst.currentLine);
     const currentRoles = useAppSelector((state) => state.bst.currentRoles);
+    const visitedNodes = useAppSelector((state) => state.bst.visitedNodes);
     const controller = BSTreeAnimationController.getController(
         root,
         useDispatch()
@@ -35,16 +36,15 @@ const HeapPage: FC = () => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
-    const fitsAnimation = viewportWidth >= 1120;
+    const fitsAnimation = viewportWidth >= 1500;
 
     return (
         <>
             {fitsAnimation ?
                 <>
                     <BSTreeControlsPanel controller={controller}/>
-                    <div className="container mx-auto max-w-7xl px-0 py-0 mt-96">
+                    <div className="container mx-auto max-w-7xl px-0 py-0 mt-[400px]">
                         <BinaryTree
-                            isBsTree={true}
                             viewportWidth={viewportWidth}
                             root={root}
                             level={0}
@@ -52,6 +52,8 @@ const HeapPage: FC = () => {
                             speed={controller.speed}
                             actions={currentActions}
                             roles={currentRoles}
+                            isBST={true}
+                            visitedNodes={visitedNodes}
                         />
                     </div>
                     <PlayerControlsPanel controller={controller}/>
@@ -68,7 +70,7 @@ const HeapPage: FC = () => {
                 <div
                     className="relative grid place-content-center place-items-center gap-2 before:bg-gradient-to-t before:from-teal-500/70 before:via-fuchsia-600 before:to-transparent before:blur-xl before:filter">
                     <h2 className="title text-3xl font-black text-lime-600">Min supported width for this simulation</h2>
-                    <h2 className="cursive text-5xl font-thin text-lime-600">1120px current width : {viewportWidth}</h2>
+                    <h2 className="cursive text-5xl font-thin text-lime-600">1500px current width : {viewportWidth}</h2>
                     <img
                         src={PhoneRotate}
                         alt="Rotate device"

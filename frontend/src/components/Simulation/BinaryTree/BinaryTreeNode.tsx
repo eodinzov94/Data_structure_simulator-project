@@ -32,6 +32,7 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
             ...style,
             top: nodeObj.position.y,
             left: nodeObj.position.x,
+            borderColor:nodeObj.isVisited?"#023125":"#84cc16",
           }}
           className={nodeObj.nodeRole?"node node-selected":"node"}
         >

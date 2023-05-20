@@ -6,6 +6,7 @@ import {generateRandomArrForHeap, getArrFromInputForHeap,} from "../BinaryTree/H
 import {sleep} from "../../../utils/animation-helpers";
 import MediumCard from "../../UI/MediumCard";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
+import {randomBuildTree} from "../BST/BST_Algorithms";
 
 interface Props {
   controller: BSTreeAnimationController;
@@ -29,8 +30,12 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
   const createBSTreeHandler = async () => {
     const res = getArrFromInputForHeap(15, inputArray);
     if (typeof res !== "string") {
-      controller.setTreeFromInput(res);
-      await Animate("Create");
+      try{
+        controller.setTreeFromInput(res);
+      }catch(e:any){
+        setCurrentError(e.message);
+      }
+
     } else {
       setCurrentError(res);
     }
@@ -74,18 +79,24 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
       case "Predecessor":
         await controller.predecessor(inputValues.Predecessor);
         return;
-      case "Create":
-        await controller.build();
-        return;
       case "Clear":
         await controller.setTreeFromInput([]);
+        return;
+      case "Inorder":
+        await controller.inorder()
+        return;
+      case "Preorder":
+        await controller.preorder()
+        return;
+      case "Postorder":
+        await controller.postorder()
         return;
       default:
         return;
     }
   };
   const randomizeInput = () => {
-      controller.setTreeFromInput(generateRandomArrForHeap());
+      controller.setTreeFromInput([],randomBuildTree(generateRandomArrForHeap()));
   }
   useEffect(() => { // create a random array whenever the page is loaded.
     randomizeInput();
@@ -105,9 +116,9 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
           </Alert>
         </div>
       )}
-      <MediumCard isSmaller={true} maxWidth={"max-w-5xl"}>
+      <MediumCard isSmaller={true} maxWidth={"max-w-7xl"}>
         <div className="flex justify-center">
-          {["Min", "Max", "Clear"].map((text) => (
+          {["Min", "Max", "Clear","Inorder", "Preorder", "Postorder"].map((text) => (
             <div className="py-2 px-2" key={text}>
               <button
                 disabled={isButtonDisabled}

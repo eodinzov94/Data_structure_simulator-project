@@ -4,15 +4,27 @@ import {
     build, deleteNodeWrapper,
     getMax,
     getMin,
+    inorderTraversal,
+    insert,
     insertWithAnimations,
+    postorderTraversal,
     predecessor,
+    preorderTraversal,
     search,
     successor
 } from "../components/Simulation/BST/BST_Algorithms";
 import {AppDispatch} from "../store/store";
-import {setActions, setCodeRef, setPlaying, setRoles, setRoot} from "../store/reducers/alghoritms/bst-reducer";
+import {
+    setActions,
+    setCodeRef,
+    setPlaying,
+    setRoles,
+    setRoot,
+    setVisited
+} from "../store/reducers/alghoritms/bst-reducer";
 import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 import {BSTreeNode} from "./BSTreeNode";
+import {calculateHeight} from "../components/Simulation/BinaryTree/Helpers/Functions";
 
 
 class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined, string> {
@@ -68,6 +80,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentActions(this.memento.getActions(index));
         this.setCurrentRoles(this.memento.getRoles(index));
         this.setReference(this.memento.getCodeRef(index));
+        this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(index));
     }
 
     initData(data: BSTreeNode | undefined) {
@@ -75,27 +88,50 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setRoot(data);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
+        this.setVisitedNodes([]);
     }
 
-    setTreeFromInput(arr: number[]) {
-        const root = build(arr);
+    setTreeFromInput(arr: number[],newRoot?:BSTreeNode) {
+
+        let root: BSTreeNode | undefined
+        if(newRoot){
+            root = newRoot;
+        }else{
+            root = build(arr)
+        }
         this.data = root;
         this.memento.clearSnapshots();
         this.setRoot(root);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
+        this.setVisitedNodes([]);
     }
-
+    setVisitedNodes(visitedNodes: number[]) {
+        this.dispatch(setVisited(visitedNodes));
+    }
     async search(key: number) {
         await this.playAlgorithm(search, key, this.memento as BSTreeMemento, this.data);
     }
+    async inorder() {
+        await this.playAlgorithm(inorderTraversal, this.memento as BSTreeMemento);
+    }
+    async preorder() {
+        await this.playAlgorithm(preorderTraversal, this.memento as BSTreeMemento);
+    }
 
+    async postorder() {
+        await this.playAlgorithm(postorderTraversal, this.memento as BSTreeMemento);
+    }
     async insert(value: number) {
         let data;
         if (this.memento.getLength()) {
             data = this.memento.getLastData()
         } else {
             data = this.data
+        }
+        const tempRoot = insert(BSTreeNode.deepCopy(data), BSTreeNode.createNewNode(data, value));
+        if(calculateHeight(tempRoot)>6){
+            throw new Error("Tree is too big, max height is 6")
         }
         await this.playAlgorithm(insertWithAnimations, BSTreeNode.createNewNode(data, value), this.memento as BSTreeMemento);
     }
@@ -120,9 +156,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         await this.playAlgorithm(predecessor, key, this.memento as BSTreeMemento);
     }
 
-    async build() {
 
-    }
 }
 
 export default BSTreeAnimationController

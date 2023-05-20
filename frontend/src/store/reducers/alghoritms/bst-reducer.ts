@@ -13,6 +13,7 @@ const initialState = {
     currentAlg: 'Search' as BSTAlgNames,
     currentLine:0,
     currentRoles:[] as NodeRole[],
+    visitedNodes:[] as number[],
     inputValues: {
         Successor: 1,
         Predecessor: 2,
@@ -40,6 +41,10 @@ const bstSlice = createSlice({
         },
         setPlaying(state,action:PayloadAction<boolean>){
             state.isPlaying = action.payload
+            return state
+        },
+        setVisited(state,action:PayloadAction<number[]>){
+            state.visitedNodes = action.payload
             return state
         },
         setInputArray(state,action:PayloadAction<string>){
@@ -71,6 +76,7 @@ export const {
     setPlaying,
     setActions,
     setError,
-    setRoles
+    setRoles,
+    setVisited
 } = bstSlice.actions;
 

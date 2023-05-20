@@ -23,7 +23,8 @@ export class NodeObj {
     viewportWidth: number;
     type: "root" | "left" | "right";
     nodeRole?: string;
-
+    isBST: boolean;
+    isVisited: boolean;
     constructor(
         position: { x: number; y: number },
         speed: number,
@@ -33,7 +34,9 @@ export class NodeObj {
         parent: NodeObj | undefined,
         level: number,
         height: number,
-        type: "root" | "left" | "right"
+        type: "root" | "left" | "right",
+        isBST?: boolean
+
     ) {
         this.position = position;
         this.speed = speed;
@@ -47,8 +50,10 @@ export class NodeObj {
         this.height = Math.max(5, height);
         this.viewportWidth = viewportWidth;
         this.type = type;
+        this.isBST = !!isBST;
         this.calculatePosition();
         this.createBranch();
+        this.isVisited = false;
     }
 
     calculatePosition() {
@@ -61,16 +66,16 @@ export class NodeObj {
             this.position = {
                 x:
                     this.parent.position.x -
-                    Math.min(this.viewportWidth, NodeObj.availableSpace) /
-                    (this.parent.height * 2 ** (this.parent.level - 0.5)),
+                    (Math.min(this.viewportWidth, NodeObj.availableSpace) /
+                    (this.parent.height * 2 ** (this.parent.level - 0.5)))*(this.isBST?2:1),
                 y: this.parent.position.y + NodeObj.gapY,
             };
         } else {
             this.position = {
                 x:
                     this.parent.position.x +
-                    Math.min(this.viewportWidth, NodeObj.availableSpace) /
-                    (this.parent.height * 2 ** (this.parent.level - 0.5)),
+                    (Math.min(this.viewportWidth, NodeObj.availableSpace) /
+                    (this.parent.height * 2 ** (this.parent.level - 0.5)))*(this.isBST?2:1),
                 y: this.parent.position.y + NodeObj.gapY,
             };
         }
@@ -106,7 +111,8 @@ export class NodeObj {
         speed: number,
         root: TreeNode | undefined | BSTreeNode,
         level: number,
-        currentHeapSize?: number
+        currentHeapSize?: number,
+        isBST?: boolean
     ): NodeObj[] {
         if (!root) {
             return [];
@@ -124,7 +130,8 @@ export class NodeObj {
                     undefined,
                     level,
                     height,
-                    "root"
+                    "root",
+                    isBST
                 ),
             },
         ];
@@ -148,7 +155,8 @@ export class NodeObj {
                         nodeObj,
                         nodeObj.level + 1,
                         height,
-                        "right"
+                        "right",
+                        isBST
                     ),
                 });
             }
@@ -164,7 +172,8 @@ export class NodeObj {
                         nodeObj,
                         nodeObj.level + 1,
                         height,
-                        "left"
+                        "left",
+                        isBST
                     ),
                 });
             }
@@ -262,6 +271,11 @@ export class NodeObj {
                     }
                 }
             }
+        }
+    }
+    static setVisited(treeObjects: NodeObj[], visitedNodes: number[]) {
+        for(let node of treeObjects) {
+            node.isVisited = visitedNodes.includes(node.id);
         }
     }
 }
