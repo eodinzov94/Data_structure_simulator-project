@@ -9,6 +9,7 @@ import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationCont
 import BSTreeControlsPanel from "../../../components/Simulation/ControlsPanels/BSTreeControlsPanel";
 import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
 import {PseudoItem} from "../../../components/Simulation/PseudoCode/pc-helpers";
+import HeapArray from "../../../components/Simulation/Heap/HeapArray/HeapArray";
 
 
 const HeapPage: FC = () => {
@@ -19,6 +20,7 @@ const HeapPage: FC = () => {
     const currentRoles = useAppSelector((state) => state.bst.currentRoles);
     const visitedNodes = useAppSelector((state) => state.bst.visitedNodes);
     const passedNodes = useAppSelector((state) => state.bst.passedNodes);
+    const traversalResults = useAppSelector((state) => state.bst.traversalResults);
     const controller = BSTreeAnimationController.getController(
         root,
         useDispatch()
@@ -58,6 +60,13 @@ const HeapPage: FC = () => {
                             passedNodes={passedNodes}
                         />
                     </div>
+                    {traversalResults.length > 0 && <div className="container mx-auto max-w-7xl px-0 py-0 mt-72">
+                            <HeapArray
+                            items={traversalResults}
+                            actions={currentActions}
+                            speed={controller.speed}
+                        />
+                    </div>}
                     <PlayerControlsPanel controller={controller}/>
                    <div className="flex justify-end mr-5">
                         <div className=" w-fit">

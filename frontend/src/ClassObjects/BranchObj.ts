@@ -54,7 +54,7 @@ export class BranchObj {
             return [{},{}]
         }
         return [
-            {backgroundPosition: "-100% 0%"},
+            {backgroundPosition: "-100% 0%",height: "3px"},
             {ease: "linear",duration: 0.400 * speed}
         ]
     }

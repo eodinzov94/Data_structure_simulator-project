@@ -20,7 +20,7 @@ import {
     setPassedNodes,
     setPlaying,
     setRoles,
-    setRoot,
+    setRoot, setTraversalResults,
     setVisited
 } from "../store/reducers/alghoritms/bst-reducer";
 import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
@@ -70,6 +70,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setReference(this.memento.getCodeRef(i));
         this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(i));
         this.setPassedNodes((this.memento as BSTreeMemento).getPassedNodes(i))
+        this.setTraversalResult((this.memento as BSTreeMemento).getTraversalResults(i))
         this.frame = i;
     }
 
@@ -85,6 +86,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setReference(this.memento.getCodeRef(index));
         this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(index));
         this.setPassedNodes((this.memento as BSTreeMemento).getPassedNodes(index))
+        this.setTraversalResult((this.memento as BSTreeMemento).getTraversalResults(index))
     }
 
     initData(data: BSTreeNode | undefined) {
@@ -94,6 +96,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentRoles([]);
         this.setVisitedNodes([]);
         this.setPassedNodes([])
+        this.setTraversalResult([])
     }
    setPassedNodes(passedNodes: number[]) {
        this.dispatch(setPassedNodes(passedNodes));
@@ -112,9 +115,13 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentRoles([]);
         this.setVisitedNodes([]);
         this.setPassedNodes([])
+        this.setTraversalResult([])
     }
     setVisitedNodes(visitedNodes: number[]) {
         this.dispatch(setVisited(visitedNodes));
+    }
+    setTraversalResult(result: number[]) {
+        this.dispatch(setTraversalResults(result));
     }
     async search(key: number) {
         await this.playAlgorithm(search, key, this.memento as BSTreeMemento, this.data);

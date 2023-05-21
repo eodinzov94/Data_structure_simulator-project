@@ -15,6 +15,7 @@ const initialState = {
     currentRoles:[] as NodeRole[],
     visitedNodes:[] as number[],
     passedNodes:[] as number[],
+    traversalResults:[] as number[],
     inputValues: {
         Successor: 1,
         Predecessor: 2,
@@ -38,6 +39,10 @@ const bstSlice = createSlice({
         },
         setError(state,action:PayloadAction<string>){
             state.error = action.payload
+            return state
+        },
+        setTraversalResults(state,action:PayloadAction<number[]>){
+            state.traversalResults = action.payload
             return state
         },
         setPassedNodes(state,action:PayloadAction<number[]>){
@@ -67,7 +72,8 @@ const bstSlice = createSlice({
         },
         setRoles(state,action:PayloadAction<NodeRole[]>){
             state.currentRoles = action.payload
-        }
+        },
+
     }
 });
 
@@ -83,7 +89,9 @@ export const {
     setError,
     setRoles,
     setVisited,
-    setPassedNodes
+    setPassedNodes,
+    setTraversalResults
+
 
 } = bstSlice.actions;
 
