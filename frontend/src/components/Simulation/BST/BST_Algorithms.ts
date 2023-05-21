@@ -518,7 +518,7 @@ export function inorderTraversal(node: BSTreeNode | undefined, memento: BSTreeMe
             traversal(node.left, mainRoot, memento);
             idResult.push(node.id);
             valResult.push(node.value);
-            memento.addSnapshot({line: 3, name: "Inorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_FULL, [{
+            memento.addBlank({line: 3, name: "Inorder"}, mainRoot, undefined, [{
                 id: node.id,
                 role: "x"
             }], idResult, passedNodes, valResult)
@@ -559,10 +559,10 @@ export function postorderTraversal(node: BSTreeNode | undefined, memento: BSTree
             traversal(node.right, mainRoot, memento);
             idResult.push(node.id);
             valResult.push(node.value);
-            memento.addSnapshot({
+            memento.addBlank({
                 line: 4,
                 name: "Postorder"
-            }, mainRoot, node.id, ActionType.HIGHLIGHT_FULL, [{
+            }, mainRoot, undefined, [{
                 id: node.id,
                 role: "x"
             }], idResult, passedNodes, valResult)

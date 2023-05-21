@@ -62,6 +62,7 @@ const HeapPage: FC = () => {
                         />
                     </div>
                     {traversalResults.length > 0 && <div className="container mx-auto max-w-7xl px-0 py-0 mt-72">
+                           <p className="mr-56"><b>Traversal Results</b></p>
                             <HeapArray
                             items={traversalResults}
                             actions={currentActions}
