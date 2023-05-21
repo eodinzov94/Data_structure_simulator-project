@@ -91,6 +91,20 @@ class UserController {
       if (!user.isEnabled2FA) {
         const token = generateJwt(user)
 
+        if (user.role == 'Lecturer'){
+          return res.json({
+            token, status: 'OK',
+            user: {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              is2FA: user.isEnabled2FA
+            },
+          })
+        }
+
         return res.json({
           token, status: 'OK',
           user: {
@@ -99,6 +113,10 @@ class UserController {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
+            birthYear: user.birthYear,
+            gender: user.gender,
+            is2FA: user.isEnabled2FA
+
           },
         })
       }
@@ -145,6 +163,7 @@ class UserController {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
+            is2FA: user.isEnabled2FA
           })
       }
 
@@ -157,6 +176,7 @@ class UserController {
           role: user.role,
           birthYear: user.birthYear,
           gender: user.gender,
+          is2FA: user.isEnabled2FA
         })
         
     } catch (e: any) {

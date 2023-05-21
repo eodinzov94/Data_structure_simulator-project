@@ -21,7 +21,7 @@ export const TWO_FA_verifier = async (code: string, type: CODE_TYPES, email: str
   if (!match) {
     throw new ApiError(401, 'Code is incorrect')
   }
-  const diffInMinutes = Math.floor(((Date.now() - match.updatedAt.valueOf()) / 1000) / 60)
+  const diffInMinutes = Math.floor((Date.now() - match.updatedAt.valueOf()) / 1000 / 60)
   if (diffInMinutes > 5) {
     throw new ApiError(401, '2FA Code expired')
   }
@@ -36,18 +36,19 @@ export const ServiceSendCode = async (type: CODE_TYPES, email: string) => {
   }
   const user = await User.findOne({ where: { email } })
   if (!user) {
-    throw(ApiError.forbidden('Error sending email'))
+    throw ApiError.forbidden('Error sending email')
   }
   const token = generateConfirmMailToken(email)
   mailer(
-    `Email verification`, `To verify the email follow the link : 
+    `Email verification`,
+    `To verify the email follow the link : 
     http://${process.env.FRONT_IP || 'localhost:3000'}/verify-email/${token}`,
-    email)
+    email
+  )
 }
 
-
 class TwoFactorAuthController {
-  async send2FA_Code(req: TypedRequestBody<{ type: CODE_TYPES, email: string }>, res: Response, next: NextFunction) {
+  async send2FA_Code(req: TypedRequestBody<{ type: CODE_TYPES; email: string }>, res: Response, next: NextFunction) {
     const { type, email } = req.body
     try {
       await ServiceSendCode(type, email)
@@ -69,14 +70,33 @@ class TwoFactorAuthController {
       }
       const accessToken = generateJwt(user)
       if (type === '2FA') {
+        if (user.role == 'Lecturer') {
+          return res.json({
+            status: 'OK',
+            token: accessToken,
+            user: {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              is2FA: user.isEnabled2FA
+            }
+          })
+        }
         return res.json({
-          status: 'OK', token: accessToken, user: {
+          status: 'OK',
+          token: accessToken,
+          user: {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             role: user.role,
-          },
+            birthYear: user.birthYear,
+            gender: user.gender,
+            is2FA: user.isEnabled2FA
+          }
         })
       } else {
         return res.json({ status: 'OK' })
@@ -85,8 +105,6 @@ class TwoFactorAuthController {
       const message = e?.message || 'Unknown error'
       return res.status(401).json({ message })
     }
-
-
   }
 
   async resetPassword(req: TypedRequestBody<RESET_PW_2FA_BODY>, res: Response, next: NextFunction) {
@@ -105,7 +123,6 @@ class TwoFactorAuthController {
     }
   }
 
-
   async set2FA_status(req: TypedRequestBody<SET_2FA_STATUS_BODY>, res: Response, next: NextFunction) {
     try {
       const { status, email } = req.body
@@ -123,14 +140,13 @@ class TwoFactorAuthController {
       if (!token) {
         return res.status(401).json({ message: 'Verify token is required' })
       }
-      const decoded = verify(token, process.env.JWT_SECRET_KEY as string) as { email: string, type: CODE_TYPES }
+      const decoded = verify(token, process.env.JWT_SECRET_KEY as string) as { email: string; type: CODE_TYPES }
       await User.update({ isEmailConfirmed: true }, { where: { email: decoded.email } })
       res.json({ status: 'OK' })
     } catch (e) {
       console.log(e)
       return res.status(401).json({ message: 'Error verifying the email' })
     }
-
   }
 }
 

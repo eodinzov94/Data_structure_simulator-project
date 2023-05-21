@@ -8,19 +8,36 @@ import { useAppSelector } from "../store/hooks";
 import { mainColor, mainHoverColor } from "../styles/tColors";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import AuthCard from "../components/Auth/AuthCard";
+import { Switch } from "@headlessui/react";
+import { FormEvent, useState } from "react";
+import { IUser } from "../types/Auth";
 
 const GENDER = ["Male", "Female"];
 
 const EditProfilePage = () => {
   const user = useAppSelector((state) => state.auth.user!);
-
+  const [editUser, setEditUser] = useState<IUser>(user);
   var emailClass = `col-span-2 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`;
   if (user.role === "Lecturer") emailClass += " rounded-b-md";
   let gender = 0;
-  if (user.gender && user.gender == "Female") gender = 1;
+  if (editUser.gender && editUser.gender == "Female") gender = 1;
 
-  const onSubmitHandler = () => {
-    //SEND TO BACKEND
+  const onChangeHandler = (event: any) => {
+    setEditUser((prevstate) => {
+      return { ...prevstate, [event.target.name]: event.target.value };
+    });
+  };
+
+  const onChangeGender = (index: number) => {
+    setEditUser((prevstate) => {
+      return { ...prevstate, gender: GENDER[index] as "Male" | "Female" };
+    });
+  };
+
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    //SEND TO BACKEND - the data in the editUser state !!!!!!!!!!!!!!!!
   };
 
   return (
@@ -37,7 +54,8 @@ const EditProfilePage = () => {
               autoComplete="first-name"
               required
               className={`col-span-2 relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-              placeholder={user.firstName}
+              value={editUser.firstName}
+              onChange={onChangeHandler}
             />
 
             {/* last name */}
@@ -49,7 +67,8 @@ const EditProfilePage = () => {
               autoComplete="family-name"
               required
               className={`col-span-2 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-              placeholder={user.lastName}
+              value={editUser.lastName}
+              onChange={onChangeHandler}
             />
 
             {/* email */}
@@ -61,7 +80,8 @@ const EditProfilePage = () => {
               autoComplete="email"
               required
               className={emailClass}
-              placeholder={user.email}
+              value={editUser.email}
+              onChange={onChangeHandler}
             />
 
             {user.role !== "Lecturer" && (
@@ -75,9 +95,9 @@ const EditProfilePage = () => {
                   min={new Date().getFullYear() - 120}
                   required
                   className={`col-span-2 relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-                  placeholder={user.birthYear?.toString()}
+                  value={editUser.birthYear?.toString()}
+                  onChange={onChangeHandler}
                 />
-
                 <label htmlFor="" className="py-4">
                   Gender:
                 </label>
@@ -85,6 +105,7 @@ const EditProfilePage = () => {
                   <RadioButton
                     value={gender}
                     labelText=""
+                    onChange={onChangeGender}
                     options={[
                       <div className="flex flex-1 justify-around">
                         <span>{GENDER[0]}</span>
@@ -97,6 +118,25 @@ const EditProfilePage = () => {
                     ]}
                   />
                 </div>
+                <label htmlFor="2-factor-auth">2 factor auth:</label>
+                <Switch
+                  checked={editUser.is2FA}
+                  onChange={(checked: boolean) => {
+                    setEditUser((prevstate) => {
+                      return { ...prevstate, is2FA: checked };
+                    });
+                  }}
+                  className={`${
+                    editUser.is2FA ? "bg-lime-500" : "bg-gray-200"
+                  } relative inline-flex h-6 w-11 items-center rounded-full`}
+                >
+                  <span className="sr-only">Enable notifications</span>
+                  <span
+                    className={`${
+                      editUser.is2FA ? "translate-x-6" : "translate-x-1"
+                    } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                  />
+                </Switch>
               </>
             )}
           </div>
