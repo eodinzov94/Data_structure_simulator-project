@@ -18,6 +18,7 @@ const HeapPage: FC = () => {
     const currentLine = useAppSelector((state) => state.bst.currentLine);
     const currentRoles = useAppSelector((state) => state.bst.currentRoles);
     const visitedNodes = useAppSelector((state) => state.bst.visitedNodes);
+    const passedNodes = useAppSelector((state) => state.bst.passedNodes);
     const controller = BSTreeAnimationController.getController(
         root,
         useDispatch()
@@ -54,6 +55,7 @@ const HeapPage: FC = () => {
                             roles={currentRoles}
                             isBST={true}
                             visitedNodes={visitedNodes}
+                            passedNodes={passedNodes}
                         />
                     </div>
                     <PlayerControlsPanel controller={controller}/>

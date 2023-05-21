@@ -469,29 +469,51 @@ export function randomBuildTree(input: number[]): BSTreeNode | undefined {
 
 export function preorderTraversal(node: BSTreeNode | undefined, memento: BSTreeMemento) {
     const result: number[] = [];
+    const passedNodes: number[] = [];
+
     function traversal(node: BSTreeNode | undefined, mainRoot: BSTreeNode | undefined, memento: BSTreeMemento) {
-    if (node) {
-        memento.addSnapshot({line: 1, name: "Preorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
-    } else {
-        memento.addBlank({line: 1, name: "Preorder"}, mainRoot,undefined,[],result)
-    }
-    if (node) {
-        result.push(node.id);
-        memento.addSnapshot({line: 2, name: "Preorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_FULL,[{id: node.id, role: "x"}],result)
-        if(node.left){
-            memento.addSnapshot({line: 3, name: "Preorder"}, mainRoot, node.left.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
-        }else{
-            memento.addBlank({line: 3, name: "Preorder"}, mainRoot,undefined,[{id: node.id, role: "x"}],result)
+        if (node) {
+            memento.addSnapshot({
+                line: 1,
+                name: "Preorder"
+            }, mainRoot, node.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
+        } else {
+            memento.addBlank({line: 1, name: "Preorder"}, mainRoot, undefined, [], result, passedNodes)
         }
-        traversal(node.left, mainRoot, memento);
-        if(node.right){
-            memento.addSnapshot({line: 4, name: "Preorder"}, mainRoot, node.right.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
-        }else{
-            memento.addBlank({line: 4, name: "Preorder"}, mainRoot,undefined,[{id: node.id, role: "x"}],result)
+        if (node) {
+            passedNodes.push(node.id);
+            result.push(node.id);
+            memento.addSnapshot({
+                line: 2,
+                name: "Preorder"
+            }, mainRoot, node.id, ActionType.HIGHLIGHT_FULL, [{id: node.id, role: "x"}], result, passedNodes)
+            if (node.left) {
+                memento.addSnapshot({
+                    line: 3,
+                    name: "Preorder"
+                }, mainRoot, node.left.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
+            } else {
+                memento.addBlank({line: 3, name: "Preorder"}, mainRoot, undefined, [{
+                    id: node.id,
+                    role: "x"
+                }], result, passedNodes)
+            }
+            traversal(node.left, mainRoot, memento);
+            if (node.right) {
+                memento.addSnapshot({
+                    line: 4,
+                    name: "Preorder"
+                }, mainRoot, node.right.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
+            } else {
+                memento.addBlank({line: 4, name: "Preorder"}, mainRoot, undefined, [{
+                    id: node.id,
+                    role: "x"
+                }], result, passedNodes)
+            }
+            traversal(node.right, mainRoot, memento);
         }
-        traversal(node.right, mainRoot, memento);
     }
-    }
+
     traversal(node, node, memento);
 }
 
@@ -499,31 +521,53 @@ export function preorderTraversal(node: BSTreeNode | undefined, memento: BSTreeM
 // In-order traversal
 export function inorderTraversal(node: BSTreeNode | undefined, memento: BSTreeMemento) {
     const result: number[] = [];
+    const passedNodes: number[] = [];
+
     function traversal(node: BSTreeNode | undefined, mainRoot: BSTreeNode | undefined, memento: BSTreeMemento) {
         if (node) {
-            memento.addSnapshot({line: 1, name: "Inorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}], result)
+            memento.addSnapshot({
+                line: 1,
+                name: "Inorder"
+            }, mainRoot, node.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
         } else {
-            memento.addBlank({line: 1, name: "Inorder"}, mainRoot,undefined,[], result)
+            memento.addBlank({line: 1, name: "Inorder"}, mainRoot, undefined, [], result, passedNodes)
         }
 
         if (node) {
+            passedNodes.push(node.id);
             if (node.left) {
-                memento.addSnapshot({line: 2, name: "Inorder"}, mainRoot, node.left.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}], result)
+                memento.addSnapshot({
+                    line: 2,
+                    name: "Inorder"
+                }, mainRoot, node.left.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
             } else {
-                memento.addBlank({line: 2, name: "Inorder"}, mainRoot,undefined,[{id: node.id, role: "x"}], result)
+                memento.addBlank({line: 2, name: "Inorder"}, mainRoot, undefined, [{
+                    id: node.id,
+                    role: "x"
+                }], result, passedNodes)
             }
             traversal(node.left, mainRoot, memento);
             result.push(node.id);
-            memento.addSnapshot({line: 3, name: "Inorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_FULL,[{id: node.id, role: "x"}],result)
+            memento.addSnapshot({line: 3, name: "Inorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_FULL, [{
+                id: node.id,
+                role: "x"
+            }], result, passedNodes)
             if (node.right) {
-                memento.addSnapshot({line: 4, name: "Inorder"}, mainRoot, node.right.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
+                memento.addSnapshot({
+                    line: 4,
+                    name: "Inorder"
+                }, mainRoot, node.right.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
             } else {
-                memento.addBlank({line: 4, name: "Inorder"}, mainRoot,undefined,[{id: node.id, role: "x"}],result)
+                memento.addBlank({line: 4, name: "Inorder"}, mainRoot, undefined, [{
+                    id: node.id,
+                    role: "x"
+                }], result, passedNodes)
             }
             traversal(node.right, mainRoot, memento);
         }
 
     }
+
     traversal(node, node, memento);
 }
 
@@ -531,29 +575,51 @@ export function inorderTraversal(node: BSTreeNode | undefined, memento: BSTreeMe
 // Post-order traversal
 
 export function postorderTraversal(node: BSTreeNode | undefined, memento: BSTreeMemento) {
-    const result:number[] = [];
+    const result: number[] = [];
+    const passedNodes: number[] = [];
+
     function traversal(node: BSTreeNode | undefined, mainRoot: BSTreeNode | undefined, memento: BSTreeMemento) {
         if (node) {
-            memento.addSnapshot({line: 1, name: "Postorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
+            memento.addSnapshot({
+                line: 1,
+                name: "Postorder"
+            }, mainRoot, node.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
         } else {
-            memento.addBlank({line: 1, name: "Postorder"}, mainRoot,undefined,[],result)
+            memento.addBlank({line: 1, name: "Postorder"}, mainRoot, undefined, [], result, passedNodes)
         }
         if (node) {
+            passedNodes.push(node.id);
             if (node.left) {
-                memento.addSnapshot({line: 2, name: "Postorder"}, mainRoot, node.left.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
+                memento.addSnapshot({
+                    line: 2,
+                    name: "Postorder"
+                }, mainRoot, node.left.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
             } else {
-                memento.addBlank({line: 2, name: "Postorder"}, mainRoot,undefined,[{id: node.id, role: "x"}],result)
+                memento.addBlank({line: 2, name: "Postorder"}, mainRoot, undefined, [{
+                    id: node.id,
+                    role: "x"
+                }], result, passedNodes)
             }
             traversal(node.left, mainRoot, memento);
             if (node.right) {
-                memento.addSnapshot({line: 3, name: "Postorder"}, mainRoot, node.right.id, ActionType.HIGHLIGHT_LIGHT,[{id: node.id, role: "x"}],result)
+                memento.addSnapshot({
+                    line: 3,
+                    name: "Postorder"
+                }, mainRoot, node.right.id, ActionType.HIGHLIGHT_LIGHT, [{id: node.id, role: "x"}], result, passedNodes)
             } else {
-                memento.addBlank({line: 3, name: "Postorder"}, mainRoot,undefined,[{id: node.id, role: "x"}],result)
+                memento.addBlank({line: 3, name: "Postorder"}, mainRoot, undefined, [{
+                    id: node.id,
+                    role: "x"
+                }], result, passedNodes)
             }
             traversal(node.right, mainRoot, memento);
             result.push(node.id);
-            memento.addSnapshot({line: 4, name: "Postorder"}, mainRoot, node.id, ActionType.HIGHLIGHT_FULL,[{id: node.id, role: "x"}],result)
+            memento.addSnapshot({
+                line: 4,
+                name: "Postorder"
+            }, mainRoot, node.id, ActionType.HIGHLIGHT_FULL, [{id: node.id, role: "x"}], result, passedNodes)
         }
     }
+
     traversal(node, node, memento);
 }

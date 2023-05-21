@@ -25,6 +25,7 @@ export class NodeObj {
     nodeRole?: string;
     isBST: boolean;
     isVisited: boolean;
+    isPassed: boolean;
     constructor(
         position: { x: number; y: number },
         speed: number,
@@ -54,6 +55,7 @@ export class NodeObj {
         this.calculatePosition();
         this.createBranch();
         this.isVisited = false;
+        this.isPassed = false;
     }
 
     calculatePosition() {
@@ -276,6 +278,12 @@ export class NodeObj {
     static setVisited(treeObjects: NodeObj[], visitedNodes: number[]) {
         for(let node of treeObjects) {
             node.isVisited = visitedNodes.includes(node.id);
+        }
+    }
+
+    static setPassed(treeObjects: NodeObj[], passedNodes: number[]) {
+        for(let node of treeObjects) {
+            node.isPassed = passedNodes.includes(node.id);
         }
     }
 }

@@ -14,6 +14,7 @@ const initialState = {
     currentLine:0,
     currentRoles:[] as NodeRole[],
     visitedNodes:[] as number[],
+    passedNodes:[] as number[],
     inputValues: {
         Successor: 1,
         Predecessor: 2,
@@ -37,6 +38,10 @@ const bstSlice = createSlice({
         },
         setError(state,action:PayloadAction<string>){
             state.error = action.payload
+            return state
+        },
+        setPassedNodes(state,action:PayloadAction<number[]>){
+            state.passedNodes = action.payload
             return state
         },
         setPlaying(state,action:PayloadAction<boolean>){
@@ -77,6 +82,8 @@ export const {
     setActions,
     setError,
     setRoles,
-    setVisited
+    setVisited,
+    setPassedNodes
+
 } = bstSlice.actions;
 

@@ -25,14 +25,14 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
           }}
           layout={"position"}
           initial={initial}
-          animate={animate}
+          animate={{...animate as any, backgroundColor:nodeObj.isVisited?"#dde11d":nodeObj.isPassed?"#91f155":"lightyellow",animationDuration:0.400*nodeObj.speed}}
           key={`${nodeObj.id},${nodeObj.value}`}
           exit={{ opacity: 0,scale:0.5}}
           style={{
             ...style,
             top: nodeObj.position.y,
             left: nodeObj.position.x,
-            borderColor:nodeObj.isVisited?"#023125":"#84cc16",
+            borderColor:nodeObj.isVisited?"#3f0624":"#84cc16",
           }}
           className={nodeObj.nodeRole?"node node-selected":"node"}
         >
@@ -43,6 +43,8 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
                   <Branch
                          branch={nodeObj.branch}
                          key={`${nodeObj.id},${nodeObj.value}-Branch`}
+                         isPassed={nodeObj.isPassed}
+                         speed={nodeObj.speed}
                   />
            )}
     </>

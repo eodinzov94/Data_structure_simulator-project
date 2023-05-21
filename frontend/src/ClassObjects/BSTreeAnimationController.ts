@@ -17,6 +17,7 @@ import {AppDispatch} from "../store/store";
 import {
     setActions,
     setCodeRef,
+    setPassedNodes,
     setPlaying,
     setRoles,
     setRoot,
@@ -68,6 +69,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setRoot(this.memento.getData(i));
         this.setReference(this.memento.getCodeRef(i));
         this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(i));
+        this.setPassedNodes((this.memento as BSTreeMemento).getPassedNodes(i))
         this.frame = i;
     }
 
@@ -82,6 +84,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentRoles(this.memento.getRoles(index));
         this.setReference(this.memento.getCodeRef(index));
         this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(index));
+        this.setPassedNodes((this.memento as BSTreeMemento).getPassedNodes(index))
     }
 
     initData(data: BSTreeNode | undefined) {
@@ -90,8 +93,11 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
         this.setVisitedNodes([]);
+        this.setPassedNodes([])
     }
-
+   setPassedNodes(passedNodes: number[]) {
+       this.dispatch(setPassedNodes(passedNodes));
+   }
     setTreeFromInput(arr: number[],newRoot?:BSTreeNode) {
         let root: BSTreeNode | undefined
         if(newRoot){
@@ -105,6 +111,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
         this.setVisitedNodes([]);
+        this.setPassedNodes([])
     }
     setVisitedNodes(visitedNodes: number[]) {
         this.dispatch(setVisited(visitedNodes));
