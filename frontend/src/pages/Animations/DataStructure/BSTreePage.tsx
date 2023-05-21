@@ -21,6 +21,7 @@ const HeapPage: FC = () => {
     const visitedNodes = useAppSelector((state) => state.bst.visitedNodes);
     const passedNodes = useAppSelector((state) => state.bst.passedNodes);
     const traversalResults = useAppSelector((state) => state.bst.traversalResults);
+    const isPlaying = useAppSelector(state => state.bst.isPlaying)
     const controller = BSTreeAnimationController.getController(
         root,
         useDispatch()
@@ -67,7 +68,7 @@ const HeapPage: FC = () => {
                             speed={controller.speed}
                         />
                     </div>}
-                    <PlayerControlsPanel controller={controller}/>
+                    <PlayerControlsPanel controller={controller} isPlaying={isPlaying}/>
                    <div className="flex justify-end mr-5">
                         <div className=" w-fit">
                             <PseudoCodeContainer

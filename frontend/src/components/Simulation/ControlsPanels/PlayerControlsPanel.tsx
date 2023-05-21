@@ -12,10 +12,10 @@ import AnimationController from '../../../ClassObjects/AnimationController'
 
 interface Props {
     controller: AnimationController<any, any>
+    isPlaying: boolean
 }
 
-const PlayerControlsPanel: FC<Props> = ({controller}) => {
-    const isPlaying = useAppSelector(state => state.heap.isPlaying)
+const PlayerControlsPanel: FC<Props> = ({controller, isPlaying}) => {
     const theme = createTheme({
         palette: {
             primary: {

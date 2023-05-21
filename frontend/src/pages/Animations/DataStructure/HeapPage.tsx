@@ -18,6 +18,7 @@ const HeapPage: FC = () => {
     const currentLine = useAppSelector((state) => state.heap.currentLine);
     const currentHeapSize = useAppSelector((state) => state.heap.currentHeapSize);
     const currentRoles = useAppSelector((state) => state.heap.currentRoles);
+    const isPlaying = useAppSelector(state => state.heap.isPlaying)
     const controller = HeapAnimationController.getController(
         currentArr,
         useDispatch()
@@ -61,7 +62,7 @@ const HeapPage: FC = () => {
                             currentHeapSize={currentHeapSize}
                         />
                     </div>
-                    <PlayerControlsPanel controller={controller}/>
+                    <PlayerControlsPanel controller={controller} isPlaying={isPlaying}/>
                     <div className="flex justify-end mr-5">
                         <div className=" w-fit">
                             <PseudoCodeContainer
