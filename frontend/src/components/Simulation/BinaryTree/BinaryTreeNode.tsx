@@ -25,10 +25,11 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
           }}
           layout={"position"}
           initial={initial}
-          animate={{...animate as any, backgroundColor:nodeObj.isVisited?"#dde11d":nodeObj.isPassed?"#91f155":"lightyellow",animationDuration:0.400*nodeObj.speed}}
+          animate={animate}
           key={`${nodeObj.id},${nodeObj.value}`}
           exit={{ opacity: 0,scale:0.5}}
           style={{
+            backgroundColor:nodeObj.isVisited?"#dde11d":nodeObj.isPassed?"#abe7b6":"lightyellow",
             ...style,
             top: nodeObj.position.y,
             left: nodeObj.position.x,
