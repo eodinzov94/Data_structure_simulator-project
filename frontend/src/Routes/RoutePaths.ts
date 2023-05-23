@@ -24,6 +24,8 @@ export enum RoutePaths{
     HEAP = "/heap",
     INSERTION_SORT = "/insertionsort",
     COUNTING_SORT = "/countingsort",
+    MERGE_SORT = "/mergesort",
+
 
     //feedbacks
     POST_FEEDBACK = "/post-feedback",
