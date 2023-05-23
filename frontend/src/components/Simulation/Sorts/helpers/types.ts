@@ -26,6 +26,11 @@ export interface countingSortOperation {
   payload: countingSortPayload;
 }
 
+export interface mergeSortOperation {
+  action: any;
+  payload: any;
+}
+
 export enum Colors {
   BASE = "#84cc16",
   MARKED = "#ecfccb",
