@@ -2,15 +2,15 @@ import AnimationController from "./AnimationController";
 import {BSTreeMemento} from "./BSTreeMemento";
 import {
     build, deleteNodeWrapper,
-    getMax,
-    getMin,
+    getMaxWrapper,
+    getMinWrapper,
     inorderTraversal,
     insert,
     insertWithAnimations,
     postorderTraversal,
     predecessor,
     preorderTraversal,
-    search,
+    searchWrapper,
     successor
 } from "../components/Simulation/BST/BST_Algorithms";
 import {AppDispatch} from "../store/store";
@@ -124,7 +124,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.dispatch(setTraversalResults(result));
     }
     async search(key: number) {
-        await this.playAlgorithm(search, key, this.memento as BSTreeMemento, this.data);
+        await this.playAlgorithm(searchWrapper, key, this.memento as BSTreeMemento, this.data);
     }
     async inorder() {
         await this.playAlgorithm(inorderTraversal, this.memento as BSTreeMemento);
@@ -155,11 +155,11 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     }
 
     async min() {
-        await this.playAlgorithm(getMin, this.memento as BSTreeMemento);
+        await this.playAlgorithm(getMinWrapper, this.memento as BSTreeMemento);
     }
 
     async max() {
-        await this.playAlgorithm(getMax, this.memento as BSTreeMemento);
+        await this.playAlgorithm(getMaxWrapper, this.memento as BSTreeMemento);
     }
 
     async successor(key: number) {

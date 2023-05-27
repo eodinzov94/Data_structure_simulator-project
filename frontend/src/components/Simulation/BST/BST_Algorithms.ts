@@ -3,39 +3,43 @@ import {BSTreeNode} from "../../../ClassObjects/BSTreeNode";
 import {BSTreeMemento} from "../../../ClassObjects/BSTreeMemento";
 import {calculateHeight} from "../BinaryTree/Helpers/Functions";
 
-export function search(
+export function searchWrapper(
     root: BSTreeNode | undefined,
     k: number,
     memento: BSTreeMemento,
     mainRoot: BSTreeNode | undefined
-): BSTreeNode | undefined {
-    //pseudo for if (!root || root.value === k)
-    memento.addBlank({line: 1, name: "Search"}, mainRoot)
-    if (!root || root.value === k) {
-        //pseudo for return root;
-        if (root && root.value === k) {
-            memento.addSnapshot({line: 2, name: "Search"}, mainRoot, root.id, ActionType.HIGHLIGHT_FULL)
-        } else {
-            memento.addBlank({line: 2, name: "Search"}, mainRoot)
+) {
+    const passedIds: number[] = []
+
+    function search(root: BSTreeNode | undefined,
+                    k: number,
+                    memento: BSTreeMemento,
+                    mainRoot: BSTreeNode | undefined): BSTreeNode | undefined {
+        //pseudo for if (!root || root.value === k)
+        memento.addBlank({line: 1, name: "Search"}, mainRoot, undefined, [], [], passedIds)
+        if (!root || root.value === k) {
+            //pseudo for return root;
+            if (root && root.value === k) {
+                passedIds.push(root.id)
+                memento.addBlank({line: 2, name: "Search"}, mainRoot, undefined, [], [root.id], passedIds)
+            } else {
+                memento.addBlank({line: 2, name: "Search"}, mainRoot, undefined, [], [], passedIds)
+            }
+            return root;
         }
-        return root;
+        passedIds.push(root.id)
+        memento.addBlank({line: 3, name: "Search"}, mainRoot, undefined, [], [], passedIds)
+        if (k < root.value) {
+            memento.addBlank({line: 4, name: "Search"}, mainRoot, undefined, [], [], passedIds)
+            return search(root.left, k, memento, mainRoot);
+        } else {
+            memento.addBlank({line: 5, name: "Search"}, mainRoot, undefined, [], [], passedIds)
+            return search(root.right, k, memento, mainRoot);
+        }
     }
-    memento.addSnapshot({line: 3, name: "Search"}, mainRoot, root.id, ActionType.HIGHLIGHT_LIGHT)
-    if (k < root.value) {
-        if (root.left) {
-            memento.addSnapshot({line: 4, name: "Search"}, mainRoot, root.left.id, ActionType.HIGHLIGHT_LIGHT)
-        } else {
-            memento.addBlank({line: 4, name: "Search"}, mainRoot)
-        }
-        return search(root.left, k, memento, mainRoot);
-    } else {
-        if (root.right) {
-            memento.addSnapshot({line: 5, name: "Search"}, mainRoot, root.right.id, ActionType.HIGHLIGHT_LIGHT)
-        } else {
-            memento.addBlank({line: 5, name: "Search"}, mainRoot)
-        }
-        return search(root.right, k, memento, mainRoot);
-    }
+
+   search(root, k, memento, mainRoot);
+
 }
 
 function shadowSearch(
@@ -86,69 +90,68 @@ export function insertWithAnimations(
     new_node: BSTreeNode,
     memento: BSTreeMemento
 ): BSTreeNode {
-    //pseudo for y
-    memento.addBlank({line: 1, name: "Insert"}, root)
-    let y = undefined as BSTreeNode | undefined;
+    const passedIds: number[] = []
+    function insertNode( root: BSTreeNode | undefined,
+                         new_node: BSTreeNode,
+                         memento: BSTreeMemento){
+        //pseudo for y
+        memento.addBlank({line: 1, name: "Insert"}, root, undefined, [], [], passedIds)
+        let y = undefined as BSTreeNode | undefined;
 
-    if (root) {//pseudo for x = root
-        memento.addSnapshot({line: 2, name: "Insert"}, root, root.id, ActionType.HIGHLIGHT_LIGHT)
-    } else {
-        memento.addBlank({line: 2, name: "Insert"}, root)
-    }
-    let x = root;
-    while (x) {
-        //pseudo for while
-        memento.addBlank({line: 3, name: "Insert"}, root)
-
-        //pseudo for y = x
-        memento.addSnapshot({line: 4, name: "Insert"}, root, x.id, ActionType.HIGHLIGHT_LIGHT)
-        y = x;
-        if (new_node.value < x.value) {
-            //pseudo for if
-            memento.addBlank({line: 5, name: "Insert"}, root)
-            x = x.left;
-            //pseudo for left
-            if (x) {
-                memento.addSnapshot({line: 6, name: "Insert"}, root, x.id, ActionType.HIGHLIGHT_LIGHT)
-            } else {
-                memento.addBlank({line: 6, name: "Insert"}, root)
-            }
-
+        if (root) {//pseudo for x = root
+            memento.addSnapshot({line: 2, name: "Insert"}, root, root.id, ActionType.HIGHLIGHT_LIGHT,[], [], passedIds)
         } else {
-            x = x.right;
-            if (x) {
-                memento.addSnapshot({line: 7, name: "Insert"}, root, x.id, ActionType.HIGHLIGHT_LIGHT)
+            memento.addBlank({line: 2, name: "Insert"}, root, undefined, [], [], passedIds)
+        }
+        let x = root;
+        while (x) {
+            //pseudo for while
+            passedIds.push(x.id)
+            memento.addBlank({line: 3, name: "Insert"}, root, undefined, [], [], passedIds)
+
+            //pseudo for y = x
+            memento.addSnapshot({line: 4, name: "Insert"}, root, x.id, ActionType.HIGHLIGHT_LIGHT,[], [], passedIds)
+            y = x;
+            if (new_node.value < x.value) {
+                //pseudo for if
+                memento.addBlank({line: 5, name: "Insert"}, root, undefined, [], [], passedIds)
+                x = x.left;
+                //pseudo for left
+                memento.addBlank({line: 6, name: "Insert"}, root, undefined, [], [], passedIds)
             } else {
-                memento.addBlank({line: 7, name: "Insert"}, root)
+                x = x.right;
+                memento.addBlank({line: 7, name: "Insert"}, root, undefined, [], [], passedIds)
             }
         }
-    }
-    new_node.parent = y;
+        new_node.parent = y;
 
-    if (y) {//pseudo for new_node.parent = y
-        memento.addSnapshot({line: 8, name: "Insert"}, root, y!.id, ActionType.HIGHLIGHT_LIGHT)
-    } else {
-        memento.addBlank({line: 8, name: "Insert"}, root)
+        if (y) {//pseudo for new_node.parent = y
+            memento.addSnapshot({line: 8, name: "Insert"}, root, y!.id, ActionType.HIGHLIGHT_LIGHT,[], [], passedIds)
+        } else {
+            memento.addBlank({line: 8, name: "Insert"}, root, undefined, [], [], passedIds)
+        }
+        //pseudo for if(!y)
+        memento.addBlank({line: 9, name: "Insert"}, root, undefined, [], [], passedIds)
+        if (!y) {
+            //pseudo for return
+            memento.addSnapshot({line: 10, name: "Insert"}, new_node, new_node.id, ActionType.HIGHLIGHT_LIGHT,[], [], passedIds)
+            return new_node;
+        }
+        //pseudo for if
+        memento.addBlank({line: 11, name: "Insert"}, root, undefined, [], [], passedIds)
+        passedIds.push(new_node.id)
+        if (new_node.value < y.value) {
+            y.left = new_node;
+            //pseudo for y.left = new_node;
+            memento.addSnapshot({line: 12, name: "Insert"}, root, new_node.id, ActionType.ADD,[], [new_node.id], passedIds)
+        } else {
+            y.right = new_node;
+            //pseudo for  y.right = new_node
+            memento.addSnapshot({line: 13, name: "Insert"}, root, new_node.id, ActionType.ADD,[], [new_node.id], passedIds)
+        }
+        return root!;
     }
-    //pseudo for if(!y)
-    memento.addBlank({line: 9, name: "Insert"}, root)
-    if (!y) {
-        //pseudo for return
-        memento.addSnapshot({line: 10, name: "Insert"}, new_node, new_node.id, ActionType.HIGHLIGHT_LIGHT)
-        return new_node;
-    }
-    //pseudo for if
-    memento.addBlank({line: 11, name: "Insert"}, root)
-    if (new_node.value < y.value) {
-        y.left = new_node;
-        //pseudo for y.left = new_node;
-        memento.addSnapshot({line: 12, name: "Insert"}, root, new_node.id, ActionType.ADD)
-    } else {
-        y.right = new_node;
-        //pseudo for  y.right = new_node
-        memento.addSnapshot({line: 13, name: "Insert"}, root, new_node.id, ActionType.ADD)
-    }
-    return root!;
+    return insertNode( root, new_node, memento);
 }
 
 
@@ -291,22 +294,28 @@ export function deleteNodeWrapper(
     return deleteNode(root, key, memento, root)
 }
 
-export function getMin(root: BSTreeNode | undefined, memento: BSTreeMemento, mainRoot?: BSTreeNode, currentAlg = 'Min', gap = 0): BSTreeNode | undefined {
-    if (!root) {
-        return root;
+export function getMinWrapper(root: BSTreeNode | undefined, memento: BSTreeMemento, mainRoot?: BSTreeNode, currentAlg = 'Min', gap = 0): BSTreeNode | undefined {
+    const passedIds: number[] = [];
+    function min(root: BSTreeNode | undefined, memento: BSTreeMemento, mainRoot?: BSTreeNode, currentAlg = 'Min', gap = 0): BSTreeNode| undefined {
+        if (!root) {
+            return root;
+        }
+        if (!mainRoot) {
+            mainRoot = root;
+        }
+        passedIds.push(root.id);
+        memento.addBlank({line: gap + 1, name: currentAlg}, mainRoot, undefined, [],[], passedIds)
+        let temp = root;
+        while (temp.left) {
+            passedIds.push(temp.left.id);
+            memento.addBlank({line: gap + 2, name: currentAlg},mainRoot, undefined, [],[], passedIds)
+            temp = temp.left;
+            memento.addBlank({line: gap + 1, name: currentAlg}, mainRoot, undefined, [],[], passedIds)
+        }
+        memento.addBlank({line: gap + 3, name: currentAlg}, mainRoot, undefined, [],[temp.id], passedIds)
+        return temp;
     }
-    if (!mainRoot) {
-        mainRoot = root;
-    }
-    memento.addSnapshot({line: gap + 1, name: currentAlg}, mainRoot, root.id, ActionType.HIGHLIGHT_LIGHT)
-    let temp = root;
-    while (temp.left) {
-        memento.addSnapshot({line: gap + 2, name: currentAlg}, mainRoot, temp.left.id, ActionType.HIGHLIGHT_LIGHT)
-        temp = temp.left;
-        memento.addSnapshot({line: gap + 1, name: currentAlg}, mainRoot, temp.id, ActionType.HIGHLIGHT_LIGHT)
-    }
-    memento.addSnapshot({line: gap + 3, name: currentAlg}, mainRoot, temp.id, ActionType.HIGHLIGHT_FULL)
-    return temp;
+   return  min(root, memento, mainRoot, currentAlg, gap);
 }
 
 function shadowGetMin(root: BSTreeNode): BSTreeNode {
@@ -317,22 +326,28 @@ function shadowGetMin(root: BSTreeNode): BSTreeNode {
     return temp;
 }
 
-export function getMax(root: BSTreeNode | undefined, memento: BSTreeMemento, mainRoot?: BSTreeNode, currentAlg = 'Max', gap = 0): BSTreeNode | undefined {
-    if (!root) {
-        return root;
+export function getMaxWrapper(root: BSTreeNode | undefined, memento: BSTreeMemento, mainRoot?: BSTreeNode, currentAlg = 'Max', gap = 0): BSTreeNode | undefined {
+    const passedIds: number[] = [];
+    function max(root: BSTreeNode | undefined, memento: BSTreeMemento, mainRoot?: BSTreeNode, currentAlg = 'Max', gap = 0): BSTreeNode| undefined {
+        if (!root) {
+            return root;
+        }
+        if (!mainRoot) {
+            mainRoot = root;
+        }
+        passedIds.push(root.id);
+        memento.addBlank({line: gap + 1, name: currentAlg}, mainRoot, undefined, [],[], passedIds)
+        let temp = root;
+        while (temp.right) {
+            passedIds.push(temp.right.id);
+            memento.addBlank({line: gap + 2, name: currentAlg},mainRoot, undefined, [],[], passedIds)
+            temp = temp.right;
+            memento.addBlank({line: gap + 1, name: currentAlg}, mainRoot, undefined, [],[], passedIds)
+        }
+        memento.addBlank({line: gap + 3, name: currentAlg}, mainRoot, undefined, [],[temp.id], passedIds)
+        return temp;
     }
-    if (!mainRoot) {
-        mainRoot = root;
-    }
-    memento.addSnapshot({line: gap + 1, name: currentAlg}, mainRoot, root.id, ActionType.HIGHLIGHT_LIGHT)
-    let temp = root;
-    while (temp.right) {
-        memento.addSnapshot({line: gap + 2, name: currentAlg}, mainRoot, temp.right.id, ActionType.HIGHLIGHT_LIGHT)
-        temp = temp.right;
-        memento.addSnapshot({line: gap + 1, name: currentAlg}, mainRoot, temp.id, ActionType.HIGHLIGHT_LIGHT)
-    }
-    memento.addSnapshot({line: gap + 3, name: currentAlg}, mainRoot, temp.id, ActionType.HIGHLIGHT_FULL)
-    return temp;
+   return  max(root, memento, mainRoot, currentAlg, gap);
 }
 
 export function successor(
@@ -350,7 +365,7 @@ export function successor(
     memento.addBlank({line: 1, name: "Successor"}, root)
     if (foundNode.right) {
         memento.addSnapshot({line: 2, name: "Successor"}, root, foundNode.right.id, ActionType.HIGHLIGHT_LIGHT)
-        return getMin(foundNode.right, memento, root, "Successor", 8)
+        return getMinWrapper(foundNode.right, memento, root, "Successor", 8)
     }
     let y = foundNode.parent;
     if (y) {
@@ -406,7 +421,7 @@ export function predecessor(root: BSTreeNode | undefined, k: number, memento: BS
     memento.addBlank({line: 1, name: "Predecessor"}, root)
     if (foundNode.left) {
         memento.addSnapshot({line: 2, name: "Predecessor"}, root, foundNode.left.id, ActionType.HIGHLIGHT_LIGHT)
-        return getMax(foundNode.left, memento, root, "Predecessor", 8);
+        return getMaxWrapper(foundNode.left, memento, root, "Predecessor", 8);
     }
     let y = foundNode.parent;
     if (y) {
@@ -456,7 +471,7 @@ export function randomBuildTree(input: number[]): BSTreeNode | undefined {
         let node: BSTreeNode = new BSTreeNode(input[i], i);
         temp = insert(temp, node);
         if (calculateHeight(temp) > 6) {
-            temp = root
+            temp = BSTreeNode.deepCopy(root)
         } else {
             root = BSTreeNode.deepCopy(temp)
         }

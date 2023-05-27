@@ -99,7 +99,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller }) => {
       controller.setTreeFromInput([],randomBuildTree(generateRandomArrForHeap()));
   }
   useEffect(() => { // create a random array whenever the page is loaded.
-    randomizeInput();
+    controller.setTreeFromInput([2,1,3])
   }, [])
 
   return (

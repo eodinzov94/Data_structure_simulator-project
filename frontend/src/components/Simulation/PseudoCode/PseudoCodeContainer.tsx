@@ -24,8 +24,7 @@ const PseudoCodeContainer: FC<Props> = ({code, line}) => {
                     marginRight: 5,
                     border:"none",
                     background:"transparent",
-                    padding: 10,
-                    position: "absolute"
+                    padding: 10
                 },
             }}
         >

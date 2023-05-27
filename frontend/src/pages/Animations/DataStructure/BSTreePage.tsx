@@ -28,7 +28,6 @@ const HeapPage: FC = () => {
     );
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
     // @ts-ignore
-    window.memento = controller.memento
     useEffect(() => {
         function handleResize() {
             setViewportWidth(window.innerWidth);
