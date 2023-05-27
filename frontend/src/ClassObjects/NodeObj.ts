@@ -26,6 +26,7 @@ export class NodeObj {
     isBST: boolean;
     isVisited: boolean;
     isPassed: boolean;
+
     constructor(
         position: { x: number; y: number },
         speed: number,
@@ -37,7 +38,6 @@ export class NodeObj {
         height: number,
         type: "root" | "left" | "right",
         isBST?: boolean
-
     ) {
         this.position = position;
         this.speed = speed;
@@ -58,6 +58,16 @@ export class NodeObj {
         this.isPassed = false;
     }
 
+    getXGap() {
+        if (this.isBST && this.parent) {
+            return NodeObj.availableSpace / (this.parent.height * 2 ** (this.parent.level - 0.5)) * 2
+        } else if (this.parent) {
+            return (Math.min(this.viewportWidth, NodeObj.availableSpace) /
+                (this.parent.height * 2 ** (this.parent.level - 0.5)))
+        }
+        return 0
+    }
+
     calculatePosition() {
         if (this.type === "root") {
             return;
@@ -67,17 +77,13 @@ export class NodeObj {
         if (this.type === "left") {
             this.position = {
                 x:
-                    this.parent.position.x -
-                    (Math.min(this.viewportWidth, NodeObj.availableSpace) /
-                    (this.parent.height * 2 ** (this.parent.level - 0.5)))*(this.isBST?2:1),
+                    this.parent.position.x - this.getXGap(),
                 y: this.parent.position.y + NodeObj.gapY,
             };
         } else {
             this.position = {
                 x:
-                    this.parent.position.x +
-                    (Math.min(this.viewportWidth, NodeObj.availableSpace) /
-                    (this.parent.height * 2 ** (this.parent.level - 0.5)))*(this.isBST?2:1),
+                    this.parent.position.x + this.getXGap(),
                 y: this.parent.position.y + NodeObj.gapY,
             };
         }
@@ -275,14 +281,15 @@ export class NodeObj {
             }
         }
     }
+
     static setVisited(treeObjects: NodeObj[], visitedNodes: number[]) {
-        for(let node of treeObjects) {
+        for (let node of treeObjects) {
             node.isVisited = visitedNodes.includes(node.id);
         }
     }
 
     static setPassed(treeObjects: NodeObj[], passedNodes: number[]) {
-        for(let node of treeObjects) {
+        for (let node of treeObjects) {
             node.isPassed = passedNodes.includes(node.id);
         }
     }
