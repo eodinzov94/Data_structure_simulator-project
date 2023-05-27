@@ -70,7 +70,7 @@ export function getAnimationsAndStyles(
       break;
     }
     case ActionType.HIGHLIGHT_FULL: {
-      style = { backgroundColor: "#309975" };
+      animate = { backgroundColor: "#309975" };
       break;
     }
     case ActionType.SWAP: {
@@ -85,12 +85,12 @@ export function getAnimationsAndStyles(
       animate = {
         x: 0,
         y: 0,
+        backgroundColor: "#125f2c"
       };
-      style = { backgroundColor: "#125f2c" };
       break;
     }
     case ActionType.HIGHLIGHT_LIGHT: {
-      style = { backgroundColor: "#58b368" };
+      animate = { backgroundColor: "#58b368" };
       break;
     }
     case ActionType.NONE: {
