@@ -15,6 +15,16 @@ const ArrayItem = (props: Props) => {
     id,
     swapIndex
   );
+  let  animateObj
+  if(ghosted){
+      animateObj = {
+          ...animate as any,
+          backgroundColor: "#808080FF",
+      }
+  }else{
+      animateObj = animate
+  }
+
   return (
       <motion.span
         className="s_li"
@@ -24,8 +34,8 @@ const ArrayItem = (props: Props) => {
           duration: 0.4 * speed,
         }}
         initial={initial}
-        animate={animate}
-        style={ghosted ? { ...style, background: "gray" } : style}
+        animate={animateObj}
+        style={style}
         exit={{ opacity: 0 }}
         key={`${id}-${value}`}
       >

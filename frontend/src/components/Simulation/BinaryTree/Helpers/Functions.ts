@@ -137,24 +137,24 @@ export function getHeapArrayAnimationsAndStyles(
       break;
     }
     case ActionType.HIGHLIGHT_FULL: {
-      style = { backgroundColor: "#58b368" };
+      animate = { backgroundColor: "#58b368" };
       break;
     }
     case ActionType.SWAP: {
       if (nodeInteractionPosition === null || myPosition === undefined) {
         throw new Error("nodeInteractionPosition and myPosition are required");
       }
-      style = { backgroundColor: "#1a7e3c" };
       initial = {
         x: (nodeInteractionPosition - myPosition) * 32,
       };
       animate = {
-        x: 0
+        x: 0,
+        backgroundColor: "#1a7e3c"
       };
       break;
     }
     case ActionType.HIGHLIGHT_LIGHT: {
-      style = { backgroundColor: "#58b368" };
+      animate = { backgroundColor: "#58b368" };
       break;
     }
     case ActionType.NONE: {
