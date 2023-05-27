@@ -20,20 +20,19 @@ const BinaryTreeNode: FC<BinaryTreeNodeProps> = ({ nodeObj }) => {
         <motion.span
           data-id={nodeObj.nodeRole}
           transition={{
-            layout: { duration: 0.400 * nodeObj.speed, ease: "easeIn" },
+             ease: "easeIn" ,
             duration: 0.400 * nodeObj.speed,
+              delay:nodeObj.isPassed? 0.500 * nodeObj.speed:0
           }}
           layout={"position"}
           initial={initial}
-          animate={animate}
+          animate={{...animate as Object,borderColor:nodeObj.isVisited?"#3f0624":"#84cc16",backgroundColor:nodeObj.isVisited?"#dde11d":nodeObj.isPassed?"#abe7b6":"lightyellow"}}
           key={`${nodeObj.id},${nodeObj.value}`}
           exit={{ opacity: 0,scale:0.5}}
           style={{
-            backgroundColor:nodeObj.isVisited?"#dde11d":nodeObj.isPassed?"#abe7b6":"lightyellow",
             ...style,
             top: nodeObj.position.y,
             left: nodeObj.position.x,
-            borderColor:nodeObj.isVisited?"#3f0624":"#84cc16",
           }}
           className={nodeObj.nodeRole?"node node-selected":"node"}
         >
