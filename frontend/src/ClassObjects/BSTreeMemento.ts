@@ -48,7 +48,20 @@ export class BSTreeMemento  extends Memento<BSTreeNode | undefined,string> {
         this.passedNodesSnapshots.push([...passedNodes])
         this.traversalResultsSnapshots.push([...traversalResults])
     }
+    addError(codeRef: any, tree: BSTreeNode | undefined,
+           error: string, nodeRoles:NodeRole[]=[],visitedNodes:number[]=[],
+             passedNodes:number[]=[],traversalResults:number[]=[]) {
+        this.snapshots.push({
+            actions: [{action: ActionType.ERROR,item:-1, error: error}],
+            data:BSTreeNode.deepCopy(tree),
+            codeRef,
+            roles:nodeRoles
+        });
+        this.visitedNodesSnapshots.push([...visitedNodes])
+        this.passedNodesSnapshots.push([...passedNodes])
+        this.traversalResultsSnapshots.push([...traversalResults])
 
+    }
     getLength(){
         return this.snapshots.length
     }

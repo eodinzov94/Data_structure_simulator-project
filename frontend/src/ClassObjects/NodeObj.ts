@@ -198,64 +198,64 @@ export class NodeObj {
 
     static setActions(treeObjects: NodeObj[], actions: Events | null, isBSTree = false) {
         if (actions) {
-            try {
-                if (!isBSTree) {
-                    for (let action of actions) {
-                        if (action.action === ActionType.SWAP) {
-                            if (typeof action.item2 !== "number") {
-                                throw new Error("item2 is required for swap action");
-                            }
-                            treeObjects[action.item].setAction(
-                                ActionType.SWAP,
-                                treeObjects[action.item2].position
-                            );
-                            treeObjects[action.item2].setAction(
-                                ActionType.SWAP,
-                                treeObjects[action.item].position
-                            );
-                        } else {
-                            treeObjects[action.item].setAction(action.action, null);
-                        }
+            if (!isBSTree) {
+                for (let action of actions) {
+                    if(action.action === ActionType.ERROR) {
+                        return
                     }
-                } else {
-                    for (let action of actions) {
-                        if (action.action === ActionType.SWAP) {
-                            if (typeof action.item2 !== "number") {
-                                throw new Error("item2 is required for swap action");
+                    if (action.action === ActionType.SWAP) {
+                        if (typeof action.item2 !== "number") {
+                            throw new Error("item2 is required for swap action");
+                        }
+                        treeObjects[action.item].setAction(
+                            ActionType.SWAP,
+                            treeObjects[action.item2].position
+                        );
+                        treeObjects[action.item2].setAction(
+                            ActionType.SWAP,
+                            treeObjects[action.item].position
+                        );
+                    } else {
+                        treeObjects[action.item].setAction(action.action, null);
+                    }
+                }
+            } else {
+                for (let action of actions) {
+                    if(action.action === ActionType.ERROR) {
+                       return
+                    }
+                    if (action.action === ActionType.SWAP) {
+                        if (typeof action.item2 !== "number") {
+                            throw new Error("item2 is required for swap action");
+                        }
+                        let node1 = undefined, node2 = undefined
+                        for (let tree of treeObjects) {
+                            if (tree.id === action.item2) {
+                                node2 = tree
                             }
-                            let node1 = undefined, node2 = undefined
-                            for (let tree of treeObjects) {
-                                if (tree.id === action.item2) {
-                                    node2 = tree
-                                }
-                                if (tree.id === action.item) {
-                                    node1 = tree
-                                }
+                            if (tree.id === action.item) {
+                                node1 = tree
                             }
-                            if (node1 === undefined || node2 === undefined) {
-                                throw new Error("node not found")
-                            }
-                            node1.setAction(
-                                ActionType.SWAP,
-                                node2.position
-                            );
-                            node2.setAction(
-                                ActionType.SWAP,
-                                node1.position
-                            );
-                        } else {
-                            for (let tree of treeObjects) {
-                                if (tree.id === action.item) {
-                                    tree.setAction(action.action, null)
-                                }
+                        }
+                        if (node1 === undefined || node2 === undefined) {
+                            throw new Error("node not found")
+                        }
+                        node1.setAction(
+                            ActionType.SWAP,
+                            node2.position
+                        );
+                        node2.setAction(
+                            ActionType.SWAP,
+                            node1.position
+                        );
+                    } else {
+                        for (let tree of treeObjects) {
+                            if (tree.id === action.item) {
+                                tree.setAction(action.action, null)
                             }
                         }
                     }
                 }
-
-            } catch (e) {
-                console.log(treeObjects);
-                console.log(e);
             }
         }
     }

@@ -38,8 +38,10 @@ export function searchWrapper(
         }
     }
 
-   search(root, k, memento, mainRoot);
-
+   const result = search(root, k, memento, mainRoot);
+    if(!result){
+        memento.addError({line: 0, name: "Search"}, mainRoot, `Node with value ${k} not found`, [], [], passedIds)
+    }
 }
 
 function shadowSearch(
@@ -389,7 +391,7 @@ export function successor(
     if (y) {
         memento.addSnapshot({line: 7, name: "Successor"}, root, y.id, ActionType.HIGHLIGHT_FULL)
     } else {
-        memento.addBlank({line: 7, name: "Successor"}, root)
+        memento.addError({line: 7, name: "Successor"}, root, "Successor not found")
     }
     return y
 }
@@ -446,7 +448,7 @@ export function predecessor(root: BSTreeNode | undefined, k: number, memento: BS
     if (y) {
         memento.addSnapshot({line: 7, name: "Predecessor"}, root, y.id, ActionType.HIGHLIGHT_LIGHT)
     } else {
-        memento.addBlank({line: 7, name: "Predecessor"}, root)
+        memento.addError({line: 7, name: "Successor"}, root, "Predecessor not found")
     }
     return y
 }

@@ -16,14 +16,14 @@ import {
 import {AppDispatch} from "../store/store";
 import {
     setActions,
-    setCodeRef,
+    setCodeRef, setError,
     setPassedNodes,
     setPlaying,
     setRoles,
     setRoot, setTraversalResults,
     setVisited
 } from "../store/reducers/alghoritms/bst-reducer";
-import {Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import {ActionType, Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 import {BSTreeNode} from "./BSTreeNode";
 import {calculateHeight} from "../components/Simulation/BinaryTree/Helpers/Functions";
 
@@ -80,15 +80,21 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     }
 
     setAllData(index: number) {
+        const actions = this.memento.getActions(index);
         this.setRoot(this.memento.getData(index));
-        this.setCurrentActions(this.memento.getActions(index));
+        this.setCurrentActions(actions);
         this.setCurrentRoles(this.memento.getRoles(index));
         this.setReference(this.memento.getCodeRef(index));
         this.setVisitedNodes((this.memento as BSTreeMemento).getVisitedNodes(index));
         this.setPassedNodes((this.memento as BSTreeMemento).getPassedNodes(index))
         this.setTraversalResult((this.memento as BSTreeMemento).getTraversalResults(index))
+        if (actions.length > 0 && actions[0].action === ActionType.ERROR) {
+            this.setError(actions[0]?.error || "ERROR")
+        }
     }
-
+    setError(error: string) {
+        this.dispatch(setError(error));
+    }
     initData(data: BSTreeNode | undefined) {
         this.setReference({name: this.memento.getCurrentAlg(), line: 0});
         this.setRoot(data);
@@ -97,6 +103,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setVisitedNodes([]);
         this.setPassedNodes([])
         this.setTraversalResult([])
+
     }
    setPassedNodes(passedNodes: number[]) {
        this.dispatch(setPassedNodes(passedNodes));
