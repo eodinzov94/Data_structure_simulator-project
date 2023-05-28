@@ -34,7 +34,7 @@ const ChangePassword = () => {
     <FloatUpContainer>
       <AuthCard title={"Change Password"}>
         <form className="mt-8 space-y-6" onSubmit={onSubmitHandler}>
-          <div className="-space-y-px rounded-md shadow-sm grid grid-cols-1">
+          <div className="-space-y-px rounded-md shadow-sm grid grid-cols-">
             {/* current password */}
             <div>
               <input
@@ -43,7 +43,7 @@ const ChangePassword = () => {
                 name="password"
                 type="password"
                 required
-                className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
+                className={`relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
                 placeholder="Current password"
               />
             </div>
@@ -67,7 +67,7 @@ const ChangePassword = () => {
                 name="new_password2"
                 type="password"
                 required
-                className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
+                className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
                 placeholder="Confirm new password"
               />
             </div>

@@ -16,6 +16,9 @@ const MAX_ELEMENTS = 10;
 
 const CountingSortPage = () => {
   const dispatch = useAppDispatch();
+  const isSortStarted = useAppSelector(
+    (s) => s.animationController.isSortStarted
+  );
   const state = useAppSelector((state) => state.countingSort);
 
   const controller = CountingSortController.getController(dispatch);
@@ -65,7 +68,7 @@ const CountingSortPage = () => {
 
         <div style={{ marginTop: "40px" }}>
           <IndexArray size={state.C.length + 1} i={state.indexC} />
-          <SortArray items={state.C} speed={controller.speed}  />
+          <SortArray items={state.C} speed={controller.speed} />
         </div>
 
         <div style={{ marginTop: "40px" }}>
@@ -73,7 +76,7 @@ const CountingSortPage = () => {
           <SortArray items={state.B} speed={controller.speed} />
         </div>
 
-        <div> K = {state.k}</div>
+        {isSortStarted ? <div> K = {state.k}</div> : <></>}
       </AnimationWrapper>
     </>
   );
