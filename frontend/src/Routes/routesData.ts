@@ -22,6 +22,7 @@ import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import MergeSortPage from "../pages/Animations/sorts/MergeSortPage";
+import ChangePassword from "../pages/ChangePassword";
 
 export interface RouteItem {
   path: string;
@@ -44,6 +45,7 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
   { path: RoutePaths.PROFILE, element: ProfilePage },
   { path: RoutePaths.EDIT_PROFILE, element: EditProfilePage },
+  { path: RoutePaths.CHANGE_PASSWORD, element: ChangePassword },
 
   //Animations
   { path: RoutePaths.STACK, element: StackPage },

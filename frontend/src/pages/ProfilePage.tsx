@@ -47,7 +47,7 @@ const ProfilePage = () => {
                   </>
                 )}
               </div>
-              <div className="space-y-3 w-80">
+              <div className="w-80 flex flex-col gap-2">
                 <Link to={RoutePaths.EDIT_PROFILE}>
                   <FormButton
                     type={"button"}
@@ -61,17 +61,18 @@ const ProfilePage = () => {
                     }
                   />
                 </Link>
-
-                <FormButton
-                  type={"button"}
-                  title={"Change password"}
-                  icon={
-                    <LockOpenIcon
-                      className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}
-                      aria-hidden="true"
-                    />
-                  }
-                />
+                <Link to={RoutePaths.CHANGE_PASSWORD}>
+                  <FormButton
+                    type={"button"}
+                    title={"Change password"}
+                    icon={
+                      <LockOpenIcon
+                        className={`h-5 w-5 text-lime-600 group-hover:text-lime-500`}
+                        aria-hidden="true"
+                      />
+                    }
+                  />
+                </Link>
               </div>
             </div>
           </div>
