@@ -1,25 +1,25 @@
+import CasinoIcon from "@mui/icons-material/Casino";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 import { Alert, createTheme, TextField, ThemeProvider } from "@mui/material";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tooltip from "@mui/material/Tooltip";
 import React, { FC, useEffect } from "react";
+import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setError,
   setInput,
-  setInputArray,
+  setInputArray
 } from "../../../store/reducers/alghoritms/bst-reducer";
+import MediumCard from "../../UI/MediumCard";
 import {
   generateRandomArrForHeap,
   getArrFromInputForHeap,
 } from "../BinaryTree/Helpers/Functions";
-import MediumCard from "../../UI/MediumCard";
-import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 import { randomBuildTree } from "../BST/BST_Algorithms";
-import Tooltip from "@mui/material/Tooltip";
-import TabContext from "@mui/lab/TabContext";
-import Box from "@mui/material/Box";
-import TabList from "@mui/lab/TabList";
-import Tab from "@mui/material/Tab";
-import TabPanel from "@mui/lab/TabPanel";
-import CasinoIcon from "@mui/icons-material/Casino";
 
 interface Props {
   controller: BSTreeAnimationController;
@@ -216,7 +216,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
                     <div className="py-2 px-6" key={text}>
                       <button
                         disabled={isButtonDisabled}
-                        className={buttonClassname}
+                        className={buttonClassname + " w-[60px] h-[40px]"}
                         onClick={async () => await Animate(text)}
                       >
                         {text}
