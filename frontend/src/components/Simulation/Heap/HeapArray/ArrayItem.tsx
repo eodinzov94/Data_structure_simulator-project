@@ -1,8 +1,7 @@
-import React from "react";
-import "./HeapArray.css";
 import { motion } from "framer-motion";
-import { getHeapArrayAnimationsAndStyles } from "../../BinaryTree/Helpers/Functions";
 import { ArrayItemObj } from "../../../../ClassObjects/ArrayItemObj";
+import { getHeapArrayAnimationsAndStyles } from "../../BinaryTree/Helpers/Functions";
+import "./HeapArray.css";
 
 interface Props {
   arrayItemObj: ArrayItemObj;

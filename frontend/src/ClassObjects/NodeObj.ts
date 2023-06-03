@@ -1,11 +1,11 @@
-import {BranchObj} from "./BranchObj";
+import { BranchObj } from "./BranchObj";
 import {
     ActionType,
     Events,
     NodeRole,
 } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
-import {TreeNode} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
-import {BSTreeNode} from "./BSTreeNode";
+import { TreeNode } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import { BSTreeNode } from "./BSTreeNode";
 
 export class NodeObj {
     static availableSpace = 600;
@@ -130,7 +130,7 @@ export class NodeObj {
             {
                 node: root,
                 nodeObj: new NodeObj(
-                    {x: viewportWidth / 2 - 120, y: 325},
+                    { x: viewportWidth / 2 - 120, y: 325 },
                     speed,
                     root.id,
                     root.value,
@@ -149,13 +149,13 @@ export class NodeObj {
             if (!item) {
                 break;
             }
-            const {node, nodeObj} = item;
+            const { node, nodeObj } = item;
 
             if (node.right) {
                 stack.push({
                     node: node.right,
                     nodeObj: new NodeObj(
-                        {x: 0, y: 0}, //Will be calculated according to the parent,
+                        { x: 0, y: 0 }, //Will be calculated according to the parent,
                         speed,
                         node.right.id,
                         node.right.value,
@@ -172,7 +172,7 @@ export class NodeObj {
                 stack.push({
                     node: node.left,
                     nodeObj: new NodeObj(
-                        {x: 0, y: 0}, //Will be calculated according to the parent
+                        { x: 0, y: 0 }, //Will be calculated according to the parent
                         speed,
                         node.left.id,
                         node.left.value,
@@ -200,7 +200,7 @@ export class NodeObj {
         if (actions) {
             if (!isBSTree) {
                 for (let action of actions) {
-                    if(action.action === ActionType.ERROR) {
+                    if (action.action === ActionType.ERROR) {
                         return
                     }
                     if (action.action === ActionType.SWAP) {
@@ -221,8 +221,8 @@ export class NodeObj {
                 }
             } else {
                 for (let action of actions) {
-                    if(action.action === ActionType.ERROR) {
-                       return
+                    if (action.action === ActionType.ERROR) {
+                        return
                     }
                     if (action.action === ActionType.SWAP) {
                         if (typeof action.item2 !== "number") {

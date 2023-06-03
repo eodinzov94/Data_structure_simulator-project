@@ -1,9 +1,9 @@
-import React, {FC} from "react";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
+import { FC } from "react";
+import { NodeObj } from "../../../ClassObjects/NodeObj";
 import "./BinaryTree.css";
-import {getAnimationsAndStyles} from "./Helpers/Functions";
-import {NodeObj} from "../../../ClassObjects/NodeObj";
 import Branch from "./Branch";
+import { getAnimationsAndStyles } from "./Helpers/Functions";
 
 interface BinaryTreeNodeProps {
     nodeObj: NodeObj;

@@ -1,5 +1,5 @@
 import AnimationController from "./AnimationController";
-import {BSTreeMemento} from "./BSTreeMemento";
+import { BSTreeMemento } from "./BSTreeMemento";
 import {
     build, deleteNodeWrapper,
     getMaxWrapper,
@@ -13,7 +13,7 @@ import {
     searchWrapper,
     successor
 } from "../components/Simulation/BST/BST_Algorithms";
-import {AppDispatch} from "../store/store";
+import { AppDispatch } from "../store/store";
 import {
     setActions,
     setCodeRef, setError,
@@ -23,9 +23,9 @@ import {
     setRoot, setTraversalResults,
     setVisited
 } from "../store/reducers/alghoritms/bst-reducer";
-import {ActionType, Events, NodeRole} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
-import {BSTreeNode} from "./BSTreeNode";
-import {calculateHeight} from "../components/Simulation/BinaryTree/Helpers/Functions";
+import { ActionType, Events, NodeRole } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import { BSTreeNode } from "./BSTreeNode";
+import { calculateHeight } from "../components/Simulation/BinaryTree/Helpers/Functions";
 
 
 class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined, string> {
@@ -36,7 +36,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     }
 
     static getController(root: BSTreeNode | undefined,
-                         dispatch: AppDispatch) {
+        dispatch: AppDispatch) {
         if (!BSTreeAnimationController.controller)
             BSTreeAnimationController.controller = new BSTreeAnimationController(root, dispatch)
         return BSTreeAnimationController.controller
@@ -96,7 +96,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.dispatch(setError(error));
     }
     initData(data: BSTreeNode | undefined) {
-        this.setReference({name: this.memento.getCurrentAlg(), line: 0});
+        this.setReference({ name: this.memento.getCurrentAlg(), line: 0 });
         this.setRoot(data);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
@@ -105,14 +105,14 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setTraversalResult([])
 
     }
-   setPassedNodes(passedNodes: number[]) {
-       this.dispatch(setPassedNodes(passedNodes));
-   }
-    setTreeFromInput(arr: number[],newRoot?:BSTreeNode) {
+    setPassedNodes(passedNodes: number[]) {
+        this.dispatch(setPassedNodes(passedNodes));
+    }
+    setTreeFromInput(arr: number[], newRoot?: BSTreeNode) {
         let root: BSTreeNode | undefined
-        if(newRoot){
+        if (newRoot) {
             root = newRoot;
-        }else{
+        } else {
             root = build(arr)
         }
         this.data = root;
@@ -151,7 +151,7 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
             data = this.data
         }
         const tempRoot = insert(BSTreeNode.deepCopy(data), BSTreeNode.createNewNode(data, value));
-        if(calculateHeight(tempRoot)>6){
+        if (calculateHeight(tempRoot) > 6) {
             throw new Error("Tree is too big, max height is 6")
         }
         await this.playAlgorithm(insertWithAnimations, BSTreeNode.createNewNode(data, value), this.memento as BSTreeMemento);

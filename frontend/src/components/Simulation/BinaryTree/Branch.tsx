@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
-import './BinaryTree.css'
-import { BranchObj } from "../../../ClassObjects/BranchObj";
 import { motion } from "framer-motion";
+import { FC } from 'react';
+import { BranchObj } from "../../../ClassObjects/BranchObj";
+import './BinaryTree.css';
 interface BranchProps {
   branch:BranchObj
   isPassed:boolean

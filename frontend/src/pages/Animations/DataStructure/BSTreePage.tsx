@@ -1,14 +1,14 @@
 import BinaryTree from "../../../components/Simulation/BinaryTree/BinaryTree";
-import {useAppSelector} from "../../../store/hooks";
-import {useDispatch} from "react-redux";
+import { useAppSelector } from "../../../store/hooks";
+import { useDispatch } from "react-redux";
 import PlayerControlsPanel from "../../../components/Simulation/ControlsPanels/PlayerControlsPanel";
-import {FC, useEffect, useState} from "react";
+import { FC, useEffect, useState } from "react";
 import PhoneRotate from "../../../assets/rotateTablet.svg";
-import {calculateHeight, combineBSTPseudoCodes} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
+import { calculateHeight, combineBSTPseudoCodes } from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 import BSTreeControlsPanel from "../../../components/Simulation/ControlsPanels/BSTreeControlsPanel";
 import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
-import {PseudoItem} from "../../../components/Simulation/PseudoCode/pc-helpers";
+import { PseudoItem } from "../../../components/Simulation/PseudoCode/pc-helpers";
 import HeapArray from "../../../components/Simulation/Heap/HeapArray/HeapArray";
 
 
@@ -45,7 +45,7 @@ const HeapPage: FC = () => {
         <>
             {fitsAnimation ?
                 <>
-                    <BSTreeControlsPanel isButtonDisabled={isPlaying} controller={controller}/>
+                    <BSTreeControlsPanel isButtonDisabled={isPlaying} controller={controller} />
                     <div className="container mx-auto max-w-7xl px-0 py-0 mt-[400px]">
                         <BinaryTree
                             viewportWidth={viewportWidth}
@@ -61,15 +61,15 @@ const HeapPage: FC = () => {
                         />
                     </div>
                     {traversalResults.length > 0 && <div className="container mx-auto max-w-7xl px-0 py-0 mt-72">
-                           <p className="mr-56"><b>Traversal Results</b></p>
-                            <HeapArray
+                        <p className="mr-56"><b>Traversal Results</b></p>
+                        <HeapArray
                             items={traversalResults}
                             actions={currentActions}
                             speed={controller.speed}
                         />
                     </div>}
-                    <PlayerControlsPanel controller={controller} isPlaying={isPlaying}/>
-                   <div className="flex justify-end mr-5">
+                    <PlayerControlsPanel controller={controller} isPlaying={isPlaying} />
+                    <div className="flex justify-end mr-5">
                         <div className=" w-fit">
                             <PseudoCodeContainer
                                 line={currentLine}

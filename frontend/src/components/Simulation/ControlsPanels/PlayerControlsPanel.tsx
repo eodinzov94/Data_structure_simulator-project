@@ -1,13 +1,12 @@
-import {Box, Button, ButtonGroup, createTheme, Slider, Stack, ThemeProvider, Tooltip} from '@mui/material'
-import React, {FC} from 'react'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import PauseIcon from '@mui/icons-material/Pause'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
-import PauseIcon from '@mui/icons-material/Pause'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import SpeedIcon from '@mui/icons-material/Speed'
-import {useAppSelector} from '../../../store/hooks'
+import { Box, Button, ButtonGroup, createTheme, Slider, Stack, ThemeProvider, Tooltip } from '@mui/material'
+import { FC } from 'react'
 import AnimationController from '../../../ClassObjects/AnimationController'
 
 interface Props {
@@ -15,17 +14,17 @@ interface Props {
     isPlaying: boolean
 }
 
-const PlayerControlsPanel: FC<Props> = ({controller, isPlaying}) => {
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: '#78ab3a',
-            },
-            secondary: {
-                main: '#78ab3a',
-            },
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#78ab3a',
         },
-    })
+        secondary: {
+            main: '#78ab3a',
+        },
+    },
+})
+const PlayerControlsPanel: FC<Props> = ({controller, isPlaying}) => {
     return (
         <>
             <ButtonGroup variant='outlined' aria-label='outlined button group' className='mt-10'>

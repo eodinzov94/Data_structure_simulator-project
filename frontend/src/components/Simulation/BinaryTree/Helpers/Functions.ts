@@ -6,8 +6,8 @@ import {
   HeapPseudoCodeKeys,
   HeapPseudoCodeList,
 } from "../../PseudoCode/HeapPseudoCodeData";
-import {BSTPseudoCode, BSTPseudoCodeKeys, BSTPseudoCodeList} from "../../PseudoCode/BSTreePseudoCodeData";
-import {BSTreeNode} from "../../../../ClassObjects/BSTreeNode";
+import { BSTPseudoCode, BSTPseudoCodeKeys, BSTPseudoCodeList } from "../../PseudoCode/BSTreePseudoCodeData";
+import { BSTreeNode } from "../../../../ClassObjects/BSTreeNode";
 
 export function arrayToBinaryTree(arr: number[]): TreeNode | undefined {
   if (!arr.length) {
@@ -168,7 +168,7 @@ export function getHeapArrayAnimationsAndStyles(
 }
 
 
-export function getArrFromInputForHeap(maxSize: number, data: string, maxNum=999,minNum = 0) {
+export function getArrFromInputForHeap(maxSize: number, data: string, maxNum = 999, minNum = 0) {
   let list = data.split(",");
   if (list.includes("")) return `Input must be numbers that seperated by comma`;
   if (list.length > maxSize) return `Max array size is ${maxSize}`;
@@ -184,18 +184,18 @@ export function getArrFromInputForHeap(maxSize: number, data: string, maxNum=999
 }
 
 
-export const getNodeRolesForIter = (left:number|null,right:number|null,i:number,heapSize:number) => {
+export const getNodeRolesForIter = (left: number | null, right: number | null, i: number, heapSize: number) => {
   const roles = [] as NodeRole[]
-  if (left && left < heapSize){
-    roles.push({role:"L",id:left})
+  if (left && left < heapSize) {
+    roles.push({ role: "L", id: left })
   }
-  if (right && right < heapSize){
-    roles.push({role:"R",id:right})
+  if (right && right < heapSize) {
+    roles.push({ role: "R", id: right })
   }
-  roles.push({role:"𝑖",id:i})
+  roles.push({ role: "𝑖", id: i })
   return roles
 }
-export const generateRandomArrForHeap = () =>{
+export const generateRandomArrForHeap = () => {
   const randomArray = [];
   const length = Math.floor(Math.random() * 9) + 7; // Generate a random length between 10 and 15
   for (let i = 0; i < length; i++) {
@@ -204,24 +204,24 @@ export const generateRandomArrForHeap = () =>{
   return randomArray;
 }
 
-export const combineHeapPseudoCodes = (currentAlg:HeapPseudoCodeKeys) => {
-       if(HeapPseudoCodeList[currentAlg].length===2){
-         const alg1 = HeapPseudoCodeList[currentAlg][0]
-         const alg2 = HeapPseudoCodeList[currentAlg][1]
-         const code1 = HeapPseudoCode[alg1]
-         const code2 = HeapPseudoCode[alg2]
-         return [...code1,{ text: "", tabAmount: 1 },...code2]
-       }
-       return HeapPseudoCode[currentAlg]
+export const combineHeapPseudoCodes = (currentAlg: HeapPseudoCodeKeys) => {
+  if (HeapPseudoCodeList[currentAlg].length === 2) {
+    const alg1 = HeapPseudoCodeList[currentAlg][0]
+    const alg2 = HeapPseudoCodeList[currentAlg][1]
+    const code1 = HeapPseudoCode[alg1]
+    const code2 = HeapPseudoCode[alg2]
+    return [...code1, { text: "", tabAmount: 1 }, ...code2]
+  }
+  return HeapPseudoCode[currentAlg]
 
 }
-export const combineBSTPseudoCodes = (currentAlg:BSTPseudoCodeKeys) => {
-  if(BSTPseudoCodeList[currentAlg].length===2){
+export const combineBSTPseudoCodes = (currentAlg: BSTPseudoCodeKeys) => {
+  if (BSTPseudoCodeList[currentAlg].length === 2) {
     const alg1 = BSTPseudoCodeList[currentAlg][0]
     const alg2 = BSTPseudoCodeList[currentAlg][1]
     const code1 = BSTPseudoCode[alg1]
     const code2 = BSTPseudoCode[alg2]
-    return [...code1,{ text: "", tabAmount: 1 },...code2]
+    return [...code1, { text: "", tabAmount: 1 }, ...code2]
   }
   return BSTPseudoCode[currentAlg]
 

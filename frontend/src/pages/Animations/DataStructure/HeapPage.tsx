@@ -1,14 +1,14 @@
 import BinaryTree from "../../../components/Simulation/BinaryTree/BinaryTree";
 import HeapArray from "../../../components/Simulation/Heap/HeapArray/HeapArray";
 import HeapAnimationController from "../../../ClassObjects/HeapAnimationController";
-import {useAppSelector} from "../../../store/hooks";
-import {useDispatch} from "react-redux";
+import { useAppSelector } from "../../../store/hooks";
+import { useDispatch } from "react-redux";
 import PlayerControlsPanel from "../../../components/Simulation/ControlsPanels/PlayerControlsPanel";
 import HeapControlsPanel from "../../../components/Simulation/ControlsPanels/HeapControlsPanel";
-import {FC, useEffect, useState} from "react";
+import { FC, useEffect, useState } from "react";
 import PseudoCodeContainer from "../../../components/Simulation/PseudoCode/PseudoCodeContainer";
 import PhoneRotate from "../../../assets/rotateTablet.svg";
-import {calculateHeight, combineHeapPseudoCodes} from "../../../components/Simulation/BinaryTree/Helpers/Functions";
+import { calculateHeight, combineHeapPseudoCodes } from "../../../components/Simulation/BinaryTree/Helpers/Functions";
 
 const HeapPage: FC = () => {
     const root = useAppSelector((state) => state.heap.root); //TODO:Randomize input
@@ -41,7 +41,7 @@ const HeapPage: FC = () => {
         <>
             {fitsAnimation ?
                 <>
-                    <HeapControlsPanel isButtonDisabled={isPlaying} controller={controller}/>
+                    <HeapControlsPanel isButtonDisabled={isPlaying} controller={controller} />
                     <div className="container mx-auto max-w-7xl px-0 py-0">
                         <BinaryTree
                             viewportWidth={viewportWidth}
@@ -62,7 +62,7 @@ const HeapPage: FC = () => {
                             currentHeapSize={currentHeapSize}
                         />
                     </div>
-                    <PlayerControlsPanel controller={controller} isPlaying={isPlaying}/>
+                    <PlayerControlsPanel controller={controller} isPlaying={isPlaying} />
                     <div className="flex justify-end mr-5">
                         <div className=" w-fit">
                             <PseudoCodeContainer

@@ -1,8 +1,8 @@
-import {Events, NodeRole, TreeNode} from "./BinaryTreeTypes";
+import { AnimatePresence } from "framer-motion";
+import { FC } from "react";
+import { NodeObj } from "../../../ClassObjects/NodeObj";
 import BinaryTreeNode from "./BinaryTreeNode";
-import React, {FC} from "react";
-import {NodeObj} from "../../../ClassObjects/NodeObj";
-import {AnimatePresence} from "framer-motion";
+import { Events, NodeRole, TreeNode } from "./BinaryTreeTypes";
 
 interface BTProps {
     root: TreeNode | undefined;

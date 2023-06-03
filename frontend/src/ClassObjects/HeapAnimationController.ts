@@ -5,10 +5,10 @@ import {
     maxHeapInsert,
     maxHeapSort
 } from '../components/Simulation/Heap/HeapAlgorithms'
-import {AppDispatch} from '../store/store'
+import { AppDispatch } from '../store/store'
 import AnimationController from './AnimationController'
-import {arrayToBinaryTree} from "../components/Simulation/BinaryTree/Helpers/Functions";
-import {Events, NodeRole, TreeNode} from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import { arrayToBinaryTree } from "../components/Simulation/BinaryTree/Helpers/Functions";
+import { Events, NodeRole, TreeNode } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 import {
     setActions,
     setArray,
@@ -17,8 +17,8 @@ import {
     setRoles,
     setRoot
 } from "../store/reducers/alghoritms/heap-reducer";
-import {HeapMemento} from "./HeapMemento";
-import {CodeReference, HeapAlgNames} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import { HeapMemento } from "./HeapMemento";
+import { CodeReference, HeapAlgNames } from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
 class HeapAnimationController extends AnimationController<number[], HeapAlgNames> {
     private static controller: null | HeapAnimationController = null
@@ -30,7 +30,7 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
     }
 
     static getController(arr: number[],
-                         dispatch: AppDispatch) {
+        dispatch: AppDispatch) {
         if (!HeapAnimationController.controller)
             HeapAnimationController.controller = new HeapAnimationController(arr, dispatch)
         return HeapAnimationController.controller
@@ -99,9 +99,9 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
 
     setCurrentArr(arr: number[], heapSize?: number) {
         if (heapSize !== undefined) {
-            this.dispatch(setArray({arr, currentHeapSize: heapSize}));
+            this.dispatch(setArray({ arr, currentHeapSize: heapSize }));
         } else {
-            this.dispatch(setArray({arr, currentHeapSize: arr.length}),);
+            this.dispatch(setArray({ arr, currentHeapSize: arr.length }),);
         }
     }
 
@@ -133,7 +133,7 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
     }
 
     initData(arr: number[], heapSize?: number) {
-        this.setReference({name: this.memento.getCurrentAlg(), line: 0});
+        this.setReference({ name: this.memento.getCurrentAlg(), line: 0 });
         this.setCurrentArr(arr, heapSize);
         this.setRoot(arrayToBinaryTree(arr));
         this.setCurrentActions([]);

@@ -26,24 +26,6 @@ export const BSTPseudoCode = {
         {text: "y.left ← z", tabAmount: 2},            //12
         {text: "else y.right ← z", tabAmount: 1},   //13
     ] as PseudoItem[],
-    // Delete: [
-    //     {text: "Delete(𝑻,𝒛)", tabAmount: 0},
-    //     {text: "if(z.left = null or z.right = null)", tabAmount: 1},
-    //     {text: "𝑦 ← z", tabAmount: 2},
-    //     {text: "else y ← successor(z)", tabAmount: 1},
-    //     {text: "if(y.left ≠ 𝑵𝑼𝑳𝑳)", tabAmount: 1},
-    //     {text: "x ← y.left", tabAmount: 2},
-    //     {text: "else x ← y.right", tabAmount: 1},
-    //     {text: "if(x ≠ 𝑵𝑼𝑳𝑳)", tabAmount: 1},
-    //     {text: "x.parent ← y.parent", tabAmount: 2},
-    //     {text: "if(y.parent = 𝑵𝑼𝑳𝑳)", tabAmount: 1},
-    //     {text: "T.root ← x", tabAmount: 2},
-    //     {text: "elseif(y = y.parent.left)", tabAmount: 1},
-    //     {text: "y.parent.left ← x", tabAmount: 2},
-    //     {text: "else y.parent.right ← x", tabAmount: 1},
-    //     {text: "if(y ≠ z)", tabAmount: 1},
-    //     {text: "z.key ← y.key and copy y’s satellite data into z", tabAmount: 2},
-    // ] as PseudoItem[],
     Delete: [
         {text: "Delete(𝑻,key)", tabAmount: 0},
         {text: "if(T.root == null)", tabAmount: 1},
