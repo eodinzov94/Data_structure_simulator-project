@@ -2,10 +2,9 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Alert, createTheme, makeStyles, TextField, ThemeProvider, Typography } from "@mui/material";
+import { TextField, ThemeProvider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
-import Tooltip from "@mui/material/Tooltip";
 import React, { FC, useEffect, useState } from "react";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -14,6 +13,9 @@ import {
   setInput,
   setInputArray
 } from "../../../store/reducers/alghoritms/bst-reducer";
+import { AlertError } from "../../UI/Controls/AlertError";
+import { theme } from "../../UI/Controls/ControlsTheme";
+import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
 import MediumCard from "../../UI/MediumCard";
 import {
   generateRandomArrForHeap,
@@ -26,32 +28,6 @@ interface Props {
   isButtonDisabled: boolean;
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#78ab3a",
-    },
-    secondary: {
-      main: "#78ab3a",
-    },
-    warning: {
-      main: "#ff9966",
-    },
-  },
-  components: {
-    MuiTooltip: {
-      styleOverrides: {
-        arrow: {
-          color: "#ff9966",
-        },
-        tooltip: {
-          backgroundColor: "#ff9966",
-        },
-      },
-    },
-  },
-
-});
 
 
 const buttonClassname =
@@ -62,15 +38,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const error = useAppSelector((state) => state.bst.error);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("1");
-  const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleMouseEnter = () => {
-    setShowTooltip(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -160,27 +128,11 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   return (
     <>
       {error && (
-        <div className="flex absolute top-[48px] inset-0 justify-center py-10 ">
-          <Alert
-            severity="error"
-            color="error"
-            className="w-[670px] h-[50px]"
-            onClose={() => dispatch(setError(""))}
-          >
-            {error}
-          </Alert>
-        </div>
+        <AlertError error={error} onClose={() => setCurrentError("")} />
       )}
       <MediumCard isSmaller={true} maxWidth={"max-w-5xl"}>
         <ThemeProvider theme={theme} >
-          <Tooltip
-            onMouseEnter={handleMouseEnter} 
-            onMouseLeave={handleMouseLeave}
-            title={<Typography variant="subtitle2" component="div" align="center">Controls are disabled during simulation{'\n'}pause simulation to access it</Typography>}
-            arrow
-            open={isButtonDisabled && showTooltip}
-            placement="top"
-          >
+          <ControlsToolTip isButtonDisabled={isButtonDisabled}>
             <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -314,7 +266,7 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
                 ))}
               </TabContext>
             </Box>
-          </Tooltip>
+          </ControlsToolTip>
         </ThemeProvider>
       </MediumCard>
     </>

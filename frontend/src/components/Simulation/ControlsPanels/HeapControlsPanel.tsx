@@ -18,38 +18,15 @@ import {
   getArrFromInputForHeap,
 } from "../BinaryTree/Helpers/Functions";
 import MediumCard from "../../UI/MediumCard";
+import { AlertError } from "../../UI/Controls/AlertError";
+import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
+import { theme } from "../../UI/Controls/ControlsTheme";
 
 interface Props {
   controller: HeapAnimationController;
   isButtonDisabled: boolean;
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#78ab3a",
-    },
-    secondary: {
-      main: "#78ab3a",
-    },
-    warning: {
-      main: "#ff9966",
-    },
-  },
-  components: {
-    MuiTooltip: {
-      styleOverrides: {
-        arrow: {
-          color: "#ff9966",
-        },
-        tooltip: {
-          backgroundColor: "#ff9966",
-        },
-      },
-    },
-  },
-
-});
 const buttonClassname =
   "bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed";
 const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
@@ -58,15 +35,6 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("1");
-  const [showTooltip, setShowTooltip] = useState(false);
-
-  const handleMouseEnter = () => {
-    setShowTooltip(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -122,27 +90,11 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   return (
     <>
       {error && (
-        <div className="flex absolute top-[48px] inset-0 justify-center py-10 ">
-          <Alert
-            severity="error"
-            color="error"
-            className="w-[670px] h-[50px]"
-            onClose={() => setError("")}
-          >
-            {error}
-          </Alert>
-        </div>
+        <AlertError error={error} onClose={() => setCurrentError("")} />
       )}
       <MediumCard isSmaller={true} maxWidth={"max-w-[530px]"}>
         <ThemeProvider theme={theme}>
-          <Tooltip
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            title={<Typography variant="subtitle2" component="div" align="center">Controls are disabled during simulation{'\n'}pause simulation to access it</Typography>}
-            arrow
-            open={isButtonDisabled && showTooltip}
-            placement="top"
-          >
+          <ControlsToolTip isButtonDisabled={isButtonDisabled}>
             <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -249,7 +201,7 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
                 </TabPanel>
               </TabContext>
             </Box>
-          </Tooltip>
+          </ControlsToolTip>
         </ThemeProvider>
       </MediumCard>
     </>
