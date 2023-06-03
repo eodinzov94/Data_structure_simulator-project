@@ -1,4 +1,4 @@
-import { Alert, createTheme, TextField, ThemeProvider } from "@mui/material";
+import { Alert, createTheme, TextField, ThemeProvider, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -32,7 +32,23 @@ const theme = createTheme({
     secondary: {
       main: "#78ab3a",
     },
+    warning: {
+      main: "#ff9966",
+    },
   },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        arrow: {
+          color: "#ff9966",
+        },
+        tooltip: {
+          backgroundColor: "#ff9966",
+        },
+      },
+    },
+  },
+
 });
 const buttonClassname =
   "bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed";
@@ -41,8 +57,16 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const inputKey = useAppSelector((state) => state.heap.inputKey);
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
+  const [showTooltip, setShowTooltip] = useState(false);
 
+  const handleMouseEnter = () => {
+    setShowTooltip(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -112,9 +136,12 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
       <MediumCard isSmaller={true} maxWidth={"max-w-[530px]"}>
         <ThemeProvider theme={theme}>
           <Tooltip
-            title="Controls are disabled during simulation"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            title={<Typography variant="subtitle2" component="div" align="center">Controls are disabled during simulation{'\n'}pause simulation to access it</Typography>}
             arrow
-            disableHoverListener={!isButtonDisabled}
+            open={isButtonDisabled && showTooltip}
+            placement="top"
           >
             <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={value}>

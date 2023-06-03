@@ -2,11 +2,11 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Alert, createTheme, TextField, ThemeProvider } from "@mui/material";
+import { Alert, createTheme, makeStyles, TextField, ThemeProvider, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tooltip from "@mui/material/Tooltip";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import BSTreeAnimationController from "../../../ClassObjects/BSTreeAnimationController";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
@@ -34,8 +34,26 @@ const theme = createTheme({
     secondary: {
       main: "#78ab3a",
     },
+    warning: {
+      main: "#ff9966",
+    },
   },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        arrow: {
+          color: "#ff9966",
+        },
+        tooltip: {
+          backgroundColor: "#ff9966",
+        },
+      },
+    },
+  },
+
 });
+
+
 const buttonClassname =
   "bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed";
 const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
@@ -43,8 +61,16 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const inputValues = useAppSelector((state) => state.bst.inputValues);
   const error = useAppSelector((state) => state.bst.error);
   const dispatch = useAppDispatch();
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
+  const [showTooltip, setShowTooltip] = useState(false);
 
+  const handleMouseEnter = () => {
+    setShowTooltip(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -146,11 +172,14 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
         </div>
       )}
       <MediumCard isSmaller={true} maxWidth={"max-w-5xl"}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} >
           <Tooltip
-            title="Controls are disabled during simulation"
+            onMouseEnter={handleMouseEnter} 
+            onMouseLeave={handleMouseLeave}
+            title={<Typography variant="subtitle2" component="div" align="center">Controls are disabled during simulation{'\n'}pause simulation to access it</Typography>}
             arrow
-            disableHoverListener={!isButtonDisabled}
+            open={isButtonDisabled && showTooltip}
+            placement="top"
           >
             <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={value}>
