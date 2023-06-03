@@ -7,6 +7,7 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import TabPanel from "@mui/lab/TabPanel";
 import React, { FC, useState } from "react";
 import HeapAnimationController from "../../../ClassObjects/HeapAnimationController";
+import Tooltip from '@mui/material/Tooltip';
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setInputArray,
@@ -110,107 +111,111 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
       )}
       <MediumCard isSmaller={true} maxWidth={"max-w-[500px]"}>
         <ThemeProvider theme={theme}>
-          <Box sx={{ width: "100%", typography: "body1" }}>
-            <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList
-                  onChange={handleChange}
-                  aria-label="algorithms and actions"
-                  centered
+          <Tooltip
+            title="Controls are disabled during simulation"
+            arrow
+            disableHoverListener={!isButtonDisabled}
+          >
+            <Box sx={{ width: "100%", typography: "body1" }}>
+              <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="algorithms and actions"
+                    centered
+                  >
+                    <Tab label="Heap construction" value="1" />
+                    <Tab label="Algorithms" value="2" />
+                    <Tab label="Insert" value="3" />
+                  </TabList>
+                </Box>
+                <TabPanel
+                  value="1"
+                  className={value === "1" ? "justify-start " : "hidden"}
                 >
-                  <Tab label="Algorithms" value="1" />
-                  <Tab label="Heap construction" value="2" />
-                  <Tab label="Insert" value="3" />
-                </TabList>
-              </Box>
-              <TabPanel
-                value="1"
-                className={
-                  value === "1" ? "flex flex-row justify-center " : "hidden"
-                }
-              >
-                {["Heap-Max", "Extract-Max", "Heap-Sort"].map((text) => (
-                  <div className="px-2" key={text}>
-                    <button
-                      disabled={isButtonDisabled}
-                      className={buttonClassname}
-                      onClick={async () => await Animate(text)}
-                    >
-                      {text}
-                    </button>
-                  </div>
-                ))}
-              </TabPanel>
-              <TabPanel
-                value="2"
-                className={value === "2" ? "justify-start " : "hidden"}
-              >
-                <TextField
-                  placeholder="e.g 1,2,3,4,..."
-                  size={"small"}
-                  sx={{ width: "150px" }}
-                  value={inputArray}
-                  onChange={(e) => dispatch(setInputArray(e.target.value))}
-                  label="Build-Max-Heap"
-                  variant="outlined"
-                />
-                <button
-                  disabled={isButtonDisabled}
-                  className={buttonClassname + " w-[40px] h-[40px]"}
-                  //tailwind disabled class end
-                  //disabled={isButtonDisabled}
-                  onClick={createHeapHandler}
-                >
-                  Go
-                </button>
+                  <TextField
+                    placeholder="e.g 1,2,3,4,..."
+                    size={"small"}
+                    sx={{ width: "150px" }}
+                    value={inputArray}
+                    onChange={(e) => dispatch(setInputArray(e.target.value))}
+                    label="Build-Max-Heap"
+                    variant="outlined"
+                  />
+                  <button
+                    disabled={isButtonDisabled}
+                    className={buttonClassname + " w-[40px] h-[40px]"}
+                    onClick={createHeapHandler}
+                  >
+                    Go
+                  </button>
 
-                <button
-                  disabled={isButtonDisabled}
-                  className={buttonClassname + " w-[180px] h-[40px] ml-8"}
-                  onClick={async () => {
-                    await controller.setArrFromInput(
-                      generateRandomArrForHeap()
-                    );
-                    await Animate("Build-Max-Heap");
-                  }}
+                  <button
+                    disabled={isButtonDisabled}
+                    className={buttonClassname + " w-[180px] h-[40px] ml-8"}
+                    onClick={async () => {
+                      await controller.setArrFromInput(
+                        generateRandomArrForHeap()
+                      );
+                      await Animate("Build-Max-Heap");
+                    }}
+                  >
+                    <CasinoIcon />
+                    Randomize heap
+                  </button>
+                </TabPanel>
+                <TabPanel
+                  value="2"
+                  className={
+                    value === "2" ? "flex flex-row justify-center " : "hidden"
+                  }
                 >
-                  <CasinoIcon />
-                  Randomize heap
-                </button>
-              </TabPanel>
-              <TabPanel
-                value="3"
-                className={value === "3" ? "justify-start " : "hidden"}
-              >
-                <TextField
-                  sx={{ width: "100px" }}
-                  size="small"
-                  value={inputKey}
-                  type="number"
-                  variant="outlined"
-                  label="Input-Key"
-                  inputProps={{
-                    min: 0,
-                    max: 999,
-                    style: { textAlign: "center" },
-                  }}
-                  onChange={handleInputKey}
-                />
-                <button
-                  disabled={isButtonDisabled}
-                  className={buttonClassname + " w-[40px] h-[40px]"}
-                  onClick={async () =>
-                    await Animate("Insert Key").catch((e) => {
-                      console.log(e);
-                      setCurrentError("Array size overflow, max is 15.");
+                  {["Heap-Max", "Extract-Max", "Heap-Sort"].map((text) => (
+                    <div className="px-2" key={text}>
+                      <button
+                        disabled={isButtonDisabled}
+                        className={buttonClassname}
+                        onClick={async () => await Animate(text)}
+                      >
+                        {text}
+                      </button>
+                    </div>
+                  ))}
+                </TabPanel>
+                <TabPanel
+                  value="3"
+                  className={value === "3" ? "justify-start " : "hidden"}
+                >
+                  <TextField
+                    sx={{ width: "100px" }}
+                    size="small"
+                    value={inputKey}
+                    type="number"
+                    variant="outlined"
+                    label="Input-Key"
+                    inputProps={{
+                      min: 0,
+                      max: 999,
+                      style: { textAlign: "center" },
+                    }}
+                    onChange={handleInputKey}
+                  />
+                  <button
+                    disabled={isButtonDisabled}
+                    className={buttonClassname + " w-[40px] h-[40px]"}
+                    onClick={async () =>
+                      await Animate("Insert Key").catch((e) => {
+                        console.log(e);
+                        setCurrentError("Array size overflow, max is 15.");
                       })
                     }
-                >
-                  Go
-                </button>
-              </TabPanel>
-            </TabContext>
-          </Box>
+                  >
+                    Go
+                  </button>
+                </TabPanel>
+              </TabContext>
+            </Box>
+          </Tooltip>
         </ThemeProvider>
       </MediumCard>
     </>
