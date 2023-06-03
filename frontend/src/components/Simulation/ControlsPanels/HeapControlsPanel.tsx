@@ -7,7 +7,7 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import TabPanel from "@mui/lab/TabPanel";
 import React, { FC, useState } from "react";
 import HeapAnimationController from "../../../ClassObjects/HeapAnimationController";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setInputArray,
@@ -109,7 +109,7 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
           </Alert>
         </div>
       )}
-      <MediumCard isSmaller={true} maxWidth={"max-w-[500px]"}>
+      <MediumCard isSmaller={true} maxWidth={"max-w-[530px]"}>
         <ThemeProvider theme={theme}>
           <Tooltip
             title="Controls are disabled during simulation"
@@ -152,7 +152,7 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
 
                   <button
                     disabled={isButtonDisabled}
-                    className={buttonClassname + " w-[180px] h-[40px] ml-8"}
+                    className={buttonClassname + " w-[140px] h-[40px] ml-8"}
                     onClick={async () => {
                       await controller.setArrFromInput(
                         generateRandomArrForHeap()
@@ -161,7 +161,14 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
                     }}
                   >
                     <CasinoIcon />
-                    Randomize heap
+                    Randomize
+                  </button>
+                  <button
+                    disabled={isButtonDisabled}
+                    className={buttonClassname + " w-[60px] h-[40px] ml-8"}
+                    onClick={async () => await Animate("Clear")}
+                  >
+                    Clear
                   </button>
                 </TabPanel>
                 <TabPanel

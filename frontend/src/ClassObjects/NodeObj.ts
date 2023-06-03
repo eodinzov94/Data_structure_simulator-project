@@ -130,7 +130,7 @@ export class NodeObj {
             {
                 node: root,
                 nodeObj: new NodeObj(
-                    {x: viewportWidth / 2 - 120, y: 315},
+                    {x: viewportWidth / 2 - 120, y: 325},
                     speed,
                     root.id,
                     root.value,
