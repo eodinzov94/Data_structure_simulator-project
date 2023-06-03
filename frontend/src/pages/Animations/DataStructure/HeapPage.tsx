@@ -41,7 +41,7 @@ const HeapPage: FC = () => {
         <>
             {fitsAnimation ?
                 <>
-                    <HeapControlsPanel controller={controller}/>
+                    <HeapControlsPanel isButtonDisabled={isPlaying} controller={controller}/>
                     <div className="container mx-auto max-w-7xl px-0 py-0">
                         <BinaryTree
                             viewportWidth={viewportWidth}
