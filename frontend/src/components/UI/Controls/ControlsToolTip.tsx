@@ -12,7 +12,6 @@ export const ControlsToolTip = ({ isButtonDisabled, children }: Props) => {
 
     const handleMouseEnter = () => {
         setShowTooltip(true);
-        console.log('showTooltip', showTooltip)
     };
 
     const handleMouseLeave = () => {
@@ -27,7 +26,7 @@ export const ControlsToolTip = ({ isButtonDisabled, children }: Props) => {
             open={isButtonDisabled && showTooltip}
             placement="top"
         >
-           {children}
+            {children}
         </Tooltip>)
 
 }       

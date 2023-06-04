@@ -3,6 +3,7 @@ export class BSTreeNode{
     left?: BSTreeNode;
     right?: BSTreeNode;
     value: number;
+    height: number;
     id: number;
     constructor(value: number, id: number, left?: BSTreeNode, right?: BSTreeNode,parent?: BSTreeNode){
         this.value = value;
@@ -10,6 +11,7 @@ export class BSTreeNode{
         this.parent = parent;
         this.left = left;
         this.right = right;
+        this.height = -1
     }
     static deepCopy(node: BSTreeNode|undefined): BSTreeNode|undefined {
         if(!node){
@@ -20,6 +22,7 @@ export class BSTreeNode{
         const value = node.value;
         const id = node.id;
         const newNode = new BSTreeNode(value, id, left, right);
+        newNode.height = node.height;
         if (left !== undefined){
             left.parent = newNode;
         }
@@ -46,16 +49,17 @@ export class BSTreeNode{
 
     static createNewNode(
         currentRoot: BSTreeNode | undefined,
-        value: number
+        value: number,
+        height=-1
     ): BSTreeNode {
         return {
             value: value,
             id: this.getNextId(currentRoot) ,
+            height,
         };
     }
     static getNextId(root: BSTreeNode | undefined): number {
         if (!root) {
-            console.log('not root');
             return 0;
         }
         return Math.max(this.countNodes(root), this.getMaxId(root)+1)

@@ -31,7 +31,7 @@ import { calculateHeight } from "../components/Simulation/BinaryTree/Helpers/Fun
 class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined, string> {
     private static controller: null | BSTreeAnimationController = null
 
-    private constructor(root: BSTreeNode | undefined, dispatch: AppDispatch) {
+    protected constructor(root: BSTreeNode | undefined, dispatch: AppDispatch) {
         super(dispatch, new BSTreeMemento(), root)
     }
 

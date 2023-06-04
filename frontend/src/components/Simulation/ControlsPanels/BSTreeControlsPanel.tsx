@@ -32,6 +32,14 @@ interface Props {
 
 const buttonClassname =
   "bg-white hover:bg-lime-100 text-lime-800 font-semibold py-2 px-2 border border-lime-600 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed";
+/**
+* Renders the controls panel for the binary search tree.
+*
+* @param {Props} props - The props object.
+* @param {Controller} props.controller - The controller object.
+* @param {boolean} props.isButtonDisabled - Determines if the button is disabled.
+* @return {JSX.Element} The BSTreeControlsPanel component.
+*/
 const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const inputArray = useAppSelector((state) => state.bst.inputArray);
   const inputValues = useAppSelector((state) => state.bst.inputValues);
@@ -48,6 +56,11 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
       dispatch(setError(""));
     }, 5000);
   };
+  /**
+ * This function handles the creation of a Binary Search Tree from an input array.
+ *
+ * @return {Promise<void>} Returns nothing.
+ */
   const createBSTreeHandler = async () => {
     const res = getArrFromInputForHeap(15, inputArray);
     if (typeof res !== "string") {
@@ -70,7 +83,13 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
       setCurrentError("Please enter a number between 0 and 999");
     }
   };
-
+  /**
+   * Executes a specific animation based on the given string parameter.
+   *
+   * @param {string} animation - the name of the animation to be executed
+   * @return {Promise<void>} returns a Promise that resolves when the animation is complete
+   * and rejects with an error message in case of any exception
+   */
   const Animate = async (animation: string) => {
     try {
       switch (animation) {
