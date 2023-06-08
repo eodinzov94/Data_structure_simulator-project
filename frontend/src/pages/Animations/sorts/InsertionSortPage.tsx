@@ -61,6 +61,7 @@ const InsertionSortPage = () => {
           {state.keyValue ? (
             <ArrayElement
               name="key"
+              keyVal={1}
               value={state.keyValue}
               color={state.line === 7 ? ItemColor.MARKED : ItemColor.BASE}
               speed={controller.speed}

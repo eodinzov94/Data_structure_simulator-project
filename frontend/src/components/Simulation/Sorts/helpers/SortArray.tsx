@@ -18,7 +18,7 @@ const SortArray = (props: Props) => {
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the data to motion.il /*/}
           {props.items.map((elem: sortItem,index) => (
-            <ArrayElement name={index.toString()} value={elem.value} color={elem.color} key={index} speed={props.speed}/>
+            <ArrayElement name={index.toString()} value={elem.value} color={elem.color} key={elem.key} keyVal={elem.key} speed={props.speed}/>
             ))}
         </AnimatePresence>
       </motion.ul>
