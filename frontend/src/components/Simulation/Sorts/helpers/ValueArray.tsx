@@ -31,6 +31,7 @@ export const ValueArray = (props: Props) => {
               }}
               exit={{
                 y: 50,
+                opacity: 0,
                 transition: {
                   duration: 1, //control the speed
                 },

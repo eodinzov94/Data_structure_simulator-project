@@ -68,6 +68,7 @@ export const RadixSortPseudoCode: PseudoItem[] = [
   { text: "RadixSort (arr,d):", tabAmount: 0 },
   { text: "for (i = 0 ; i < d ; i++):", tabAmount: 1 },
   { text: "/* sort arr by digit i */", tabAmount: 2 },
+  { text: "Extract relevant digits", tabAmount: 2 },
   { text: "countingSort(arr,i)", tabAmount: 2 },
 
 ];

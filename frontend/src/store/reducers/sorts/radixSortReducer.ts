@@ -2,7 +2,6 @@ import { numbersToSortItems } from "../../../components/Simulation/Sorts/helpers
 import { sortItem } from "../../../components/Simulation/Sorts/helpers/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
 export interface State {
   data: sortItem[];
   sortData: sortItem[];
@@ -36,15 +35,27 @@ const radixSortSlice = createSlice({
     setData(state, action: PayloadAction<number[]>) {
       state = { ...initialState };
       state.data = numbersToSortItems(action.payload);
-      state.sortData = numbersToSortItems(state.data.map(e => e.value!%10));
-      for(let item of state.data){
-        item.digit = item.value%10;
+      //state.sortData = numbersToSortItems(state.data.map(e => e.value!%10));
+      for (let item of state.data) {
+        item.digit = -1;
       }
       return state;
     },
-    sort(state){
-      state.data = state.data.sort((a,b) => a.digit! - b.digit!)
-      state.sortData = state.sortData.sort((a,b) => a.value - b.value)
+    setSortData(state, action: PayloadAction<number>) {
+      if (action.payload === -1) {
+        state.sortData = [] as sortItem[];
+      } else {
+        for (let item of state.data) {
+          let val = Math.floor((item.value / Math.pow(10,action.payload))) % 10;
+          item.digit = val;
+          state.sortData = numbersToSortItems(state.data.map((e) => e.digit!));
+        }
+      }
+      return state;
+    },
+    sort(state) {
+      state.data = state.data.sort((a, b) => a.digit! - b.digit!);
+      state.sortData = state.sortData.sort((a, b) => a.value - b.value);
       return state;
     },
     setLine(state, action: PayloadAction<number>) {
