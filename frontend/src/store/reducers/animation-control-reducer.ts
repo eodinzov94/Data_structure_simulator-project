@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface State{
+  isSortStarted:boolean;
+  isPlaying: boolean;
+}
+
+const initialState:State = {
   isSortStarted: false,
   isPlaying: false,
 };

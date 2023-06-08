@@ -13,7 +13,6 @@ import RegisterLecturerPage from "../pages/RegisterLecturerPage";
 import FeedbacksPage from "../pages/general/FeedbacksPage";
 import AddFeedbackPage from "../pages/general/AddFeedBackPage";
 import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
-
 import HeapPage from "../pages/Animations/DataStructure/HeapPage";
 import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";
@@ -23,6 +22,7 @@ import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import MergeSortPage from "../pages/Animations/sorts/MergeSortPage";
 import { BucketSortPage } from "../pages/Animations/sorts/BucketSortPage";
+import ChangePassword from "../pages/ChangePassword";
 
 export interface RouteItem {
   path: string;
@@ -45,6 +45,7 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.POST_FEEDBACK, element: AddFeedbackPage },
   { path: RoutePaths.PROFILE, element: ProfilePage },
   { path: RoutePaths.EDIT_PROFILE, element: EditProfilePage },
+  { path: RoutePaths.CHANGE_PASSWORD, element: ChangePassword },
 
   //Animations
   { path: RoutePaths.STACK, element: StackPage },

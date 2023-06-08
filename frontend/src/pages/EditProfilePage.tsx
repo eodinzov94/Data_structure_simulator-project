@@ -17,10 +17,10 @@ const GENDER = ["Male", "Female"];
 const EditProfilePage = () => {
   const user = useAppSelector((state) => state.auth.user!);
   const [editUser, setEditUser] = useState<IUser>(user);
-  var emailClass = `col-span-2 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`;
-  if (user.role === "Lecturer") emailClass += " rounded-b-md";
+  var lastNameClass = `col-span-2 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`;
+  if (user.role === "Lecturer") lastNameClass += " rounded-b-md";
   let gender = 0;
-  if (editUser.gender && editUser.gender == "Female") gender = 1;
+  if (editUser.gender && editUser.gender === "Female") gender = 1;
 
   const onChangeHandler = (event: any) => {
     setEditUser((prevstate) => {
@@ -66,21 +66,8 @@ const EditProfilePage = () => {
               type="text"
               autoComplete="family-name"
               required
-              className={`col-span-2 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
+              className={lastNameClass}
               value={editUser.lastName}
-              onChange={onChangeHandler}
-            />
-
-            {/* email */}
-            <label htmlFor="email-address">Email address:</label>
-            <input
-              id="email-address"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className={emailClass}
-              value={editUser.email}
               onChange={onChangeHandler}
             />
 

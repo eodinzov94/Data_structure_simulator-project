@@ -2,11 +2,10 @@ import { numbersToSortItems } from "../../../components/Simulation/Sorts/helpers
 import { sortItem } from "../../../components/Simulation/Sorts/helpers/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
 export enum ItemColor {
-    BASE = "#84cc16",
-    MARKED = "#ecfccb",
-  }
+  BASE = "#84cc16",
+  MARKED = "#ecfccb",
+}
 
 export interface State {
   data: sortItem[];
@@ -21,7 +20,11 @@ interface actionPayload {
   line: number;
 }
 
-export type insertionSortPayload = number[] | number | actionPayload | undefined;
+export type insertionSortPayload =
+  | number[]
+  | number
+  | actionPayload
+  | undefined;
 
 const initialState: State = {
   data: [] as sortItem[],
@@ -35,6 +38,7 @@ const insertionSortSlice = createSlice({
   initialState,
   reducers: {
     setData(state, action: PayloadAction<number[]>) {
+      state = { ...initialState };
       state.data = numbersToSortItems(action.payload);
       return state;
     },
@@ -50,27 +54,27 @@ const insertionSortSlice = createSlice({
       state.line = action.payload.line;
     },
     setKey(state, action: PayloadAction<actionPayload>) {
-        state.keyValue = action.payload.indexList[0];
-        state.line = action.payload.line;
-      },
-    changeElement(state, action: PayloadAction<actionPayload>){
-        //change element value and mark the element
-        const {indexList,line} = action.payload
-        state.data[indexList[0]].value = indexList[1]
-        state.data[indexList[0]].color = ItemColor.MARKED
-        state.line = line
+      state.keyValue = action.payload.indexList[0];
+      state.line = action.payload.line;
     },
-    unmark(state, action: PayloadAction<actionPayload>){
-        //change element value and mark the element
-        const {indexList,line} = action.payload
-        state.data[indexList[0]].color = ItemColor.BASE
-        state.line = line
+    changeElement(state, action: PayloadAction<actionPayload>) {
+      //change element value and mark the element
+      const { indexList, line } = action.payload;
+      state.data[indexList[0]].value = indexList[1];
+      state.data[indexList[0]].color = ItemColor.MARKED;
+      state.line = line;
     },
-    initAnimation(state){
-        state.i = -2
-        state.j = -2
-        state.line = -1
-        state.keyValue = undefined
+    unmark(state, action: PayloadAction<actionPayload>) {
+      //change element value and mark the element
+      const { indexList, line } = action.payload;
+      state.data[indexList[0]].color = ItemColor.BASE;
+      state.line = line;
+    },
+    initAnimation(state) {
+      state.i = -2;
+      state.j = -2;
+      state.line = -1;
+      state.keyValue = undefined;
     },
     setState(state, action: PayloadAction<State>) {
       return action.payload;

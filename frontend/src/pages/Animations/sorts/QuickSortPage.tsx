@@ -26,7 +26,9 @@ const QuickSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.quickSort);
   const controller = QuickSortController.getController(dispatch);
-
+  const isSortStarted = useAppSelector(
+    (s) => s.animationController.isSortStarted
+  );
   const Sort = async () => {
     const opArr: quickSortOperation[] = quickSort([...state.data]);
     await controller.Sort(opArr);
@@ -54,12 +56,20 @@ const QuickSortPage = () => {
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
       />
-      <AnimationWrapper line={state.line} code={QuickSortPseudoCode} controller={controller}>
+      <AnimationWrapper
+        line={state.line}
+        code={QuickSortPseudoCode}
+        controller={controller}
+      >
         <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-        <QuickSort items={state.data} speed={controller.speed}/>
-        <div>
-          p = {state.p}, r={state.r}
-        </div>
+        <QuickSort items={state.data} speed={controller.speed} />
+        {isSortStarted ? (
+          <div>
+            p = {state.p}, r={state.r}
+          </div>
+        ) : (
+          <></>
+        )}
       </AnimationWrapper>
     </>
   );
