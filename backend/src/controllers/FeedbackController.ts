@@ -6,14 +6,16 @@ import ApiError from '../error/ApiError.js'
 
 class FeedBackController {
   async getAll(req: Request, res: Response, next: NextFunction) {
-    const allData = await Feedback.findAll()
+    const allData = (await Feedback.findAll()).sort((a: Feedback, b: Feedback): any => {
+      return b.createdAt.getTime() - a.createdAt.getTime()
+    })
     return res.json({ allData })
   }
 
   async create(req: Request<FeedBackInput>, res: Response, next: NextFunction) {
     const { subject, contactInfo, message } = req.body
     await Feedback.create({ subject, contactInfo: contactInfo ? contactInfo : '', message })
-    return res.json({ status: 'OK'})
+    return res.json({ status: 'OK' })
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {

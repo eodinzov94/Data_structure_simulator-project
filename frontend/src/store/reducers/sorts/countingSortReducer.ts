@@ -1,8 +1,8 @@
-import { numbersToSortItems } from "../../components/Simulation/Sorts/helpers/functions";
+import { numbersToSortItems } from "../../../components/Simulation/Sorts/helpers/functions";
 import {
   Colors,
   sortItem,
-} from "../../components/Simulation/Sorts/helpers/types";
+} from "../../../components/Simulation/Sorts/helpers/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface State {
@@ -159,14 +159,13 @@ const countingSortSlice = createSlice({
     setLine(state, action: PayloadAction<number>) {
       state.line = action.payload;
     },
+    setState(state, action: PayloadAction<State>) {
+      return action.payload;
+    },
   },
 });
 
 export default countingSortSlice.reducer;
-export const {
-  init,
-  setIndex,
-  setColor,
-  setLine,
-  setValue,
-} = countingSortSlice.actions;
+export const CountingSortActions = countingSortSlice.actions;
+export const { init, setIndex, setColor, setLine, setValue } =
+  countingSortSlice.actions;

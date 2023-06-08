@@ -46,6 +46,59 @@ export const CountingSortPseudoCode: PseudoItem[] = [
   { text: "B[index] = value", tabAmount: 2 },
 ];
 
+export const BucketSortPseudoCode: PseudoItem[] = [
+  { text: "K = 4, max_value=20", tabAmount: 0 },
+  { text: "", tabAmount: 1 },
+  { text: "BucketSort (arr):", tabAmount: 0 },
+  { text: "buckets ← Array of K buckets", tabAmount: 1 },
+  { text: "M ← 1 + max_value", tabAmount: 1 },
+  { text: "while(arr.length):", tabAmount: 1 },
+  { text: "index ← ⌊k * arr[0] / M)⌋", tabAmount: 2 },
+  { text: "buckets[index].insert(arr[0])", tabAmount: 2 },
+  { text: "arr.remove(0)", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "for (i=0; i<K; i++):", tabAmount: 1 },
+  { text: "Buckets[i].sort()", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "for (i=0; i<K; i++):", tabAmount: 1 },
+  { text: "arr.concat(buckets[i])", tabAmount: 2 },
+];
+
+
+
+export const mergeSortPseudoCode: PseudoItem[] = [
+  { text: "MergeSort (arr, left, right):", tabAmount: 0 },
+  { text: "if (left < rigth ):", tabAmount: 1 },
+  { text: "mid = (left + right) / 2 ", tabAmount: 2 },
+  { text: "MergeSort(arr, left, mid)", tabAmount: 2 },
+  { text: "MergeSort(arr, mid + 1, right)", tabAmount: 2 },
+  { text: "Merge(arr, left, mid, right)", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "", tabAmount: 1 },
+  { text: "Merge(arr, start, mid, end):", tabAmount: 0 },
+  { text: "L = arr[start...mid]", tabAmount: 1 },
+  { text: "R = arr[mid+1...right]", tabAmount: 1 },
+  { text: "i = j = k = 0", tabAmount: 1 },
+  { text: "while (i< len(L) and j<len(R):", tabAmount: 1 },
+  { text: "if (L[i] <= R[i]):", tabAmount: 2 },
+  { text: "arr[k] = L[i]", tabAmount: 3 },
+  { text: "i++", tabAmount: 3 },
+  { text: "else:", tabAmount: 2 },
+  { text: "arr[k] = R[j]", tabAmount: 3 },
+  { text: "j++", tabAmount: 3 },
+  { text: "k++", tabAmount: 2 },
+  { text: "while (i< len(L):", tabAmount: 1 },
+  { text: "arr[k] = L[i]", tabAmount: 2 },
+  { text: "i++", tabAmount: 2 },
+  { text: "k++", tabAmount: 2 },
+  { text: "while (j< len(R):", tabAmount: 1 },
+  { text: "arr[k] = L[j]", tabAmount: 2 },
+  { text: "j++", tabAmount: 2 },
+  { text: "k++", tabAmount: 2 },
+
+];
+
+
 export const stackPseudoCode: PseudoItem[] = [
   { text: "N = 10", tabAmount: 0 },
   { text: "", tabAmount: 1 },
@@ -60,4 +113,20 @@ export const stackPseudoCode: PseudoItem[] = [
   { text: "if (top < N)", tabAmount: 1 },
   { text: "top = top + 1", tabAmount: 2 },
   { text: "stack[top] = value", tabAmount: 2 },
+];
+
+export const queuePseudoCode: PseudoItem[] = [
+  { text: "N = 10", tabAmount: 0 },
+  { text: "", tabAmount: 1 },
+  { text: "Dequeue(queue):", tabAmount: 0 },
+  { text: "if (!queue.isEmpty()):", tabAmount: 1 },
+  { text: "value = queue[head]", tabAmount: 2 },
+  { text: "head = head + 1", tabAmount: 2 },
+  { text: "return value", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "", tabAmount: 1 },
+  { text: "Enqueue(queue, value):", tabAmount: 0 },
+  { text: "if (tail < N)", tabAmount: 1 },
+  { text: "tail = tail + 1", tabAmount: 2 },
+  { text: "queue[tail] = value", tabAmount: 2 },
 ];

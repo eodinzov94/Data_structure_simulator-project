@@ -23,14 +23,18 @@ interface Props {
 
   maxElements: number;
 
-  maxInputNum?:number;
+  maxInputNum?: number;
 }
 
 export const SortControlsPanel = (props: Props) => {
   const [enteredValue, setEnteredValue] = useState<string>(""); //state for the value that need to be push
 
   const inputValueHandler = () => {
-    const result = getArrFromInput(props.maxElements, enteredValue, props.maxInputNum);
+    const result = getArrFromInput(
+      props.maxElements,
+      enteredValue,
+      props.maxInputNum
+    );
 
     if (typeof result === "string") swal({ icon: "error", text: result });
     else {
