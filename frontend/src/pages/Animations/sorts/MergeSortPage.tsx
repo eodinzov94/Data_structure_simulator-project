@@ -11,13 +11,12 @@ import {
   QuickSortPseudoCode,
   mergeSortPseudoCode,
 } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
-import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
+import mergeSortPhoto from "../../../assets/Algorithms/MS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { quickSortActions as ActionKind } from "../../../store/reducers/sorts/quickSortReducer";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import QuickSortController from "../../../ClassObjects/SortControllers/QuickSortController";
-import { JsxElement } from "typescript";
 
 const MAX_ELEMENTS = 10;
 
@@ -83,7 +82,7 @@ const MergeSortPage = () => {
   return (
     <>
       {/*top section */}
-      <SubjectImg name={"Quick Sort"} src={quickSortPhoto} width="200px" />
+      <SubjectImg name={"Quick Sort"} src={mergeSortPhoto} width="200px" />
       <SortControlsPanel
         rightBtnHandler={Sort}
         inputHandler={setInput}

@@ -64,7 +64,13 @@ export const BucketSortPseudoCode: PseudoItem[] = [
   { text: "arr.concat(buckets[i])", tabAmount: 2 },
 ];
 
+export const RadixSortPseudoCode: PseudoItem[] = [
+  { text: "RadixSort (arr,d):", tabAmount: 0 },
+  { text: "for (i = 0 ; i < d ; i++):", tabAmount: 1 },
+  { text: "/* sort arr by digit i */", tabAmount: 2 },
+  { text: "countingSort(arr,i)", tabAmount: 2 },
 
+];
 
 export const mergeSortPseudoCode: PseudoItem[] = [
   { text: "MergeSort (arr, left, right):", tabAmount: 0 },
