@@ -3,13 +3,17 @@ import {
   Events,
 } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 
+/** We used this class to represent an object in an array of items, specifically for use with Heaps
+ * since the Heap page represents the heap in tree form and in array form.
+ * This class attempts to keep up and match with the Heap tree representation, but in an array form.
+ */
 export class ArrayItemObj {
   value: number;
   id: number;
-  action: ActionType;
-  swapIndex: number | null;
+  action: ActionType; // used to determine which action to display
+  swapIndex: number | null; // only used when making a swapping action with a different arrayitemobj
   speed: number;
-  ghosted: boolean;
+  ghosted: boolean; // whether this item is visible or not
 
   constructor(
     value: number,
@@ -30,21 +34,24 @@ export class ArrayItemObj {
     this.swapIndex = swapIndex;
   }
 
+  /** Create the array representation of the heap using the current state of the heap tree representation.
+   *
+   */
   static generateArrayObjects(
     items: number[],
     speed: number,
     currentHeapSize?: number
   ) {
-    if (currentHeapSize === undefined) {
+    if (currentHeapSize === undefined) { // brand new array of items
       return items.map((value, index) => {
         return new ArrayItemObj(value, index, speed);
       });
     }
     const arrayObjects = [];
-    for (let i = 0; i < currentHeapSize; i++) {
+    for (let i = 0; i < currentHeapSize; i++) { // copy the visible heap into array-form
       arrayObjects.push(new ArrayItemObj(items[i], i, speed));
     }
-    for (let i = currentHeapSize; i < items.length; i++) {
+    for (let i = currentHeapSize; i < items.length; i++) { // add the 'invisible' parts of the array
       arrayObjects.push(new ArrayItemObj(items[i], i, speed, true));
     }
     return arrayObjects;

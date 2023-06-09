@@ -7,6 +7,9 @@ import { useVerify2faMutation } from '../../store/reducers/auth-reducer-api'
 import { useAppSelector } from '../../store/hooks'
 import { CodeTypes } from '../../types/Auth'
 
+/** Page used to verify 2FA codes.
+ *
+ */
 interface CodeVerificationFormProps{
   type:CodeTypes
   onConfirm?: () => void
@@ -15,7 +18,7 @@ interface CodeVerificationFormProps{
 }
 
 const CodeVerificationForm:FC<CodeVerificationFormProps> = ({type,onConfirm,setCode,email}) => {
-  const [verifyCode,{error,isLoading}]=useVerify2faMutation()
+  const [verifyCode,{error,isLoading}]=useVerify2faMutation() //RTKQuery 
   const [enteredCode,setEnteredCode] = useState('')
   const userEmail = useAppSelector(state => state.auth.emailFor2Factor)
   const SubmitCode = async (event: FormEvent<HTMLFormElement>) => {

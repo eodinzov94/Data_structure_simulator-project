@@ -27,7 +27,12 @@ import { ActionType, Events, NodeRole } from "../components/Simulation/BinaryTre
 import { BSTreeNode } from "./BSTreeNode";
 import { calculateHeight } from "../components/Simulation/BinaryTree/Helpers/Functions";
 
-
+/** The animation controller for the BST page.
+ *  The major addition here, is the reference to the controller is treated as a Singleton object,
+ *  rather than a normal class.
+ *
+ *  @see getController
+ */
 class BSTreeAnimationController extends AnimationController<BSTreeNode | undefined, string> {
     private static controller: null | BSTreeAnimationController = null
 
@@ -35,6 +40,11 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         super(dispatch, new BSTreeMemento(), root)
     }
 
+    /** Singleton approach to accessing the controller.
+     * <br>
+     * Born from an ad-hoc solution to a problem during development, a decision was made to treat
+     * this class as a singleton.
+     */
     static getController(root: BSTreeNode | undefined,
         dispatch: AppDispatch) {
         if (!BSTreeAnimationController.controller)
@@ -61,6 +71,8 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.dispatch(setPlaying(value));
     }
 
+    /** Set all the arrays to the last index of the memento array.
+     */
     async jumpToEnd() {
         await this.pause();
         const i = this.memento.getLength() - 1;
@@ -74,11 +86,14 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.frame = i;
     }
 
-    //TODO: change to appropriate reference type
+    //TODO:change to appropriate reference type
     setReference(ref: any) {
         this.dispatch(setCodeRef(ref));
     }
-
+    /** Set all the arrays to a specific index of the memento array.
+     *
+     * @param index - the index to use.
+     */
     setAllData(index: number) {
         const actions = this.memento.getActions(index);
         this.setRoot(this.memento.getData(index));
@@ -95,6 +110,11 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     setError(error: string) {
         this.dispatch(setError(error));
     }
+
+    /** Receive a BST node as the new root, and initialize all the arrays to be empty
+     *
+     * @param data - the new root
+     */
     initData(data: BSTreeNode | undefined) {
         this.setReference({ name: this.memento.getCurrentAlg(), line: 0 });
         this.setRoot(data);
@@ -105,9 +125,19 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
         this.setTraversalResult([])
 
     }
+
+    /** For styling on algorithms that use the 'passed' state, such as traversals (inorder/postorder..) and etc.
+     *  A passed node has a special style to indicate he's been passed through in a path.
+     *
+     * @param passedNodes - the nodes to stylize.
+     */
     setPassedNodes(passedNodes: number[]) {
         this.dispatch(setPassedNodes(passedNodes));
     }
+
+    /** Receive and array of numbers as data, and initialize all the arrays.
+     *
+     */
     setTreeFromInput(arr: number[], newRoot?: BSTreeNode) {
         let root: BSTreeNode | undefined
         if (newRoot) {
@@ -130,6 +160,8 @@ class BSTreeAnimationController extends AnimationController<BSTreeNode | undefin
     setTraversalResult(result: number[]) {
         this.dispatch(setTraversalResults(result));
     }
+
+    // -------------------------------- ALGORITHMS
     async search(key: number) {
         await this.playAlgorithm(searchWrapper, key, this.memento as BSTreeMemento, this.data);
     }

@@ -7,6 +7,10 @@ interface Props {
   arrayItemObj: ArrayItemObj;
 }
 
+/** Visualization of the arrayItemObj array representation of a heap.
+ *
+ * @see ArrayItemObj
+ */
 const ArrayItem = (props: Props) => {
   const { value, id, speed, action, swapIndex, ghosted } = props.arrayItemObj;
   const { style, initial, animate } = getHeapArrayAnimationsAndStyles(

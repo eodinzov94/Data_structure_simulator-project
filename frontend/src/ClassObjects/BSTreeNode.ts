@@ -1,3 +1,6 @@
+/** Self-implemented representation for a node in a BSTree.
+ * has the classic attributes like parent, left, right, height, value..
+ */
 export class BSTreeNode{
     parent?: BSTreeNode;
     left?: BSTreeNode;
@@ -13,6 +16,10 @@ export class BSTreeNode{
         this.right = right;
         this.height = -1
     }
+
+    /** Recursively deep copy a tree from a given BSTreeNode.
+     *
+     */
     static deepCopy(node: BSTreeNode|undefined): BSTreeNode|undefined {
         if(!node){
             return undefined

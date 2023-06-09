@@ -20,55 +20,36 @@ import {
 import { HeapMemento } from "./HeapMemento";
 import { CodeReference, HeapAlgNames } from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
 
+/** The animation controller for the Heap page.
+ *  The major addition here, is the reference to the controller is treated as a Singleton object,
+ *  rather than a normal class.
+ *
+ *  @see getController
+ */
 class HeapAnimationController extends AnimationController<number[], HeapAlgNames> {
     private static controller: null | HeapAnimationController = null
-    protected isAfterSort: boolean = false
+    protected isAfterSort: boolean = false // Specific flag to fix an issue with animations after sorting. Dont delete!
 
     private constructor(arr: number[], dispatch: AppDispatch,) {
         super(dispatch, new HeapMemento(), arr)
         buildMaxHeap([...this.data], this.memento as HeapMemento)
     }
 
+    /** Singleton approach to accessing the controller.
+     * <br>
+     * Born from an ad-hoc solution to a problem during development, a decision was made to treat
+     * this class as a singleton.
+     */
     static getController(arr: number[],
         dispatch: AppDispatch) {
         if (!HeapAnimationController.controller)
             HeapAnimationController.controller = new HeapAnimationController(arr, dispatch)
         return HeapAnimationController.controller
     }
-
-    async buildMaxHeap() {
-        await this.playAlgorithm(buildMaxHeap, this.memento)
-    }
-
-    async heapMax() {
-        await this.playAlgorithm(heapMax, this.memento)
-    }
-
-    async extractMax() {
-        await this.playAlgorithm(heapExtractMax, this.memento)
-    }
-
-    maxHeapInsert(data: number[], key: number) {
-        if (this.data.length === 15) {
-            console.log(this.data);
-            throw new Error("Array is full, max size is 15");
-        }
-        maxHeapInsert(data, this.memento as HeapMemento, key)
-    }
-
-    async insertKey(key: number) {
-        await this.playAlgorithm(this.maxHeapInsert.bind(this), key)
-    }
-
-    maxHeapSort(A: number[], memento: HeapMemento): number[] {
-        this.isAfterSort = true
-        return maxHeapSort(A, memento)
-    }
-
-    async heapSort() {
-        await this.playAlgorithm(this.maxHeapSort.bind(this), this.memento)
-    }
-
+    /** Stops all other animations, and prepares the data for a new animation.
+     * <br>
+     * Added the check for isAfterSort, because of a bug in the animation with maxHeapSort.
+     */
     async initNewAnimation() {
         this.stopFlag = true;
         this.clearTimeOuts();
@@ -147,6 +128,40 @@ class HeapAnimationController extends AnimationController<number[], HeapAlgNames
         this.setCurrentArr(arr);
         this.setCurrentActions([]);
         this.setCurrentRoles([]);
+    }
+
+    // ------------------------------------- ALGORITHMS
+    async buildMaxHeap() {
+        await this.playAlgorithm(buildMaxHeap, this.memento)
+    }
+
+    async heapMax() {
+        await this.playAlgorithm(heapMax, this.memento)
+    }
+
+    async extractMax() {
+        await this.playAlgorithm(heapExtractMax, this.memento)
+    }
+
+    maxHeapInsert(data: number[], key: number) {
+        if (this.data.length === 15) { // max size is hardcoded 15, because of the page size on mobile devices.
+            console.log(this.data);
+            throw new Error("Array is full, max size is 15");
+        }
+        maxHeapInsert(data, this.memento as HeapMemento, key)
+    }
+
+    async insertKey(key: number) {
+        await this.playAlgorithm(this.maxHeapInsert.bind(this), key)
+    }
+
+    maxHeapSort(A: number[], memento: HeapMemento): number[] {
+        this.isAfterSort = true
+        return maxHeapSort(A, memento)
+    }
+
+    async heapSort() {
+        await this.playAlgorithm(this.maxHeapSort.bind(this), this.memento)
     }
 }
 

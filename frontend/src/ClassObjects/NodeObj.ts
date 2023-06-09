@@ -7,17 +7,20 @@ import {
 import { TreeNode } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
 import { BSTreeNode } from "./BSTreeNode";
 
+/** Self-implementation of a Node object, has the classic attributes like position, id, value...
+ *  Used in tree-like objects (AVL, BST, etc)
+ */
 export class NodeObj {
-    static availableSpace = 600;
-    static gapY = 65;
-    position: { x: number; y: number };
+    static availableSpace = 600; // Used to calculate where to place the node.
+    static gapY = 65; // Gap from the top of the screen
+    position: { x: number; y: number }; // Tuple to store the exact position.
     speed: number;
     id: number;
     value: number;
-    branch: BranchObj | null;
+    branch: BranchObj | null; // The node obj keeps a reference to its branch.
     action: ActionType;
     parent: NodeObj | undefined;
-    swapPosition: { x: number; y: number } | null;
+    swapPosition: { x: number; y: number } | null; // for swaps between nodes
     level: number;
     height: number;
     viewportWidth: number;
@@ -26,6 +29,13 @@ export class NodeObj {
     isBST: boolean;
     isVisited: boolean;
     isPassed: boolean;
+
+    /*
+    Genuinely, so much of the following code was trial-and-error with different page sizes, different edge cases
+    and different types of nodes. It is difficult to explain every single line here, so it's best advised to not
+    delete what doesn't hurt future CD.
+    אם זה לא שבור- אל תתקנו
+     */
 
     constructor(
         position: { x: number; y: number },

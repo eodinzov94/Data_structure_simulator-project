@@ -1,3 +1,7 @@
+/** Self-implemented class for branches, as used in every tree representation in the project.
+ * The branches have a tuple of (x1, y1, x2, y2) coordinates, marking where they appear on the page.
+ *
+ */
 export class BranchObj {
     static baseSize = 18;
     x1: number;
@@ -30,6 +34,11 @@ export class BranchObj {
         }
     }
 
+    /** Get the style of the branch, depending on if we're currently in a 'passing algorithm'
+     * <br>
+     * A passing algorithm is one such algorithm where a traversal is displayed, much like an inorder scan.
+     * In that case, we use a special style for the branch to represent the path.
+     */
     getStyle(isPassed: boolean = false) {
         if (!isPassed) {
             return {
@@ -49,6 +58,11 @@ export class BranchObj {
             backgroundPosition: "100% 0%"
         }
     }
+
+    /** Very similar to getStyle, except used for when an animation needs to be played on the branch.
+     *
+     * @see getStyle
+     */
     getAnimationStyle(speed:number,isPassed: boolean = false ) {
         if (!isPassed) {
             return [{},{}]

@@ -11,10 +11,14 @@ interface EmailForVerificationProps{
   setEmail:(code:string) => void
   onConfirm: () => void;
 }
+
+/** Page used to send 2FA verification codes.
+ *
+ */
 const EmailForVerification:FC<EmailForVerificationProps> = ({setEmail,onConfirm}) => {
   const [enteredEmail, setEnteredEmail] = useState<string>('');
   const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
-  const [sendCode, { error,isSuccess }] = useSend2FACodeMutation()
+  const [sendCode, { error,isSuccess }] = useSend2FACodeMutation() // RTKQuery
   const SubmitEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
