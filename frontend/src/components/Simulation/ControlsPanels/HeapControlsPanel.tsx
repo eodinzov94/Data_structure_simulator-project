@@ -21,6 +21,7 @@ import MediumCard from "../../UI/MediumCard";
 import { AlertError } from "../../UI/Controls/AlertError";
 import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
 import { theme } from "../../UI/Controls/ControlsTheme";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 interface Props {
   controller: HeapAnimationController;
@@ -34,6 +35,7 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const inputKey = useAppSelector((state) => state.heap.inputKey);
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
+  const [regsterActivity] = useRegisterActivityMutation()
   const [value, setValue] = useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -66,18 +68,38 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const Animate = async (animation: string) => {
     switch (animation) {
       case "Build-Max-Heap":
+        regsterActivity({
+          algorithm: "Build-Max-Heap",
+          subject: "Heap",
+        })
         await controller.buildMaxHeap();
         return;
       case "Heap-Max":
+        regsterActivity({
+          algorithm: "Heap-Max",
+          subject: "Heap",
+        })
         await controller.heapMax();
         return;
       case "Extract-Max":
+        regsterActivity({
+          algorithm: "Extract-Max",
+          subject: "Heap",
+        })
         await controller.extractMax();
         return;
       case "Insert Key":
+        regsterActivity({
+          algorithm: "Insert Key",
+          subject: "Heap",
+        })
         await controller.insertKey(inputKey);
         return;
       case "Heap-Sort":
+        regsterActivity({
+          algorithm: "Heap-Sort",
+          subject: "Heap",
+        })
         await controller.heapSort();
         return;
       case "Clear":

@@ -22,6 +22,7 @@ import {
   getArrFromInputForHeap,
 } from "../BinaryTree/Helpers/Functions";
 import { randomBuildTree } from "../BST/BST_Algorithms";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 interface Props {
   controller: BSTreeAnimationController;
@@ -41,6 +42,7 @@ const buttonClassname =
 * @return {JSX.Element} The BSTreeControlsPanel component.
 */
 const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
+  const [regsterActivity] = useRegisterActivityMutation()
   const inputArray = useAppSelector((state) => state.bst.inputArray);
   const inputValues = useAppSelector((state) => state.bst.inputValues);
   const error = useAppSelector((state) => state.bst.error);
@@ -94,36 +96,76 @@ const BSTreeControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
     try {
       switch (animation) {
         case "Search":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Search",
+          })
           await controller.search(inputValues.Search);
           return;
         case "Insert":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Insert"
+          })
           await controller.insert(inputValues.Insert);
           return;
         case "DeleteNode":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "DeleteNode"
+          })
           await controller.deleteNode(inputValues.DeleteNode);
           return;
         case "Min":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Min"
+          })
           await controller.min();
           return;
         case "Max":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Max"
+          })
           await controller.max();
           return;
         case "Successor":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Successor"
+          })
           await controller.successor(inputValues.Successor);
           return;
         case "Predecessor":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Predecessor"
+          })
           await controller.predecessor(inputValues.Predecessor);
           return;
         case "Clear":
           await controller.setTreeFromInput([]);
           return;
         case "Inorder":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Inorder"
+          })
           await controller.inorder();
           return;
         case "Preorder":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Preorder"
+          })
           await controller.preorder();
           return;
         case "Postorder":
+          regsterActivity({
+            subject: "BST",
+            algorithm: "Postorder"
+          })
           await controller.postorder();
           return;
         default:

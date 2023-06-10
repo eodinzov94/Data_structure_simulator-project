@@ -1,26 +1,25 @@
-import { sequelize } from '../db.js'
 import { DataTypes, Model } from 'sequelize'
+import { sequelize } from '../db.js'
 import { UserActivityAttributes, UserActivityInput } from '../types/UserActivityTypes.js'
 
 
 class UserActivity extends Model<UserActivityAttributes, UserActivityInput> implements UserActivityAttributes {
-  public id!: number
   public userID!: number
   public subject!: string
   public algorithm!: string
-  public action!: string
-  public readonly createdAt!: Date
+  public actionDate!: Date
+  public quantity !: number
 }
 
 UserActivity.init({
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  userID: { type: DataTypes.INTEGER, references: { model: 'Users', key: 'id' } },
-  subject: { type: DataTypes.STRING, allowNull: false },
-  algorithm: { type: DataTypes.STRING, allowNull: true},
-  action: { type: DataTypes.STRING, allowNull: true },
+  userID: { type: DataTypes.INTEGER, references: { model: 'Users', key: 'id' },primaryKey: true },
+  subject: { type: DataTypes.STRING,primaryKey: true, allowNull: false },
+  algorithm: { type: DataTypes.STRING, primaryKey: true,allowNull: false},
+  actionDate: { type: DataTypes.DATEONLY, primaryKey: true,allowNull: false },
+  quantity: { type: DataTypes.INTEGER,allowNull: false,defaultValue: 1 }
 }, {
-  timestamps: true,
   sequelize: sequelize,
+  timestamps: false 
 })
 
 export default UserActivity

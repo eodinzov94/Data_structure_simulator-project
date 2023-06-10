@@ -1,16 +1,16 @@
+
 export interface UserActivityAttributes extends UserActivityInput{
-  id:number
-  createdAt?: Date
+  quantity: number
 }
 export interface UserActivityInput{
   userID:number
   subject:string
-  algorithm?:string
-  action?:string
+  algorithm:string
+  actionDate: Date
+  quantity: number
 }
 
 export interface ActivityBody{
   subject:string
-  algorithm?:string
-  action?:string
+  algorithm:string
 }

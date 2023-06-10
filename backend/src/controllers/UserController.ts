@@ -201,22 +201,24 @@ class UserController {
   }
 
   async registerActivity(req: TypedRequestBody<ActivityBody>, res: Response, next: NextFunction) {
-    const { subject, algorithm, action } = req.body
+    const { subject, algorithm } = req.body
     const { id } = req.user!
     try {
-      await UserActivity.create({
-        userID: id,
-        action,
-        algorithm,
-        subject,
-      })
-      await User.update({ lastSeen: new Date() }, { where: { id } })
+      const [activity,created] = await UserActivity.findOrCreate({
+        where: { userID: id, subject, algorithm,actionDate: new Date() }
+      });
+    
+      if (!created) {
+        // If the item already existed and its quantity wasn't changed, increment it
+        activity.quantity += 1;
+        await activity.save();
+      }
     } catch (e: any) {
       if (e?.errors && e.errors.length && e.errors[0].message)
         return next(ApiError.badRequest(e?.errors[0]?.message))
       return next(ApiError.badRequest('Input error'))
     }
-    return res.json({ result: 'Success' })
+    return res.json({ result: 'OK' }) 
   }
 
   async updateUser(req: TypedRequestBody<IUserUpdate>, res: Response, next: NextFunction) {
