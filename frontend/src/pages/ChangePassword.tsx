@@ -4,6 +4,11 @@ import AuthCard from "../components/Auth/AuthCard";
 import FormButton from "../components/Auth/FormButton";
 import FloatUpContainer from "../components/UI/FloatUpContainer";
 import { mainColor, mainHoverColor } from "../styles/tColors";
+import swal from "sweetalert";
+import {useAppSelector} from "../store/hooks";
+import {useHistory} from "react-router-dom";
+import {CodeTypes} from "../types/Auth";
+import {useSend2FACodeMutation} from "../store/reducers/auth-reducer-api";
 
 interface PasswordData {
   password: string;
@@ -12,14 +17,22 @@ interface PasswordData {
 }
 
 const ChangePassword = () => {
+  const email = useAppSelector(state => state.auth.user!.email);
+  const history = useHistory();
+  const [sendCode, { error,isSuccess }] = useSend2FACodeMutation() // RTKQuery
   const [state, setState] = useState<PasswordData>({
     password: "",
     new_password: "",
     new_password2: "",
   });
 
-  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (state.password !== state.new_password2) {
+      swal({icon: "error", text: "Passwords do not match"});
+    }
+    await sendCode({email, type: CodeTypes.RESET_PW}).unwrap()
+        .catch((rejected) => console.error(rejected)); //FIXME: handle error from .catch
 
     //SEND TO BACKEND - the data in the state!!!!!!!
   };
