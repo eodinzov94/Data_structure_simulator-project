@@ -1,34 +1,34 @@
 import { AnimatePresence, motion, useCycle } from "framer-motion";
 import styles from "./PseudoCodeWrapper.module.css";
-import bars from "../../../assets/bars-staggered.png";
-import cross from "../../../assets/cross.png";
 import { PseudoProps } from "./pc-helpers";
 import { SubjectImg } from "../../UI/SubjectImg";
 import headlinePhoto from "../../../assets/Algorithms/PseudoCode.png";
+import { Spin as Hamburger } from "hamburger-react";
+import { useState } from "react";
 
 export const PseudoCode = (props: PseudoProps) => {
-  const [open, cycleOpen] = useCycle(true, false);
+  const [open, setOpen] = useState(true);
+  // const [open, cycleOpen] = useCycle(true, false);
   return (
-    <div
-      className={
-        open
-          ? "basis-3/12 z-50 " + styles["div-side"]
-          : "z-50 " + styles["div-side"]
-      }
-    >
-      <div>
-        <button className={styles["button-side"]} onClick={() => cycleOpen()}>
-          {open ? <img alt=">>" src={cross} /> : <img alt="<<" src={bars} />}
-        </button>
+    <div className={"h-screen z-50 " + styles["div-side"]}>
+      <div className={styles["button-div"]}>
+        <Hamburger
+          toggled={open}
+          toggle={setOpen}
+          direction="left"
+          size={30}
+          rounded
+          duration={0.8}
+        />
       </div>
 
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="wait">
         {open && (
           <motion.aside
             className={styles["aside-side"]}
             initial={{ width: 0 }}
             animate={{
-              width: "fit-content",
+              width: props.width ? props.width : 280,
               borderWidth: "2px",
               borderRadius: "10px",
               borderColor: "#ecfccb",

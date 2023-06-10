@@ -52,10 +52,12 @@ export const ServiceSendCode = async (type: CODE_TYPES, email: string) => {
     throw(ApiError.forbidden('Error sending email'))
   }
   const token = generateConfirmMailToken(email)
-  mailer( // Send the email with the token
-    `Email verification`, `To verify the email follow the link : 
+  mailer(// Send the email with the token
+    `Email verification`,
+    `To verify the email follow the link : 
     http://${process.env.FRONT_IP || 'localhost:3000'}/verify-email/${token}`,
-    email)
+    email
+  )
 }
 
 /** Controller for the entire 2FA process.
@@ -91,14 +93,33 @@ class TwoFactorAuthController {
       }
       const accessToken = generateJwt(user)
       if (type === '2FA') {
+        if (user.role == 'Lecturer') {
+          return res.json({
+            status: 'OK',
+            token: accessToken,
+            user: {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              is2FA: user.isEnabled2FA
+            }
+          })
+        }
         return res.json({
-          status: 'OK', token: accessToken, user: {
+          status: 'OK',
+          token: accessToken,
+          user: {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             role: user.role,
-          },
+            birthYear: user.birthYear,
+            gender: user.gender,
+            is2FA: user.isEnabled2FA
+          }
         })
       } else {
         return res.json({ status: 'OK' })

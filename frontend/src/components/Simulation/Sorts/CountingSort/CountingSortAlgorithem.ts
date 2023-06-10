@@ -5,7 +5,7 @@ import {
   setColor,
   setLine,
   setValue,
-} from "../../../../store/reducers/countingSortReducer";
+} from "../../../../store/reducers/sorts/countingSortReducer";
 export function CountingSort(arr: sortItem[], k: number) {
   const opArr: countingSortOperation[] = [];
 

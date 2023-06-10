@@ -5,7 +5,8 @@ export interface IUser{
     email:string,
     role:string,
     birthYear?:number,
-    gender?:"Male"|"Female"
+    gender?:"Male"|"Female",
+    is2FA: boolean
 }
 
 export interface AuthState{

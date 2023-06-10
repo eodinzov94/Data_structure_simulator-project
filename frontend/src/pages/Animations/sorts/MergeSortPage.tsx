@@ -1,18 +1,23 @@
-import { useRef } from "react";
 import QuickSort from "../../../components/Simulation/Sorts/QuickSort/QuickSort";
-import { quickSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
-import { sleep } from "../../../utils/animation-helpers";
+import {
+  quickSortOperation,
+  sortItem,
+} from "../../../components/Simulation/Sorts/helpers/types";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { quickSort } from "../../../components/Simulation/Sorts/QuickSort/QuickSortAlgorithm";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
 import { IndexArray } from "../../../components/Simulation/Sorts/helpers/IndexArray";
-import { QuickSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
+import {
+  QuickSortPseudoCode,
+  mergeSortPseudoCode,
+} from "../../../components/Simulation/PseudoCode/PseudoCodeData";
 import quickSortPhoto from "../../../assets/Algorithms/QS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { quickSortActions as ActionKind } from "../../../store/reducers/sorts/quickSortReducer";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import QuickSortController from "../../../ClassObjects/SortControllers/QuickSortController";
+import { JsxElement } from "typescript";
 
 const MAX_ELEMENTS = 10;
 
@@ -22,13 +27,33 @@ export interface Position {
   prev: number;
 }
 
-const QuickSortPage = () => {
+interface node {
+  array: number[];
+  left?: node;
+  right?: node;
+}
+
+const tree: node = {
+  array: [1, 2, 3, 4, 5, 6, 7],
+  left: {
+    array: [1, 2, 3, 4],
+    left: {
+      array: [1, 2],
+    },
+    right: {
+      array: [3, 4],
+    },
+  },
+  right: {
+    array: [5, 6, 7],
+  },
+};
+
+const MergeSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.quickSort);
   const controller = QuickSortController.getController(dispatch);
-  const isSortStarted = useAppSelector(
-    (s) => s.animationController.isSortStarted
-  );
+
   const Sort = async () => {
     const opArr: quickSortOperation[] = quickSort([...state.data]);
     await controller.Sort(opArr);
@@ -41,6 +66,18 @@ const QuickSortPage = () => {
 
   const setRandomInput = () => {
     setInput(getRandomNumsArr(MAX_ELEMENTS));
+  };
+
+  const calcTree = (root: node, nodesInLevel: number): JSX.Element => {
+    return (
+      <>
+        <div className={`grid grid-cols-${nodesInLevel}`}>
+          {root.array}
+        </div>
+        {root.left && calcTree(root.left, nodesInLevel* 2)}
+        {root.right && calcTree(root.right, nodesInLevel* 2)}
+      </>
+    );
   };
 
   return (
@@ -56,23 +93,10 @@ const QuickSortPage = () => {
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
       />
-      <AnimationWrapper
-        line={state.line}
-        code={QuickSortPseudoCode}
-        controller={controller}
-      >
-        <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-        <QuickSort items={state.data} speed={controller.speed} />
-        {isSortStarted ? (
-          <div>
-            p = {state.p}, r={state.r}
-          </div>
-        ) : (
-          <></>
-        )}
-      </AnimationWrapper>
+
+      <div>{calcTree(tree, 1)}</div>
     </>
   );
 };
 
-export default QuickSortPage;
+export default MergeSortPage;

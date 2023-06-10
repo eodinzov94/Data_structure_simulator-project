@@ -18,7 +18,9 @@ import ApiError from '../error/ApiError.js'
  */
 class FeedBackController {
   async getAll(req: Request, res: Response, next: NextFunction) {
-    const allData = await Feedback.findAll()
+    const allData = (await Feedback.findAll()).sort((a: Feedback, b: Feedback): any => {
+      return b.createdAt.getTime() - a.createdAt.getTime()
+    })
     return res.json({ allData })
   }
 
