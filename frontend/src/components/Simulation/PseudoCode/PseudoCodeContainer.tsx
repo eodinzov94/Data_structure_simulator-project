@@ -21,10 +21,10 @@ const PseudoCodeContainer: FC<Props> = ({code, line}) => {
                     minWidth: "fit-content",
                     height: "auto",
                     top: "265px",
-                    marginRight: 5,
+                    marginRight: -50,
                     border:"none",
                     background:"transparent",
-                    padding: 10
+                    padding: 50
                 },
             }}
         >
