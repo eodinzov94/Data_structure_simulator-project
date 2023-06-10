@@ -19,6 +19,7 @@ export interface IUserRegister {
    lastName?:string
    gender?:string
    birthYear?:number
+   isEnabled2FA?:boolean
  }
 
 export interface IUserLogin {

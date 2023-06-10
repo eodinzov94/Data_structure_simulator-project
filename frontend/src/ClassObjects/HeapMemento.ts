@@ -44,6 +44,16 @@ export class HeapMemento extends Memento<number[], HeapAlgNames> {
         return this.snapshots.length
     }
 
+        /**
+     * Adds a snapshot to the collection of snapshots for the heap visualization.
+     *
+     * @param {CodeReference<HeapAlgNames>} codeRef - The code reference for the snapshot.
+     * @param {number[]} array - The array to add to the snapshot.
+     * @param {number} index - The index of the item in the array.
+     * @param {ActionType} action - The action to perform on the item.
+     * @param {number} [heapSize] - The size of the heap.
+     * @param {NodeRole[]} [nodeRoles=[]] - The roles of the nodes in the heap.
+     */
     addSnapshot(codeRef: CodeReference<HeapAlgNames>, array: number[], index: number, action: ActionType, heapSize?: number, nodeRoles: NodeRole[] = []) {
         this.snapshots.push({
             actions: [{ action, item: index }],
