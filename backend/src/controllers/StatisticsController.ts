@@ -2,7 +2,7 @@ import User from '../models/User.js'
 import { NextFunction, Request, Response } from 'express'
 import UserActivity from '../models/UserActivity.js'
 import moment from 'moment'
-import { Op, QueryTypes } from 'sequelize'
+import { Op, QueryTypes, literal } from 'sequelize'
 import { sequelize } from '../db.js'
 
 /** API Controller for the Statistics page.
@@ -17,10 +17,28 @@ import { sequelize } from '../db.js'
  */
 class StatisticsController {
   async getAllActivities(req: Request, res: Response, next: NextFunction) {
-    const allData = await UserActivity.findAll()
-    return res.json({ allData })
-  }
+    const allDataBySubject = await UserActivity.findAll({
+      attributes: [['subject', 'key'], [literal('SUM(quantity)'), 'value']],
+      group: ['subject'],
+    });
+    const allDataBySubjectAndAlg = await UserActivity.findAll({
+      attributes: [['algorithm', 'key'], 'subject', [literal('SUM(quantity)'), 'value']],
+      group: ['algorithm', 'subject'],
+    });
+    const reformatedData =  allDataBySubjectAndAlg.reduce((acc: any,
+        item: any) => {
+          if (!acc[item.dataValues.subject]) {
+            acc[item.subject] = [];
+          }
+        acc[item.dataValues.subject].push({ key:item.dataValues.key, value:item.dataValues.value });
+        return acc;
+      }, {})
+    return res.json({
+      dataBySubject: allDataBySubject,dataByAlgAndSubject:reformatedData
+    })
 
+
+  }
   async generalReport(req: Request, res: Response, next: NextFunction) {
     const allRegisteredUsersCount = await User.count({ where: { role: 'Student' } })
     // An active user is a user that's logged some activity in the past 2 weeks.
@@ -31,7 +49,7 @@ class StatisticsController {
       },
     })
     const usersGroupedByGender = await sequelize.query<{ gender: string, count: string }>
-    (`SELECT gender, count(*) as COUNT FROM public."Users" WHERE role = 'Student' GROUP BY gender `, { type: QueryTypes.SELECT })
+      (`SELECT gender, count(*) as COUNT FROM public."Users" WHERE role = 'Student' GROUP BY gender `, { type: QueryTypes.SELECT })
     const usersGroupedByAge = await sequelize.query<{ age: number, count: string }>(
       `SELECT DATE_PART('Year', NOW())-"birthYear" as Age, count(*) as count 
             FROM public."Users" 

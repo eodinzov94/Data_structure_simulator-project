@@ -1,27 +1,26 @@
-import { Alert, createTheme, TextField, ThemeProvider, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
+import CasinoIcon from "@mui/icons-material/Casino";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import CasinoIcon from "@mui/icons-material/Casino";
 import TabPanel from "@mui/lab/TabPanel";
+import { TextField, ThemeProvider } from "@mui/material";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
 import React, { FC, useState } from "react";
 import HeapAnimationController from "../../../ClassObjects/HeapAnimationController";
-import Tooltip from "@mui/material/Tooltip";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setInputArray,
   setInputKey,
 } from "../../../store/reducers/alghoritms/heap-reducer";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
+import { AlertError } from "../../UI/Controls/AlertError";
+import { theme } from "../../UI/Controls/ControlsTheme";
+import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
+import MediumCard from "../../UI/MediumCard";
 import {
   generateRandomArrForHeap,
   getArrFromInputForHeap,
 } from "../BinaryTree/Helpers/Functions";
-import MediumCard from "../../UI/MediumCard";
-import { AlertError } from "../../UI/Controls/AlertError";
-import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
-import { theme } from "../../UI/Controls/ControlsTheme";
-import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 interface Props {
   controller: HeapAnimationController;
