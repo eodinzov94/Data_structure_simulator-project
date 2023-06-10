@@ -15,7 +15,7 @@ export const CheckEmail = (email:string)=>{
 
 
 export const CheckPassword = (password:string) =>{
-    const Symbols =/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/;
+    const Symbols =/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/; // regex for allowed symbols
     if (password.trim().length>=8 &&  /[a-z]/.test(password) &&  /[A-Z]/.test(password) && /[0-9]/.test(password)
         && Symbols.test(password)){
         return true;

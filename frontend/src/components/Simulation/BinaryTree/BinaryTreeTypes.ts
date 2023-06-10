@@ -5,10 +5,11 @@ export enum ActionType {
     SWAP = "SWAP",
     ADD = "ADD",
     NONE = "NONE",
-    CHANGE = "CHANGE"
+    CHANGE = "CHANGE",
+    ERROR = "ERROR" //For BST/AVL only
 }
 
-export type Events = { action: ActionType, item: number,item2?:number }[];
+export type Events = { action: ActionType, item: number,item2?:number,error?:string }[];
 
 export type HeapSnapshots = (number[])[];
 export interface TreeNode {

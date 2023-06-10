@@ -1,13 +1,16 @@
-import React from "react";
-import "./HeapArray.css";
 import { motion } from "framer-motion";
-import { getHeapArrayAnimationsAndStyles } from "../../BinaryTree/Helpers/Functions";
 import { ArrayItemObj } from "../../../../ClassObjects/ArrayItemObj";
+import { getHeapArrayAnimationsAndStyles } from "../../BinaryTree/Helpers/Functions";
+import "./HeapArray.css";
 
 interface Props {
   arrayItemObj: ArrayItemObj;
 }
 
+/** Visualization of the arrayItemObj array representation of a heap.
+ *
+ * @see ArrayItemObj
+ */
 const ArrayItem = (props: Props) => {
   const { value, id, speed, action, swapIndex, ghosted } = props.arrayItemObj;
   const { style, initial, animate } = getHeapArrayAnimationsAndStyles(
@@ -15,6 +18,16 @@ const ArrayItem = (props: Props) => {
     id,
     swapIndex
   );
+  let  animateObj
+  if(ghosted){
+      animateObj = {
+          ...animate as any,
+          backgroundColor: "#808080FF",
+      }
+  }else{
+      animateObj = animate
+  }
+
   return (
       <motion.span
         className="s_li"
@@ -24,8 +37,8 @@ const ArrayItem = (props: Props) => {
           duration: 0.4 * speed,
         }}
         initial={initial}
-        animate={animate}
-        style={ghosted ? { ...style, background: "gray" } : style}
+        animate={animateObj}
+        style={style}
         exit={{ opacity: 0 }}
         key={`${id}-${value}`}
       >

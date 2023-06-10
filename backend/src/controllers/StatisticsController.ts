@@ -5,7 +5,16 @@ import moment from 'moment'
 import { Op, QueryTypes } from 'sequelize'
 import { sequelize } from '../db.js'
 
-
+/** API Controller for the Statistics page.
+ *  Statistics are saved for many functionalities in the site,
+ *  they are tracked per request of the lecturers, and are logged in the DB to be retrieved in the
+ *  Lecturer control page.
+ *  The controller contains the following functions:
+ *
+ *  - getAllActivities: returns all user activity in the database
+ *  - generalReport: returns general data about users in the system,
+ *    such as the # of active users in the system, and groupings of the users data by age and gender, etc.
+ */
 class StatisticsController {
   async getAllActivities(req: Request, res: Response, next: NextFunction) {
     const allData = await UserActivity.findAll()
@@ -14,6 +23,7 @@ class StatisticsController {
 
   async generalReport(req: Request, res: Response, next: NextFunction) {
     const allRegisteredUsersCount = await User.count({ where: { role: 'Student' } })
+    // An active user is a user that's logged some activity in the past 2 weeks.
     const activeUsersCount = await User.count({
       where: {
         lastSeen: { [Op.gte]: moment().subtract(14, 'days').toDate() },

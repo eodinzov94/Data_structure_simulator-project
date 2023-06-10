@@ -9,8 +9,12 @@ import { ActivityBody } from '../types/UserActivityTypes.js'
 import UserActivity from '../models/UserActivity.js'
 import { ServiceSendCode } from './TwoFactorAuthController.js'
 import { CODE_TYPES, TWOFA_VERIFY_BODY } from '../types/TWOFA_Types.js'
-
+// Use sign from jsonwebtoken lib to generate a JWT token
 const { sign } = pkg
+
+/* GenerateJwt and generateConfirmMailToken both use jason web tokens to encrypt required data,
+it is recommended anyone who wishes to change anything on this page have a fundamental understanding of
+JWT structure, and consult the other processes that use these functions. */
 
 export const generateJwt = (user: IUser) => {
   return sign(
@@ -40,6 +44,9 @@ export const generateConfirmMailToken = (email:string) => {
   )
 }
 
+/**
+ * TODO: document
+ */
 class UserController {
 
 
@@ -48,6 +55,7 @@ class UserController {
     if (!password || password.length < 8) {
       return next(ApiError.badRequest('Password should be at least 8 char length'))
     }
+    // Make sure the email isn't in use.
     const candidate = await User.findOne({ where: { email } })
     if (candidate) {
       return next(ApiError.badRequest('User with current email already exists'))
@@ -65,7 +73,7 @@ class UserController {
           lastSeen: new Date(),
           isEnabled2FA: role === 'Lecturer'
         })
-      await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email)
+      await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email) // every new user must validate their email.
       return res.json({ status: 'Redirect-Email-Confirmation'})
     } catch (e: any) {
       return next(ApiError.badRequest('Input error'))
@@ -80,13 +88,13 @@ class UserController {
       if (!user) {
         return next(ApiError.forbidden('Incorrect email or password'))
       }
-      const comparePassword = bcrypt.compareSync(password, user.password)
+      const comparePassword = bcrypt.compareSync(password, user.password) // authenticate received password with the one in the database.
       if (!comparePassword) {
         return next(ApiError.forbidden('Incorrect email or password'))
       }
       if(!user.isEmailConfirmed){
         await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email)
-        return next(ApiError.forbidden('Verify your email first, the link sent to the email'))
+        return next(ApiError.forbidden('Verify your email first, via the link that was  sent to your email'))
       }
       if (!user.isEnabled2FA) {
         const token = generateJwt(user)
