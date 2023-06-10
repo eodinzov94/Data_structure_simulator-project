@@ -15,13 +15,11 @@ const AlgorithmsReportPage = () => {
   const { data, isLoading, isError } = useGetAlgorithmReportsQuery("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const barClickHandler = (index: number) => {
-    console.log(index);
     if(data && data.dataBySubject.length>index && index>=0){
       setSelectedSubject(data.dataBySubject[index].key);
     }
     
   };
-  console.log(selectedSubject);
   return (
     <FloatUpContainer>
       <MediumCard>
