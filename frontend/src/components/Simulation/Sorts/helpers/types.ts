@@ -7,6 +7,7 @@ export interface sortItem {
   key: number;
   isSelected: boolean;
   color: string;
+  hide: boolean
 }
 
 export type SortOperations = quickSortOperation[] | countingSortOperation[] | insertionSortOperation[];

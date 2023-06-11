@@ -6,8 +6,7 @@ import ArrayElement from "./ArrayElement";
 interface Props {
   items: sortItem[]; //data
   children?: JSX.Element | JSX.Element[];
-  speed:number;
-
+  speed: number;
 }
 
 const SortArray = (props: Props) => {
@@ -17,12 +16,19 @@ const SortArray = (props: Props) => {
       <motion.ul className={styles.s_ul}>
         <AnimatePresence mode={"sync"}>
           {/* map each elment from the data to motion.il /*/}
-          {props.items.map((elem: sortItem,index) => (
-            <ArrayElement name={index.toString()} value={elem.value} color={elem.color} key={index} speed={props.speed}/>
-            ))}
+          {props.items.map((elem: sortItem, index) => (
+            <ArrayElement
+              name={index.toString()}
+              value={elem.value}
+              color={elem.color}
+              key={elem.key}
+              keyVal={elem.key}
+              speed={props.speed}
+              hide={elem.hide}
+            />
+          ))}
         </AnimatePresence>
       </motion.ul>
-      
     </div>
   );
 };

@@ -17,7 +17,7 @@ export const AnimationWrapper = (props: AnimationWrraperProps) => {
         )}
       </div>
       {/*rigth section */}
-      <PseudoCode code={props.code} line={props.line} />
+      <PseudoCode code={props.code} line={props.line} width={props.width!} />
     </div>
   );
 };

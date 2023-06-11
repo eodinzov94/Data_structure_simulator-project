@@ -10,6 +10,7 @@ import { feedbackApi } from "./reducers/feedback-reducer";
 import queueReducer from "./reducers/queueReducer";
 import animationControlReducer from "./reducers/animation-control-reducer";
 import insertionSortReducer from "./reducers/sorts/insertionSortReducer";
+import mergeSortReducer from "./reducers/sorts/mergeSortReducer";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     countingSort: countingSortReducer,
     quickSort: quickSortReducer,
     insertionSort: insertionSortReducer,
+    mergeSort: mergeSortReducer,
     stack: stackReducer,
     queue: queueReducer,
     heap: heapReducer,
