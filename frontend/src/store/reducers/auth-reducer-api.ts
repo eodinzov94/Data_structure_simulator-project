@@ -8,6 +8,7 @@ import {
   VerificationCodePayload,
 } from '../../types/Auth'
 import { setEmailFor2Factor, setUser } from './auth-reducer'
+import { EditUser } from '../../pages/EditProfilePage'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -115,6 +116,27 @@ export const authApi = createApi({
       }),
     }),
 
+    editProfile: builder.mutation<{status: string, user: IUser}, EditUser>({
+      query: (payload) => ({
+        url: `/user/update-user-data`,
+        method: 'POST',
+        body: payload,
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const {data} = await queryFulfilled
+          if (data.status === 'OK' && data.user) {
+            dispatch(setUser(data.user))
+          }else{
+            console.log('error')
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      },
+    }),
+
+
     verifyEmail: builder.mutation<{ status: 'OK' }, { token:string}>({
       query: (payload) => ({
         url: `/user/verify-email`,
@@ -134,5 +156,6 @@ export const {
   useRegisterLecturerMutation,
   useResetPasswordMutation,
   useSend2FACodeMutation,
-  useVerifyEmailMutation
+  useVerifyEmailMutation,
+  useEditProfileMutation
 } = authApi

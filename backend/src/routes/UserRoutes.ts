@@ -18,8 +18,7 @@ router.get('/auth-me', authMiddleware, UserController.auth)//V
 router.post('/login-2fa',Verify2FA_MW(CODE_TYPES.TWO_FA),UserController.login2FA)//V
 router.get('/personal-activities', authMiddleware, UserController.personalActivities)//X
 router.post('/verify-2fa',TwoFactorAuthController.verify)//V
-router.post('/verify-email',TwoFactorAuthController.verifyEmail)//X
-router.post('/set-2fa-status',Verify2FA_MW(CODE_TYPES.TWO_FA),TwoFactorAuthController.set2FA_status)//X
+router.post('/verify-email',TwoFactorAuthController.verifyEmail)//V
 router.post('/reset-password',Verify2FA_MW(CODE_TYPES.RESET_PW),TwoFactorAuthController.resetPassword)//V
 router.post('/post-feedback',FeedbackController.create)
 export default router

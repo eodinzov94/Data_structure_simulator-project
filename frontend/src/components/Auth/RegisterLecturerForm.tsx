@@ -19,7 +19,7 @@ const initialState = {
 };
 
 const RegistrationForm = () => {
-  const [registerUser, { error,isLoading,isSuccess }] = useRegisterLecturerMutation()
+  const [registerUser, { error, isLoading, isSuccess }] = useRegisterLecturerMutation()
   const [dataEntered, setDataEntered] = useState<RegisterLecturerPayload>(initialState);
   const [errorMsgs, setErrorMsg] = useState<string[]>([]);
 
@@ -75,9 +75,9 @@ const RegistrationForm = () => {
       onSubmit={onSubmitHandler}
     >
       {isSuccess && (
-             <Alert severity="success" color="success">
-               User created successfully!
-             </Alert>
+        <Alert severity="success" color="success">
+          User created successfully!
+        </Alert>
       )}
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="-space-y-px rounded-md shadow-sm">

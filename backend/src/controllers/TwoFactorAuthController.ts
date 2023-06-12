@@ -149,17 +149,6 @@ class TwoFactorAuthController {
   }
 
 
-  async set2FA_status(req: TypedRequestBody<SET_2FA_STATUS_BODY>, res: Response, next: NextFunction) {
-    try {
-      const { status, email } = req.body
-      await User.update({ isEnabled2FA: status }, { where: { email } })
-      res.json({ status: 'OK' })
-    } catch (e) {
-      console.log(e)
-      return res.status(401).json({ message: 'Unknown error' })
-    }
-  }
-
   async verifyEmail(req: TypedRequestBody<{ token: string }>, res: Response, next: NextFunction) {
     try {
       const { token } = req.body

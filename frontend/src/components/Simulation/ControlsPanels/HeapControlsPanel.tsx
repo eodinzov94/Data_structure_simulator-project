@@ -1,26 +1,26 @@
-import { Alert, createTheme, TextField, ThemeProvider, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
+import CasinoIcon from "@mui/icons-material/Casino";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import CasinoIcon from "@mui/icons-material/Casino";
 import TabPanel from "@mui/lab/TabPanel";
+import { TextField, ThemeProvider } from "@mui/material";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
 import React, { FC, useState } from "react";
 import HeapAnimationController from "../../../ClassObjects/HeapAnimationController";
-import Tooltip from "@mui/material/Tooltip";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   setInputArray,
   setInputKey,
 } from "../../../store/reducers/alghoritms/heap-reducer";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
+import { AlertError } from "../../UI/Controls/AlertError";
+import { theme } from "../../UI/Controls/ControlsTheme";
+import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
+import MediumCard from "../../UI/MediumCard";
 import {
   generateRandomArrForHeap,
   getArrFromInputForHeap,
 } from "../BinaryTree/Helpers/Functions";
-import MediumCard from "../../UI/MediumCard";
-import { AlertError } from "../../UI/Controls/AlertError";
-import { ControlsToolTip } from "../../UI/Controls/ControlsToolTip";
-import { theme } from "../../UI/Controls/ControlsTheme";
 
 interface Props {
   controller: HeapAnimationController;
@@ -34,6 +34,7 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const inputKey = useAppSelector((state) => state.heap.inputKey);
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
+  const [regsterActivity] = useRegisterActivityMutation()
   const [value, setValue] = useState("1");
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -66,18 +67,38 @@ const HeapControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
   const Animate = async (animation: string) => {
     switch (animation) {
       case "Build-Max-Heap":
+        regsterActivity({
+          algorithm: "Build-Max-Heap",
+          subject: "Heap",
+        })
         await controller.buildMaxHeap();
         return;
       case "Heap-Max":
+        regsterActivity({
+          algorithm: "Heap-Max",
+          subject: "Heap",
+        })
         await controller.heapMax();
         return;
       case "Extract-Max":
+        regsterActivity({
+          algorithm: "Extract-Max",
+          subject: "Heap",
+        })
         await controller.extractMax();
         return;
       case "Insert Key":
+        regsterActivity({
+          algorithm: "Insert Key",
+          subject: "Heap",
+        })
         await controller.insertKey(inputKey);
         return;
       case "Heap-Sort":
+        regsterActivity({
+          algorithm: "Heap-Sort",
+          subject: "Heap",
+        })
         await controller.heapSort();
         return;
       case "Clear":

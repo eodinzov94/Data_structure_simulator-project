@@ -1,92 +1,77 @@
-import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import { ChangeEvent, FormEvent, useState } from "react";
-import AuthCard from "../components/Auth/AuthCard";
-import FormButton from "../components/Auth/FormButton";
-import FloatUpContainer from "../components/UI/FloatUpContainer";
-import { mainColor, mainHoverColor } from "../styles/tColors";
+import { useState } from 'react'
+import AuthWrapper from '../components/Auth/AuthWrapper'
+import CodeVerificationForm from '../components/Auth/CodeVerificationForm'
+import EmailVerForPassordChange from '../components/Auth/EmailVerForPassordChange'
+import PasswordResetForm from '../components/Auth/PasswordResetForm'
+import { useAppSelector } from '../store/hooks'
+import { CodeTypes } from '../types/Auth'
+import { forgotPasswordLime500 } from '../utils/logos'
 
-interface PasswordData {
-  password: string;
-  new_password: string;
-  new_password2: string;
+export interface ContentProps {
+  onConfirm: () => void;
 }
 
-const ChangePassword = () => {
-  const [state, setState] = useState<PasswordData>({
-    password: "",
-    new_password: "",
-    new_password2: "",
-  });
+export enum stage {
+  SEND_CODE = 0,
+  INPUT_CODE = 1,
+  INPUT_NEW_PASSWORD = 2,
+}
 
-  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    //SEND TO BACKEND - the data in the state!!!!!!!
+const Titles = [
+  "The code will sent to your email",
+  "Enter the code",
+  "Enter your new password",
+];
+const ForgotPasswordPage = () => {
+  /* The Content card state represents the user's stage in changing the password
+    0 = confirm email send
+    1 = input code 
+    2 = input new password
+   */
+  const [currentStage, setCurrentStage] = useState(stage.SEND_CODE);
+  const [currentCode, setCurrentCode] = useState('');
+  const email = useAppSelector((state) => state.auth.user!.email);
+  const getContent = () => {
+    if (currentStage === stage.SEND_CODE) {
+      return (
+        <EmailVerForPassordChange
+          onConfirm={() => {
+            setCurrentStage(stage.INPUT_CODE);
+          }}
+          email={email}
+        />
+      );
+    } else if (currentStage === stage.INPUT_CODE) {
+      return (
+        <CodeVerificationForm
+          type={CodeTypes.RESET_PW}
+          onConfirm={() => {
+            setCurrentStage(stage.INPUT_NEW_PASSWORD);
+          }}
+          setCode={(code:string)=>setCurrentCode(code)}
+          email={email}
+        />
+      );
+    } else if (currentStage === stage.INPUT_NEW_PASSWORD) {
+      return <PasswordResetForm
+        code={currentCode}
+        email={email}
+      />;
+    }
   };
 
-  const onChangeHandler = (event: any) => {
-    setState((prevstate) => {
-      return { ...prevstate, [event.target.name]: event.target.value };
-    });
-  };
-
+  //const FPstr: string = `font-medium text-${mainColor} hover:text-${mainHoverColor}`;
   return (
-    <FloatUpContainer>
-      <AuthCard title={"Change Password"}>
-        <form className="mt-8 space-y-6" onSubmit={onSubmitHandler}>
-          <div className="-space-y-px rounded-md shadow-sm grid grid-cols-">
-            {/* current password */}
-            <div>
-              <input
-                onChange={onChangeHandler}
-                id="current-password"
-                name="password"
-                type="password"
-                required
-                className={`relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-                placeholder="Current password"
-              />
-            </div>
-            {/* new password */}
-            <div>
-              <input
-                onChange={onChangeHandler}
-                id="new-password"
-                name="new_password"
-                type="password"
-                required
-                className={`relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-                placeholder="New password"
-              />
-            </div>
-            {/* new password2 */}
-            <div>
-              <input
-                onChange={onChangeHandler}
-                id="new-password2"
-                name="new_password2"
-                type="password"
-                required
-                className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`}
-                placeholder="Confirm new password"
-              />
-            </div>
-          </div>
-
-          <FormButton
-            type={"submit"}
-            title={"Update Password"}
-            icon={
-              <ClipboardDocumentListIcon
-                className={`h-5 w-5 text-${mainHoverColor} group-hover:text-${mainColor}`}
-                aria-hidden="true"
-              />
-            }
-          />
-        </form>
-      </AuthCard>
-    </FloatUpContainer>
+    <AuthWrapper
+      cardTitle={Titles[currentStage]}
+      cardContent={getContent()}
+      imgContent={
+        <div className="flex items-center justify-center px-2 sm:px-4 lg:px-8 ">
+          <img className="h-64" src={forgotPasswordLime500} alt="Vzou" />
+        </div>
+      }
+    />
   );
 };
 
-export default ChangePassword;
+export default ForgotPasswordPage;

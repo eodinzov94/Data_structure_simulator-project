@@ -22,6 +22,7 @@ import {
     generateRandomArrForHeap,
     getArrFromInputForHeap,
 } from "../BinaryTree/Helpers/Functions";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 interface Props {
     controller: AvlAnimationController;
@@ -46,7 +47,7 @@ const AvlControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
     const error = useAppSelector((state) => state.bst.error);
     const dispatch = useAppDispatch();
     const [value, setValue] = useState("1");
-
+    const [regsterActivity] = useRegisterActivityMutation()
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
@@ -94,36 +95,76 @@ const AvlControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
         try {
             switch (animation) {
                 case "Search":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Search",
+                    })
                     await controller.search(inputValues.Search);
                     return;
                 case "Insert":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Insert",
+                    })
                     await controller.insert(inputValues.Insert);
                     return;
                 case "DeleteNode":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"DeleteNode",
+                    })
                     await controller.deleteNode(inputValues.DeleteNode);
                     return;
                 case "Min":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Min",
+                    })
                     await controller.min();
                     return;
                 case "Max":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Max",
+                    })
                     await controller.max();
                     return;
                 case "Successor":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Successor",
+                    })
                     await controller.successor(inputValues.Successor);
                     return;
                 case "Predecessor":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Predecessor",
+                    })
                     await controller.predecessor(inputValues.Predecessor);
                     return;
                 case "Clear":
                     await controller.setTreeFromInput([]);
                     return;
                 case "Inorder":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Inorder",
+                    })
                     await controller.inorder();
                     return;
                 case "Preorder":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Preorder",
+                    })
                     await controller.preorder();
                     return;
                 case "Postorder":
+                    regsterActivity({
+                        subject:"AVL",
+                        algorithm:"Postorder",
+                    })
                     await controller.postorder();
                     return;
                 default:
@@ -179,7 +220,7 @@ const AvlControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
                                         size={"small"}
                                         sx={{ width: "150px" }}
                                         value={inputArray}
-                                        label="Build-BST"
+                                        label="Build-AVL-Tree"
                                         variant="outlined"
                                         onChange={(e) => dispatch(setInputArray(e.target.value))}
                                     />
@@ -293,3 +334,4 @@ const AvlControlsPanel: FC<Props> = ({ controller, isButtonDisabled }) => {
 };
 
 export default AvlControlsPanel;
+

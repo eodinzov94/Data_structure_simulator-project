@@ -10,7 +10,7 @@ export const PseudoCode = (props: PseudoProps) => {
   const [open, setOpen] = useState(true);
   // const [open, cycleOpen] = useCycle(true, false);
   return (
-    <div className={"h-screen z-50 " + styles["div-side"]}>
+    <div className={"z-50 " + styles["div-side"]}>
       <div className={styles["button-div"]}>
         <Hamburger
           toggled={open}
@@ -28,7 +28,7 @@ export const PseudoCode = (props: PseudoProps) => {
             className={styles["aside-side"]}
             initial={{ width: 0 }}
             animate={{
-              width: props.width ? props.width : 280,
+              width: props.width ? props.width : 'fit-content',
               borderWidth: "2px",
               borderRadius: "10px",
               borderColor: "#ecfccb",
@@ -67,7 +67,7 @@ export const PseudoCode = (props: PseudoProps) => {
                 >
                   <span>{index}.&emsp;</span>
                   {
-                    //this section responsible for the tabs before each line
+                    //this section responsable for the tabs before each line
                     [...Array(l.tabAmount)].map((x, i) => (
                       <span key={i}>&emsp;</span>
                     ))
