@@ -60,7 +60,7 @@ const RadixSortPage = () => {
         <SortArray items={state.data} speed={controller.speed} />
         {state.currDigit >= 0 ? (
           <StyledTextDiv 
-            style={{ fontFamily: "monaco", fontWeight: "bolder",marginTop:'20px' }}
+            style={{marginTop:'20px' }}
             text={`Current digit position -> ${state.currDigit}`}
           />
         ) : (

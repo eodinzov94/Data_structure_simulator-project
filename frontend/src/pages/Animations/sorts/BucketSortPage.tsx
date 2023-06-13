@@ -67,7 +67,7 @@ export const BucketSortPage = () => {
             {state.buckets.map((e, index) => (
               <div className="flex justify-left mt-6" key={index}>
                 <motion.b
-                  style={{ width: "120px" }}
+                  style={{ width: "80px" ,fontFamily: "monaco"}}
                   transition={{ duration: 1 }}
                   initial={{ opacity: 0, x: -50 }}
                   animate={{

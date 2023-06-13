@@ -2,13 +2,13 @@ import { MotionStyle, motion } from "framer-motion";
 
 interface Props {
   text: string;
-  style: MotionStyle | undefined;
+  style?: MotionStyle;
 }
 
 export const StyledTextDiv = (props: Props) => {
   return (
     <motion.div
-      style={props.style}
+      style={{...props.style,fontFamily: "monaco", fontWeight: "bolder"}}
       transition={{
         layout: { duration: 0.5, ease: "easeIn" },
       }}

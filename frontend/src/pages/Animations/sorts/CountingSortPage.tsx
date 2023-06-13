@@ -11,6 +11,7 @@ import { AnimationWrapper } from "../../../components/Simulation/Wrappers/Animat
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import countingSortPhoto from "../../../assets/Algorithms/CS1.png";
 import CountingSortController from "../../../ClassObjects/SortControllers/CountingSortController";
+import { StyledTextDiv } from "../../../components/UI/StyledTextDiv";
 
 const MAX_ELEMENTS = 10;
 
@@ -63,20 +64,30 @@ const CountingSortPage = () => {
         code={CountingSortPseudoCode}
         controller={controller}
       >
+        {(state.A.length > 0) ?<StyledTextDiv text={`A[${state.A.length}]`} style={{ height: "20px" }}/>:<></>}
         <IndexArray size={state.A.length + 1} i={state.indexA} />
         <SortArray items={state.A} speed={controller.speed} />
 
         <div style={{ marginTop: "40px" }}>
+          {(state.C.length > 0) ?<StyledTextDiv text={`C[${state.C.length}]`} style={{ height: "20px" }}/>:<></>} 
           <IndexArray size={state.C.length + 1} i={state.indexC} />
           <SortArray items={state.C} speed={controller.speed} />
         </div>
 
         <div style={{ marginTop: "40px" }}>
+          {(state.B.length > 0) ?<StyledTextDiv text={`B[${state.B.length}]`} style={{ height: "20px" }}/>:<></>} 
           <IndexArray size={state.B.length + 1} i={state.indexB} />
           <SortArray items={state.B} speed={controller.speed} />
         </div>
 
-        {isSortStarted ? <div> K = {state.k}</div> : <></>}
+        {isSortStarted ? (
+          <StyledTextDiv
+            text={`K -> ${state.k}`}
+            style={{ marginTop: "20px" }}
+          />
+        ) : (
+          <></>
+        )}
       </AnimationWrapper>
     </>
   );
