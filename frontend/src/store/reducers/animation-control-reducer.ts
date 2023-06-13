@@ -15,7 +15,7 @@ const animationControlSlice = createSlice({
   initialState,
   reducers: {
     init(state) {
-      state = initialState;
+      state = {...initialState};
     },
     SetIsSortStarted(state, action: PayloadAction<boolean>) {
       state.isSortStarted = action.payload;

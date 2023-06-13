@@ -13,7 +13,7 @@ export function getArrFromInput(maxSize: number, data: string, max_num = 9999) {
     var num = Number(item);
     if (Number.isNaN(num)) return `${item} is not a number`;
     if (num > max_num)
-      return `Max element length is ${max_num}, ${item} is bigger`;
+      return `Max element value is ${max_num}, ${item} is bigger`;
     newData.push(num);
   }
   return newData;

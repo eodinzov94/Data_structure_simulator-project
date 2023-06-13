@@ -15,7 +15,7 @@ import sortsPhoto from "../../assets/Gallery/sortsPhoto.png";
 const sortTypes = [
   {
     name: "Radix Sort",
-    url: "/radixtsort",
+    url: "/radixsort",
   },
   {
     name: "Quick Sort",

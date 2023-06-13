@@ -8,9 +8,16 @@ export interface sortItem {
   key: number;
   isSelected: boolean;
   color: string;
+  digit?: number;
 }
 
-export type SortOperations = quickSortOperation[] | countingSortOperation[] | insertionSortOperation[] | BucketSortOperation[];
+export type SortOperations =
+  | quickSortOperation[]
+  | countingSortOperation[]
+  | insertionSortOperation[]
+  | BucketSortOperation[]
+  | RadixSortOperation[]
+  ;
 
 export interface quickSortOperation {
   action: any;
@@ -35,6 +42,11 @@ export interface mergeSortOperation {
 export interface BucketSortOperation {
   action: any;
   payload: BucketSortPayload;
+}
+
+export interface RadixSortOperation {
+  action: any;
+  payload: any;
 }
 
 export enum Colors {
