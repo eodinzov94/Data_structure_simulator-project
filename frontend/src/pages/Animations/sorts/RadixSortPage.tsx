@@ -8,26 +8,21 @@ import { SubjectImg } from "../../../components/UI/SubjectImg";
 import radixSortPhoto from "../../../assets/Algorithms/RS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { radixSortActions as actions } from "../../../store/reducers/sorts/radixSortReducer";
-import InsertionSortController from "../../../ClassObjects/SortControllers/InsertionSortController";
 import { ValueArray } from "../../../components/Simulation/Sorts/helpers/ValueArray";
 import { radixSort } from "../../../components/Simulation/Sorts/RadixSort/RadixSortAlgorithm";
-import { sleep } from "../../../utils/animation-helpers";
+import RadixSortController from "../../../ClassObjects/SortControllers/RadixSortController";
+import { StyledTextDiv } from "../../../components/UI/StyledTextDiv";
 
 const MAX_ELEMENTS = 10;
 
 const RadixSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.radixSort);
-  const controller = InsertionSortController.getController(dispatch);
+  const controller = RadixSortController.getController(dispatch);
 
   const Sort = async () => {
     const opArr: RadixSortOperation[] = radixSort([...state.data]);
-    for (let op of opArr) {
-      dispatch(op.action(op.payload));
-      await sleep(2000);
-    }
-    // await controller.Sort(opArr);
-    // dispatch(actions.sort());
+    await controller.Sort(opArr);
   };
 
   const setInput = async (data: number[]) => {
@@ -36,7 +31,7 @@ const RadixSortPage = () => {
   };
 
   const setRandomInput = () => {
-    setInput(getRandomNumsArr(MAX_ELEMENTS,1000));
+    setInput(getRandomNumsArr(MAX_ELEMENTS, 1000));
   };
 
   return (
@@ -52,6 +47,7 @@ const RadixSortPage = () => {
         rightBtnText={"Sort"}
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
+        maxInputNum={999}
       ></SortControlsPanel>
 
       {/* animation section */}
@@ -60,8 +56,15 @@ const RadixSortPage = () => {
         code={RadixSortPseudoCode}
         controller={controller}
       >
-        <ValueArray data={state.sortData}></ValueArray>
+        <ValueArray data={state.sortData} speed={controller.speed}></ValueArray>
         <SortArray items={state.data} speed={controller.speed} />
+        {state.currDigit >= 0 ? (
+          <StyledTextDiv
+            text={`Current digit position -> ${state.currDigit}`}
+          />
+        ) : (
+          <></>
+        )}
       </AnimationWrapper>
     </>
   );

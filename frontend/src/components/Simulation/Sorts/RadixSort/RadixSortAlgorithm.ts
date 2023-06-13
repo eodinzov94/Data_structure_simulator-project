@@ -5,10 +5,19 @@ export function radixSort(array: sortItem[]) {
   if (array.length <= 1 || array == null) {
     return [];
   }
+
   const numOfDigits = 3;
   const opArr: RadixSortOperation[] = [];
+  opArr.push({
+    action: actions.setLine,
+    payload: 0,
+  });
 
   for (let i = 0; i < numOfDigits; i++) {
+    opArr.push({
+      action: actions.setCurrentDigit,
+      payload: i,
+    });
     opArr.push({
       action: actions.setSortData,
       payload: i,
@@ -22,6 +31,10 @@ export function radixSort(array: sortItem[]) {
       payload: -1,
     });
   }
+  opArr.push({
+    action: actions.setLine,
+    payload: -1,
+  });
 
   return opArr;
 }
