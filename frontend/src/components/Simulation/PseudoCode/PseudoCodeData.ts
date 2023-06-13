@@ -46,7 +46,6 @@ export const CountingSortPseudoCode: PseudoItem[] = [
   { text: "B[index] = value", tabAmount: 2 },
 ];
 
-
 export const mergeSortPseudoCode: PseudoItem[] = [
   { text: "MergeSort (arr, left, right):", tabAmount: 0 },
   { text: "if (left < rigth ):", tabAmount: 1 },
@@ -56,8 +55,8 @@ export const mergeSortPseudoCode: PseudoItem[] = [
   { text: "Merge(arr, left, mid, right)", tabAmount: 2 },
   { text: "", tabAmount: 1 },
   { text: "", tabAmount: 1 },
-  { text: "Merge(arr, start, mid, end):", tabAmount: 0 },
-  { text: "L = arr[start...mid]", tabAmount: 1 },
+  { text: "Merge(arr, left, mid, right):", tabAmount: 0 },
+  { text: "L = arr[left...mid]", tabAmount: 1 },
   { text: "R = arr[mid+1...right]", tabAmount: 1 },
   { text: "i = j = k = 0", tabAmount: 1 },
   { text: "while (i< len(L) and j<len(R):", tabAmount: 1 },
@@ -76,9 +75,7 @@ export const mergeSortPseudoCode: PseudoItem[] = [
   { text: "arr[k] = R[j]", tabAmount: 2 },
   { text: "j++", tabAmount: 2 },
   { text: "k++", tabAmount: 2 },
-
 ];
-
 
 export const stackPseudoCode: PseudoItem[] = [
   { text: "N = 10", tabAmount: 0 },

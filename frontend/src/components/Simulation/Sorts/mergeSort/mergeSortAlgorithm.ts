@@ -1,13 +1,14 @@
 import { mergeSortOperation, sortItem } from "../helpers/types";
 import { mergeSortActions as actions } from "../../../../store/reducers/sorts/mergeSortReducer";
 import { SortItemsToNumbers } from "../helpers/functions";
+import { ItemColor } from "../../../../store/reducers/sorts/quickSortReducer";
 
 export function mergeSort(array: sortItem[]): mergeSortOperation[] {
   if (array.length <= 1 || array == null) {
     return [];
   }
   const opArr: mergeSortOperation[] = [];
-  const numbers= SortItemsToNumbers(array);
+  const numbers = SortItemsToNumbers(array);
   recursiveMergeSort(numbers, 0, array.length - 1, opArr, 1);
   return opArr;
 }
@@ -19,15 +20,29 @@ function recursiveMergeSort(
   opArr: mergeSortOperation[],
   index: number
 ) {
-
   opArr.push({
-    action: actions.setLine,
-    payload: 1
+    action: actions.setIndexes,
+    payload: { line: 0, left, right },
   });
+
+  if (index !== 1)
+    opArr.push({
+      action: actions.addNode,
+      payload: {
+        data: array.slice(left, right + 1),
+        nodeIndex: index,
+        line: 0,
+      },
+    });
+
+    opArr.push({
+      action: actions.setLine,
+      payload: 1,
+    });
   if (left < right) {
     opArr.push({
       action: actions.setLine,
-      payload: 2
+      payload: 2,
     });
     const mid = Math.floor((left + right) / 2);
     // add left and right nodes to the tree
@@ -36,30 +51,36 @@ function recursiveMergeSort(
     const rightIndex = index * 2 + 1;
     const leftIndex = index * 2;
 
-
+    // opArr.push({
+    //   action: actions.addNode,
+    //   payload: {
+    //     data: L,
+    //     nodeIndex: leftIndex,
+    //     line: 3,
+    //   },
+    // });
     opArr.push({
-      action: actions.addNode,
-      payload: {
-        data: L,
-        nodeIndex: leftIndex,
-        line: 3,
-      },
+      action: actions.setLine,
+      payload: 3,
     });
     recursiveMergeSort(array, left, mid, opArr, leftIndex);
 
+    // opArr.push({
+    //   action: actions.addNode,
+    //   payload: {
+    //     data: R,
+    //     nodeIndex: rightIndex,
+    //     line: 4,
+    //   },
+    // });
     opArr.push({
-      action: actions.addNode,
-      payload: {
-        data: 
-        R,
-        nodeIndex: rightIndex,
-        line: 4,
-      },
+      action: actions.setLine,
+      payload: 4,
     });
     recursiveMergeSort(array, mid + 1, right, opArr, rightIndex);
     opArr.push({
       action: actions.setLine,
-      payload: 5
+      payload: 5,
     });
     merge(array, left, right, mid, opArr, leftIndex, rightIndex, index);
   }
@@ -75,36 +96,49 @@ function merge(
   rightNodeIndex: number,
   parent: number
 ) {
-
+  opArr.push({
+    action: actions.setIndexes,
+    payload: { line: 8, left, right },
+  });
 
   const L = array.slice(left, mid + 1);
   opArr.push({
     action: actions.markNode,
     payload: {
-      line:9,
-      nodeIndex:leftNodeIndex
-    }
+      line: 9,
+      nodeIndex: leftNodeIndex,
+    },
   });
   const R = array.slice(mid + 1, right + 1);
   opArr.push({
     action: actions.markNode,
     payload: {
-      line:10,
-      nodeIndex:rightNodeIndex
-    }
+      line: 10,
+      nodeIndex: rightNodeIndex,
+    },
   });
 
   opArr.push({
     action: actions.initNodeData,
-    payload: parent
+    payload: { nodeIndex: parent, line: 11 },
   });
 
   var i = 0,
     j = 0,
     k = 0;
+
   while (i < L.length && j < R.length) {
+    opArr.push({
+      action: actions.markElementInNode,
+      payload: {
+        line: 12,
+        nodesList: [leftNodeIndex, rightNodeIndex],
+        elements: [i, j],
+        color: ItemColor.PIVOT,
+      },
+    });
     if (L[i] <= R[j]) {
-      array[left+k] = L[i];
+      array[left + k] = L[i];
       opArr.push({
         action: actions.changeValue,
         payload: {
@@ -114,9 +148,22 @@ function merge(
           value: L[i],
         },
       });
+      opArr.push({
+        action: actions.markElementInNode,
+        payload: {
+          line: 15,
+          nodesList: [leftNodeIndex],
+          elements: [i],
+          color: ItemColor.DONE,
+        },
+      });
       i++;
     } else {
-      array[left+k] = R[j];
+      opArr.push({
+        action: actions.setLine,
+        payload: 16,
+      });
+      array[left + k] = R[j];
       opArr.push({
         action: actions.changeValue,
         payload: {
@@ -126,13 +173,39 @@ function merge(
           value: R[j],
         },
       });
+      opArr.push({
+        action: actions.markElementInNode,
+        payload: {
+          line: 18,
+          nodesList: [rightNodeIndex],
+          elements: [j],
+          color: ItemColor.DONE,
+        },
+      });
       j++;
     }
+    opArr.push({
+      action: actions.setLine,
+      payload: 19,
+    });
     k++;
   }
+  opArr.push({
+    action: actions.setLine,
+    payload: 12,
+  });
 
   while (i < L.length) {
-    array[left+k] = L[i];
+    opArr.push({
+      action: actions.markElementInNode,
+      payload: {
+        line: 20,
+        nodesList: [leftNodeIndex],
+        elements: [i],
+        color: ItemColor.PIVOT,
+      },
+    });
+    array[left + k] = L[i];
     opArr.push({
       action: actions.changeValue,
       payload: {
@@ -142,11 +215,38 @@ function merge(
         value: L[i],
       },
     });
+    opArr.push({
+      action: actions.markElementInNode,
+      payload: {
+        line: 22,
+        nodesList: [leftNodeIndex],
+        elements: [i],
+        color: ItemColor.DONE,
+      },
+    });
     i++;
+    opArr.push({
+      action: actions.setLine,
+      payload: 23,
+    });
     k++;
   }
+  opArr.push({
+    action: actions.setLine,
+    payload: 20,
+  });
+
   while (j < R.length) {
-    array[left+k] = R[j];
+    opArr.push({
+      action: actions.markElementInNode,
+      payload: {
+        line: 24,
+        nodesList: [rightNodeIndex],
+        elements: [j],
+        color: ItemColor.PIVOT,
+      },
+    });
+    array[left + k] = R[j];
     opArr.push({
       action: actions.changeValue,
       payload: {
@@ -156,11 +256,24 @@ function merge(
         value: R[j],
       },
     });
+    opArr.push({
+      action: actions.markElementInNode,
+      payload: {
+        line: 26,
+        nodesList: [rightNodeIndex],
+        elements: [j],
+        color: ItemColor.DONE,
+      },
+    });
     j++;
     k++;
   }
   opArr.push({
+    action: actions.setLine,
+    payload: 24,
+  });
+  opArr.push({
     action: actions.deleteNodes,
-    payload: [rightNodeIndex,leftNodeIndex]
+    payload: {nodesList:[rightNodeIndex, leftNodeIndex], line:-1}
   });
 }

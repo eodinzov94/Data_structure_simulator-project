@@ -3,14 +3,19 @@ import { animationControlActions } from "../../store/reducers/animation-control-
 import { State as countingSortState } from "../../store/reducers/sorts/countingSortReducer";
 import { State as quickSortState } from "../../store/reducers/sorts/quickSortReducer";
 import { State as insertionSortState } from "../../store/reducers/sorts/insertionSortReducer";
+import { State as mergeSortState } from "../../store/reducers/sorts/mergeSortReducer";
 import { AppDispatch } from "../../store/store";
 import { sleep } from "../../utils/animation-helpers";
 
-type mementoTypes = countingSortState | quickSortState | insertionSortState;
+type mementoTypes =
+  | countingSortState
+  | quickSortState
+  | insertionSortState
+  | mergeSortState;
 
 export default abstract class SortController {
   memento: mementoTypes[];
-  baseSleepTime:number;
+  baseSleepTime: number;
   speed: number;
   frame: number;
   stopFlag: boolean;
@@ -19,9 +24,9 @@ export default abstract class SortController {
   dispatch: AppDispatch;
   abstract getState(): mementoTypes;
 
-  constructor(dispatch: AppDispatch, reducerActions: any, sleepTime=1000) {
+  constructor(dispatch: AppDispatch, reducerActions: any, sleepTime = 1000) {
     this.memento = [] as mementoTypes[];
-    this.baseSleepTime=sleepTime;
+    this.baseSleepTime = sleepTime;
     this.speed = 1;
     this.frame = 0;
     this.stopFlag = false;
@@ -30,11 +35,11 @@ export default abstract class SortController {
     this.dispatch = dispatch;
   }
 
-  init(){
-    this.stopFlag=true;
+  init() {
+    this.stopFlag = true;
     this.dispatch(animationControlActions.SetIsSortStarted(false));
-    this.memento=[] as mementoTypes[];
-    this.frame=0;
+    this.memento = [] as mementoTypes[];
+    this.frame = 0;
   }
 
   //Setters
@@ -61,6 +66,7 @@ export default abstract class SortController {
   }
 
   async setState() {
+    console.log("state:",this.memento[this.frame])
     this.dispatch(this.reducerActions.setState(this.memento[this.frame]));
   }
 

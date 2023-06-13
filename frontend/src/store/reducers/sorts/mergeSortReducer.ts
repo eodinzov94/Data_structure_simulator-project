@@ -6,46 +6,71 @@ import { ItemColor } from "./quickSortReducer";
 export interface State {
   tree: mergeNode[];
   line: number;
+  left: number;
+  right: number;
 }
 
-interface actionPayload {
+interface basePayload {
   line: number;
+}
+
+interface nodes extends basePayload {
+  nodesList: number[];
+}
+
+interface markElements extends nodes {
+  elements: number[];
+  color: ItemColor;
+}
+
+interface setIndexesPayload extends basePayload {
+  left: number;
+  right: number;
+}
+
+interface actionOnNodePayload extends basePayload {
   nodeIndex: number;
 }
 
-interface addNodePayload extends actionPayload {
+interface addNodePayload extends actionOnNodePayload {
   data: number[];
 }
 
-interface changeNodeValuePayload extends actionPayload {
+interface changeNodeValuePayload extends actionOnNodePayload {
   value: number;
   index: number;
 }
 
-export type insertionSortPayload =
+export type mergeSortPayload =
   | number[]
   | number
   | addNodePayload
+  | changeNodeValuePayload
+  | nodes
+  | actionOnNodePayload
+  | markElements
+  | setIndexesPayload
   | undefined;
 
 export interface mergeNode {
   data: sortItem[];
-  index: number;
 }
 
 const initialState: State = {
-  tree: [] as mergeNode[],
+  tree: Array.from({ length: 16 }, () => ({ data: [] })),
   line: -1,
+  right: -2,
+  left: -2,
 };
 
 const mergeSortSlice = createSlice({
-  name: "insertionsort",
+  name: "mergesort",
   initialState,
   reducers: {
     init(state, action: PayloadAction<number[]>) {
       state = { ...initialState };
       // 4 levels tree
-      state.tree = Array.from({ length: 16 }, () => ({ data: [], index: 0 }));
+      state.tree = Array.from({ length: 16 }, () => ({ data: [] }));
       state.tree[1].data = numbersToSortItems(action.payload); //head
       return state;
     },
@@ -63,19 +88,39 @@ const mergeSortSlice = createSlice({
       state.tree[nodeIndex].data[index].hide = false;
       state.line = line;
     },
-    deleteNodes(state, action: PayloadAction<number[]>) {
-      for (let i of action.payload) state.tree[i].data = [];
+    deleteNodes(state, action: PayloadAction<nodes>) {
+      const { nodesList, line } = action.payload;
+      state.line = line;
+      for (let i of nodesList) state.tree[i].data = [];
     },
-    initNodeData(state, action: PayloadAction<number>) {
-      for (var i = 0; i < state.tree[action.payload].data.length; i++) {
-        state.tree[action.payload].data[i].hide = true;
+    initNodeData(state, action: PayloadAction<actionOnNodePayload>) {
+      const { line, nodeIndex } = action.payload;
+      state.line = line;
+      for (var i = 0; i < state.tree[nodeIndex].data.length; i++) {
+        state.tree[nodeIndex].data[i].hide = true;
       }
     },
-    markNode(state, action: PayloadAction<actionPayload>) {
+    markNode(state, action: PayloadAction<actionOnNodePayload>) {
       const { line, nodeIndex } = action.payload;
       for (var i = 0; i < state.tree[nodeIndex].data.length; i++) {
         state.tree[nodeIndex].data[i].color = ItemColor.MARKED;
       }
+      state.line = line;
+    },
+    markElementInNode(state, action: PayloadAction<markElements>) {
+      const { line, nodesList, elements, color } = action.payload;
+      let node, element;
+      for (var i = 0; i < nodesList.length; i++) {
+        node = nodesList[i];
+        element = elements[i];
+        state.tree[node].data[element].color = color;
+      }
+      state.line = line;
+    },
+    setIndexes(state, action: PayloadAction<setIndexesPayload>) {
+      const { line, right, left } = action.payload;
+      state.left = left;
+      state.right = right;
       state.line = line;
     },
     setState(state, action: PayloadAction<State>) {

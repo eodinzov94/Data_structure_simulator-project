@@ -1,9 +1,13 @@
 import { mergeNode } from "../../../../store/reducers/sorts/mergeSortReducer";
+import { IndexArray } from "../helpers/IndexArray";
 import SortArray from "../helpers/SortArray";
 import { numbersToSortItems } from "../helpers/functions";
 
 interface Props {
   tree: mergeNode[];
+  left: number;
+  right: number;
+  speed: number;
 }
 
 // const tree = [
@@ -24,57 +28,66 @@ interface Props {
 //   [],
 // ];
 
-const MergeSortTree = ({ tree }: Props) => {
+const MergeSortTree = ({ tree, left, right, speed }: Props) => {
   return (
     <>
-      <SortArray items={tree[1].data} speed={2} />
+      {/* <div className={"mr-20"}> */}
+      <IndexArray
+        size={tree[1].data.length + 1}
+        i={left}
+        j={right}
+        i_name="left"
+        j_name="right"
+      />
+      {/* </div> */}
+      <SortArray items={tree[1].data} speed={speed} />
 
       <div className={`grid grid-cols-2 mt-8`}>
         <div>
-          <SortArray items={tree[2].data} speed={2} />
+          <SortArray items={tree[2].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[3].data} speed={2} />
+          <SortArray items={tree[3].data} speed={speed} />
         </div>
       </div>
       <div className={`grid grid-cols-4 mt-8`}>
         <div>
-          <SortArray items={tree[4].data} speed={2} />
+          <SortArray items={tree[4].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[5].data} speed={2} />
+          <SortArray items={tree[5].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[6].data} speed={2} />
+          <SortArray items={tree[6].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[7].data} speed={2} />
+          <SortArray items={tree[7].data} speed={speed} />
         </div>
       </div>
       <div className={`grid grid-cols-8 mt-8`}>
         <div>
-          <SortArray items={tree[8].data} speed={2} />
+          <SortArray items={tree[8].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[9].data} speed={2} />
+          <SortArray items={tree[9].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[10].data} speed={2} />
+          <SortArray items={tree[10].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[11].data} speed={2} />
+          <SortArray items={tree[11].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[12].data} speed={2} />
+          <SortArray items={tree[12].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[13].data} speed={2} />
+          <SortArray items={tree[13].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[14].data} speed={2} />
+          <SortArray items={tree[14].data} speed={speed} />
         </div>
         <div>
-          <SortArray items={tree[15].data} speed={2} />
+          <SortArray items={tree[15].data} speed={speed} />
         </div>
       </div>
     </>
