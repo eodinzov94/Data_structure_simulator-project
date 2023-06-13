@@ -66,7 +66,6 @@ export default abstract class SortController {
   }
 
   async setState() {
-    console.log("state:",this.memento[this.frame])
     this.dispatch(this.reducerActions.setState(this.memento[this.frame]));
   }
 

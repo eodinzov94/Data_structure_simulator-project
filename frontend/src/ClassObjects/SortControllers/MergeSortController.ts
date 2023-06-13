@@ -18,6 +18,6 @@ export default class MergeSortController extends SortController {
   }
 
   getState() {
-    return store.getState().insertionSort;
+    return store.getState().mergeSort;
   }
 }
