@@ -26,23 +26,26 @@ export const PseudoCode = (props: PseudoProps) => {
         {open && (
           <motion.aside
             className={styles["aside-side"]}
-            initial={{ width: 0 }}
+            initial={{ width: 0,opacity:0 }}
             animate={{
               width: props.width ? props.width : 'fit-content',
               borderWidth: "2px",
               borderRadius: "10px",
               borderColor: "#ecfccb",
+              opacity:1,
+              transition: {  duration: 0.5 },
             }}
             exit={{
               width: 0,
-              transition: { delay: 0.3, duration: 0.3 },
+              opacity:0,
+              transition: {  duration: 1 },
             }}
           >
             <motion.ul
               className="px-2"
               style={{ textAlign: "left" }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 1 } }}
+              animate={{ opacity: 1, transition: { duration: 0.5 } }}
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
             >
               <SubjectImg

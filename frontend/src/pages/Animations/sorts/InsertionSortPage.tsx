@@ -17,15 +17,21 @@ import {
   ItemColor,
 } from "../../../store/reducers/sorts/insertionSortReducer";
 import InsertionSortController from "../../../ClassObjects/SortControllers/InsertionSortController";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
 const InsertionSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.insertionSort);
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = InsertionSortController.getController(dispatch);
 
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Insertion",
+      subject: "Sorts",
+    });
     const opArr: insertionSortOperation[] = insertionSort([...state.data]);
     await controller.Sort(opArr);
   };

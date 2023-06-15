@@ -12,6 +12,7 @@ import { SubjectImg } from "../../../components/UI/SubjectImg";
 import countingSortPhoto from "../../../assets/Algorithms/CS1.png";
 import CountingSortController from "../../../ClassObjects/SortControllers/CountingSortController";
 import { StyledTextDiv } from "../../../components/UI/StyledTextDiv";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
@@ -21,10 +22,14 @@ const CountingSortPage = () => {
     (s) => s.animationController.isSortStarted
   );
   const state = useAppSelector((state) => state.countingSort);
-
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = CountingSortController.getController(dispatch);
 
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Counting",
+      subject: "Sorts",
+    });
     const opArr: countingSortOperation[] = CountingSort([...state.A], state.k);
     await controller.Sort(opArr);
   };

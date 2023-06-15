@@ -34,7 +34,7 @@ const SqControlsPanel = (props: Props) => {
       setEnteredValue(""); //reset the value
     }
     else if (value.length===0){
-      swal({ icon: "error", text: ` value!` })
+      swal({ icon: "error", text: `Must enter a value!` })
     }
     else{
       swal({ icon: "error", text: `Max element legnth is ${props.maxLengthOfValue}!` })
