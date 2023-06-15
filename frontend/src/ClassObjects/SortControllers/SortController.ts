@@ -3,6 +3,7 @@ import { animationControlActions } from "../../store/reducers/animation-control-
 import { State as countingSortState } from "../../store/reducers/sorts/countingSortReducer";
 import { State as quickSortState } from "../../store/reducers/sorts/quickSortReducer";
 import { State as insertionSortState } from "../../store/reducers/sorts/insertionSortReducer";
+import { State as mergeSortState } from "../../store/reducers/sorts/mergeSortReducer";
 import { State as bucketSortState } from "../../store/reducers/sorts/bucketSortReducer";
 import { State as radixSortState } from "../../store/reducers/sorts/radixSortReducer";
 import { AppDispatch } from "../../store/store";
@@ -12,6 +13,7 @@ type mementoTypes =
   | countingSortState
   | quickSortState
   | insertionSortState
+  | mergeSortState
   | bucketSortState
   | radixSortState
   ;

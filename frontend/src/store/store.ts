@@ -10,6 +10,7 @@ import { feedbackApi } from "./reducers/feedback-reducer";
 import queueReducer from "./reducers/queueReducer";
 import animationControlReducer from "./reducers/animation-control-reducer";
 import insertionSortReducer from "./reducers/sorts/insertionSortReducer";
+import mergeSortReducer from "./reducers/sorts/mergeSortReducer";
 import bucketSortReducer from "./reducers/sorts/bucketSortReducer";
 import radixSortReducer from "./reducers/sorts/radixSortReducer";
 
@@ -20,6 +21,7 @@ const store = configureStore({
     countingSort: countingSortReducer,
     quickSort: quickSortReducer,
     insertionSort: insertionSortReducer,
+    mergeSort: mergeSortReducer,
     bucketSort: bucketSortReducer,
     radixSort: radixSortReducer,
     stack: stackReducer,

@@ -18,8 +18,8 @@ const SimulationInputGroup = (props: Props) => {
       <input
         type="text"
         name="value"
-        id="price"
-        className="block w-full pl-2 h-10 rounded-md border border-gray-300 "
+        id="input"
+        className="block w-full pl-2 h-10 rounded-md border border-gray-600 "
         placeholder={props.placeholder}
         maxLength={props.maxVal}
         value={props.value}
@@ -29,6 +29,7 @@ const SimulationInputGroup = (props: Props) => {
         <button
           onClick={props.btnOnClick}
           disabled = {props.disable!==undefined? props.disable:false}
+          id = "input-button"
           className=" inline-block px-4 py-2.5 bg-lime-500 text-white font-medium text-md leading-tight  shadow-md hover:bg-lime-600 hover:shadow-lg transition duration-150 ease-in-out rounded-r-md "
         >
           {props.btnText ? props.btnText : 'BTN'}

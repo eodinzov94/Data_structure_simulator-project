@@ -13,7 +13,6 @@ import BucketSortController from "../../../ClassObjects/SortControllers/BucketSo
 import { AnimatePresence, motion } from "framer-motion";
 import bucketSortPhoto from "../../../assets/Algorithms/BS1.png";
 
-
 export const BucketSortPage = () => {
   const MAX_ELEMENTS = 10;
   const dispatch = useDispatch();
@@ -37,11 +36,7 @@ export const BucketSortPage = () => {
   return (
     <>
       {/*top section */}
-      <SubjectImg
-        name={"Bucket Sort"}
-        src={bucketSortPhoto}
-        width="200px"
-      />
+      <SubjectImg name={"Bucket Sort"} src={bucketSortPhoto} width="200px" />
 
       <SortControlsPanel
         rightBtnHandler={Sort}
@@ -51,7 +46,7 @@ export const BucketSortPage = () => {
         rightBtnText={"Sort"}
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
-        maxInputNum={21}
+        maxInputNum={20}
       ></SortControlsPanel>
 
       {/* animation section */}
@@ -67,7 +62,7 @@ export const BucketSortPage = () => {
             {state.buckets.map((e, index) => (
               <div className="flex justify-left mt-6" key={index}>
                 <motion.b
-                  style={{ width: "80px" ,fontFamily: "monaco"}}
+                  style={{ width: "80px", fontFamily: "monaco" }}
                   transition={{ duration: 1 }}
                   initial={{ opacity: 0, x: -50 }}
                   animate={{

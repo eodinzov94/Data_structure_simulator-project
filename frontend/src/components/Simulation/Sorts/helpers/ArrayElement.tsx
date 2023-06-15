@@ -9,6 +9,7 @@ interface Props {
   color?: string;
   children?: JSX.Element | JSX.Element[];
   speed: number;
+  hide?: boolean;
 }
 
 const ArrayElement = (props: Props) => {
@@ -39,7 +40,8 @@ const ArrayElement = (props: Props) => {
         },
       }}
     >
-      {props.value} {/* text inside the box */}
+      {props.hide ? <>&emsp;</> : props.value} {/* text inside the box */}
+
       <motion.a
         className={styles2.s_li}
         style={{ fontSize: 14, color: "gray" }}
