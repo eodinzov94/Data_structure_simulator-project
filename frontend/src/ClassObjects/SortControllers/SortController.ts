@@ -13,7 +13,7 @@ type mementoTypes =
   | countingSortState
   | quickSortState
   | insertionSortState
-  | mergeSortState;
+  | mergeSortState
   | bucketSortState
   | radixSortState
   ;
