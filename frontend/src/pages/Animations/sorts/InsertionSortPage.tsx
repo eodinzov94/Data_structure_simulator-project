@@ -1,7 +1,5 @@
-import {useRef } from "react";
-import {
-  insertionSortOperation,
-} from "../../../components/Simulation/Sorts/helpers/types";
+import { useRef } from "react";
+import { insertionSortOperation } from "../../../components/Simulation/Sorts/helpers/types";
 import { sleep } from "../../../utils/animation-helpers";
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
@@ -14,17 +12,26 @@ import { AnimationWrapper } from "../../../components/Simulation/Wrappers/Animat
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import insertionSortPhoto from "../../../assets/Algorithms/IS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { insertionSortActions as actions, ItemColor } from "../../../store/reducers/sorts/insertionSortReducer";
+import {
+  insertionSortActions as actions,
+  ItemColor,
+} from "../../../store/reducers/sorts/insertionSortReducer";
 import InsertionSortController from "../../../ClassObjects/SortControllers/InsertionSortController";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
 const InsertionSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.insertionSort);
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = InsertionSortController.getController(dispatch);
 
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Insertion",
+      subject: "Sorts",
+    });
     const opArr: insertionSortOperation[] = insertionSort([...state.data]);
     await controller.Sort(opArr);
   };
@@ -41,7 +48,11 @@ const InsertionSortPage = () => {
   return (
     <>
       {/*top section */}
-    <SubjectImg name={"Insertion Sort"} src={insertionSortPhoto} width="260px"/>
+      <SubjectImg
+        name={"Insertion Sort"}
+        src={insertionSortPhoto}
+        width="260px"
+      />
 
       <SortControlsPanel
         rightBtnHandler={Sort}
@@ -54,9 +65,13 @@ const InsertionSortPage = () => {
       ></SortControlsPanel>
 
       {/* animation section */}
-      <AnimationWrapper line={state.line} code={InsertionSortPseudoCode} controller={controller}>
+      <AnimationWrapper
+        line={state.line}
+        code={InsertionSortPseudoCode}
+        controller={controller}
+      >
         <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
-        <SortArray items={state.data} speed={controller.speed}/>
+        <SortArray items={state.data} speed={controller.speed} />
         <div style={{ marginTop: "40px" }}>
           {state.keyValue ? (
             <ArrayElement

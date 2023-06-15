@@ -11,20 +11,24 @@ import bstReducer from "./reducers/alghoritms/bst-reducer";
 import queueReducer from "./reducers/queueReducer";
 import animationControlReducer from "./reducers/animation-control-reducer";
 import insertionSortReducer from "./reducers/sorts/insertionSortReducer";
+import mergeSortReducer from "./reducers/sorts/mergeSortReducer";
 import bucketSortReducer from "./reducers/sorts/bucketSortReducer";
+import radixSortReducer from "./reducers/sorts/radixSortReducer";
 
 const store = configureStore({
   reducer: {
     //add reducers here
     auth: authReducer,
-    countingSort: countingSortReducer,
-    quickSort: quickSortReducer,
     stack: stackReducer,
+    queue: queueReducer,
     heap: heapReducer,
     bst: bstReducer,
-    queue: queueReducer,
+    countingSort: countingSortReducer,
+    quickSort: quickSortReducer,
     insertionSort: insertionSortReducer,
+    mergeSort: mergeSortReducer,
     bucketSort: bucketSortReducer,
+    radixSort: radixSortReducer,
     animationController: animationControlReducer,
     [reportApi.reducerPath]: reportApi.reducer,
     [authApi.reducerPath]: authApi.reducer,

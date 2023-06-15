@@ -56,7 +56,7 @@ const DsCard = ({
         onMouseOut={handleMouseOut}
         initial={{ zIndex: 0 }}
         animate={
-          isOpen ? { zIndex: 2, scale: 1.4, transition: { duration: 0.3 } } : {}
+          isOpen ? { zIndex: 2, scale: 1.3, transition: { duration: 0.3 } } : {}
         }
         onClick={expended ? () => setIsOpen(!isOpen) : () => {}}
       >

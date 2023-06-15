@@ -13,6 +13,8 @@ import { quickSortActions as ActionKind } from "../../../store/reducers/sorts/qu
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import QuickSortController from "../../../ClassObjects/SortControllers/QuickSortController";
+import { StyledTextDiv } from "../../../components/UI/StyledTextDiv";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
@@ -25,11 +27,16 @@ export interface Position {
 const QuickSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.quickSort);
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = QuickSortController.getController(dispatch);
   const isSortStarted = useAppSelector(
     (s) => s.animationController.isSortStarted
   );
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Quick",
+      subject: "Sorts",
+    });
     const opArr: quickSortOperation[] = quickSort([...state.data]);
     await controller.Sort(opArr);
   };
@@ -64,9 +71,10 @@ const QuickSortPage = () => {
         <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
         <QuickSort items={state.data} speed={controller.speed} />
         {isSortStarted ? (
-          <div>
-            p = {state.p}, r={state.r}
-          </div>
+          <>
+          <StyledTextDiv text={`P -> ${state.p}`}/>
+          <StyledTextDiv text={`R -> ${state.r}`}/>
+          </>
         ) : (
           <></>
         )}

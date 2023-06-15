@@ -12,15 +12,20 @@ import { BucketSortOperation } from "../../../components/Simulation/Sorts/helper
 import BucketSortController from "../../../ClassObjects/SortControllers/BucketSortController";
 import { AnimatePresence, motion } from "framer-motion";
 import bucketSortPhoto from "../../../assets/Algorithms/BS1.png";
-
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 export const BucketSortPage = () => {
   const MAX_ELEMENTS = 10;
   const dispatch = useDispatch();
   const state = useAppSelector((state) => state.bucketSort);
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = BucketSortController.getController(dispatch);
 
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Bucket",
+      subject: "Sorts",
+    });
     const opArr: BucketSortOperation[] = BucketSort(state.data);
     await controller.Sort(opArr);
   };
@@ -37,11 +42,7 @@ export const BucketSortPage = () => {
   return (
     <>
       {/*top section */}
-      <SubjectImg
-        name={"Bucket Sort"}
-        src={bucketSortPhoto}
-        width="200px"
-      />
+      <SubjectImg name={"Bucket Sort"} src={bucketSortPhoto} width="200px" />
 
       <SortControlsPanel
         rightBtnHandler={Sort}
@@ -51,7 +52,7 @@ export const BucketSortPage = () => {
         rightBtnText={"Sort"}
         leftBtnText={"Random"}
         maxElements={MAX_ELEMENTS}
-        maxInputNum={21}
+        maxInputNum={20}
       ></SortControlsPanel>
 
       {/* animation section */}
@@ -59,6 +60,7 @@ export const BucketSortPage = () => {
         line={state.line}
         code={BucketSortPseudoCode}
         controller={controller}
+        width={290}
       >
         <SortArray items={state.data} speed={1} />
         <div className="mt-20"></div>
@@ -67,7 +69,7 @@ export const BucketSortPage = () => {
             {state.buckets.map((e, index) => (
               <div className="flex justify-left mt-6" key={index}>
                 <motion.b
-                  style={{ width: "120px" }}
+                  style={{ width: "80px", fontFamily: "monaco" }}
                   transition={{ duration: 1 }}
                   initial={{ opacity: 0, x: -50 }}
                   animate={{

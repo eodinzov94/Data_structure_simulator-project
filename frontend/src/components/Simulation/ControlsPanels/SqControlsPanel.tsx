@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MediumCard from "../../UI/MediumCard";
 import SimulationInputGroup from "../../UI/SimulationInputGroup";
+import swal from "sweetalert";
 
 export interface Item {
   value: string;
@@ -32,8 +33,11 @@ const SqControlsPanel = (props: Props) => {
       props.addHandler(value); //call the push function
       setEnteredValue(""); //reset the value
     }
+    else if (value.length===0){
+      swal({ icon: "error", text: `Must enter a value!` })
+    }
     else{
-      window.alert(`The length of the value must be at least 1 and less than ${props.maxLengthOfValue+1}`)
+      swal({ icon: "error", text: `Max element legnth is ${props.maxLengthOfValue}!` })
     }
 
   };

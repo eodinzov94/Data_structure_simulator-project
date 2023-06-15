@@ -26,6 +26,7 @@ import EditProfilePage from "../pages/EditProfilePage";
 import MergeSortPage from "../pages/Animations/sorts/MergeSortPage";
 import { BucketSortPage } from "../pages/Animations/sorts/BucketSortPage";
 import ChangePassword from "../pages/ChangePassword";
+import RadixSortPage from "../pages/Animations/sorts/RadixSortPage";
 
 export interface RouteItem {
   path: string;
@@ -61,6 +62,7 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },
   { path: RoutePaths.MERGE_SORT, element: MergeSortPage },
   { path: RoutePaths.BUCKET_SORT, element: BucketSortPage },
+  { path: RoutePaths.RADIX_SORT, element: RadixSortPage },
 ];
 
 export const lecturerRoutes: RouteItem[] = [

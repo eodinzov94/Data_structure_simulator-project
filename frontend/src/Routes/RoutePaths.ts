@@ -13,22 +13,24 @@ export enum RoutePaths{
   PROFILE = "/profile",
   EDIT_PROFILE = "/edit-profile",
 
-    //reports
-    REPORTS = "/reports",
-    GENERAL_REPORTS = "/reports/general",
-    ALGORITHMS_REPORTS = "/reports/algorithms",
+  //reports
+  REPORTS = "/reports",
+  GENERAL_REPORTS = "/reports/general",
+  ALGORITHMS_REPORTS = "/reports/algorithms",
 
-    //Animations
-    STACK = "/stack",
-    QUEUE = "/queue",
-    QUICK_SORT = "/quicksort",
-    HEAP = "/heap",
-    INSERTION_SORT = "/insertionsort",
-    COUNTING_SORT = "/countingsort",
-    BST = "/bst",
-    AVL = "/avl",
-    MERGE_SORT = "/mergesort",
-    BUCKET_SORT = "/bucketsort",
+  //Animations
+  STACK = "/stack",
+  QUEUE = "/queue",
+  HEAP = "/heap",
+  BST = "/bst",
+  AVL = "/avl",
+  QUICK_SORT = "/quicksort",
+  INSERTION_SORT = "/insertionsort",
+  COUNTING_SORT = "/countingsort",
+  MERGE_SORT = "/mergesort",
+  BUCKET_SORT = "/bucketsort",
+  RADIX_SORT = "/radixsort",
+
   //feedbacks
   POST_FEEDBACK = "/post-feedback",
   ALL_FEEDBACKS = "/all-feedbacks",

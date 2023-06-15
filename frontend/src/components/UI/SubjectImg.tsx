@@ -9,7 +9,7 @@ export const SubjectImg = (props: Props) => {
     <img
       src={props.src}
       style={{
-        paddingTop: "4px",
+        paddingTop: "10px",
         width: props.width,
         marginLeft: "auto",
         marginRight: "auto",

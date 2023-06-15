@@ -1,6 +1,7 @@
 import { countingSortPayload } from "../../../../store/reducers/sorts/countingSortReducer";
 import { quickSortPayload } from "../../../../store/reducers/sorts/quickSortReducer";
 import { insertionSortPayload } from "../../../../store/reducers/sorts/insertionSortReducer";
+import { mergeSortPayload } from "../../../../store/reducers/sorts/mergeSortReducer";
 import { BucketSortPayload } from "../../../../store/reducers/sorts/bucketSortReducer";
 
 export interface sortItem {
@@ -8,9 +9,18 @@ export interface sortItem {
   key: number;
   isSelected: boolean;
   color: string;
+  hide: boolean;
+  digit?: number;
 }
 
-export type SortOperations = quickSortOperation[] | countingSortOperation[] | insertionSortOperation[] | BucketSortOperation[];
+export type SortOperations =
+  | quickSortOperation[]
+  | countingSortOperation[]
+  | insertionSortOperation[]
+  | mergeSortOperation[]
+  | BucketSortOperation[]
+  | RadixSortOperation[]
+  ;
 
 export interface quickSortOperation {
   action: any;
@@ -29,12 +39,17 @@ export interface countingSortOperation {
 
 export interface mergeSortOperation {
   action: any;
-  payload: any;
+  payload: mergeSortPayload;
 }
 
 export interface BucketSortOperation {
   action: any;
   payload: BucketSortPayload;
+}
+
+export interface RadixSortOperation {
+  action: any;
+  payload: any;
 }
 
 export enum Colors {

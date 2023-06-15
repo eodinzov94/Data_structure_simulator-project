@@ -6,6 +6,7 @@ import {
   Slider,
   Stack,
   ThemeProvider,
+  Tooltip,
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -44,66 +45,82 @@ const SortPlayerPanel = (props: Props) => {
         className="mt-10"
       >
         <ThemeProvider theme={theme}>
-          <Box className="mt-1 mr-5 w-28">
-            <Stack spacing={2} direction="row" alignItems="center">
-              <Slider
-                step={0.25}
-                color="primary"
-                defaultValue={1.25}
-                min={0.25}
-                max={3}
-                onChange={(event: Event, newValue: number | number[]) =>
-                  props.controller.setSpeed(newValue as number)
-                }
-              />
-              <SpeedIcon color="primary" />
-            </Stack>
-          </Box>
-          <Button
-            onClick={async () => {
-              await controller.playFirstFrame();
-            }}
-          >
-            <SkipPreviousIcon />
-          </Button>
-          <Button
-            onClick={async () => {
-              await controller.playPreviousFrame();
-            }}
-          >
-            <ChevronLeftIcon />
-          </Button>
+          <Tooltip title="Speed" arrow>
+            <Box className="mt-1 mr-5 w-28">
+              <Stack spacing={2} direction="row" alignItems="center">
+                <SpeedIcon color="primary" fontSize="large" />
+                <Slider
+                  step={0.25}
+                  color="primary"
+                  defaultValue={1.25}
+                  min={0.25}
+                  max={3}
+                  onChange={(event: Event, newValue: number | number[]) =>
+                    props.controller.setSpeed(newValue as number)
+                  }
+                />
+              </Stack>
+            </Box>
+          </Tooltip>
+          <Tooltip title="Jump to start" arrow>
+            <Button
+              onClick={async () => {
+                await controller.playFirstFrame();
+              }}
+            >
+              <SkipPreviousIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Previous frame" arrow>
+            <Button
+              onClick={async () => {
+                await controller.playPreviousFrame();
+              }}
+            >
+              <ChevronLeftIcon />
+            </Button>
+          </Tooltip>
+
           {isPlaying ? (
-            <Button
-              onClick={async () => {
-                await controller.setStopFlag(true);
-              }}
-            >
-              <PauseIcon />
-            </Button>
+            <Tooltip title="Pause" arrow>
+              <Button
+                onClick={async () => {
+                  await controller.setStopFlag(true);
+                }}
+              >
+                <PauseIcon />
+              </Button>
+            </Tooltip>
           ) : (
+            <Tooltip title="Play" arrow>
+              <Button
+                onClick={async () => {
+                  await controller.Play();
+                }}
+              >
+                <PlayArrowIcon />
+              </Button>
+            </Tooltip>
+          )}
+          <Tooltip title="Next frame" arrow>
             <Button
               onClick={async () => {
-                await controller.Play();
+                await controller.playNextFrame();
               }}
             >
-              <PlayArrowIcon />
+              <ChevronRightIcon />
             </Button>
-          )}
-          <Button
-            onClick={async () => {
-              await controller.playNextFrame();
-            }}
-          >
-            <ChevronRightIcon />
-          </Button>
-          <Button
-            onClick={async () => {
-              await controller.playLastFrame();
-            }}
-          >
-            <SkipNextIcon />
-          </Button>
+          </Tooltip>
+
+          <Tooltip title="Jump to end" arrow>
+            <Button
+              onClick={async () => {
+                await controller.playLastFrame();
+              }}
+            >
+              <SkipNextIcon />
+            </Button>
+          </Tooltip>
         </ThemeProvider>
       </ButtonGroup>
     </>
