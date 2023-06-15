@@ -1,9 +1,8 @@
 import { AnimatePresence } from "framer-motion";
+import { ArrayItemObj } from "../../../../ClassObjects/ArrayItemObj";
+import { Events } from "../../BinaryTree/BinaryTreeTypes";
 import ArrayItem from "./ArrayItem";
 import "./HeapArray.css";
-import { Events } from "../../BinaryTree/BinaryTreeTypes";
-import React from "react";
-import { ArrayItemObj } from "../../../../ClassObjects/ArrayItemObj";
 
 interface Props {
   items: number[];

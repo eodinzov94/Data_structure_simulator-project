@@ -10,15 +10,21 @@ import { SubjectImg } from "../../../components/UI/SubjectImg";
 import { mergeSort } from "../../../components/Simulation/Sorts/mergeSort/mergeSortAlgorithm";
 import MergeSortTree from "../../../components/Simulation/Sorts/mergeSort/mergeSortTree";
 import MergeSortController from "../../../ClassObjects/SortControllers/MergeSortController";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 8;
 
 const MergeSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.mergeSort);
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = MergeSortController.getController(dispatch);
 
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Merge",
+      subject: "Sorts",
+    });
     const opArr: mergeSortOperation[] = mergeSort([...state.tree[1].data]);
     await controller.Sort(opArr);
   };

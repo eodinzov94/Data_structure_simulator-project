@@ -13,12 +13,15 @@ import RegisterLecturerPage from "../pages/RegisterLecturerPage";
 import FeedbacksPage from "../pages/general/FeedbacksPage";
 import AddFeedbackPage from "../pages/general/AddFeedBackPage";
 import TwoFactorAuthPage from "../pages/TwoFactorAuthPage";
+
 import HeapPage from "../pages/Animations/DataStructure/HeapPage";
 import QuickSortPage from "../pages/Animations/sorts/QuickSortPage";
 import EmailVerificationPage from "../pages/EmailVerificationPage";
 import InsertionSortPage from "../pages/Animations/sorts/InsertionSortPage";
 import CountingSortPage from "../pages/Animations/sorts/CountingSortPage";
 import ProfilePage from "../pages/ProfilePage";
+import BSTreePage from "../pages/Animations/DataStructure/BSTreePage";
+import AvlPage from "../pages/Animations/DataStructure/AvlPage";
 import EditProfilePage from "../pages/EditProfilePage";
 import MergeSortPage from "../pages/Animations/sorts/MergeSortPage";
 import { BucketSortPage } from "../pages/Animations/sorts/BucketSortPage";
@@ -52,6 +55,8 @@ export const userRoutes: RouteItem[] = [
   { path: RoutePaths.STACK, element: StackPage },
   { path: RoutePaths.QUEUE, element: QueuePage },
   { path: RoutePaths.HEAP, element: HeapPage },
+  { path: RoutePaths.BST, element: BSTreePage },
+  { path: RoutePaths.AVL, element: AvlPage },
   { path: RoutePaths.QUICK_SORT, element: QuickSortPage },
   { path: RoutePaths.INSERTION_SORT, element: InsertionSortPage },
   { path: RoutePaths.COUNTING_SORT, element: CountingSortPage },

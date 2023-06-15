@@ -1,105 +1,71 @@
-import { ActionType, Events, NodeRole } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
-import {CodeReference} from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import { ActionType, NodeRole } from '../components/Simulation/BinaryTree/BinaryTreeTypes'
+import { CodeReference, HeapAlgNames } from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import { Memento } from "./Memento";
 
 
-interface Snapshot {
-    actions: Events;
-    array: number[];
-    codeRef: CodeReference;
-    currentHeapSize?: number;
-    roles:NodeRole[]
-}
-
-
-export class HeapMemento {
-    snapshots: Snapshot[];
+export class HeapMemento extends Memento<number[], HeapAlgNames> {
+    heapSizeData: (number | undefined)[]
     constructor() {
-        this.snapshots = [];
+        super('BuildMaxHeap')
+        this.heapSizeData = []
     }
-    getLength(){
-        return this.snapshots.length
-    }
-    getArray(index: number){
-        if(index < 0 || index >= this.snapshots.length){
-            throw new Error('Index out of range')
-        }
-        return this.snapshots[index].array
-    }
-    getLastArr(){
-        if(!this.snapshots.length){
-            throw new Error('No snapshots')
-        }
-        return this.snapshots[this.snapshots.length -1].array
-    }
-    getRoles(index: number){
-        if(index < 0 || index >= this.snapshots.length){
-            throw new Error('Index out of range')
-        }
-        return this.snapshots[index].roles
-    }
-    getActions(index : number){
-        if (index < 0 || index >= this.snapshots.length){
-            throw new Error('Index out of range')
-        }
-        return this.snapshots[index].actions
-    }
-    clearSnapshots(){
-        this.snapshots = []
-    }
-    getCurrentAlg(){
-        if(this.snapshots.length){
-            return this.snapshots[0].codeRef.name
-        }
-        return 'BuildMaxHeap'
-    }
-    getCodeRef(index: number){
-        if(index < 0 || index >= this.snapshots.length){
-            throw new Error(`Index ${index} out of range, length is ${this.snapshots.length}`)
-        }
-        return this.snapshots[index].codeRef
-    }
-    addBlank(codeRef: CodeReference, array: number[],heapSize?: number,nodeRoles:NodeRole[]=[]) {
+    addBlank(codeRef: CodeReference<HeapAlgNames>, array: number[], heapSize?: number, nodeRoles: NodeRole[] = []) {
         this.snapshots.push({
             actions: [],
-            array:HeapMemento.getArrayToAdd(this, array),
+            data: HeapMemento.getArrayToAdd(this, array),
             codeRef,
-            currentHeapSize: heapSize,
-            roles:nodeRoles
+            roles: nodeRoles
         });
+        this.heapSizeData.push(heapSize)
     }
-    getHeapSize(index: number){
-        if(index < 0 || index >= this.snapshots.length){
+    getHeapSize(index: number) {
+        if (index < 0 || index >= this.heapSizeData.length) {
             throw new Error('Index out of range')
         }
-        return this.snapshots[index].currentHeapSize
-
-
+        return this.heapSizeData[index]
     }
-    getLastHeapSize(){
-        if(!this.snapshots.length){
+    getLastHeapSize() {
+        if (!this.heapSizeData.length) {
             throw new Error('No snapshots')
         }
-        return this.snapshots[this.getLength()-1].currentHeapSize
-
+        return this.heapSizeData[this.heapSizeData.length - 1]
     }
-    addSwap(codeRef: CodeReference, array: number[], index1: number, index2: number,heapSize?: number,nodeRoles:NodeRole[]=[]) {
+    addSwap(codeRef: CodeReference<HeapAlgNames>, array: number[], index1: number, index2: number, heapSize?: number, nodeRoles: NodeRole[] = []) {
         this.snapshots.push({
-            actions: [{action: ActionType.SWAP, item: index1, item2: index2}],
-            array: [...array],
+            actions: [{ action: ActionType.SWAP, item: index1, item2: index2 }],
+            data: [...array],
             codeRef,
-            currentHeapSize: heapSize,
-            roles:nodeRoles
+            roles: nodeRoles
         });
+        this.heapSizeData.push(heapSize)
     }
 
-    addSnapshot(codeRef: CodeReference, array: number[], index: number, action: ActionType,heapSize?: number,nodeRoles:NodeRole[]=[]) {
+    getLength() {
+        return this.snapshots.length
+    }
+
+        /**
+     * Adds a snapshot to the collection of snapshots for the heap visualization.
+     *
+     * @param {CodeReference<HeapAlgNames>} codeRef - The code reference for the snapshot.
+     * @param {number[]} array - The array to add to the snapshot.
+     * @param {number} index - The index of the item in the array.
+     * @param {ActionType} action - The action to perform on the item.
+     * @param {number} [heapSize] - The size of the heap.
+     * @param {NodeRole[]} [nodeRoles=[]] - The roles of the nodes in the heap.
+     */
+    addSnapshot(codeRef: CodeReference<HeapAlgNames>, array: number[], index: number, action: ActionType, heapSize?: number, nodeRoles: NodeRole[] = []) {
         this.snapshots.push({
-            actions: [{action, item: index}],
-            array: HeapMemento.getArrayToAdd(this, array),
+            actions: [{ action, item: index }],
+            data: HeapMemento.getArrayToAdd(this, array),
             codeRef,
-            currentHeapSize: heapSize,
-            roles:nodeRoles
+            roles: nodeRoles
         });
+        this.heapSizeData.push(heapSize)
+    }
+    clearSnapshots() {
+        super.clearSnapshots()
+        this.heapSizeData = []
     }
 
     /**
@@ -109,28 +75,29 @@ export class HeapMemento {
     * @param runtimeArr: number[]
     * @return: number[]
     **/
-    static getArrayToAdd(memento:HeapMemento, runtimeArr: number[]) {
+    static getArrayToAdd(memento: HeapMemento, runtimeArr: number[]) {
         //check if memento is empty or runtimeArr is not the same as last runtimeArr, if so new copy is needed
-      if(!memento.getLength() || runtimeArr.length !== memento.getLastArr().length){
-          if (runtimeArr.length === 0) {
-              return []
-          }
-          return [...runtimeArr]
-      }
-      try {
-          const lastArr = memento.getLastArr()
-          //check if runtimeArr is the same as the last runtimeArr
-          for (let i = 0; i < runtimeArr.length; i++) {
-              if (runtimeArr[i] !== lastArr[i]) {
-                  return [...runtimeArr]
-              }
-          }
-          return lastArr
-      } catch (e) {
-          //Should never happen
-          console.log(e)
-          return [...runtimeArr]
-      }
+        if (!memento.getLength() || runtimeArr.length !== memento.getLastData().length) {
+            if (runtimeArr.length === 0) {
+                return []
+            }
+            return [...runtimeArr]
+        }
+        try {
+            const lastArr = memento.getLastData()
+            //check if runtimeArr is the same as the last runtimeArr
+            for (let i = 0; i < runtimeArr.length; i++) {
+                if (runtimeArr[i] !== lastArr[i]) {
+                    return [...runtimeArr]
+                }
+            }
+            return lastArr
+        } catch (e) {
+            //Should never happen
+            console.log(e)
+            return [...runtimeArr]
+        }
 
     }
+
 }

@@ -10,6 +10,7 @@ import { queuePseudoCode } from "../../../components/Simulation/PseudoCode/Pseud
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { queueActions } from "../../../store/reducers/queueReducer";
 import { sleep } from "../../../utils/animation-helpers";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
@@ -22,9 +23,14 @@ export interface Position {
 const QueuePage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.queue);
+  const [regsterActivity] = useRegisterActivityMutation();
   const [isAnimate, setIsAnimate] = useState<boolean>(false);
 
   const Dequeue = async () => {
+    regsterActivity({
+      algorithm: "Dequeue",
+      subject: "Queue",
+    });
     setIsAnimate(true);
     dispatch(queueActions.setLine(3));
     await sleep(2000);
@@ -46,6 +52,10 @@ const QueuePage = () => {
   };
 
   const Enqueue = async (value: string) => {
+    regsterActivity({
+      algorithm: "Enqueue",
+      subject: "Queue",
+    });
     setIsAnimate(true);
 
     dispatch(queueActions.setLine(10));
@@ -67,7 +77,6 @@ const QueuePage = () => {
   };
   ////
 
-
   return (
     <>
       {/*top section */}
@@ -83,7 +92,7 @@ const QueuePage = () => {
         removeBtnText={"Dequeue"}
         maxLengthOfValue={4}
       />
-      <AnimationWrapper line={state.line} code={queuePseudoCode}>
+      <AnimationWrapper line={state.line} code={queuePseudoCode} >
         <Queue
           headPosition={state.headPosition}
           tailPosition={state.tailPosition}

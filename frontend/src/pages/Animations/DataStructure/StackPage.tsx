@@ -10,6 +10,7 @@ import { sleep } from "../../../utils/animation-helpers";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import stackPhoto from "../../../assets/Algorithms/S1.png";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
@@ -18,11 +19,14 @@ const MAX_ELEMENTS = 10;
 const StackPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.stack);
-
+  const [regsterActivity] = useRegisterActivityMutation();
   const [isAnimate, setIsAnimate] = useState<boolean>(false);
   const popFromStack = async () => {
     setIsAnimate(true);
-
+    regsterActivity({
+      algorithm: "Pop",
+      subject: "Stack",
+    });
     dispatch(stackActions.setLine(3));
     await sleep(2000);
     if (state.data.length > 0) {
@@ -46,8 +50,11 @@ const StackPage = () => {
     // if (data.length === MAX_ELEMENTS) {
     //   window.alert(`A maximum of ${MAX_ELEMENTS} values can be entered`);
     // }
-
-    setIsAnimate(true)
+    regsterActivity({
+      algorithm: "Push",
+      subject: "Stack",
+    });
+    setIsAnimate(true);
     dispatch(stackActions.setLine(10));
     await sleep(2000);
     if (state.data.length < MAX_ELEMENTS) {
@@ -60,7 +67,7 @@ const StackPage = () => {
     }
     dispatch(stackActions.setLine(-1));
 
-    setIsAnimate(false)
+    setIsAnimate(false);
   };
 
   const setRandomInput = (newData: Item[]) => {

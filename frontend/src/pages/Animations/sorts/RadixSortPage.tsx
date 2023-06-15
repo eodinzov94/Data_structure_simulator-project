@@ -12,15 +12,21 @@ import { ValueArray } from "../../../components/Simulation/Sorts/helpers/ValueAr
 import { radixSort } from "../../../components/Simulation/Sorts/RadixSort/RadixSortAlgorithm";
 import RadixSortController from "../../../ClassObjects/SortControllers/RadixSortController";
 import { StyledTextDiv } from "../../../components/UI/StyledTextDiv";
+import { useRegisterActivityMutation } from "../../../store/reducers/report-reducer";
 
 const MAX_ELEMENTS = 10;
 
 const RadixSortPage = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.radixSort);
+  const [regsterActivity] = useRegisterActivityMutation();
   const controller = RadixSortController.getController(dispatch);
 
   const Sort = async () => {
+    regsterActivity({
+      algorithm: "Radix",
+      subject: "Sorts",
+    });
     const opArr: RadixSortOperation[] = radixSort([...state.data]);
     await controller.Sort(opArr);
   };
