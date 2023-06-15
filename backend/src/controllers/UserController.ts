@@ -9,8 +9,12 @@ import { ActivityBody } from '../types/UserActivityTypes.js'
 import UserActivity from '../models/UserActivity.js'
 import { ServiceSendCode } from './TwoFactorAuthController.js'
 import { CODE_TYPES, TWOFA_VERIFY_BODY } from '../types/TWOFA_Types.js'
-
+// Use sign from jsonwebtoken lib to generate a JWT token
 const { sign } = pkg
+
+/* GenerateJwt and generateConfirmMailToken both use jason web tokens to encrypt required data,
+it is recommended anyone who wishes to change anything on this page have a fundamental understanding of
+JWT structure, and consult the other processes that use these functions. */
 
 export const generateJwt = (user: IUser) => {
   return sign(
@@ -29,17 +33,20 @@ export const generateJwt = (user: IUser) => {
     { expiresIn: '48h' },
   )
 }
-export const generateConfirmMailToken = (email:string) => {
+export const generateConfirmMailToken = (email: string) => {
   return sign(
     {
       email,
-      type:'VERIFY_EMAIL'
+      type: 'VERIFY_EMAIL'
     },
     process.env.JWT_SECRET_KEY as string,
     { expiresIn: '5m' },
   )
 }
 
+/**
+ * TODO: document
+ */
 class UserController {
 
 
@@ -48,6 +55,7 @@ class UserController {
     if (!password || password.length < 8) {
       return next(ApiError.badRequest('Password should be at least 8 char length'))
     }
+    // Make sure the email isn't in use.
     const candidate = await User.findOne({ where: { email } })
     if (candidate) {
       return next(ApiError.badRequest('User with current email already exists'))
@@ -65,8 +73,8 @@ class UserController {
           lastSeen: new Date(),
           isEnabled2FA: role === 'Lecturer'
         })
-      await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email)
-      return res.json({ status: 'Redirect-Email-Confirmation'})
+      await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email) // every new user must validate their email.
+      return res.json({ status: 'Redirect-Email-Confirmation' })
     } catch (e: any) {
       return next(ApiError.badRequest('Input error'))
     }
@@ -80,18 +88,18 @@ class UserController {
       if (!user) {
         return next(ApiError.forbidden('Incorrect email or password'))
       }
-      const comparePassword = bcrypt.compareSync(password, user.password)
+      const comparePassword = bcrypt.compareSync(password, user.password) // authenticate received password with the one in the database.
       if (!comparePassword) {
         return next(ApiError.forbidden('Incorrect email or password'))
       }
-      if(!user.isEmailConfirmed){
+      if (!user.isEmailConfirmed) {
         await ServiceSendCode(CODE_TYPES.VERIFY_EMAIL, user.email)
-        return next(ApiError.forbidden('Verify your email first, the link sent to the email'))
+        return next(ApiError.forbidden('Verify your email first, via the link that was  sent to your email'))
       }
       if (!user.isEnabled2FA) {
         const token = generateJwt(user)
 
-        if (user.role == 'Lecturer'){
+        if (user.role == 'Lecturer') {
           return res.json({
             token, status: 'OK',
             user: {
@@ -121,7 +129,7 @@ class UserController {
         })
       }
       await ServiceSendCode(CODE_TYPES.TWO_FA, user.email)
-      return res.json({ status: 'Redirect-2FA',email: user.email})
+      return res.json({ status: 'Redirect-2FA', email: user.email })
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Login error'
@@ -155,7 +163,7 @@ class UserController {
       }
       await User.update({ lastSeen: new Date() }, { where: { id: req.user!.id } })
 
-      if (user.role == 'Lecturer'){
+      if (user.role == 'Lecturer') {
         return res.json(
           {
             id: user.id,
@@ -178,7 +186,7 @@ class UserController {
           gender: user.gender,
           is2FA: user.isEnabled2FA
         })
-        
+
     } catch (e: any) {
       console.log(e)
       const message = e?.errors?.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Authentication error'
@@ -193,29 +201,34 @@ class UserController {
   }
 
   async registerActivity(req: TypedRequestBody<ActivityBody>, res: Response, next: NextFunction) {
-    const { subject, algorithm, action } = req.body
+    const { subject, algorithm } = req.body
     const { id } = req.user!
     try {
-      await UserActivity.create({
-        userID: id,
-        action,
-        algorithm,
-        subject,
-      })
-      await User.update({ lastSeen: new Date() }, { where: { id } })
+      const [activity,created] = await UserActivity.findOrCreate({
+        where: { userID: id, subject, algorithm,actionDate: new Date() }
+      });
+    
+      if (!created) {
+        // If the item already existed and its quantity wasn't changed, increment it
+        activity.quantity += 1;
+        await activity.save();
+      }
     } catch (e: any) {
       if (e?.errors && e.errors.length && e.errors[0].message)
         return next(ApiError.badRequest(e?.errors[0]?.message))
       return next(ApiError.badRequest('Input error'))
     }
-    return res.json({ result: 'Success' })
+    return res.json({ result: 'OK' }) 
   }
 
   async updateUser(req: TypedRequestBody<IUserUpdate>, res: Response, next: NextFunction) {
-    const { firstName, lastName, gender, birthYear } = req.body
+    const { firstName, lastName, gender, birthYear, isEnabled2FA } = req.body
     const fieldsToUpdate: IUserUpdate = {}
     if (firstName) {
       fieldsToUpdate.firstName = firstName
+    }
+    if (typeof isEnabled2FA === "boolean") {
+      fieldsToUpdate.isEnabled2FA = isEnabled2FA
     }
     if (lastName) {
       fieldsToUpdate.lastName = lastName
@@ -232,7 +245,22 @@ class UserController {
     }
     try {
       await User.update({ ...fieldsToUpdate }, { where: { email: req.user?.email } })
-      return res.json({ status: 'User updated successfully' })
+      const user = await User.findOne({ where: { email: req.user?.email } })
+      if (!user) {
+        return next(ApiError.badRequest('User does not exists'))
+      }
+      return res.json({
+        status: 'OK', user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role,
+          birthYear: user.birthYear,
+          gender: user.gender,
+          is2FA: user.isEnabled2FA
+        }
+      })
     } catch (e: any) {
       const message = e?.errors.length > 0 && e?.errors[0]?.message ? e.error[0].message : 'Input error'
       return next(ApiError.badRequest(message))

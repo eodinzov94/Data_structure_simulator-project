@@ -1,5 +1,5 @@
-export enum RoutePaths {
-  HOME = "/",
+export enum RoutePaths{
+    HOME = "/",
 
   //Auth
   LOGIN = "/login",
@@ -21,8 +21,10 @@ export enum RoutePaths {
   //Animations
   STACK = "/stack",
   QUEUE = "/queue",
-  QUICK_SORT = "/quicksort",
   HEAP = "/heap",
+  BST = "/bst",
+  AVL = "/avl",
+  QUICK_SORT = "/quicksort",
   INSERTION_SORT = "/insertionsort",
   COUNTING_SORT = "/countingsort",
   MERGE_SORT = "/mergesort",

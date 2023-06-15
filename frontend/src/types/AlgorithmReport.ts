@@ -1,5 +1,9 @@
-import {ChartProps} from "../components/Charts/interface";
+import { ChartItem } from "../components/Charts/interface";
 
+export interface dataByAlgAndSubjectType {
+    [subject: string]: { key: string; value: number }[];
+}
 export interface AlgorithmReport {
-    Data: ChartProps[]
+    dataBySubject: ChartItem[]
+    dataByAlgAndSubject: dataByAlgAndSubjectType
 }

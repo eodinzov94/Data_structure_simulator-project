@@ -1,114 +1,102 @@
-import {
-  Events, NodeRole,
-  TreeNode,
-} from '../components/Simulation/BinaryTree/BinaryTreeTypes'
-import { sleepWithID } from "../utils/animation-helpers";
-import { arrayToBinaryTree } from "../components/Simulation/BinaryTree/Helpers/Functions";
-import {
-  setActions,
-  setArray,
-  setCodeRef,
-  setPlaying, setRoles,
-  setRoot,
-} from '../store/reducers/alghoritms/heap-reducer'
 import { AppDispatch } from "../store/store";
-import { HeapMemento } from "./HeapMemento";
-import { CodeReference } from "../components/Simulation/PseudoCode/HeapPseudoCodeData";
+import { NodeRole } from "../components/Simulation/BinaryTree/BinaryTreeTypes";
+import { Memento } from "./Memento";
+import { sleepWithID } from "../utils/animation-helpers";
 
-abstract class AnimationController {
+/**Generic class used to group together the similar functionalities of every animation controller.
+ * An animation controller is the boxed grouping of buttons in charge of the algorithms.
+ *
+ * A 'controller' consists of controls over things such as: speed, frames, pausing, stopping, etc.
+ */
+abstract class AnimationController<T, Y> {
   speed: number;
-  arr: number[];
   stopFlag: boolean;
   pauseFlag: boolean;
-  memento: HeapMemento;
   frame: number;
   dispatch: AppDispatch;
   timeOutsArr: NodeJS.Timeout[];
-  protected constructor(arr: number[], dispatch: AppDispatch) {
-    this.arr = arr;
+  memento: Memento<T, Y>;
+  data: T;
+
+  protected constructor(
+    dispatch: AppDispatch,
+    memento: Memento<T, Y>,
+    data: T
+  ) {
     this.speed = 1;
     this.pauseFlag = false;
     this.stopFlag = false;
-    this.memento = new HeapMemento();
     this.timeOutsArr = [];
     this.frame = 0;
     this.dispatch = dispatch;
+    this.memento = memento;
+    this.data = data;
   }
 
+  /** Stops all other animations, and prepares the data for a new animation.
+   *
+   */
   async initNewAnimation() {
+    // Stop all previous actions.
     this.stopFlag = true;
     this.clearTimeOuts();
+
+    // Check if we're starting a new animation directly after an existing one, if so - copy the last relevant data.
     if (this.memento.getLength()) {
-      this.arr = this.memento.getLastArr();
-      this.setCurrentActions([]);
-      this.setCurrentRoles([]);
-      this.setRoot(arrayToBinaryTree(this.arr));
-      this.setCurrentArr(this.arr,this.memento.getLastHeapSize());
-    }else{
+      this.data = this.memento.getLastData();
+      this.initData(this.data);
+    } else {
       this.setCurrentRoles([]);
     }
     this.memento.clearSnapshots();
     this.stopFlag = false;
   }
 
+  /** This function handles the control over the frame-by-frame playing of animations
+   *  If at any point the stopFlag is set to true, the animation is stopped, and the data array is set to the last relevant data.
+   *  If the pauseFlag is set to true, the animation simply pauses.
+   */
   async playAnimation() {
     this.setPlaying(true);
     this.pauseFlag = false;
     for (let i = this.frame; i < this.memento.getLength(); i++) {
       this.frame = i;
       if (this.stopFlag) {
-        this.setReference({ name: this.memento.getCurrentAlg(), line: 0 });
-        this.setCurrentArr(this.memento.getLastArr(),this.memento.getLastHeapSize());
-        this.setRoot(arrayToBinaryTree(this.memento.getLastArr()));
-        this.setCurrentActions([]);
-        this.setCurrentRoles([]);
+        this.initData(this.memento.getLastData());
         return;
       }
       if (this.pauseFlag) {
         return;
       }
-      this.setReference(this.memento.getCodeRef(i));
-      this.setCurrentActions(this.memento.getActions(i));
-      this.setCurrentRoles(this.memento.getRoles(i));
-      this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
-      this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
+      this.setAllData(i); // Pass the index of the current frame, so that every array is set to values in that index.
       await sleepWithID(500 * this.speed, this.timeOutsArr);
     }
-    this.setReference({ name: this.memento.getCurrentAlg(), line: 0 });
+    this.setReference({ name: this.memento.getCurrentAlg(), line: 0 }); // Set the reference to the first frame.
     this.setPlaying(false);
     this.frame = 0;
   }
 
-  setCurrentActions(actions: Events) {
-    this.dispatch(setActions(actions));
-  }
-
-  setRoot(node: TreeNode | null) {
-    this.dispatch(setRoot(node));
-  }
-
-  setCurrentArr(arr: number[],heapSize?: number) {
-    if(heapSize!==undefined){
-        this.dispatch(setArray({arr,currentHeapSize:heapSize}));
-    }else{
-        this.dispatch(setArray({arr,currentHeapSize:arr.length}),);
-    }
-  }
-  setCurrentRoles(roles: NodeRole[]) {
-    this.dispatch(setRoles(roles));
-  }
-  setPlaying(value: boolean) {
-    this.dispatch(setPlaying(value));
-  }
-
-  setReference(ref: CodeReference) {
-    this.dispatch(setCodeRef(ref));
+  /** This function receives an algorithm to execute, and the arguments, and executes it while retaining a reference to it.
+   *
+   * @param algFunc - the algorithm to execute
+   * @param args - the arguments to pass to the algorithm
+   */
+  async playAlgorithm(algFunc: Function, ...args: any[]) {
+    await this.initNewAnimation();
+    const data = Array.isArray(this.data) ? [...this.data] : this.data; // de-structure data if it's an array
+    algFunc(data, ...args);
+    this.setReference({ name: this.memento.getCurrentAlg(), line: 0 });
+    this.frame = 0;
+    await this.playAnimation();
   }
 
   setSpeed(speed: number) {
     this.speed = 1 / speed;
   }
 
+  /** simply pause and make sure there's no timeouts awaiting to finish.
+   *
+   */
   async pause() {
     this.pauseFlag = true;
     this.clearTimeOuts();
@@ -116,69 +104,69 @@ abstract class AnimationController {
   }
 
   async jumpToEnd() {
-    await this.pause();
-    const i = this.memento.getLength() - 1;
-    this.setCurrentActions([]);
-    this.setCurrentRoles(this.memento.getRoles(i));
-    this.setRoot(arrayToBinaryTree(this.memento.getArray(i)));
-    this.setCurrentArr(this.memento.getArray(i),this.memento.getHeapSize(i));
-    this.setReference(this.memento.getCodeRef(i));
-    this.frame = i;
+    await this.jumpToFrame(this.memento.getLength() - 1);
+    this.setCurrentRoles([]);
   }
 
-  async jumpToStart() {
-    await this.pause();
-    this.frame = 0;
-    this.setCurrentActions([]);
-    this.setCurrentRoles(this.memento.getRoles(0));
-    this.setRoot(arrayToBinaryTree(this.memento.getArray(0)));
-    this.setReference(this.memento.getCodeRef(0));
-    this.setCurrentArr(this.memento.getArray(0),this.memento.getHeapSize(0));
-  }
-
-  async playNextFrame() {
-    await this.pause();
-    this.frame += 1;
-    this.playFrame();
-  }
-
-  async playPreviousFrame() {
-    await this.pause();
-    this.frame -= 1;
-    this.playFrame();
-  }
-
-  private playFrame() {
+  /** Simple jump to a specific frame, while checking edge cases.
+   *
+   * @param frame - the frame number to jump to
+   */
+  async jumpToFrame(frame: number) {
     if (!this.memento) {
       return;
     }
-    if (this.frame >= this.memento.getLength()) {
+    if (frame >= this.memento.getLength()) {
       this.frame = this.memento.getLength();
       return;
     }
-    if (this.frame < 0) {
+    if (frame < 0) {
       this.frame = 0;
       return;
     }
-    this.setCurrentActions(this.memento.getActions(this.frame));
-    this.setCurrentRoles(this.memento.getRoles(this.frame));
-    this.setReference(this.memento.getCodeRef(this.frame));
-    this.setRoot(arrayToBinaryTree(this.memento.getArray(this.frame)));
-    this.setCurrentArr(this.memento.getArray(this.frame),this.memento.getHeapSize(this.frame));
+    this.frame = frame;
+    await this.pause();
+    this.setAllData(this.frame);
+  }
+
+  async jumpToStart() {
+    await this.jumpToFrame(0);
+  }
+
+  async playNextFrame() {
+    await this.jumpToFrame(this.frame + 1);
+  }
+
+  async playPreviousFrame() {
+    await this.jumpToFrame(this.frame - 1);
   }
 
   clearTimeOuts() {
+    // Since we use an array of timeouts, and enable many hot-swaps of functionalities on each page,
+    // it is very possible you would do an action that changes some context, only for it to be overridden
+    // right after because of a timeout that wasn't cleared.
     this.timeOutsArr.forEach((timeOut) => clearTimeout(timeOut));
     this.timeOutsArr = [];
   }
 
-  setArray(arr: number[]) {
-    this.arr = arr;
-    this.memento.clearSnapshots();
-    this.setRoot(arrayToBinaryTree(arr));
-    this.setCurrentArr(arr);
-    this.setCurrentActions([]);
-    this.setCurrentRoles([]);
+  setAllData(frame: number) {
+    //implement in subclasses
+  }
+
+  initData(...args: any[]) {
+    //implement in subclasses
+  }
+
+  setReference(ref: any) {
+    //implement in subclasses
+  }
+
+  setCurrentRoles(roles: NodeRole[]) {
+    //implement in subclasses
+  }
+
+  setPlaying(value: boolean) {
+    //implement in subclasses
   }
 }
 

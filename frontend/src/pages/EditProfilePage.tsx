@@ -1,27 +1,41 @@
+import { Switch } from "@headlessui/react";
 import {
-  UserIcon,
   ClipboardDocumentListIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
+import { FormEvent, useState } from "react";
+import { useHistory } from "react-router-dom";
+import RoutePaths from "../Routes/RoutePaths";
+import AuthCard from "../components/Auth/AuthCard";
 import FormButton from "../components/Auth/FormButton";
+import FloatUpContainer from "../components/UI/FloatUpContainer";
 import RadioButton from "../components/UI/RadioButton";
 import { useAppSelector } from "../store/hooks";
+import { useEditProfileMutation } from "../store/reducers/auth-reducer-api";
 import { mainColor, mainHoverColor } from "../styles/tColors";
-import FloatUpContainer from "../components/UI/FloatUpContainer";
-import AuthCard from "../components/Auth/AuthCard";
-import { Switch } from "@headlessui/react";
-import { FormEvent, useState } from "react";
-import { IUser } from "../types/Auth";
 
 const GENDER = ["Male", "Female"];
-
+export interface EditUser {
+  firstName: string,
+  lastName: string,
+  birthYear?: number,
+  gender?: "Male" | "Female",
+  isEnabled2FA: boolean
+}
 const EditProfilePage = () => {
+  const [editProfile] = useEditProfileMutation();
   const user = useAppSelector((state) => state.auth.user!);
-  const [editUser, setEditUser] = useState<IUser>(user);
+  const history = useHistory();
+  const [editUser, setEditUser] = useState<EditUser>({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    birthYear: user.birthYear,
+    gender: user.gender,
+    isEnabled2FA: user.is2FA
+  });
+  const [genderIndex, setGenderIndex] = useState(GENDER.indexOf(user.gender || 'Male'));
   var lastNameClass = `col-span-2 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-${mainColor} focus:outline-none focus:ring-${mainColor} sm:text-sm`;
   if (user.role === "Lecturer") lastNameClass += " rounded-b-md";
-  let gender = 0;
-  if (editUser.gender && editUser.gender === "Female") gender = 1;
-
   const onChangeHandler = (event: any) => {
     setEditUser((prevstate) => {
       return { ...prevstate, [event.target.name]: event.target.value };
@@ -32,12 +46,13 @@ const EditProfilePage = () => {
     setEditUser((prevstate) => {
       return { ...prevstate, gender: GENDER[index] as "Male" | "Female" };
     });
+    setGenderIndex(index);
   };
 
-  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    //SEND TO BACKEND - the data in the editUser state !!!!!!!!!!!!!!!!
+    await editProfile(editUser).unwrap().catch((e) => console.log(e));
+    history.push(RoutePaths.PROFILE);
   };
 
   return (
@@ -90,7 +105,7 @@ const EditProfilePage = () => {
                 </label>
                 <div className="py-2 col-span-2">
                   <RadioButton
-                    value={gender}
+                    value={genderIndex}
                     labelText=""
                     onChange={onChangeGender}
                     options={[
@@ -107,27 +122,24 @@ const EditProfilePage = () => {
                 </div>
                 <label htmlFor="2-factor-auth">2 factor auth:</label>
                 <Switch
-                  checked={editUser.is2FA}
+                  checked={!!editUser.isEnabled2FA}
                   onChange={(checked: boolean) => {
                     setEditUser((prevstate) => {
-                      return { ...prevstate, is2FA: checked };
+                      return { ...prevstate, isEnabled2FA: checked };
                     });
                   }}
-                  className={`${
-                    editUser.is2FA ? "bg-lime-500" : "bg-gray-200"
-                  } relative inline-flex h-6 w-11 items-center rounded-full`}
+                  className={`${editUser.isEnabled2FA ? "bg-lime-500" : "bg-gray-200"
+                    } relative inline-flex h-6 w-11 items-center rounded-full`}
                 >
                   <span className="sr-only">Enable notifications</span>
                   <span
-                    className={`${
-                      editUser.is2FA ? "translate-x-6" : "translate-x-1"
-                    } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                    className={`${editUser.isEnabled2FA ? "translate-x-6" : "translate-x-1"
+                      } inline-block h-4 w-4 transform rounded-full bg-white transition`}
                   />
                 </Switch>
               </>
             )}
           </div>
-
           <FormButton
             type={"submit"}
             title={"submit"}

@@ -30,9 +30,6 @@ export const DUMMY: ChartItem[] = [
   { key: "Sorts", value: 65 },
 ];
 export const DUMMY1: ChartItem[][] = [
-  [],
-  [],
-  [],
   [
     { key: "t1", value: 43 },
     { key: "t2", value: 77 },
