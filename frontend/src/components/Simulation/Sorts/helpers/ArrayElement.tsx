@@ -35,12 +35,13 @@ const ArrayElement = (props: Props) => {
         x: -50, //move to the rigth
         opacity: 0.2,
         transition: {
-          // delay: 1,
+         // delay: 1,
           duration: 1 * props.speed, //control the speed
         },
       }}
     >
       {props.hide ? <>&emsp;</> : props.value} {/* text inside the box */}
+
       <motion.a
         className={styles2.s_li}
         style={{ fontSize: 14, color: "gray" }}

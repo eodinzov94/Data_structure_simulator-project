@@ -46,6 +46,33 @@ export const CountingSortPseudoCode: PseudoItem[] = [
   { text: "B[index] = value", tabAmount: 2 },
 ];
 
+export const BucketSortPseudoCode: PseudoItem[] = [
+  { text: "K = 4, max_value=20", tabAmount: 0 },
+  { text: "", tabAmount: 1 },
+  { text: "BucketSort (arr):", tabAmount: 0 },
+  { text: "buckets ← Array of K buckets", tabAmount: 1 },
+  { text: "M ← 1 + max_value", tabAmount: 1 },
+  { text: "while(arr.length):", tabAmount: 1 },
+  { text: "index ← ⌊k * arr[0] / M)⌋", tabAmount: 2 },
+  { text: "buckets[index].insert(arr[0])", tabAmount: 2 },
+  { text: "arr.remove(0)", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "for (i=0; i<K; i++):", tabAmount: 1 },
+  { text: "Buckets[i].sort()", tabAmount: 2 },
+  { text: "", tabAmount: 1 },
+  { text: "for (i=0; i<K; i++):", tabAmount: 1 },
+  { text: "arr.concat(buckets[i])", tabAmount: 2 },
+];
+
+export const RadixSortPseudoCode: PseudoItem[] = [
+  { text: "RadixSort (arr,d):", tabAmount: 0 },
+  { text: "for (i = 0 ; i < d ; i++):", tabAmount: 1 },
+  { text: "/* sort arr by digit i */", tabAmount: 2 },
+  { text: "Extract relevant digits", tabAmount: 2 },
+  { text: "countingSort(arr,i)", tabAmount: 2 },
+
+];
+
 export const mergeSortPseudoCode: PseudoItem[] = [
   { text: "MergeSort (arr, left, right):", tabAmount: 0 },
   { text: "if (left < rigth ):", tabAmount: 1 },

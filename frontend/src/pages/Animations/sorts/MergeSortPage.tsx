@@ -2,11 +2,11 @@ import { mergeSortOperation } from "../../../components/Simulation/Sorts/helpers
 import { getRandomNumsArr } from "../../../components/Simulation/Sorts/helpers/functions";
 import { SortControlsPanel } from "../../../components/Simulation/ControlsPanels/SortControlsPanel";
 import { mergeSortPseudoCode } from "../../../components/Simulation/PseudoCode/PseudoCodeData";
+import mergeSortPhoto from "../../../assets/Algorithms/MS1.png";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { mergeSortActions as ActionKind } from "../../../store/reducers/sorts/mergeSortReducer";
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
-import insertionSortPhoto from "../../../assets/Algorithms/IS1.png";
 import { mergeSort } from "../../../components/Simulation/Sorts/mergeSort/mergeSortAlgorithm";
 import MergeSortTree from "../../../components/Simulation/Sorts/mergeSort/mergeSortTree";
 import MergeSortController from "../../../ClassObjects/SortControllers/MergeSortController";
@@ -35,12 +35,8 @@ const MergeSortPage = () => {
   return (
     <>
       {/*top section */}
-      <SubjectImg
-        name={"Insertion Sort"}
-        src={insertionSortPhoto}
-        width="260px"
-      />
 
+      <SubjectImg name={"Quick Sort"} src={mergeSortPhoto} width="200px" />
       <SortControlsPanel
         rightBtnHandler={Sort}
         inputHandler={setInput}

@@ -14,6 +14,7 @@ export function getArrFromInput(maxSize: number, data: string, max_num = 9999) {
     if (Number.isNaN(num)) return `${item} is not a number`;
     if (num > max_num)
       return `Max element length is ${max_num}, ${item} is bigger`;
+
     newData.push(num);
   }
   return newData;
@@ -29,15 +30,19 @@ export function compare(o1: sortItem, o2: sortItem): number {
 }
 
 export function numbersToSortItems(arr: number[]) {
-  return arr.map((e, index) => ({
+  return arr.map((e, index) => numberToSortItem(e,index));
+}
+
+export function numberToSortItem(e: number, index: number) {
+  return {
     key: index,
     value: e,
     color: Colors.BASE,
     isSelected: false,
     hide: false,
-  }));
+  };
 }
 
 export function SortItemsToNumbers(arr: sortItem[]) {
   return arr.map((e) => e.value);
-}
+  };

@@ -13,6 +13,7 @@ import { quickSortActions as ActionKind } from "../../../store/reducers/sorts/qu
 import { AnimationWrapper } from "../../../components/Simulation/Wrappers/AnimationWrapper";
 import { SubjectImg } from "../../../components/UI/SubjectImg";
 import QuickSortController from "../../../ClassObjects/SortControllers/QuickSortController";
+import { StyledTextDiv } from "../../../components/UI/StyledTextDiv";
 
 const MAX_ELEMENTS = 10;
 
@@ -64,9 +65,10 @@ const QuickSortPage = () => {
         <IndexArray size={state.data.length + 1} i={state.i} j={state.j} />
         <QuickSort items={state.data} speed={controller.speed} />
         {isSortStarted ? (
-          <div>
-            p = {state.p}, r={state.r}
-          </div>
+          <>
+          <StyledTextDiv text={`P -> ${state.p}`}/>
+          <StyledTextDiv text={`R -> ${state.r}`}/>
+          </>
         ) : (
           <></>
         )}

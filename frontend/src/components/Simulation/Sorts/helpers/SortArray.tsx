@@ -27,6 +27,7 @@ const SortArray = (props: Props) => {
               hide={elem.hide}
             />
           ))}
+
         </AnimatePresence>
       </motion.ul>
     </div>

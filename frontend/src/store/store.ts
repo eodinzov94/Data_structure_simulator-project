@@ -11,6 +11,8 @@ import queueReducer from "./reducers/queueReducer";
 import animationControlReducer from "./reducers/animation-control-reducer";
 import insertionSortReducer from "./reducers/sorts/insertionSortReducer";
 import mergeSortReducer from "./reducers/sorts/mergeSortReducer";
+import bucketSortReducer from "./reducers/sorts/bucketSortReducer";
+import radixSortReducer from "./reducers/sorts/radixSortReducer";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +22,8 @@ const store = configureStore({
     quickSort: quickSortReducer,
     insertionSort: insertionSortReducer,
     mergeSort: mergeSortReducer,
+    bucketSort: bucketSortReducer,
+    radixSort: radixSortReducer,
     stack: stackReducer,
     queue: queueReducer,
     heap: heapReducer,
